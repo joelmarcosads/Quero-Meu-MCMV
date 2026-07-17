@@ -13,7 +13,7 @@ export default function ConquistaOceanica() {
         <meta name="keywords" content="Conquista Oceânica Maricá, apartamento 1 e 2 quartos Maricá, Direcional, Minha Casa Minha Vida, apartamentos Maricá" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/conquista-oceanica" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/FACHADA-CONQUISTA-OCEANICA.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/conquista-oceanica/FACHADA-CONQUISTA-OCEANICA.webp" />
         <meta property="og:title" content="Conquista Oceânica | 1 e 2 Quartos em Maricá" />
         <meta property="og:description" content="Conquista Oceânica em Maricá - RJ. Apartamentos de 1 e 2 quartos com gardens e lazer completo. Compre com o Minha Casa Minha Vida." />
         <meta name="geo.region" content="BR-RJ" />
@@ -48,7 +48,7 @@ export default function ConquistaOceanica() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/FACHADA-CONQUISTA-OCEANICA.webp" 
+              src="/conquista-oceanica/FACHADA-CONQUISTA-OCEANICA.webp" 
               alt="Fachada do Conquista Oceânica" 
               className="w-full h-full object-cover"
             />
@@ -115,7 +115,7 @@ export default function ConquistaOceanica() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/PISCINA-CONQUISTA-OCEANICA.webp" 
+                  src="/conquista-oceanica/PISCINA-CONQUISTA-OCEANICA.webp" 
                   alt="Piscina do Conquista Oceânica" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -172,7 +172,7 @@ export default function ConquistaOceanica() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/CHURRASQUEIRA-CONQUISTA-OCEANICA.webp"
+                  src="/conquista-oceanica/CHURRASQUEIRA-CONQUISTA-OCEANICA.webp"
                   alt="Churrasqueira do Conquista Oceânica em Maricá, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />

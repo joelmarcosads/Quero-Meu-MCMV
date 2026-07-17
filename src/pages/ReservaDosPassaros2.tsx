@@ -47,7 +47,7 @@ export default function ReservaDosPassaros2() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/Fachada-da-casa-Reserva-dos-Passaros.webp" 
+              src="/reserva-dos-passaros-2/Fachada-da-casa-Reserva-dos-Passaros.webp" 
               alt="Casas de 2 quartos em condomínio fechado Reserva dos Pássaros 2 em Itaboraí RJ" 
               className="w-full h-full object-cover"
             />
@@ -128,7 +128,7 @@ export default function ReservaDosPassaros2() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/Piscina-Reserva-dos-Passaros-2.webp" 
+                  src="/reserva-dos-passaros-2/Piscina-Reserva-dos-Passaros-2.webp" 
                   alt="Piscina do condomínio Reserva dos Pássaros 2 em Itaboraí" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -178,7 +178,7 @@ export default function ReservaDosPassaros2() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/Mapa-Reserva-dos-Passaros-2.webp" 
+                  src="/reserva-dos-passaros-2/Mapa-Reserva-dos-Passaros-2.webp" 
                   alt="Mapa de localização do condomínio Reserva dos Pássaros 2 em Itaboraí, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />

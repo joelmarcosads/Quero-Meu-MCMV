@@ -38,7 +38,7 @@ export default function Hero() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 bg-slate-900">
         <img 
-          src="/IMPERIO-DO-OURO_PPC-VARANDA-DIURNA.webp" 
+          src="/home/bg-imperio-do-ouro-varanda.webp" 
           alt="Perspectiva ilustrativa da varanda do apartamento Império do Ouro - MRV São Gonçalo - RJ" 
           title="Varanda Império do Ouro Minha Casa Minha Vida"
           className="w-full h-full object-cover opacity-60"

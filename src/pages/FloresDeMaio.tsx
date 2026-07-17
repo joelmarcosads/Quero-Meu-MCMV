@@ -47,7 +47,7 @@ export default function FloresDeMaio() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/fachada flores de maio  .webp" 
+              src="/flores-de-maio/fachada-flores-de-maio.webp" 
               alt="Apartamentos de 2 quartos no Flores de Maio em Itaboraí RJ" 
               className="w-full h-full object-cover"
             />
@@ -128,7 +128,7 @@ export default function FloresDeMaio() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/fachada flores de maio  .webp" 
+                  src="/flores-de-maio/fachada-flores-de-maio.webp" 
                   alt="Apartamento do Flores de Maio em Itaboraí" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -174,7 +174,7 @@ export default function FloresDeMaio() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/mapa da localização flores de maio.webp" 
+                  src="/flores-de-maio/mapa da localização flores de maio.webp" 
                   alt="Mapa de localização do Flores de Maio em Itaboraí, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />
