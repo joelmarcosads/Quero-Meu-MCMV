@@ -13,7 +13,7 @@ export default function PrimeClubItaborai() {
         <meta name="keywords" content="Prime Club Itaboraí, Apartamento Itaboraí, Minha casa minha vida Itaboraí, imóveis Itaboraí, apartamento planta, comprar apartamento Itaboraí, subsídio caixa" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/prime-club-itaborai/Capa-do-site-Prime-Club-Itaborai.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/Prime%20Club%20Itabora%C3%AD/Capa-do-site-Prime-Club-Itabora%C3%AD.webp" />
         <meta property="og:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
         
@@ -51,7 +51,7 @@ export default function PrimeClubItaborai() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/prime-club-itaborai/Capa-do-site-Prime-Club-Itaborai.webp" 
+              src="/Prime Club Itaboraí/Capa-do-site-Prime-Club-Itaboraí.webp" 
               alt="Apartamentos de 2 quartos em condomínio clube Prime Club em Itaboraí RJ" 
               className="w-full h-full object-cover"
             />
@@ -132,7 +132,7 @@ export default function PrimeClubItaborai() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/prime-club-itaborai/Area-de-Lazer-com-piscina-prime-club-Itaborai.webp" 
+                  src="/Prime Club Itaboraí/Área-de-Lazer-com-piscina-prime-club-Itaborai.webp" 
                   alt="Piscina do condomínio Prime Club em Itaboraí" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -182,7 +182,7 @@ export default function PrimeClubItaborai() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/prime-club-itaborai/Localizacao-Prime-Club-Itaborai.webp" 
+                  src="/Prime Club Itaboraí/Localização-Prime-Club-Itaborai.webp" 
                   alt="Mapa de localização do condomínio Prime Club em Itaboraí, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />

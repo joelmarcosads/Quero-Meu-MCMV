@@ -3,7 +3,25 @@ import { MapPin, BedDouble, Car, Shield, Waves } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
 
-const PROPERTIES = [
+type Property = {
+  id: number;
+  name: string;
+  location: string;
+  image: string;
+  badges: string[];
+  features: {
+    bed: number;
+    bedText?: string;
+    car: number;
+    carText?: string;
+    leisure: boolean;
+    security: boolean;
+  };
+  priceCondition: string;
+  slug: string;
+};
+
+const PROPERTIES: Property[] = [
   {
     id: 1,
     name: "Reserva dos Pássaros 2",
@@ -11,25 +29,25 @@ const PROPERTIES = [
     image: "/reserva-dos-passaros-2/Reserva-dos-passaros-2-card.webp",
     badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
     features: { bed: 2, car: 1, leisure: true, security: true },
-    priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
+    priceCondition: "Parcelas Mensais a Partir de R$ 650,00*",
     slug: "/reserva-dos-passaros-2"
   },
   {
     id: 2,
     name: "Prime Club Itaboraí",
     location: "Itaboraí - RJ",
-    image: "/prime-club-itaborai/Capa-do-site-Prime-Club-Itaborai.webp",
+    image: "/Prime Club Itaboraí/Capa-do-site-Prime-Club-Itaboraí.webp",
     badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
     features: { bed: 2, car: 1, leisure: true, security: true },
-    priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
+    priceCondition: "Entrada Facilitada em até 72X",
     slug: "/prime-club-itaborai"
   },
   {
     id: 7,
     name: "Flores de Maio",
     location: "Santo Expedito, Itaboraí - RJ",
-    image: "/flores-de-maio/fachada-flores-de-maio.webp",
-    badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
+    image: "/Flores de Maio/fachada flores de maio  .webp",
+    badges: ["MCMV - Caixa", "A 5 min. do Centro de Itaboraí"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
     slug: "/flores-de-maio"
@@ -40,7 +58,7 @@ const PROPERTIES = [
     location: "Vila Iara, São Gonçalo - RJ",
     image: "/residencial-florescer/Fachada-Residencial-Florescer.webp",
     badges: ["Lançamento Exclusivo", "Alto Padrão"],
-    features: { bed: 3, car: 2, leisure: true, security: true },
+    features: { bed: 3, bedText: "2 e 3 Quartos c/ Suíte", car: 2, carText: "1 ou 2 Vagas", leisure: true, security: true },
     priceCondition: "Condições Exclusivas de Negociação",
     slug: "/residencial-florescer"
   },
@@ -48,10 +66,10 @@ const PROPERTIES = [
     id: 4,
     name: "Solar da Trindade",
     location: "Trindade, São Gonçalo - RJ",
-    image: "/solar-da-trindade/Fachada-do-predio-entrada.webp",
-    badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
+    image: "/Solar da Trindade/Fachada-do-predio-entrada.webp",
+    badges: ["MCMV - Caixa", "A 300m da Faculdade UNIVERSO"],
     features: { bed: 2, car: 1, leisure: true, security: true },
-    priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
+    priceCondition: "Sinal a partir de R$ 500 + Entrada Facilitada em até 100X",
     slug: "/solar-da-trindade"
   },
   {
@@ -60,8 +78,8 @@ const PROPERTIES = [
     location: "Maricá - RJ",
     image: "/conquista-oceanica/FACHADA-CONQUISTA-OCEANICA.webp",
     badges: ["Lançamento", "Minha Casa Minha Vida"],
-    features: { bed: "1 e 2", car: 1, leisure: true, security: true },
-    priceCondition: "Entrada Facilitada",
+    features: { bed: "1 e 2" as any, car: 1, leisure: true, security: true },
+    priceCondition: "Sinal a partir de R$ 1.000*",
     slug: "/conquista-oceanica"
   }
 ];
@@ -116,15 +134,14 @@ export default function Properties() {
               <div className="p-6">
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="flex items-center text-slate-600 text-sm">
-                    <BedDouble className="w-5 h-5 mr-2 text-slate-400" />
-                    {prop.features.bed} Quartos
+                    <BedDouble className="w-5 h-5 mr-2 text-slate-400 shrink-0" />
+                    <span className="leading-tight">{prop.features.bedText || `${prop.features.bed} Quartos`}</span>
                   </div>
                   <div className="flex items-center text-slate-600 text-sm">
-                    {prop.features.car ? (
-                      <><Car className="w-5 h-5 mr-2 text-slate-400" /> Com Vaga</>
-                    ) : (
-                      <><Car className="w-5 h-5 mr-2 text-slate-300" /> Sem Vaga</>
-                    )}
+                    <Car className={`w-5 h-5 mr-2 ${prop.features.car ? 'text-slate-400' : 'text-slate-300'} shrink-0`} />
+                    <span className="leading-tight">
+                      {prop.features.carText || (prop.features.car ? "Com Vaga" : "Sem Vaga")}
+                    </span>
                   </div>
                   <div className="flex items-center text-slate-600 text-sm">
                     <Shield className="w-5 h-5 mr-2 text-slate-400" />
