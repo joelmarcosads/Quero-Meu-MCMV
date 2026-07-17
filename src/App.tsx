@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { LazyMotion, domAnimation } from 'motion/react';
 import ScrollToTop from './components/ScrollToTop';
+import WhatsAppButton from "./components/WhatsAppButton";
 
 import Home from './pages/Home';
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
@@ -18,6 +19,7 @@ export default function App() {
     <LazyMotion features={domAnimation}>
       <BrowserRouter>
         <ScrollToTop />
+        <WhatsAppButton />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"></div></div>}>
           <Routes>
             <Route path="/" element={<Home />} />
