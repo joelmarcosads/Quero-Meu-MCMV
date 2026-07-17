@@ -62,7 +62,7 @@ export default function Testimonials() {
               </p>
 
               <div className="flex items-center">
-                <img loading="lazy" 
+                <img referrerPolicy="no-referrer" loading="lazy" 
                   src={test.image} 
                   alt={`Foto do cliente ${test.name}, ${test.role}`}
                   title={`${test.name} - Cliente Satisfeito`} 

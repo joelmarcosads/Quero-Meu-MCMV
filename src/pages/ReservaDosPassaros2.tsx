@@ -3,9 +3,9 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
-import imgFachada from '../assets/Fachada-da-casa-Reserva-dos-Passaros.webp';
-import imgPiscina from '../assets/Piscina-Reserva-dos-Passaros-2.webp';
-import imgMapa from '../assets/Mapa-Reserva-dos-Passaros-2.webp';
+import imgFachada from '../assets/fachada-da-casa-reserva-dos-passaros.webp';
+import imgPiscina from '../assets/piscina-reserva-dos-passaros-2.webp';
+import imgMapa from '../assets/mapa-reserva-dos-passaros-2.webp';
 
 export default function ReservaDosPassaros2() {
   return (
@@ -16,7 +16,7 @@ export default function ReservaDosPassaros2() {
         <meta name="keywords" content="Reserva dos pássaros 2, casas Itaboraí, condomínio fechado Itaboraí, Minha casa minha vida, comprar casa Itaboraí" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/reserva-dos-passaros-2" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/reserva-dos-passaros-2/Reserva-dos-passaros-2-card.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/reserva-dos-passaros-2/reserva-dos-passaros-2-card.webp" />
         <meta property="og:title" content="Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí" />
         <meta property="og:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
         <meta name="geo.region" content="BR-RJ" />
@@ -49,7 +49,7 @@ export default function ReservaDosPassaros2() {
         {/* Hero Section */}
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img loading="lazy" 
+            <img referrerPolicy="no-referrer" loading="lazy" 
               src={imgFachada} 
               alt="Casas de 2 quartos em condomínio fechado Reserva dos Pássaros 2 em Itaboraí RJ" 
               className="w-full h-full object-cover"
@@ -130,7 +130,7 @@ export default function ReservaDosPassaros2() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img loading="lazy" 
+                <img referrerPolicy="no-referrer" loading="lazy" 
                   src={imgPiscina} 
                   alt="Piscina do condomínio Reserva dos Pássaros 2 em Itaboraí" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
@@ -180,7 +180,7 @@ export default function ReservaDosPassaros2() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
-                <img loading="lazy" 
+                <img referrerPolicy="no-referrer" loading="lazy" 
                   src={imgMapa} 
                   alt="Mapa de localização do condomínio Reserva dos Pássaros 2 em Itaboraí, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"

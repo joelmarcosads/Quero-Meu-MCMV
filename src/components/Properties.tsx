@@ -2,12 +2,12 @@ import { m as motion } from 'motion/react';
 import { MapPin, BedDouble, Car, Shield, Waves } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
-import imgReserva from '../assets/Reserva-dos-passaros-2-card.webp';
+import imgReserva from '../assets/reserva-dos-passaros-2-card.webp';
 import imgPrime from '../assets/capa-do-site-prime-club-itaborai.webp';
 import imgFlores from '../assets/fachada-flores-de-maio.webp';
-import imgResidencial from '../assets/Fachada-Residencial-Florescer.webp';
+import imgResidencial from '../assets/fachada-residencial-florescer.webp';
 import imgSolar from '../assets/fachada-do-predio-entrada.webp';
-import imgConquista from '../assets/FACHADA-CONQUISTA-OCEANICA.webp';
+import imgConquista from '../assets/fachada-conquista-oceanica.webp';
 
 type Property = {
   id: number;
@@ -115,7 +115,7 @@ export default function Properties() {
               className="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden group hover:shadow-xl transition-shadow flex flex-col"
             >
               <div className="relative h-56 overflow-hidden">
-                <img loading="lazy" 
+                <img referrerPolicy="no-referrer" loading="lazy" 
                   src={prop.image} 
                   alt={`Fachada do empreendimento ${prop.name} localizado em ${prop.location} - Apartamentos Minha Casa Minha Vida`} 
                   title={`Empreendimento ${prop.name}`}

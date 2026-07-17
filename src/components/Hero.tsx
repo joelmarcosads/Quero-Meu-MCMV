@@ -38,7 +38,7 @@ export default function Hero() {
     <section className="relative bg-slate-900 overflow-hidden text-white" id="simulacao">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 bg-slate-900">
-        <img 
+        <img referrerPolicy="no-referrer" 
           src={imgHeroBg} 
           alt="Perspectiva ilustrativa da varanda do apartamento Império do Ouro - MRV São Gonçalo - RJ" 
           title="Varanda Império do Ouro Minha Casa Minha Vida"
@@ -91,9 +91,9 @@ export default function Hero() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700 max-w-md mx-auto lg:mx-0">
               <div className="flex -space-x-3">
-                <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=1" alt="Foto de um cliente satisfeito Minha Casa Minha Vida" />
-                <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=2" alt="Foto de um casal cliente feliz Minha Casa Minha Vida" />
-                <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=3" alt="Foto de cliente aprovado em apartamento São Gonçalo" />
+                <img referrerPolicy="no-referrer" className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=1" alt="Foto de um cliente satisfeito Minha Casa Minha Vida" />
+                <img referrerPolicy="no-referrer" className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=2" alt="Foto de um casal cliente feliz Minha Casa Minha Vida" />
+                <img referrerPolicy="no-referrer" className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=3" alt="Foto de cliente aprovado em apartamento São Gonçalo" />
               </div>
               <div className="text-sm text-center sm:text-left">
                 <div className="font-bold text-white mb-0.5">Mais de 500 famílias</div>
