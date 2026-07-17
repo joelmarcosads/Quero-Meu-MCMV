@@ -1,6 +1,8 @@
 {
-  "name": "",
-  "description": "",
+  "name": "Quero Meu MCMV",
+  "description": "Portal imobiliário para simulação e aquisição de imóveis pelo programa Minha Casa Minha Vida em São Gonçalo, Itaboraí e Maricá.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
