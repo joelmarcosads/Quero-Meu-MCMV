@@ -49,7 +49,7 @@ export default function ResidencialFlorescer() {
         {/* Hero Section */}
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img 
+            <img loading="lazy" 
               src={imgFachada} 
               alt="Fachada do Residencial Florescer" 
               className="w-full h-full object-cover"
@@ -116,7 +116,7 @@ export default function ResidencialFlorescer() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img 
+                <img loading="lazy" 
                   src={imgSala} 
                   alt="Sala de TV do Residencial Florescer" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
@@ -172,7 +172,7 @@ export default function ResidencialFlorescer() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
-                <img 
+                <img loading="lazy" 
                   src={imgShopping} 
                   alt="Shopping Partage, próximo ao Residencial Florescer em São Gonçalo, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"

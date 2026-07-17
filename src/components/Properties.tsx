@@ -115,7 +115,7 @@ export default function Properties() {
               className="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden group hover:shadow-xl transition-shadow flex flex-col"
             >
               <div className="relative h-56 overflow-hidden">
-                <img 
+                <img loading="lazy" 
                   src={prop.image} 
                   alt={`Fachada do empreendimento ${prop.name} localizado em ${prop.location} - Apartamentos Minha Casa Minha Vida`} 
                   title={`Empreendimento ${prop.name}`}
