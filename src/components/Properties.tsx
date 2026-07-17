@@ -2,6 +2,12 @@ import { m as motion } from 'motion/react';
 import { MapPin, BedDouble, Car, Shield, Waves } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
+import imgReserva from '../assets/Reserva-dos-passaros-2-card.webp';
+import imgPrime from '../assets/capa-do-site-prime-club-itaborai.webp';
+import imgFlores from '../assets/fachada-flores-de-maio.webp';
+import imgResidencial from '../assets/Fachada-Residencial-Florescer.webp';
+import imgSolar from '../assets/fachada-do-predio-entrada.webp';
+import imgConquista from '../assets/FACHADA-CONQUISTA-OCEANICA.webp';
 
 type Property = {
   id: number;
@@ -26,7 +32,7 @@ const PROPERTIES: Property[] = [
     id: 1,
     name: "Reserva dos Pássaros 2",
     location: "Itaboraí - RJ",
-    image: "/reserva-dos-passaros-2/Reserva-dos-passaros-2-card.webp",
+    image: imgReserva,
     badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Parcelas Mensais a Partir de R$ 650,00*",
@@ -36,7 +42,7 @@ const PROPERTIES: Property[] = [
     id: 2,
     name: "Prime Club Itaboraí",
     location: "Itaboraí - RJ",
-    image: "/prime-club-itaborai/capa-do-site-prime-club-itaborai.webp",
+    image: imgPrime,
     badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Entrada Facilitada em até 72X",
@@ -46,7 +52,7 @@ const PROPERTIES: Property[] = [
     id: 7,
     name: "Flores de Maio",
     location: "Santo Expedito, Itaboraí - RJ",
-    image: "/flores-de-maio/fachada-flores-de-maio.webp",
+    image: imgFlores,
     badges: ["MCMV - Caixa", "A 5 min. do Centro de Itaboraí"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
@@ -56,7 +62,7 @@ const PROPERTIES: Property[] = [
     id: 3,
     name: "Residencial Florescer",
     location: "Vila Iara, São Gonçalo - RJ",
-    image: "/residencial-florescer/Fachada-Residencial-Florescer.webp",
+    image: imgResidencial,
     badges: ["Lançamento Exclusivo", "Alto Padrão"],
     features: { bed: 3, bedText: "2 e 3 Quartos c/ Suíte", car: 2, carText: "1 ou 2 Vagas", leisure: true, security: true },
     priceCondition: "Condições Exclusivas de Negociação",
@@ -66,7 +72,7 @@ const PROPERTIES: Property[] = [
     id: 4,
     name: "Solar da Trindade",
     location: "Trindade, São Gonçalo - RJ",
-    image: "/solar-da-trindade/fachada-do-predio-entrada.webp",
+    image: imgSolar,
     badges: ["MCMV - Caixa", "A 300m da Faculdade UNIVERSO"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 500 + Entrada Facilitada em até 100X",
@@ -76,7 +82,7 @@ const PROPERTIES: Property[] = [
     id: 5,
     name: "Conquista Oceânica",
     location: "Maricá - RJ",
-    image: "/conquista-oceanica/FACHADA-CONQUISTA-OCEANICA.webp",
+    image: imgConquista,
     badges: ["Lançamento", "Minha Casa Minha Vida"],
     features: { bed: "1 e 2" as any, car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 1.000*",

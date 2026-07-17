@@ -3,6 +3,9 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Gamepad2, Sun } from 'lucide-react';
+import imgFachada from '../assets/Fachada-Residencial-Florescer.webp';
+import imgSala from '../assets/Sala-de-tv_1.webp';
+import imgShopping from '../assets/Shooping-Partage.jpg';
 
 export default function ResidencialFlorescer() {
   return (
@@ -47,7 +50,7 @@ export default function ResidencialFlorescer() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/residencial-florescer/Fachada-Residencial-Florescer.webp" 
+              src={imgFachada} 
               alt="Fachada do Residencial Florescer" 
               className="w-full h-full object-cover"
             />
@@ -114,7 +117,7 @@ export default function ResidencialFlorescer() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/shared/Sala-de-tv_1.webp" 
+                  src={imgSala} 
                   alt="Sala de TV do Residencial Florescer" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -170,7 +173,7 @@ export default function ResidencialFlorescer() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/shared/Shooping-Partage.jpg" 
+                  src={imgShopping} 
                   alt="Shopping Partage, próximo ao Residencial Florescer em São Gonçalo, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />

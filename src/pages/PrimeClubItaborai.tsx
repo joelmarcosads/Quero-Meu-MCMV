@@ -3,6 +3,9 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
+import imgCapa from '../assets/capa-do-site-prime-club-itaborai.webp';
+import imgPiscina from '../assets/area-de-lazer-com-piscina-prime-club-itaborai.webp';
+import imgLocalizacao from '../assets/localizacao-prime-club-itaborai.webp';
 
 export default function PrimeClubItaborai() {
   return (
@@ -51,7 +54,7 @@ export default function PrimeClubItaborai() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/prime-club-itaborai/capa-do-site-prime-club-itaborai.webp" 
+              src={imgCapa} 
               alt="Apartamentos de 2 quartos em condomínio clube Prime Club em Itaboraí RJ" 
               className="w-full h-full object-cover"
             />
@@ -132,7 +135,7 @@ export default function PrimeClubItaborai() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/prime-club-itaborai/area-de-lazer-com-piscina-prime-club-itaborai.webp" 
+                  src={imgPiscina} 
                   alt="Piscina do condomínio Prime Club em Itaboraí" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -182,7 +185,7 @@ export default function PrimeClubItaborai() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/prime-club-itaborai/localizacao-prime-club-itaborai.webp" 
+                  src={imgLocalizacao} 
                   alt="Mapa de localização do condomínio Prime Club em Itaboraí, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />
