@@ -13,7 +13,7 @@ export default function SolarDaTrindade() {
         <meta name="keywords" content="Solar da Trindade São Gonçalo, Trindade, apartamento 2 quartos São Gonçalo, Minha casa minha vida, financiamento Caixa" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/solar-da-trindade" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/Solar%20da%20Trindade/Fachada-do-predio-entrada.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/solar-da-trindade/fachada-do-predio-entrada.webp" />
         <meta property="og:title" content="Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Conheça o Solar da Trindade em Trindade, São Gonçalo - RJ. Apartamentos de 2 quartos, sinal a partir de R$ 1.000 e subsídio Caixa." />
         <meta name="geo.region" content="BR-RJ" />
@@ -47,7 +47,7 @@ export default function SolarDaTrindade() {
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/Solar da Trindade/Fachada-do-predio-entrada.webp" 
+              src="/solar-da-trindade/fachada-do-predio-entrada.webp" 
               alt="Apartamentos de 2 quartos no Solar da Trindade em São Gonçalo RJ" 
               className="w-full h-full object-cover"
             />
@@ -128,7 +128,7 @@ export default function SolarDaTrindade() {
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/Solar da Trindade/Fachada-do-predio-entrada.webp" 
+                  src="/solar-da-trindade/fachada-do-predio-entrada.webp" 
                   alt="Apartamento do Solar da Trindade em São Gonçalo" 
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
@@ -184,7 +184,7 @@ export default function SolarDaTrindade() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <img 
-                  src="/Solar da Trindade/Mapa-da-região.webp" 
+                  src="/solar-da-trindade/mapa-da-regiao.webp" 
                   alt="Mapa de localização do Solar da Trindade em São Gonçalo, RJ" 
                   className="w-full h-auto object-cover rounded-2xl aspect-video"
                 />
