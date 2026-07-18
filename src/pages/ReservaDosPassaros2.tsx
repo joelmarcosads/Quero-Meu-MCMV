@@ -3,9 +3,9 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
-import imgFachada from '../assets/fachada-da-casa-reserva-dos-passaros.webp';
-import imgPiscina from '../assets/piscina-reserva-dos-passaros-2.webp';
-import imgMapa from '../assets/mapa-reserva-dos-passaros-2.webp';
+const imgFachada = '/fachada-da-casa-reserva-dos-passaros.webp';
+const imgPiscina = '/piscina-reserva-dos-passaros-2.webp';
+const imgMapa = '/mapa-reserva-dos-passaros-2.webp';
 
 export default function ReservaDosPassaros2() {
   return (
@@ -16,7 +16,7 @@ export default function ReservaDosPassaros2() {
         <meta name="keywords" content="Reserva dos pássaros 2, casas Itaboraí, condomínio fechado Itaboraí, Minha casa minha vida, comprar casa Itaboraí" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/reserva-dos-passaros-2" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/reserva-dos-passaros-2/reserva-dos-passaros-2-card.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/fachada-da-casa-reserva-dos-passaros.webp" />
         <meta property="og:title" content="Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí" />
         <meta property="og:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
         <meta name="geo.region" content="BR-RJ" />

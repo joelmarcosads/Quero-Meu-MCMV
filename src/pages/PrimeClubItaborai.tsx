@@ -3,9 +3,9 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
-import imgCapa from '../assets/capa-do-site-prime-club-itaborai.webp';
-import imgPiscina from '../assets/area-de-lazer-com-piscina-prime-club-itaborai.webp';
-import imgLocalizacao from '../assets/localizacao-prime-club-itaborai.webp';
+const imgCapa = '/capa-do-site-prime-club-itaborai.webp';
+const imgPiscina = '/area-de-lazer-com-piscina-prime-club-itaborai.webp';
+const imgLocalizacao = '/localizacao-prime-club-itaborai.webp';
 
 export default function PrimeClubItaborai() {
   return (
@@ -16,7 +16,7 @@ export default function PrimeClubItaborai() {
         <meta name="keywords" content="Prime Club Itaboraí, Apartamento Itaboraí, Minha casa minha vida Itaboraí, imóveis Itaboraí, apartamento planta, comprar apartamento Itaboraí, subsídio caixa" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/prime-club-itaborai/capa-do-site-prime-club-itaborai.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
         <meta property="og:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
         

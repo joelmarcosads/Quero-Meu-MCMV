@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { m as motion } from 'motion/react';
 import { CheckCircle2, TrendingDown, Clock, Home, ShieldCheck } from 'lucide-react';
-import imgHeroBg from '../assets/bg-imperio-do-ouro-varanda.webp';
+const imgHeroBg = '/imperio-do-ouro-mrv.webp';
 
 export default function Hero() {
   const [formData, setFormData] = useState({

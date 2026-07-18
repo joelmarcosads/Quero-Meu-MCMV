@@ -3,8 +3,8 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle, Waves } from 'lucide-react';
-import imgFachada from '../assets/fachada-flores-de-maio.webp';
-import imgMapa from '../assets/mapa-da-localizacao-flores-de-maio.webp';
+const imgFachada = '/fachada-flores-de-maio.webp';
+const imgMapa = '/mapa-da-localizacao-flores-de-maio.webp';
 
 export default function FloresDeMaio() {
   return (
@@ -15,7 +15,7 @@ export default function FloresDeMaio() {
         <meta name="keywords" content="Flores de maio Itaboraí, Santo Expedito, apartamento 2 quartos Itaboraí, Minha casa minha vida, financiamento Caixa" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/flores-de-maio" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/flores-de-maio/fachada-flores-de-maio.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/fachada-flores-de-maio.webp" />
         <meta property="og:title" content="Flores de Maio | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Conheça o Flores de Maio em Santo Expedito, Itaboraí - RJ. Apartamentos com varanda, sinal a partir de R$ 1.000 e subsídio Caixa." />
         <meta name="geo.region" content="BR-RJ" />

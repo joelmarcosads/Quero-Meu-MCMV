@@ -21,7 +21,7 @@ export default function Home() {
         <meta property="og:title" content="Imóveis Minha Casa Minha Vida no RJ | Saia do Aluguel" />
         <meta property="og:description" content="Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí e Maricá com o programa Minha Casa Minha Vida. Subsídio da Caixa e condições exclusivas." />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/shared/capa-open-graph.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/imperio-do-ouro-mrv.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Rio de Janeiro" />
       </Helmet>

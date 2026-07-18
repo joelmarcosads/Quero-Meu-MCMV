@@ -3,8 +3,8 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle, Waves, Store, HeartPulse, GraduationCap, ShoppingBag, School, ShoppingCart, Dog, Accessibility, Bike, Coffee, Key, Clock, Sofa, Utensils, Flame, Dumbbell, Flower2, Baby, PartyPopper, Check } from 'lucide-react';
-import imgFachada from '../assets/fachada-do-predio-entrada.webp';
-import imgMapa from '../assets/mapa-da-regiao.webp';
+const imgFachada = '/fachada-solar-trindade.webp';
+const imgMapa = '/mapa-solar-trindade.webp';
 
 export default function SolarDaTrindade() {
   return (
@@ -15,7 +15,7 @@ export default function SolarDaTrindade() {
         <meta name="keywords" content="Solar da Trindade São Gonçalo, Trindade, apartamento 2 quartos São Gonçalo, Minha casa minha vida, financiamento Caixa" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/solar-da-trindade" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/solar-da-trindade/fachada-do-predio-entrada.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/fachada-solar-trindade.webp" />
         <meta property="og:title" content="Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Conheça o Solar da Trindade em Trindade, São Gonçalo - RJ. Apartamentos de 2 quartos, sinal a partir de R$ 1.000 e subsídio Caixa." />
         <meta name="geo.region" content="BR-RJ" />

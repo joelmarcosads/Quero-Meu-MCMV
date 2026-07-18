@@ -2,12 +2,12 @@ import { m as motion } from 'motion/react';
 import { MapPin, BedDouble, Car, Shield, Waves } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
-import imgReserva from '../assets/reserva-dos-passaros-2-card.webp';
-import imgPrime from '../assets/capa-do-site-prime-club-itaborai.webp';
-import imgFlores from '../assets/fachada-flores-de-maio.webp';
-import imgResidencial from '../assets/fachada-residencial-florescer.webp';
-import imgSolar from '../assets/fachada-do-predio-entrada.webp';
-import imgConquista from '../assets/fachada-conquista-oceanica.webp';
+const imgReserva = '/fachada-da-casa-reserva-dos-passaros.webp';
+const imgPrime = '/capa-do-site-prime-club-itaborai.webp';
+const imgFlores = '/fachada-flores-de-maio.webp';
+const imgResidencial = '/fachada-residencial-florescer.webp';
+const imgSolar = '/fachada-solar-trindade.webp';
+const imgConquista = '/fachada-conquista-oceanica.webp';
 
 type Property = {
   id: number;

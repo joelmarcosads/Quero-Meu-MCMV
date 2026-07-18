@@ -3,9 +3,9 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Gamepad2, Sun } from 'lucide-react';
-import imgFachada from '../assets/fachada-conquista-oceanica.webp';
-import imgPiscina from '../assets/piscina-conquista-oceanica.webp';
-import imgChurrasqueira from '../assets/churrasqueira-conquista-oceanica.webp';
+const imgFachada = '/fachada-conquista-oceanica.webp';
+const imgPiscina = '/piscina-conquista-oceanica.webp';
+const imgChurrasqueira = '/piscina-conquista-oceanica.webp';
 
 export default function ConquistaOceanica() {
   return (
@@ -16,7 +16,7 @@ export default function ConquistaOceanica() {
         <meta name="keywords" content="Conquista Oceânica Maricá, apartamento 1 e 2 quartos Maricá, Direcional, Minha Casa Minha Vida, apartamentos Maricá" />
 <link rel="canonical" href="https://www.queromeumcmv.com.br/conquista-oceanica" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/images/conquista-oceanica/fachada-conquista-oceanica.webp" />
+        <meta property="og:image" content="https://www.queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta property="og:title" content="Conquista Oceânica | 1 e 2 Quartos em Maricá" />
         <meta property="og:description" content="Conquista Oceânica em Maricá - RJ. Apartamentos de 1 e 2 quartos com gardens e lazer completo. Compre com o Minha Casa Minha Vida." />
         <meta name="geo.region" content="BR-RJ" />
