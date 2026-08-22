@@ -14,10 +14,10 @@ export default function PrimeClubItaborai() {
         <title>Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida</title>
         <meta name="description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
         <meta name="keywords" content="Prime Club Itaboraí, Apartamento Itaboraí, Minha casa minha vida Itaboraí, imóveis Itaboraí, apartamento planta, comprar apartamento Itaboraí, subsídio caixa" />
-<link rel="canonical" href="https://www.queromeumcmv.com.br/prime-club-itaborai" />
+<link rel="canonical" href="https://queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Prime Club Itaboraí" />
         <meta property="og:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
