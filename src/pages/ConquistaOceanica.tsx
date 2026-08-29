@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Gamepad2, Sun } from 'lucide-react';
 const imgFachada = '/fachada-conquista-oceanica.webp';
 const imgPiscina = '/piscina-conquista-oceanica.webp';
-const imgChurrasqueira = '/piscina-conquista-oceanica.webp';
+const imgChurrasqueira = '/churrasqueira-conquista-oceanica.webp';
 
 export default function ConquistaOceanica() {
   return (
