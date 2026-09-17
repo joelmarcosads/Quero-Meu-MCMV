@@ -3,11 +3,13 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
+import { gerarLinkWhatsApp } from '../utils/whatsapp';
 const imgFachada = '/fachada-da-casa-reserva-dos-passaros.webp';
 const imgPiscina = '/piscina-reserva-dos-passaros-2.webp';
 const imgMapa = '/mapa-reserva-dos-passaros-2.webp';
 
 export default function ReservaDosPassaros2() {
+  const nomeEmpreendimento = "Reserva dos Pássaros 2";
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
@@ -93,7 +95,7 @@ export default function ReservaDosPassaros2() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a 
-                  href="https://wa.me/5521965928399" 
+                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação de Financiamento")} 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
@@ -267,7 +269,7 @@ export default function ReservaDosPassaros2() {
               As unidades não geminadas na primeira fase de vendas têm alta procura em Itaboraí. Fale com um de nossos corretores credenciados e garanta as melhores condições de lançamento.
             </p>
             <a 
-              href="https://wa.me/5521965928399" 
+              href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")} 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"

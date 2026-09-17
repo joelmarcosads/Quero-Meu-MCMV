@@ -3,11 +3,13 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Gamepad2, Sun } from 'lucide-react';
+import { gerarLinkWhatsApp } from '../utils/whatsapp';
 const imgFachada = '/fachada-residencial-florescer.webp';
 const imgSala = '/sala-de-tv_1.webp';
 const imgShopping = '/shopping-partage.webp';
 
 export default function ResidencialFlorescer() {
+  const nomeEmpreendimento = "Residencial Florescer";
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
@@ -78,7 +80,7 @@ export default function ResidencialFlorescer() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a 
-                  href="https://wa.me/5521965928399" 
+                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Agendar Atendimento Exclusivo")} 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
@@ -259,7 +261,7 @@ export default function ResidencialFlorescer() {
               As unidades do Residencial Florescer são altamente cobiçadas. Fale com um de nossos consultores de alto padrão e dê o próximo passo rumo ao seu novo estilo de vida.
             </p>
             <a 
-              href="https://wa.me/5521965928399" 
+              href={gerarLinkWhatsApp(nomeEmpreendimento, "Falar com um Especialista")} 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"

@@ -1,0 +1,25 @@
+--- src/pages/SolarDaTrindade.tsx
++++ src/pages/SolarDaTrindade.tsx
+@@ -9,6 +9,7 @@
+ const imgCapa = '/capa-open-graph-facebook.webp';
+ const imgPiscina = '/sala-de-tv_1.webp';
+ const imgLocalizacao = '/mapa-solar-trindade.webp';
++import { gerarLinkWhatsApp } from '../utils/whatsapp';
+ 
+ export default function SolarDaTrindade() {
++  const nomeEmpreendimento = "Solar da Trindade";
+   return (
+@@ -91,7 +92,7 @@
+                 <p className="text-slate-600 mb-6">Apenas R$ 1.000,00 de sinal e você já garante a sua unidade no lançamento.</p>
+                 <a 
+-                  href="https://wa.me/5521965928399" 
++                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação Agora")}
+                   target="_blank"
+                   rel="noopener noreferrer"
+@@ -420,7 +421,7 @@
+             </p>
+             <a 
+-              href="https://wa.me/5521965928399" 
++              href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")}
+               target="_blank"
+               rel="noopener noreferrer"

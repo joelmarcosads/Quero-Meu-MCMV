@@ -3,18 +3,19 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
+import { gerarLinkWhatsApp } from '../utils/whatsapp';
 const imgCapa = '/capa-do-site-prime-club-itaborai.webp';
 const imgPiscina = '/area-de-lazer-com-piscina-prime-club-itaborai.webp';
 const imgLocalizacao = '/localizacao-prime-club-itaborai.webp';
 
 export default function PrimeClubItaborai() {
+  const nomeEmpreendimento = "Prime Clube Itaboraí";
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida</title>
-        <meta name="description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
-        <meta name="keywords" content="Prime Club Itaboraí, Apartamento Itaboraí, Minha casa minha vida Itaboraí, imóveis Itaboraí, apartamento planta, comprar apartamento Itaboraí, subsídio caixa" />
-<link rel="canonical" href="https://queromeumcmv.com.br/prime-club-itaborai" />
+        <title>Prime Clube Itaboraí - Apartamentos Minha Casa Minha Vida</title>
+        <meta name="description" content="Conheça o Prime Clube Itaboraí no Outeiro das Pedras. Apartamentos de 2 quartos com suíte reversível e lazer completo. Faça sua simulação Caixa!" />
+        <link rel="canonical" href="https://queromeumcmv.com.br" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
@@ -97,7 +98,7 @@ export default function PrimeClubItaborai() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a 
-                  href="https://wa.me/5521965928399" 
+                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação de Financiamento")} 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
@@ -271,7 +272,7 @@ export default function PrimeClubItaborai() {
               Os apartamentos no Prime Club têm alta procura em Itaboraí. Fale com um de nossos corretores credenciados e garanta as melhores condições de lançamento.
             </p>
             <a 
-              href="https://wa.me/5521965928399" 
+              href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")} 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"

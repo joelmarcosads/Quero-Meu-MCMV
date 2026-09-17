@@ -3,10 +3,12 @@ import Footer from '../components/Footer';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle, Waves } from 'lucide-react';
+import { gerarLinkWhatsApp } from '../utils/whatsapp';
 const imgFachada = '/fachada-flores-de-maio.webp';
 const imgMapa = '/mapa-da-localizacao-flores-de-maio.webp';
 
 export default function FloresDeMaio() {
+  const nomeEmpreendimento = "Flores de Maio";
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
@@ -92,7 +94,7 @@ export default function FloresDeMaio() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a 
-                  href="https://wa.me/5521965928399" 
+                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação de Financiamento")} 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
@@ -262,7 +264,7 @@ export default function FloresDeMaio() {
               Os apartamentos no Flores de Maio têm alta procura. Fale com um de nossos corretores credenciados e garanta as melhores condições.
             </p>
             <a 
-              href="https://wa.me/5521965928399" 
+              href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")} 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"

@@ -1,0 +1,24 @@
+--- src/pages/PrimeClubItaborai.tsx
++++ src/pages/PrimeClubItaborai.tsx
+@@ -9,6 +9,7 @@
+ const imgPiscina = '/area-de-lazer-com-piscina-prime-club-itaborai.webp';
+ const imgLocalizacao = '/localizacao-prime-club-itaborai.webp';
++import { gerarLinkWhatsApp } from '../utils/whatsapp';
+ 
+ export default function PrimeClubItaborai() {
++  const nomeEmpreendimento = "Prime Clube Itaboraí";
+   return (
+@@ -101,7 +102,7 @@
+                 <p className="text-slate-600 mb-6">Apenas R$ 1.000,00 de sinal e você já garante a sua unidade no lançamento.</p>
+                 <a 
+-                  href="https://wa.me/5521965928399" 
++                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação Agora")}
+                   target="_blank"
+                   rel="noopener noreferrer"
+@@ -275,7 +276,7 @@
+             </p>
+             <a 
+-              href="https://wa.me/5521965928399" 
++              href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")}
+               target="_blank"
+               rel="noopener noreferrer"

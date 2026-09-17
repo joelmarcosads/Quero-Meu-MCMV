@@ -1,0 +1,30 @@
+--- prerender.mjs
++++ prerender.mjs
+@@ -19,16 +19,17 @@
+ async function prerender() {
+   console.log('Starting preview server...');
+   const server = await preview({
+     preview: {
+       port: 5000,
+       host: 'localhost',
+     }
+   });
++  const actualPort = server.httpServer.address().port;
+   console.log('Server started. Launching Puppeteer...');
+   const browser = await puppeteer.launch({
+     headless: true,
+     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+   });
+   const distDir = path.resolve(__dirname, 'dist');
+   
+   // Create sitemap
+@@ -35,9 +36,9 @@
+   let sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+   const today = new Date().toISOString().split('T')[0];
+   for (const route of routes) {
+     const page = await browser.newPage();
+-    const url = `http://localhost:5000${route.path}`;
++    const url = `http://localhost:${actualPort}${route.path}`;
+     console.log(`Prerendering ${route.path}...`);
+     
+     await page.goto(url, { waitUntil: 'networkidle0' });
