@@ -70,7 +70,8 @@ async function prerender() {
       fs.mkdirSync(routeDir, { recursive: true });
     }
 
-    const filePath = path.join(routeDir, 'index.html');
+    const isRoot = route.path === '/';
+    const filePath = isRoot ? path.join(distDir, 'index.prerendered.html') : path.join(routeDir, 'index.html');
     fs.writeFileSync(filePath, html);
     console.log(`Saved ${filePath}`);
     
@@ -87,6 +88,9 @@ async function prerender() {
 
   await browser.close();
   server.httpServer.close();
+  if (fs.existsSync(path.join(distDir, 'index.prerendered.html'))) {
+    fs.renameSync(path.join(distDir, 'index.prerendered.html'), path.join(distDir, 'index.html'));
+  }
   console.log('Prerendering complete!');
 }
 

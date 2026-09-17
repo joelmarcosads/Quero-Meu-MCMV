@@ -15,7 +15,7 @@ export default function PrimeClubItaborai() {
       <Helmet>
         <title>Prime Clube Itaboraí - Apartamentos Minha Casa Minha Vida</title>
         <meta name="description" content="Conheça o Prime Clube Itaboraí no Outeiro das Pedras. Apartamentos de 2 quartos com suíte reversível e lazer completo. Faça sua simulação Caixa!" />
-        <link rel="canonical" href="https://queromeumcmv.com.br" />
+        <link rel="canonical" href="https://queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
