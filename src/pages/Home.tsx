@@ -40,18 +40,18 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Imóveis Minha Casa Minha Vida no RJ | São Gonçalo, Itaboraí, Niterói e Maricá</title>
-        <meta name="description" content="Saia do aluguel com o Minha Casa Minha Vida! Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí, Niterói e Maricá com condições especiais e subsídio." />
-        <meta name="keywords" content="Minha casa minha vida, apartamentos, São Gonçalo, Itaboraí, Niterói, Maricá, imóveis, financiamento Caixa, subsídio" />
+        <title>Minha Casa Minha Vida em Itaboraí e São Gonçalo | Quero Meu MCMV</title>
+        <meta name="description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí e São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <link rel="canonical" href="https://queromeumcmv.com.br/" />
         <meta property="fb:app_id" content="966242223397117" />
-        <meta property="og:title" content="Imóveis Minha Casa Minha Vida no RJ | Saia do Aluguel" />
-        <meta property="og:description" content="Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí, Niterói e Maricá com o programa Minha Casa Minha Vida. Subsídio da Caixa e condições exclusivas." />
+        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí e São Gonçalo | Quero Meu MCMV" />
+        <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí e São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-open-graph-facebook.jpg" />
-        <meta property="og:image:alt" content="Quero Meu MCMV - Imóveis no RJ" />
+        <meta property="og:image:alt" content="Quero Meu MCMV - Apartamentos e Lançamentos em Itaboraí e São Gonçalo" />
         <meta name="geo.region" content="BR-RJ" />
-        <meta name="geo.placename" content="Rio de Janeiro" />
+        <meta name="geo.placename" content="Itaboraí, São Gonçalo" />
         <script type="application/ld+json">
           {JSON.stringify(schema)}
         </script>

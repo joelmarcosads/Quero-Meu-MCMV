@@ -14,19 +14,30 @@ export default function Hero() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission & integration with CRM/WhatsApp
-    console.log('Lead Captured:', formData);
     setSubmitted(true);
-    // In a real scenario, this would redirect to WhatsApp or a thank you page
+    
+    // Dispara o evento pro Google Tag Manager / Analytics se existir
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: 'generate_lead',
+        formName: 'SimulacaoHero',
+        leadName: formData.nome
+      });
+    }
+
+    const numeroWhatsApp = "5521965928399";
+    const textoBase = `Olá Joel Marcos! Gostaria de fazer uma simulação de financiamento pelo Minha Casa Minha Vida.\n\n*Meus Dados:*\n- Nome: ${formData.nome}\n- Telefone: ${formData.telefone}\n- E-mail: ${formData.email || 'Não informado'}\n\nVim pelo site Quero Meu MCMV.`;
+    const textoCodificado = encodeURIComponent(textoBase);
+    
     setTimeout(() => {
-      alert("Simulação solicitada com sucesso! Um consultor entrará em contato via WhatsApp em breve.");
+      window.open(`https://wa.me/${numeroWhatsApp}?text=${textoCodificado}`, '_blank');
       setSubmitted(false);
       setFormData({
         nome: '',
         email: '',
         telefone: ''
       });
-    }, 1500);
+    }, 1000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -73,7 +84,7 @@ export default function Hero() {
             <ul className="space-y-4 mb-10 max-w-md mx-auto lg:mx-0 text-left">
               <li className="flex items-start">
                 <CheckCircle2 className="w-6 h-6 text-success shrink-0 mr-3" />
-                <span className="text-base sm:text-lg font-medium">Imóveis com sinal a partir de <strong className="text-white">R$ 500,00</strong></span>
+                <span className="text-base sm:text-lg font-medium">Imóveis com sinal a partir de <strong className="text-white">R$ 500,00</strong>*</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle2 className="w-6 h-6 text-success shrink-0 mr-3" />
@@ -85,9 +96,10 @@ export default function Hero() {
               </li>
               <li className="flex items-start">
                 <CheckCircle2 className="w-6 h-6 text-success shrink-0 mr-3" />
-                <span className="text-base sm:text-lg font-medium">Possibilidade de subsídio e até <strong className="text-white">100% financiado</strong></span>
+                <span className="text-base sm:text-lg font-medium">Possibilidade de subsídio de acordo com a sua análise de crédito*</span>
               </li>
             </ul>
+            <div className="text-xs text-slate-400 mb-6 text-center lg:text-left">*Condições sujeitas a análise de crédito e disponibilidade dos empreendimentos.</div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700 max-w-md mx-auto lg:mx-0">
               <div className="flex -space-x-3">
@@ -96,7 +108,7 @@ export default function Hero() {
                 <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://i.pravatar.cc/100?img=3" alt="Foto de cliente aprovado em apartamento São Gonçalo" />
               </div>
               <div className="text-sm text-center sm:text-left">
-                <div className="font-bold text-white mb-0.5">Mais de 500 famílias</div>
+                <div className="font-bold text-white mb-0.5">Centenas de famílias</div>
                 <div className="text-slate-400">já garantiram suas chaves conosco.</div>
               </div>
             </div>

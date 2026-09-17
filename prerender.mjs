@@ -15,7 +15,11 @@ const routes = [
   { path: '/flores-de-maio', priority: '0.8', changefreq: 'weekly' },
   { path: '/solar-da-trindade', priority: '0.8', changefreq: 'weekly' },
   { path: '/residencial-florescer', priority: '0.8', changefreq: 'weekly' },
-  { path: '/conquista-oceanica', priority: '0.8', changefreq: 'weekly' }
+  { path: '/conquista-oceanica', priority: '0.8', changefreq: 'weekly' },
+  { path: '/minha-casa-minha-vida-itaborai', priority: '0.9', changefreq: 'weekly' },
+  { path: '/minha-casa-minha-vida-sao-goncalo', priority: '0.9', changefreq: 'weekly' },
+  { path: '/financiamento-minha-casa-minha-vida', priority: '0.9', changefreq: 'monthly' },
+  { path: '/sobre', priority: '0.8', changefreq: 'monthly' }
 ];
 
 async function prerender() {

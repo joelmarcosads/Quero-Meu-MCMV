@@ -76,6 +76,10 @@ export default function Testimonials() {
             </motion.div>
           ))}
         </div>
+        
+        <div className="mt-10 text-center text-xs text-slate-500 max-w-4xl mx-auto px-4">
+          *Os relatos acima são exemplos ilustrativos de nossos clientes. Os valores de entrada, parcelas e prazos de aprovação variam de acordo com a renda bruta familiar, idade, imóvel escolhido e análise de crédito da Caixa Econômica Federal na data da compra. Consulte sempre as condições vigentes.
+        </div>
 
       </div>
     </section>

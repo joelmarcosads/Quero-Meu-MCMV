@@ -34,9 +34,24 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/#faq" className="text-sm hover:text-white transition-colors flex items-center">
-                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Dúvidas Frequentes
-                </a>
+                <Link to="/minha-casa-minha-vida-itaborai" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> MCMV Itaboraí
+                </Link>
+              </li>
+              <li>
+                <Link to="/minha-casa-minha-vida-sao-goncalo" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> MCMV São Gonçalo
+                </Link>
+              </li>
+              <li>
+                <Link to="/financiamento-minha-casa-minha-vida" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Financiamento e FGTS
+                </Link>
+              </li>
+              <li>
+                <Link to="/sobre" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Sobre o Corretor
+                </Link>
               </li>
             </ul>
           </div>

@@ -21,12 +21,12 @@ const FAQS = [
   { 
     id: 4,
     q: "O que é o subsídio do governo?", 
-    a: "O subsídio é um benefício financeiro (um verdadeiro 'desconto') dado pelo Governo Federal para ajudar na compra. Esse valor não precisa ser devolvido! O montante depende da sua renda familiar e região do imóvel, podendo chegar a até R$ 55.000 de desconto." 
+    a: "O subsídio é um benefício financeiro (um verdadeiro 'desconto') dado pelo Governo Federal para ajudar na compra. Esse valor não precisa ser devolvido! O montante depende da sua renda familiar e região do imóvel, podendo chegar a até R$ 55.000 de desconto (conforme as regras vigentes do programa)." 
   },
   { 
     id: 5,
     q: "Quanto tempo demora a aprovação do banco?", 
-    a: "O tempo de análise é rápido. Nossos corretores ajudam você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis." 
+    a: "O tempo de análise costuma ser rápido. Nossos corretores ajudam você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis (prazo médio que pode variar conforme a demanda do banco)." 
   }
 ];
 

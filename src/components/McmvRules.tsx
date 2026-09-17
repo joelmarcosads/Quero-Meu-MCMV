@@ -32,7 +32,7 @@ export default function McmvRules() {
             </h2>
             
             <p className="text-lg text-slate-300 mb-6 leading-relaxed text-justify lg:text-left">
-              O Minha Casa Minha Vida é um programa habitacional do Governo Federal que facilita a conquista do primeiro imóvel, com subsídios de até <strong className="text-white">R$ 55 mil</strong> e taxas reduzidas.
+              O Minha Casa Minha Vida é um programa habitacional do Governo Federal que facilita a conquista do primeiro imóvel, com subsídios que podem chegar a até <strong className="text-white">R$ 55 mil</strong>* e taxas reduzidas.
             </p>
             
             <div className="bg-slate-800/80 border border-slate-700/50 rounded-2xl p-6 mb-8 shadow-inner shadow-slate-900/50">
