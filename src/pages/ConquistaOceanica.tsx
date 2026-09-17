@@ -15,7 +15,6 @@ export default function ConquistaOceanica() {
       <Helmet>
         <title>Conquista Oceânica | 1 e 2 Quartos em Maricá</title>
         <meta name="description" content="Conquista Oceânica em Maricá - RJ. Apartamentos de 1 e 2 quartos com gardens e lazer completo. Compre com o Minha Casa Minha Vida." />
-        <meta name="keywords" content="Conquista Oceânica Maricá, apartamento 1 e 2 quartos Maricá, Direcional, Minha Casa Minha Vida, apartamentos Maricá" />
 <link rel="canonical" href="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />

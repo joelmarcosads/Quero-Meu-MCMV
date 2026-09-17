@@ -15,7 +15,6 @@ export default function ResidencialFlorescer() {
       <Helmet>
         <title>Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo</title>
         <meta name="description" content="Eleve seu padrão de vida no Residencial Florescer em Vila Iara, São Gonçalo - RJ. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e lazer completo." />
-        <meta name="keywords" content="Residencial Florescer São Gonçalo, Vila Iara, apartamento 2 e 3 quartos São Gonçalo, RJ Engenharia, apartamento com suíte, varanda gourmet, imóveis alto padrão São Gonçalo" />
 <link rel="canonical" href="https://queromeumcmv.com.br/residencial-florescer" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />

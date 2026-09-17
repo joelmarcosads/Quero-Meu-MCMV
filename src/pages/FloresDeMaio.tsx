@@ -14,7 +14,6 @@ export default function FloresDeMaio() {
       <Helmet>
         <title>Flores de Maio | Apartamentos 2 Quartos, Minha Casa Minha Vida</title>
         <meta name="description" content="Conheça o Flores de Maio em Santo Expedito, Itaboraí - RJ. Apartamentos com varanda, sinal a partir de R$ 1.000 e subsídio Caixa." />
-        <meta name="keywords" content="Flores de maio Itaboraí, Santo Expedito, apartamento 2 quartos Itaboraí, Minha casa minha vida, financiamento Caixa" />
 <link rel="canonical" href="https://queromeumcmv.com.br/flores-de-maio" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />

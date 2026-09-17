@@ -14,7 +14,6 @@ export default function SolarDaTrindade() {
       <Helmet>
         <title>Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida</title>
         <meta name="description" content="Conheça o Solar da Trindade em Trindade, São Gonçalo - RJ. Apartamentos de 2 quartos, sinal a partir de R$ 1.000 e subsídio Caixa." />
-        <meta name="keywords" content="Solar da Trindade São Gonçalo, Trindade, apartamento 2 quartos São Gonçalo, Minha casa minha vida, financiamento Caixa" />
 <link rel="canonical" href="https://queromeumcmv.com.br/solar-da-trindade" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
