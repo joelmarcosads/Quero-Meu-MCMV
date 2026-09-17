@@ -11,21 +11,50 @@ import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet-async';
 
 export default function Home() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Quero Meu MCMV",
+    "image": "https://queromeumcmv.com.br/capa-open-graph-facebook.jpg",
+    "@id": "https://queromeumcmv.com.br/",
+    "url": "https://queromeumcmv.com.br/",
+    "telephone": "+55 21 96592-8399",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rua H, nº 492, Retiro São Joaquim",
+      "addressLocality": "Itaboraí",
+      "addressRegion": "RJ",
+      "postalCode": "24.813-066",
+      "addressCountry": "BR"
+    },
+    "areaServed": ["Itaboraí", "São Gonçalo", "Niterói", "Maricá"],
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "name": "CRECI",
+        "value": "39.583F"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Imóveis Minha Casa Minha Vida no RJ | São Gonçalo, Itaboraí e Maricá</title>
-        <meta name="description" content="Saia do aluguel com o Minha Casa Minha Vida! Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí e Maricá com condições especiais e subsídio." />
-        <meta name="keywords" content="Minha casa minha vida, apartamentos, São Gonçalo, Itaboraí, Maricá, imóveis, financiamento Caixa, subsídio" />
+        <title>Imóveis Minha Casa Minha Vida no RJ | São Gonçalo, Itaboraí, Niterói e Maricá</title>
+        <meta name="description" content="Saia do aluguel com o Minha Casa Minha Vida! Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí, Niterói e Maricá com condições especiais e subsídio." />
+        <meta name="keywords" content="Minha casa minha vida, apartamentos, São Gonçalo, Itaboraí, Niterói, Maricá, imóveis, financiamento Caixa, subsídio" />
         <link rel="canonical" href="https://queromeumcmv.com.br/" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:title" content="Imóveis Minha Casa Minha Vida no RJ | Saia do Aluguel" />
-        <meta property="og:description" content="Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí e Maricá com o programa Minha Casa Minha Vida. Subsídio da Caixa e condições exclusivas." />
+        <meta property="og:description" content="Conheça os melhores apartamentos e casas em São Gonçalo, Itaboraí, Niterói e Maricá com o programa Minha Casa Minha Vida. Subsídio da Caixa e condições exclusivas." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-open-graph-facebook.jpg" />
         <meta property="og:image:alt" content="Quero Meu MCMV - Imóveis no RJ" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Rio de Janeiro" />
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
       </Helmet>
       <Header />
       <main>

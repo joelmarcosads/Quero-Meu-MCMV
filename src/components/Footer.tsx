@@ -13,7 +13,7 @@ export default function Footer() {
               <span className="font-black text-xl leading-none text-orange-300 tracking-tighter uppercase">MCMV</span>
             </div>
             <p className="text-sm text-slate-400 mb-6 leading-relaxed">
-              Especialistas em realizar o sonho da casa própria na região de Itaboraí e São Gonçalo. Atendimento humano, transparente e focado na sua aprovação usando todos os benefícios do Minha Casa Minha Vida.
+              Especialistas em realizar o sonho da casa própria na região de Niterói, Itaboraí, São Gonçalo e Maricá. Atendimento humano, transparente e focado na sua aprovação usando todos os benefícios do Minha Casa Minha Vida.
             </p>
             <div className="text-sm font-bold text-slate-400">
               CRECI: 39.583F

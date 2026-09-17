@@ -5,21 +5,21 @@ const TESTIMONIALS = [
   {
     name: "Ana Beatriz",
     role: "Compradora no Residencial Itaboraí",
-    image: "https://i.pravatar.cc/150?img=5",
+    initials: "AB",
     content: "Nunca imaginei que conseguiria comprar meu apê com uma renda de R$ 2.400. O processo foi super rápido, dei apenas R$ 500 de sinal e usei meu saldo do FGTS. Hoje pago R$ 680 de prestação, bem menos que meu aluguel antigo!",
     rating: 5
   },
   {
     name: "Carlos Eduardo & Família",
     role: "Moradores em São Gonçalo",
-    image: "https://i.pravatar.cc/150?img=11",
+    initials: "CE",
     content: "Achei que como motorista de app não conseguiria aprovação. Mandei meus extratos, o banco Caixa aprovou rapidamente. As crianças adoram a área de lazer. Equipe atenciosa demais pelo WhatsApp.",
     rating: 5
   },
   {
     name: "Juliana Santos",
     role: "Compradora Primeiro Imóvel",
-    image: "https://i.pravatar.cc/150?img=9",
+    initials: "JS",
     content: "Assinei meu contrato na Caixa ontem! Muito obrigada pela paciência dos consultores. Consegui o subsídio máximo do Minha Casa Minha Vida e a entrada ficou muito suave em 60 meses. Recomendo de olhos fechados.",
     rating: 5
   }
@@ -35,7 +35,7 @@ export default function Testimonials() {
             Quem aprova, indica!
           </h2>
           <p className="text-lg text-slate-600 text-justify md:text-center">
-            Veja as histórias de pessoas reais que saíram do aluguel e conquistaram a chave da casa própria através do nosso atendimento.
+            Veja as histórias reais de pessoas que saíram do aluguel e conquistaram a chave da casa própria através do nosso atendimento. (Fotos ilustrativas substituídas por iniciais para preservar a privacidade).
           </p>
         </div>
 
@@ -62,12 +62,9 @@ export default function Testimonials() {
               </p>
 
               <div className="flex items-center">
-                <img loading="lazy" 
-                  src={test.image} 
-                  alt={`Foto do cliente ${test.name}, ${test.role}`}
-                  title={`${test.name} - Cliente Satisfeito`} 
-                  className="w-12 h-12 rounded-full mr-4 border-2 border-white shadow-sm"
-                />
+                <div className="w-12 h-12 rounded-full mr-4 border-2 border-white shadow-sm bg-accent text-white flex items-center justify-center font-bold text-lg">
+                  {test.initials}
+                </div>
                 <div>
                   <h3 className="font-bold text-slate-900 flex items-center">
                     {test.name}
