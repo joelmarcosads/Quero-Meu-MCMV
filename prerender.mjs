@@ -45,7 +45,8 @@ async function prerender() {
 
   for (const route of routes) {
     const page = await browser.newPage();
-    const url = `http://localhost:5000${route.path}`;
+    const actualPort = server.httpServer.address().port;
+    const url = `http://localhost:${actualPort}${route.path}`;
     console.log(`Prerendering ${route.path}...`);
     
     await page.goto(url, { waitUntil: 'networkidle0' });

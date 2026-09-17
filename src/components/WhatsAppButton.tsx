@@ -1,4 +1,5 @@
 import { m } from 'motion/react';
+import { useLocation } from 'react-router-dom';
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
@@ -12,9 +13,16 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 );
 
 export default function WhatsAppButton() {
+  const location = useLocation();
+  let whatsappText = "";
+
+  if (location.pathname === "/reserva-dos-passaros-2") {
+    whatsappText = "?text=" + encodeURIComponent("Olá! Gostaria de tirar dúvidas sobre as casas no Reserva dos Pássaros 2 em Itaboraí.");
+  }
+
   return (
     <m.a
-      href="https://wa.me/5521965928399"
+      href={`https://wa.me/5521965928399${whatsappText}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
