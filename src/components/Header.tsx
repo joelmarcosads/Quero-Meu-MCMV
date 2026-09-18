@@ -46,7 +46,7 @@ export default function Header() {
           <div className="hidden xl:flex items-center space-x-6 text-slate-600 text-sm font-medium">
             <div className="flex items-center">
               <ShieldCheck className="w-4 h-4 mr-1 text-success" />
-              <span>Compra 100% Segura</span>
+              <span>Atendimento seguro e transparente</span>
             </div>
             <div className="flex items-center">
               <MapPin className="w-4 h-4 mr-1 text-primary" />

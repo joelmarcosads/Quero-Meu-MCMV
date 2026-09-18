@@ -22,7 +22,7 @@ export default function FgtsMcmv() {
           "@type": "Organization",
           "name": "Quero Meu MCMV"
         },
-        "dateModified": "2024-03-20"
+        "dateModified": "2026-09-17"
       },
       {
         "@type": "BreadcrumbList",
@@ -71,7 +71,7 @@ export default function FgtsMcmv() {
             Como usar o FGTS no Minha Casa Minha Vida
           </h1>
           
-          <ArticleMeta date="20 de Março de 2024" />
+          <ArticleMeta date="17 de Setembro de 2026" />
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             
@@ -88,7 +88,7 @@ export default function FgtsMcmv() {
               O saldo do FGTS pode ser usado de três formas principais no financiamento: como valor de entrada, para amortização do saldo devedor ou para pagamento de parte do valor das parcelas mensais.
             </p>
             <ul>
-              <li><strong>Pagamento da Entrada:</strong> O valor que você possui de saldo pode ser abatido do valor da entrada exigida pela Caixa Econômica Federal. Se o seu saldo for suficiente, ele pode até cobrir a entrada integralmente.</li>
+              <li><strong>Pagamento da Entrada:</strong> O valor que você possui de saldo pode ser abatido do valor da entrada exigida pela instituição financeira. Dependendo das condições da operação e do seu saldo, ele pode reduzir significativamente a necessidade de entrada e até eliminá-la.</li>
               <li><strong>Amortização do Saldo Devedor:</strong> Após a compra, você pode usar o FGTS a cada 2 anos para reduzir o valor total da sua dívida, diminuindo o tempo do financiamento ou o valor das parcelas.</li>
               <li><strong>Pagamento de Parcelas:</strong> É possível utilizar o FGTS para pagar até 80% do valor da parcela mensal, por um período de até 12 meses consecutivos.</li>
             </ul>
@@ -136,7 +136,8 @@ export default function FgtsMcmv() {
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">
-              <strong>Fontes consultadas:</strong> Regras oficiais do Conselho Curador do FGTS e Caixa Econômica Federal. As diretrizes podem sofrer alterações sem aviso prévio. Este conteúdo possui finalidade informativa.
+              <p className="mb-2"><strong>Nota Editorial:</strong> As regras e condições do Minha Casa Minha Vida podem ser atualizadas. A aprovação do financiamento, subsídio, uso do FGTS e demais condições dependem do enquadramento da família, do imóvel e da análise da instituição financeira.</p>
+              <strong>Fontes consultadas:</strong> Regras oficiais do Conselho Curador do FGTS e da Caixa Econômica Federal.
             </div>
 
           </div>

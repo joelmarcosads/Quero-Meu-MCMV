@@ -22,7 +22,7 @@ export default function DocumentosMcmv() {
           "@type": "Organization",
           "name": "Quero Meu MCMV"
         },
-        "dateModified": "2024-03-20"
+        "dateModified": "2026-09-17"
       },
       {
         "@type": "BreadcrumbList",
@@ -71,7 +71,7 @@ export default function DocumentosMcmv() {
             Documentos necessários para o Financiamento
           </h1>
           
-          <ArticleMeta date="20 de Março de 2024" />
+          <ArticleMeta date="17 de Setembro de 2026" />
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             
@@ -131,7 +131,8 @@ export default function DocumentosMcmv() {
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">
-              <strong>Fontes consultadas:</strong> Caixa Econômica Federal e Manuais de Crédito Habitacional. *Sujeito à análise de crédito, enquadramento no programa e condições vigentes. A relação é informativa e a instituição concedente poderá requisitar documentos extras aplicáveis ao risco da operação de acordo com cada CPF.
+              <p className="mb-2"><strong>Nota Editorial:</strong> As regras e condições do Minha Casa Minha Vida podem ser atualizadas. A aprovação do financiamento, subsídio, uso do FGTS e demais condições dependem do enquadramento da família, do imóvel e da análise da instituição financeira.</p>
+              <strong>Fontes consultadas:</strong> Caixa Econômica Federal e normativos do Ministério das Cidades. A relação é informativa e a instituição concedente poderá requisitar documentos extras aplicáveis à operação.
             </div>
 
           </div>

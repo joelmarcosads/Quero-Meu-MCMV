@@ -22,7 +22,7 @@ export default function RendaMcmv() {
           "@type": "Organization",
           "name": "Quero Meu MCMV"
         },
-        "dateModified": "2024-03-20"
+        "dateModified": "2026-09-17"
       },
       {
         "@type": "BreadcrumbList",
@@ -71,7 +71,7 @@ export default function RendaMcmv() {
             A Renda no Minha Casa Minha Vida
           </h1>
           
-          <ArticleMeta date="20 de Março de 2024" />
+          <ArticleMeta date="17 de Setembro de 2026" />
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             
@@ -96,12 +96,13 @@ export default function RendaMcmv() {
 
             <h2 id="faixas">Quais são as faixas de renda do Minha Casa Minha Vida?</h2>
             <p className="font-semibold text-slate-800">
-              Para as áreas urbanas, o programa habitacional organiza as famílias em três faixas principais, baseadas na renda bruta mensal familiar de até R$ 8.000,00.
+              Para as áreas urbanas, o programa habitacional organiza as famílias em faixas principais, baseadas na renda bruta mensal familiar.
             </p>
             <ul>
-              <li><strong>Faixa 1:</strong> Renda bruta familiar até R$ 2.850,00 mensais. Garante acesso aos maiores valores de subsídio governamental e às taxas de juros mais acessíveis do mercado (a partir de 4% ao ano, a depender da região).</li>
-              <li><strong>Faixa 2:</strong> Renda bruta familiar de R$ 2.850,01 até R$ 4.400,00 mensais. Possui taxas de juros atrativas e também possibilita acesso a subsídios governamentais substanciais para a entrada.</li>
-              <li><strong>Faixa 3:</strong> Renda bruta familiar de R$ 4.400,01 até R$ 8.000,00 mensais. Embora não conte com subsídios na entrada, esta faixa ainda garante o benefício de acesso a taxas de juros mais baixas que a média das modalidades convencionais dos bancos (podendo chegar a até 8,16% ao ano), sendo ainda extremamente vantajosa.</li>
+              <li><strong>Faixa 1:</strong> Renda familiar bruta mensal de até R$ 3.200,00. Garante acesso aos maiores valores de subsídio governamental e às taxas de juros mais acessíveis do mercado.</li>
+              <li><strong>Faixa 2:</strong> Renda familiar bruta mensal de R$ 3.200,01 até R$ 5.000,00. Possui taxas de juros atrativas e também possibilita acesso a subsídios/descontos na linha financiada.</li>
+              <li><strong>Faixa 3:</strong> Renda familiar bruta mensal de R$ 5.000,01 até R$ 9.600,00. Embora geralmente não conte com subsídios na entrada para essa faixa, garante o benefício de acesso a taxas de juros mais baixas que a média das modalidades convencionais.</li>
+              <li><strong>MCMV Classe Média:</strong> A linha financiada do Minha Casa Minha Vida atende agora famílias com renda familiar de até R$ 13.000,00, observadas as regras e condições da modalidade.</li>
             </ul>
 
             <h2 id="autonomos">Sou autônomo ou MEI. Consigo financiar?</h2>
@@ -126,7 +127,8 @@ export default function RendaMcmv() {
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">
-              <strong>Fontes consultadas:</strong> Ministério das Cidades e normas operacionais vigentes da Caixa Econômica Federal. *Os tetos de faixas de renda estão sujeitos a enquadramento de análise bancária, regras vigentes da portaria MCID e legislação em vigor.
+              <p className="mb-2"><strong>Nota Editorial:</strong> As regras e condições do Minha Casa Minha Vida podem ser atualizadas. A aprovação do financiamento, subsídio, uso do FGTS e demais condições dependem do enquadramento da família, do imóvel e da análise da instituição financeira.</p>
+              <strong>Fontes consultadas:</strong> <a href="https://www.gov.br/cidades/pt-br" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-700">Ministério das Cidades</a> (Portaria MCID nº 333, de 30 de março de 2026) e regras oficiais da linha financiada.
             </div>
 
           </div>

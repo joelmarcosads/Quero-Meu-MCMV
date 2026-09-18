@@ -93,6 +93,16 @@ for (const file of files) {
            console.error(`  ERROR: Conquista Oceânica HTML contains São Gonçalo in main content`);
        }
     }
+    
+    // Check old values
+    const clusterRoutes = ['/renda-minha-casa-minha-vida', '/subsidio-minha-casa-minha-vida', '/fgts-minha-casa-minha-vida', '/documentos-minha-casa-minha-vida', '/financiamento-minha-casa-minha-vida'];
+    if (clusterRoutes.includes(route)) {
+        if (html.includes('2.850') || html.includes('4.400') || html.includes('8.000')) {
+            // we should not break build just for historical context if added in the future, but for now we error.
+            hasErrors = true;
+            console.error(`  WARNING/FAIL: Possível regra MCMV desatualizada em ${route}. Revisar conteúdo antes do deploy.`);
+        }
+    }
 
     // JSON-LD
     const schemaMatches = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];

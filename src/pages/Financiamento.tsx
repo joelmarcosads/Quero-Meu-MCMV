@@ -52,7 +52,7 @@ export default function Financiamento() {
       "@type": "Organization",
       "name": "Quero Meu MCMV"
     },
-    "dateModified": "2024-03-20"
+    "dateModified": "2026-09-17"
   };
 
   return (
@@ -107,7 +107,7 @@ export default function Financiamento() {
               <div className="lg:col-span-8">
                 <article className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:text-slate-900 prose-p:text-slate-700 prose-a:text-primary hover:prose-a:text-primary-dark">
                   
-                  <ArticleMeta date="20 de Março de 2024" />
+                  <ArticleMeta date="17 de Setembro de 2026" />
 
                   <p className="lead text-lg font-medium text-slate-800">
                     O programa Minha Casa Minha Vida (MCMV) retornou com novas regras, limites ampliados e taxas de juros reduzidas para facilitar o acesso da população brasileira à casa própria. Se você mora em <Link to="/minha-casa-minha-vida-itaborai">Itaboraí</Link>, <Link to="/minha-casa-minha-vida-sao-goncalo">São Gonçalo</Link> ou região, este guia explicará o passo a passo para a sua aprovação.
@@ -115,7 +115,7 @@ export default function Financiamento() {
 
                   <h2 id="o-programa">O que é o Programa Minha Casa Minha Vida?</h2>
                   <p>
-                    O MCMV é o programa de habitação federal do Brasil, operado principalmente pela Caixa Econômica Federal. O seu objetivo é subsidiar a aquisição de moradia própria para famílias com renda bruta de até R$ 8.000,00 mensais em áreas urbanas, oferecendo as menores taxas de juros do mercado imobiliário.
+                    O MCMV é o programa de habitação federal do Brasil, operado principalmente pela Caixa Econômica Federal. A linha financiada do Minha Casa Minha Vida atende famílias com renda familiar bruta mensal de até R$ 13 mil, observadas as regras, condições da modalidade e análise de crédito, oferecendo algumas das menores taxas de juros do mercado imobiliário.
                   </p>
 
                   {/* TOPICOS CLUSTER */}

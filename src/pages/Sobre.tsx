@@ -20,11 +20,6 @@ export default function Sobre() {
       "addressRegion": "RJ",
       "addressCountry": "BR"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "-22.7483",
-      "longitude": "-42.8601"
-    },
     "areaServed": ["Itaboraí", "São Gonçalo", "Niterói", "Maricá"],
     "knowsAbout": ["Minha Casa Minha Vida", "Financiamento Habitacional", "Subsídio do Governo", "Imóveis na Planta", "Caixa Econômica Federal"]
   };
