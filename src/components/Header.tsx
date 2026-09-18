@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { m as motion, AnimatePresence } from 'motion/react';
-import { ShieldCheck, MapPin, Search, Menu, X } from 'lucide-react';
+import { MapPin, Search, Menu, X } from 'lucide-react';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -16,26 +16,26 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-20 gap-2 lg:gap-4 xl:gap-8">
           
           {/* Logo / Brand */}
-          <Link to="/" className="flex-shrink-0 flex items-center cursor-pointer">
-            <div className="bg-primary text-white p-2 p-1.5 rounded-lg mr-2">
-              <Search className="w-6 h-6" />
+          <Link to="/" className="flex-shrink-0 flex items-center cursor-pointer gap-2">
+            <div className="bg-primary text-white p-1.5 xl:p-2 rounded-lg">
+              <Search className="w-5 h-5 xl:w-6 xl:h-6" />
             </div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-2xl leading-none text-primary tracking-tight">Quero Meu</span>
-              <span className="font-black text-xl leading-none text-accent tracking-tighter uppercase">MCMV</span>
+            <div className="flex items-center">
+              <span className="font-extrabold text-lg sm:text-xl xl:text-2xl leading-none text-primary tracking-tight mr-1.5 whitespace-nowrap">Quero Meu</span>
+              <span className="font-black text-lg sm:text-xl xl:text-2xl leading-none text-accent tracking-tighter uppercase whitespace-nowrap">MCMV</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
             {navLinks.map((link) => (
               <Link 
                 key={link.to} 
                 to={link.to}
-                className="text-slate-600 hover:text-primary font-medium text-sm transition-colors"
+                className="text-slate-600 hover:text-primary font-medium text-sm transition-colors whitespace-nowrap"
               >
                 {link.label}
               </Link>
@@ -43,29 +43,23 @@ export default function Header() {
           </nav>
 
           {/* Trust indicators (hidden on smaller screens to make room for nav) */}
-          <div className="hidden xl:flex items-center space-x-6 text-slate-600 text-sm font-medium">
-            <div className="flex items-center">
-              <ShieldCheck className="w-4 h-4 mr-1 text-success" />
-              <span>Atendimento seguro e transparente</span>
-            </div>
-            <div className="flex items-center">
-              <MapPin className="w-4 h-4 mr-1 text-primary" />
-              <span>Itaboraí e São Gonçalo</span>
-            </div>
+          <div className="hidden lg:flex items-center text-slate-500 text-xs xl:text-sm font-medium whitespace-nowrap">
+            <MapPin className="w-3.5 h-3.5 xl:w-4 xl:h-4 mr-1 text-primary shrink-0" />
+            <span>Itaboraí e São Gonçalo</span>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             {/* CTA */}
             <a 
               href="/#simulacao"
-              className="hidden sm:inline-flex bg-accent hover:bg-orange-600 text-white font-bold py-2.5 px-5 rounded-full transition-colors shadow-lg shadow-orange-500/30 transform hover:-translate-y-0.5"
+              className="hidden sm:inline-flex bg-accent hover:bg-orange-600 text-white font-bold py-2 px-4 xl:py-2.5 xl:px-5 text-sm rounded-full transition-colors shadow-lg shadow-orange-500/30 transform hover:-translate-y-0.5 whitespace-nowrap"
             >
               Simular Agora
             </a>
 
             {/* Mobile menu button */}
             <button 
-              className="lg:hidden p-2 text-slate-600 hover:text-primary focus:ring-2 focus:ring-primary rounded-md focus:outline-none"
+              className="lg:hidden p-2 text-slate-600 hover:text-primary focus:ring-2 focus:ring-primary rounded-md focus:outline-none shrink-0"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={isMobileMenuOpen}

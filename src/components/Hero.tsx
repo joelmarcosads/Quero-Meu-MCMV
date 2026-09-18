@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { m as motion } from 'motion/react';
 import { CheckCircle2, TrendingDown, Clock, Home, ShieldCheck } from 'lucide-react';
-const imgHeroBg = '/imperio-do-ouro-mrv.webp';
 
 export default function Hero() {
   const [formData, setFormData] = useState({
@@ -52,13 +51,20 @@ export default function Hero() {
     <section className="relative bg-slate-900 overflow-hidden text-white" id="simulacao">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 bg-slate-900">
-        <img 
-          src={imgHeroBg} 
-          alt="Perspectiva ilustrativa da varanda do apartamento Império do Ouro - MRV São Gonçalo - RJ" 
-          title="Varanda Império do Ouro Minha Casa Minha Vida"
-          className="w-full h-full object-cover opacity-60"
-          fetchPriority="high"
-        />
+        <picture>
+          <source media="(max-width: 600px)" srcSet="/imperio-do-ouro-mrv-mobile.webp" />
+          <source media="(min-width: 601px)" srcSet="/imperio-do-ouro-mrv-desktop.webp" />
+          <img 
+            src="/imperio-do-ouro-mrv-desktop.webp" 
+            alt="Perspectiva ilustrativa da varanda do apartamento Império do Ouro - MRV São Gonçalo - RJ" 
+            title="Varanda Império do Ouro Minha Casa Minha Vida"
+            className="w-full h-full object-cover opacity-60"
+            fetchPriority="high"
+            loading="eager"
+            width="1363"
+            height="767"
+          />
+        </picture>
         {/* Gradient that is dark on the left for text, but transparent on the right to show the image */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 sm:via-slate-900/60 to-transparent"></div>
         {/* Subtle bottom gradient for blending */}

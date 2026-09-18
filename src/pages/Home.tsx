@@ -65,6 +65,8 @@ export default function Home() {
         <meta property="og:image:alt" content="Quero Meu MCMV - Apartamentos e Lançamentos em Itaboraí e São Gonçalo" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí, São Gonçalo" />
+        <link rel="preload" as="image" href="/imperio-do-ouro-mrv-mobile.webp" media="(max-width: 600px)" fetchpriority="high" />
+        <link rel="preload" as="image" href="/imperio-do-ouro-mrv-desktop.webp" media="(min-width: 601px)" fetchpriority="high" />
         <script type="application/ld+json">
           {JSON.stringify(schema)}
         </script>
