@@ -17,6 +17,7 @@ const McmvItaborai = lazy(() => import('./pages/McmvItaborai'));
 const McmvSaoGoncalo = lazy(() => import('./pages/McmvSaoGoncalo'));
 const Financiamento = lazy(() => import('./pages/Financiamento'));
 const Sobre = lazy(() => import('./pages/Sobre'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/minha-casa-minha-vida-sao-goncalo" element={<McmvSaoGoncalo />} />
             <Route path="/financiamento-minha-casa-minha-vida" element={<Financiamento />} />
             <Route path="/sobre" element={<Sobre />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

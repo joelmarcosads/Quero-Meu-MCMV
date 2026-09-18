@@ -90,14 +90,20 @@ const PROPERTIES: Property[] = [
   }
 ];
 
-export default function Properties() {
+type PropertiesProps = {
+  filterCity?: string;
+};
+
+export default function Properties({ filterCity }: PropertiesProps) {
   return (
     <section className="py-20 bg-slate-50" id="empreendimentos">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
-            Empreendimentos em Destaque em São Gonçalo e Itaboraí
+            {filterCity 
+              ? `Empreendimentos em Destaque em ${filterCity}` 
+              : "Empreendimentos em Destaque no Rio de Janeiro"}
           </h2>
           <p className="text-lg text-slate-600 text-justify md:text-center">
             Conheça as melhores opções do programa Minha Casa Minha Vida na sua região. Compre com facilidade e pare de pagar aluguel hoje.
@@ -105,7 +111,7 @@ export default function Properties() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROPERTIES.map((prop, idx) => (
+          {PROPERTIES.filter(prop => !filterCity || prop.location.includes(filterCity)).map((prop, idx) => (
             <motion.div 
               key={prop.id}
               initial={{ opacity: 0, y: 20 }}

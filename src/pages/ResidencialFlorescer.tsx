@@ -49,7 +49,7 @@ export default function ResidencialFlorescer() {
                       "@type": "ListItem",
                       "position": 3,
                       "name": "Residencial Florescer",
-                      "item": "https://queromeumcmv.com.br/residencialflorescer"
+                      "item": "https://queromeumcmv.com.br/residencial-florescer"
                     }
                   ]
                 },
@@ -146,11 +146,11 @@ export default function ResidencialFlorescer() {
                   ))}
                 </ul>
               </div>
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
                 <img loading="lazy" 
                   src={imgSala} 
                   alt="Sala de TV do Residencial Florescer" 
-                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>
@@ -202,11 +202,11 @@ export default function ResidencialFlorescer() {
         <section className="py-20 bg-primary text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
+              <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
                 <img loading="lazy" 
                   src={imgShopping} 
                   alt="Shopping Partage, próximo ao Residencial Florescer em São Gonçalo, RJ" 
-                  className="w-full h-auto object-cover rounded-2xl aspect-video"
+                  className="w-full h-full object-cover rounded-2xl aspect-video"
                 />
               </div>
               <div className="order-1 lg:order-2">

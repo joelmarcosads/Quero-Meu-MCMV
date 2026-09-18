@@ -28,126 +28,122 @@ export default function ReservaDosPassaros2() {
         <script type="application/ld+json">
           {`
             {
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                                "@graph": [
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://queromeumcmv.com.br/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "MCMV Itaboraí",
-                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
-                      "name": "Reserva dos Pássaros 2",
-                      "item": "https://queromeumcmv.com.br/reservadospassaros2"
-                    }
-                  ]
-                },
-                {
-                  "@type": "RealEstateListing",
-                  "name": "Reserva dos Pássaros 2",
-                  "description": "Casas de 2 Quartos em Condomínio Clube em Itaboraí",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Itaboraí",
-                    "addressRegion": "RJ",
-                    "addressCountry": "BR"
-                  },
-                  "geo": {
-                    "@type": "GeoCoordinates",
-                    "latitude": "-22.7483",
-                    "longitude": "-42.8594"
-                  },
-                  "builder": {
-                    "@type": "Organization",
-                    "name": "Realiza Construtora"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "BRL",
-                    "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
-                  },
-                  "amenityFeature": [
-                    {
-                      "@type": "LocationFeatureSpecification",
-                      "name": "Piscinas Climatizadas (Adulto e Infantil)",
-                      "value": "True"
-                    },
-                    {
-                      "@type": "LocationFeatureSpecification",
-                      "name": "Salão de Festas com Churrasqueira",
-                      "value": "True"
-                    },
-                    {
-                      "@type": "LocationFeatureSpecification",
-                      "name": "Academia",
-                      "value": "True"
-                    },
-                    {
-                      "@type": "LocationFeatureSpecification",
-                      "name": "Pet Place",
-                      "value": "True"
-                    },
-                    {
-                      "@type": "LocationFeatureSpecification",
-                      "name": "Segurança 24 horas",
-                      "value": "True"
-                    }
-                  ]
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Onde fica localizado o condomínio Reserva dos Pássaros 2?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O condomínio fechado Reserva dos Pássaros 2 está localizado no bairro Retiro São Joaquim (região da Vila Rica), em Itaboraí, RJ. Em apenas 10 minutos você chega ao Centro, com fácil acesso à Avenida 22 de Maio, escolas, comércio e transporte."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "As casas no Reserva dos Pássaros 2 são geminadas?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Não, as casas do Reserva dos Pássaros 2 são 100% independentes (não geminadas). Este é o grande diferencial da Realiza Construtora, garantindo que você não sofra com barulhos de parede-meia de vizinhos, com lotes privativos a partir de 150m² e amplo quintal."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Como comprar casa pelo Minha Casa Minha Vida em Itaboraí?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Basta usar o programa Minha Casa Minha Vida da Caixa Econômica Federal. O Reserva dos Pássaros 2 é totalmente aprovado pela Caixa, permitindo usar o seu saldo do FGTS, contar com subsídios do governo de até R$ 55 mil e juros menores."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quais opções de lazer o condomínio clube oferece?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O condomínio oferece estrutura completa de resort: piscinas climatizadas (adulto e infantil), academia, salão de festas com churrasqueira, playground, pet place, quadra de esportes, pomar, redário e minimercado autônomo 24 horas."
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-              ]
-            }
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://queromeumcmv.com.br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "MCMV Itaboraí",
+          "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Reserva dos Pássaros 2",
+          "item": "https://queromeumcmv.com.br/reserva-dos-passaros-2"
+        }
+      ]
+    },
+    {
+      "@type": "RealEstateListing",
+      "name": "Reserva dos Pássaros 2",
+      "description": "Casas de 2 Quartos em Condomínio Clube em Itaboraí",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Itaboraí",
+        "addressRegion": "RJ",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-22.7483",
+        "longitude": "-42.8594"
+      },
+      "builder": {
+        "@type": "Organization",
+        "name": "Realiza Construtora"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "BRL",
+        "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
+      },
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Piscinas Climatizadas (Adulto e Infantil)",
+          "value": "True"
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Salão de Festas com Churrasqueira",
+          "value": "True"
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Academia",
+          "value": "True"
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Pet Place",
+          "value": "True"
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Segurança 24 horas",
+          "value": "True"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Onde fica localizado o condomínio Reserva dos Pássaros 2?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O condomínio fechado Reserva dos Pássaros 2 está localizado no bairro Retiro São Joaquim (região da Vila Rica), em Itaboraí, RJ. Em apenas 10 minutos você chega ao Centro, com fácil acesso à Avenida 22 de Maio, escolas, comércio e transporte."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "As casas no Reserva dos Pássaros 2 são geminadas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não, as casas do Reserva dos Pássaros 2 são 100% independentes (não geminadas). Este é o grande diferencial da Realiza Construtora, garantindo que você não sofra com barulhos de parede-meia de vizinhos, com lotes privativos a partir de 150m² e amplo quintal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como comprar casa pelo Minha Casa Minha Vida em Itaboraí?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Basta usar o programa Minha Casa Minha Vida da Caixa Econômica Federal. O Reserva dos Pássaros 2 é totalmente aprovado pela Caixa, permitindo usar o seu saldo do FGTS, contar com subsídios do governo de até R$ 55 mil e juros menores."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais opções de lazer o condomínio clube oferece?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O condomínio oferece estrutura completa de resort: piscinas climatizadas (adulto e infantil), academia, salão de festas com churrasqueira, playground, pet place, quadra de esportes, pomar, redário e minimercado autônomo 24 horas."
+          }
+        }
+      ]
+    }
+  ]
+}
           `}
         </script>
       </Helmet>
@@ -237,11 +233,11 @@ export default function ReservaDosPassaros2() {
                   ))}
                 </ul>
               </div>
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img fetchPriority="high" 
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
+                <img loading="lazy" 
                   src={imgPiscina} 
                   alt="Piscina do condomínio Reserva dos Pássaros 2 em Itaboraí" 
-                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>
@@ -287,11 +283,11 @@ export default function ReservaDosPassaros2() {
         <section className="py-20 bg-primary text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
+              <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
                 <img loading="lazy" 
                   src={imgMapa} 
                   alt="Mapa de localização do condomínio Reserva dos Pássaros 2 em Itaboraí, RJ" 
-                  className="w-full h-auto object-cover rounded-2xl aspect-video"
+                  className="w-full h-full object-cover rounded-2xl aspect-video"
                 />
               </div>
               <div className="order-1 lg:order-2">

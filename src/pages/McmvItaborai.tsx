@@ -136,7 +136,7 @@ export default function McmvItaborai() {
         </section>
 
         {/* Reuse the properties list, could filter but we can just show all and specify in title */}
-        <Properties />
+        <Properties filterCity="Itaboraí" />
 
         <section className="py-16 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

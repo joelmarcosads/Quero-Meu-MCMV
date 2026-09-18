@@ -67,57 +67,69 @@ async function prerender() {
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
+  
   const distDir = path.resolve(__dirname, 'dist');
-  
   let sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  const today = new Date().toISOString().split('T')[0];
-
-  for (const route of routes) {
-    const page = await browser.newPage();
-    const actualPort = server.httpServer.address().port;
-    const url = `http://localhost:${actualPort}${route.path}`;
-    console.log(`Prerendering ${route.path}...`);
-    
-    await page.goto(url, { waitUntil: 'networkidle0' });
-    
-    try {
-      await page.waitForFunction('document.title !== ""', { timeout: 10000 });
-      await new Promise(r => setTimeout(r, 500));
-    } catch (e) {
-      console.log(`Timeout waiting for title on ${route.path}, proceeding anyway...`);
-    }
-
-    let html = await page.content();
-    html = cleanHtmlTags(html);
-
-    const routeDir = route.path === '/' ? distDir : path.join(distDir, route.path.slice(1));
-    if (!fs.existsSync(routeDir)) {
-      fs.mkdirSync(routeDir, { recursive: true });
-    }
-
-    const isRoot = route.path === '/';
-    const filePath = isRoot ? path.join(distDir, 'index.prerendered.html') : path.join(routeDir, 'index.html');
-    fs.writeFileSync(filePath, html);
-    console.log(`Saved ${filePath}`);
-    
-    const siteUrl = route.path === '/' ? 'https://queromeumcmv.com.br/' : `https://queromeumcmv.com.br${route.path}`;
-    sitemapXML += `  <url>\n    <loc>${siteUrl}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${route.changefreq}</changefreq>\n    <priority>${route.priority}</priority>\n  </url>\n`;
-    
-    await page.close();
-  }
   
-  sitemapXML += `</urlset>`;
-  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXML);
-  console.log('Saved sitemap.xml');
+  try {
+    for (const route of routes) {
+      const page = await browser.newPage();
+      const actualPort = server.httpServer.address().port;
+      const url = `http://localhost:${actualPort}${route.path}`;
+      console.log(`Prerendering ${route.path}...`);
+      
+      await page.goto(url, { waitUntil: 'networkidle0' });
+      
+      try {
+        // Wait for React to render (root div not empty) and Helmet to inject the title
+        await page.waitForFunction(
+          'document.title !== "" && document.querySelector("#root").childElementCount > 0', 
+          { timeout: 10000 }
+        );
+      } catch (e) {
+        console.log(`Timeout waiting for app to render on ${route.path}, proceeding anyway...`);
+      }
 
-  await browser.close();
-  server.httpServer.close();
+      // Remove runtime GTM scripts serialized by Puppeteer
+      await page.evaluate(() => {
+        document
+          .querySelectorAll('script[src*="googletagmanager.com/gtm.js"]')
+          .forEach((script) => script.remove());
+      });
 
-  if (fs.existsSync(path.join(distDir, 'index.prerendered.html'))) {
-    fs.renameSync(path.join(distDir, 'index.prerendered.html'), path.join(distDir, 'index.html'));
+      let html = await page.content();
+      html = cleanHtmlTags(html);
+
+      const routeDir = route.path === '/' ? distDir : path.join(distDir, route.path.slice(1));
+      if (!fs.existsSync(routeDir)) {
+        fs.mkdirSync(routeDir, { recursive: true });
+      }
+
+      const isRoot = route.path === '/';
+      const filePath = isRoot ? path.join(distDir, 'index.prerendered.html') : path.join(routeDir, 'index.html');
+      fs.writeFileSync(filePath, html);
+      console.log(`Saved ${filePath}`);
+      
+      const siteUrl = route.path === '/' ? 'https://queromeumcmv.com.br/' : `https://queromeumcmv.com.br${route.path}`;
+      sitemapXML += `  <url>\n    <loc>${siteUrl}</loc>\n    <changefreq>${route.changefreq}</changefreq>\n    <priority>${route.priority}</priority>\n  </url>\n`;
+      
+      await page.close();
+    }
+    
+    sitemapXML += `</urlset>`;
+    fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXML);
+    console.log('Saved sitemap.xml');
+
+    if (fs.existsSync(path.join(distDir, 'index.prerendered.html'))) {
+      fs.renameSync(path.join(distDir, 'index.prerendered.html'), path.join(distDir, 'index.html'));
+    }
+    
+    console.log('Prerendering complete!');
+  } finally {
+    console.log('Closing browser and server...');
+    await browser.close();
+    server.httpServer.close();
   }
-  
-  console.log('Prerendering complete!');
 }
 
 prerender().catch(err => {

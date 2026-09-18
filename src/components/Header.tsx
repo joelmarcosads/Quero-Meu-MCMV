@@ -65,8 +65,11 @@ export default function Header() {
 
             {/* Mobile menu button */}
             <button 
-              className="lg:hidden p-2 text-slate-600 hover:text-primary focus:outline-none"
+              className="lg:hidden p-2 text-slate-600 hover:text-primary focus:ring-2 focus:ring-primary rounded-md focus:outline-none"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -79,6 +82,7 @@ export default function Header() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
+            id="mobile-navigation"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

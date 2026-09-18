@@ -42,14 +42,8 @@ export default function ConquistaOceanica() {
                     {
                       "@type": "ListItem",
                       "position": 2,
-                      "name": "MCMV São Gonçalo",
-                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
                       "name": "Conquista Oceânica",
-                      "item": "https://queromeumcmv.com.br/conquistaoceanica"
+                      "item": "https://queromeumcmv.com.br/conquista-oceanica"
                     }
                   ]
                 },
@@ -147,11 +141,11 @@ export default function ConquistaOceanica() {
                   ))}
                 </ul>
               </div>
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
                 <img loading="lazy" 
                   src={imgPiscina} 
                   alt="Piscina do Conquista Oceânica" 
-                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>
@@ -204,11 +198,11 @@ export default function ConquistaOceanica() {
         <section className="py-20 bg-primary text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
+              <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
                 <img loading="lazy" 
-                  src={imgChurrasqueira}
+                  src={imgChurrasqueira} 
                   alt="Churrasqueira do Conquista Oceânica em Maricá, RJ" 
-                  className="w-full h-auto object-cover rounded-2xl aspect-video"
+                  className="w-full h-full object-cover rounded-2xl aspect-video"
                 />
               </div>
               <div className="order-1 lg:order-2">

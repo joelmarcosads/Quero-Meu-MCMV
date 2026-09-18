@@ -29,15 +29,18 @@ export default function Hero() {
     const textoBase = `Olá Joel Marcos! Gostaria de fazer uma simulação de financiamento pelo Minha Casa Minha Vida.\n\n*Meus Dados:*\n- Nome: ${formData.nome}\n- Telefone: ${formData.telefone}\n- E-mail: ${formData.email || 'Não informado'}\n\nVim pelo site Quero Meu MCMV.`;
     const textoCodificado = encodeURIComponent(textoBase);
     
+    // Redirect immediately to ensure popup isn't blocked, but keep state clean
+    window.open(`https://wa.me/${numeroWhatsApp}?text=${textoCodificado}`, '_blank', 'noopener,noreferrer');
+    
+    // Reset form after a brief pause so user sees it processed
     setTimeout(() => {
-      window.open(`https://wa.me/${numeroWhatsApp}?text=${textoCodificado}`, '_blank');
       setSubmitted(false);
       setFormData({
         nome: '',
         email: '',
         telefone: ''
       });
-    }, 1000);
+    }, 500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

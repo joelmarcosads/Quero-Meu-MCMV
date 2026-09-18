@@ -9,6 +9,9 @@ export default function TermsOfUse() {
         <title>Termos de Uso | Quero Meu MCMV</title>
         <meta name="description" content="Leia nossos Termos de Uso e entenda as condições para a utilização do site." />
         <link rel="canonical" href="https://queromeumcmv.com.br/termos-de-uso" />
+        <meta property="og:title" content="Termos de Uso | Quero Meu MCMV" />
+        <meta property="og:description" content="Leia nossos Termos de Uso e entenda as regras de utilização da plataforma." />
+        <meta property="og:url" content="https://queromeumcmv.com.br/termos-de-uso" />
       </Helmet>
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
