@@ -6,18 +6,86 @@ import { CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function McmvItaborai() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://queromeumcmv.com.br/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Minha Casa Minha Vida Itaboraí",
+            "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quais imóveis estão disponíveis em Itaboraí?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Temos diversas opções, como o Prime Club Itaboraí, Flores de Maio e Reserva dos Pássaros 2. Consulte nossa lista de empreendimentos para ver as plantas e metragens disponíveis."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quais documentos são necessários?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Geralmente exigimos RG, CPF, Certidão de Nascimento/Casamento, Comprovante de Residência, Carteira de Trabalho, Extrato do FGTS e os últimos 3 contracheques (ou extratos bancários para autônomos)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como funciona a entrada?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A entrada varia de acordo com a aprovação de crédito da Caixa, o valor do imóvel e o subsídio concedido. Em alguns lançamentos, é possível dar um sinal a partir de R$ 500 ou R$ 1.000 e parcelar o restante da entrada direto com a construtora."
+            }
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Minha Casa Minha Vida em Itaboraí RJ | Quero Meu MCMV</title>
         <meta name="description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
+        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí RJ | Quero Meu MCMV" />
+        <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
+        <meta name="geo.region" content="BR-RJ" />
+        <meta name="geo.placename" content="Itaboraí" />
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
       </Helmet>
       <Header />
       
       <main>
         <section className="py-20 bg-slate-900 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="text-sm font-medium text-slate-400 mb-6" aria-label="Breadcrumb">
+              <ol className="flex items-center space-x-2">
+                <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
+                <li><span className="mx-2">&gt;</span></li>
+                <li className="text-orange-300" aria-current="page">MCMV Itaboraí</li>
+              </ol>
+            </nav>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Minha Casa Minha Vida em Itaboraí - RJ</h1>
             <p className="text-lg text-slate-300 max-w-3xl leading-relaxed">
               O programa habitacional que está transformando a vida de milhares de brasileiros tem oportunidades incríveis em Itaboraí. Conheça as regras, saiba como funciona o financiamento e descubra os melhores empreendimentos disponíveis na cidade.

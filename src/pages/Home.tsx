@@ -5,7 +5,6 @@ import McmvRules from '../components/McmvRules';
 import McmvHighlights from '../components/McmvHighlights';
 import Steps from '../components/Steps';
 import Properties from '../components/Properties';
-import Testimonials from '../components/Testimonials';
 import FAQ from '../components/FAQ';
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet-async';
@@ -13,26 +12,40 @@ import { Helmet } from 'react-helmet-async';
 export default function Home() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "Quero Meu MCMV",
-    "image": "https://queromeumcmv.com.br/capa-open-graph-facebook.jpg",
-    "@id": "https://queromeumcmv.com.br/",
-    "url": "https://queromeumcmv.com.br/",
-    "telephone": "+55 21 96592-8399",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Rua H, nº 492, Retiro São Joaquim",
-      "addressLocality": "Itaboraí",
-      "addressRegion": "RJ",
-      "postalCode": "24.813-066",
-      "addressCountry": "BR"
-    },
-    "areaServed": ["Itaboraí", "São Gonçalo", "Niterói", "Maricá"],
-    "identifier": [
+    "@graph": [
       {
-        "@type": "PropertyValue",
-        "name": "CRECI",
-        "value": "39.583F"
+        "@type": "WebSite",
+        "@id": "https://queromeumcmv.com.br/#website",
+        "url": "https://queromeumcmv.com.br/",
+        "name": "Quero Meu MCMV",
+        "description": "Encontre apartamentos Minha Casa Minha Vida em Itaboraí e São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis.",
+        "publisher": {
+          "@id": "https://queromeumcmv.com.br/#organization"
+        }
+      },
+      {
+        "@type": "RealEstateAgent",
+        "@id": "https://queromeumcmv.com.br/#organization",
+        "name": "Joel Marcos - Corretor de Imóveis",
+        "image": "https://queromeumcmv.com.br/capa-open-graph-facebook.jpg",
+        "url": "https://queromeumcmv.com.br/",
+        "telephone": "+55 21 96592-8399",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Rua H, nº 492, Retiro São Joaquim",
+          "addressLocality": "Itaboraí",
+          "addressRegion": "RJ",
+          "postalCode": "24.813-066",
+          "addressCountry": "BR"
+        },
+        "areaServed": ["Itaboraí", "São Gonçalo", "Niterói", "Maricá"],
+        "identifier": [
+          {
+            "@type": "PropertyValue",
+            "name": "CRECI",
+            "value": "39.583F"
+          }
+        ]
       }
     ]
   };
@@ -63,7 +76,6 @@ export default function Home() {
         <McmvHighlights />
         <Steps />
         <Properties />
-        <Testimonials />
         <FAQ />
       </main>
       <Footer />

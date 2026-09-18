@@ -32,7 +32,32 @@ export default function PrimeClubItaborai() {
           {`
             {
               "@context": "https://schema.org",
-              "@type": "RealEstateListing",
+                            "@graph": [
+                {
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                    {
+                      "@type": "ListItem",
+                      "position": 1,
+                      "name": "Home",
+                      "item": "https://queromeumcmv.com.br/"
+                    },
+                    {
+                      "@type": "ListItem",
+                      "position": 2,
+                      "name": "MCMV Itaboraí",
+                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
+                    },
+                    {
+                      "@type": "ListItem",
+                      "position": 3,
+                      "name": "Prime Club Itaboraí",
+                      "item": "https://queromeumcmv.com.br/primeclubitaborai"
+                    }
+                  ]
+                },
+                {
+                  "@type": "RealEstateListing",
               "name": "Prime Club Itaboraí",
               "description": "Apartamentos de 2 Quartos em Condomínio Clube em Itaboraí",
               "address": {
@@ -46,6 +71,9 @@ export default function PrimeClubItaborai() {
                 "priceCurrency": "BRL",
                 "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
               }
+              ]
+            }
+              ]
             }
           `}
         </script>
@@ -56,7 +84,7 @@ export default function PrimeClubItaborai() {
         {/* Hero Section */}
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img loading="lazy" 
+            <img fetchPriority="high" 
               src={imgCapa} 
               alt="Apartamentos de 2 quartos em condomínio clube Prime Club em Itaboraí RJ" 
               className="w-full h-full object-cover"
@@ -194,7 +222,17 @@ export default function PrimeClubItaborai() {
                 />
               </div>
               <div className="order-1 lg:order-2">
-                <div className="inline-flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full mb-6">
+                              <nav className="text-sm font-medium text-slate-300 mb-6" aria-label="Breadcrumb">
+                <ol className="flex flex-wrap items-center space-x-2">
+                  <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
+                  <li><span className="mx-2">&gt;</span></li>
+                  <li><a href="/minha-casa-minha-vida-itaborai" className="hover:text-white transition-colors">MCMV Itaboraí</a></li>
+                  <li><span className="mx-2">&gt;</span></li>
+                  <li className="text-orange-300" aria-current="page">Prime Club Itaboraí</li>
+                </ol>
+              </nav>
+
+              <div className="inline-flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full mb-6">
                   <MapPin className="w-5 h-5 text-accent" />
                   <span className="font-semibold tracking-wide uppercase text-sm">Itaboraí - RJ</span>
                 </div>

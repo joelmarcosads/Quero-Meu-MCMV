@@ -27,20 +27,47 @@ export default function SolarDaTrindade() {
           {`
             {
               "@context": "https://schema.org",
-              "@type": "RealEstateListing",
-              "name": "Solar da Trindade",
-              "description": "Apartamentos de 2 Quartos em São Gonçalo",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "São Gonçalo",
-                "addressRegion": "RJ",
-                "addressCountry": "BR"
-              },
-              "offers": {
-                "@type": "Offer",
-                "priceCurrency": "BRL",
-                "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
-              }
+              "@graph": [
+                {
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                    {
+                      "@type": "ListItem",
+                      "position": 1,
+                      "name": "Home",
+                      "item": "https://queromeumcmv.com.br/"
+                    },
+                    {
+                      "@type": "ListItem",
+                      "position": 2,
+                      "name": "MCMV São Gonçalo",
+                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo"
+                    },
+                    {
+                      "@type": "ListItem",
+                      "position": 3,
+                      "name": "Solar da Trindade",
+                      "item": "https://queromeumcmv.com.br/solar-da-trindade"
+                    }
+                  ]
+                },
+                {
+                  "@type": "RealEstateListing",
+                  "name": "Solar da Trindade",
+                  "description": "Apartamentos de 2 Quartos em São Gonçalo",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "São Gonçalo",
+                    "addressRegion": "RJ",
+                    "addressCountry": "BR"
+                  },
+                  "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "BRL",
+                    "description": "Consulte condições, sujeito à análise de crédito"
+                  }
+                }
+              ]
             }
           `}
         </script>
@@ -51,7 +78,7 @@ export default function SolarDaTrindade() {
         {/* Hero Section */}
         <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img loading="lazy" 
+            <img fetchPriority="high" 
               src={imgFachada} 
               alt="Apartamentos de 2 quartos no Solar da Trindade em São Gonçalo RJ" 
               className="w-full h-full object-cover"

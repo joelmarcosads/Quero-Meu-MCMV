@@ -6,18 +6,86 @@ import { CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function McmvSaoGoncalo() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://queromeumcmv.com.br/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Minha Casa Minha Vida São Gonçalo",
+            "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Existem apartamentos Minha Casa Minha Vida em São Gonçalo?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim! Trabalhamos com diversas opções como o Solar da Trindade e o Residencial Florescer, que oferecem apartamentos de 2 e 3 quartos, suíte e varanda."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso usar meu FGTS na compra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim, o FGTS pode ser utilizado como parte do pagamento da entrada ou para reduzir o valor das parcelas do financiamento, desde que você tenha pelo menos 3 anos de trabalho sob regime do FGTS (somando todos os períodos trabalhados)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como solicitar uma simulação?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Basta clicar em qualquer botão de simulação no nosso site ou entrar em contato direto pelo WhatsApp. Faremos a sua análise de forma ágil e transparente."
+            }
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV</title>
         <meta name="description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
+        <meta property="og:title" content="Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV" />
+        <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
+        <meta name="geo.region" content="BR-RJ" />
+        <meta name="geo.placename" content="São Gonçalo" />
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
       </Helmet>
       <Header />
       
       <main>
         <section className="py-20 bg-slate-900 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="text-sm font-medium text-slate-400 mb-6" aria-label="Breadcrumb">
+              <ol className="flex items-center space-x-2">
+                <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
+                <li><span className="mx-2">&gt;</span></li>
+                <li className="text-orange-300" aria-current="page">MCMV São Gonçalo</li>
+              </ol>
+            </nav>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Minha Casa Minha Vida em São Gonçalo - RJ</h1>
             <p className="text-lg text-slate-300 max-w-3xl leading-relaxed">
               Descubra as melhores opções de apartamentos e casas financiadas pela Caixa em São Gonçalo. Entenda o processo de compra, análise de crédito e conquiste a sua casa própria com as vantagens do programa.
