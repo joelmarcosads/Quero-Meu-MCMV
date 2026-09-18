@@ -17,6 +17,7 @@ export default function SolarDaTrindade() {
 <link rel="canonical" href="https://queromeumcmv.com.br/solar-da-trindade" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/solar-da-trindade" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-solar-trindade.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Solar da Trindade em São Gonçalo" />
         <meta property="og:title" content="Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida" />

@@ -1,9 +1,15 @@
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
+            <Helmet>
+        <title>Política de Privacidade | Quero Meu MCMV</title>
+        <meta name="description" content="Leia nossa Política de Privacidade e saiba como protegemos seus dados." />
+        <link rel="canonical" href="https://queromeumcmv.com.br/politica-de-privacidade" />
+      </Helmet>
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
         <h1 className="text-4xl font-extrabold text-slate-900 mb-8 tracking-tight">Política de Privacidade</h1>

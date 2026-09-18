@@ -18,6 +18,7 @@ export default function ConquistaOceanica() {
 <link rel="canonical" href="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Conquista Oceânica em Maricá" />
         <meta property="og:title" content="Conquista Oceânica | 1 e 2 Quartos em Maricá" />
@@ -67,10 +68,9 @@ export default function ConquistaOceanica() {
                 "priceCurrency": "BRL",
                 "description": "Financiamento pelo programa Minha Casa Minha Vida"
               }
-              ]
             }
-              ]
-            }
+          ]
+        }
           `}
         </script>
       </Helmet>

@@ -17,6 +17,7 @@ export default function FloresDeMaio() {
 <link rel="canonical" href="https://queromeumcmv.com.br/flores-de-maio" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/flores-de-maio" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-flores-de-maio.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Flores de Maio em Itaboraí" />
         <meta property="og:title" content="Flores de Maio | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
@@ -66,10 +67,9 @@ export default function FloresDeMaio() {
                 "priceCurrency": "BRL",
                 "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
               }
-              ]
             }
-              ]
-            }
+          ]
+        }
           `}
         </script>
       </Helmet>

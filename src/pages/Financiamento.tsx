@@ -11,6 +11,9 @@ export default function Financiamento() {
         <title>Como Financiar pelo Minha Casa Minha Vida | Subsídio e FGTS</title>
         <meta name="description" content="Entenda como funciona o financiamento Minha Casa Minha Vida. Saiba quem pode participar, como usar o FGTS, conseguir subsídio e os documentos necessários." />
         <link rel="canonical" href="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
+        <meta property="og:title" content="Como Financiar pelo Minha Casa Minha Vida | Subsídio e FGTS" />
+        <meta property="og:description" content="Entenda como funciona o financiamento Minha Casa Minha Vida. Saiba quem pode participar, como usar o FGTS, conseguir subsídio e os documentos necessários." />
+        <meta property="og:url" content="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
       </Helmet>
       <Header />
       

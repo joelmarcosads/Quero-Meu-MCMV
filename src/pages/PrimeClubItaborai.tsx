@@ -18,6 +18,7 @@ export default function PrimeClubItaborai() {
         <link rel="canonical" href="https://queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Prime Club Itaboraí" />
         <meta property="og:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
@@ -71,10 +72,9 @@ export default function PrimeClubItaborai() {
                 "priceCurrency": "BRL",
                 "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
               }
-              ]
             }
-              ]
-            }
+          ]
+        }
           `}
         </script>
       </Helmet>

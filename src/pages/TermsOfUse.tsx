@@ -1,9 +1,15 @@
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function TermsOfUse() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
+            <Helmet>
+        <title>Termos de Uso | Quero Meu MCMV</title>
+        <meta name="description" content="Leia nossos Termos de Uso e entenda as condições para a utilização do site." />
+        <link rel="canonical" href="https://queromeumcmv.com.br/termos-de-uso" />
+      </Helmet>
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
         <h1 className="text-4xl font-extrabold text-slate-900 mb-8 tracking-tight">Termos de Uso</h1>

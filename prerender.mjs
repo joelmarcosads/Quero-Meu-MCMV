@@ -22,6 +22,38 @@ const routes = [
   { path: '/sobre', priority: '0.8', changefreq: 'monthly' }
 ];
 
+function cleanHtmlTags(html) {
+    const tagsToClean = [
+        { regex: /<title[^>]*>.*?<\/title>/gi, name: 'Title' },
+        { regex: /<meta[^>]*name="description"[^>]*>/gi, name: 'Description' },
+        { regex: /<link[^>]*rel="canonical"[^>]*>/gi, name: 'Canonical' },
+        { regex: /<meta[^>]*property="og:title"[^>]*>/gi, name: 'og:title' },
+        { regex: /<meta[^>]*property="og:description"[^>]*>/gi, name: 'og:description' },
+        { regex: /<meta[^>]*property="og:url"[^>]*>/gi, name: 'og:url' },
+        { regex: /<meta[^>]*property="og:image"[^>]*>/gi, name: 'og:image' },
+        { regex: /<meta[^>]*property="og:image:alt"[^>]*>/gi, name: 'og:image:alt' },
+        { regex: /<meta[^>]*name="geo\.region"[^>]*>/gi, name: 'geo.region' },
+        { regex: /<meta[^>]*name="geo\.placename"[^>]*>/gi, name: 'geo.placename' },
+    ];
+
+    tagsToClean.forEach(tagConfig => {
+        const matches = html.match(tagConfig.regex) || [];
+        if (matches.length > 1) {
+            let keptTag = matches.find(t => t.includes('data-rh')) || matches[matches.length - 1];
+            html = html.replace(tagConfig.regex, `<!--PLACEHOLDER_${tagConfig.name}-->`);
+            let first = true;
+            html = html.replace(new RegExp(`<!--PLACEHOLDER_${tagConfig.name}-->`, 'g'), () => {
+                if (first) {
+                    first = false;
+                    return keptTag;
+                }
+                return '';
+            });
+        }
+    });
+    return html;
+}
+
 async function prerender() {
   console.log('Starting preview server...');
   const server = await preview({
@@ -30,16 +62,13 @@ async function prerender() {
       host: 'localhost',
     }
   });
-
   console.log('Server started. Launching Puppeteer...');
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
-
   const distDir = path.resolve(__dirname, 'dist');
   
-  // Create sitemap
   let sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   const today = new Date().toISOString().split('T')[0];
 
@@ -51,20 +80,16 @@ async function prerender() {
     
     await page.goto(url, { waitUntil: 'networkidle0' });
     
-    // Wait for react-helmet-async to finish its work
-    // We check if title is not empty, since we removed the original one.
-    // If it takes too long, we timeout and proceed, but it should happen fast.
     try {
       await page.waitForFunction('document.title !== ""', { timeout: 10000 });
-      // Add a slight delay for any other JS
       await new Promise(r => setTimeout(r, 500));
     } catch (e) {
       console.log(`Timeout waiting for title on ${route.path}, proceeding anyway...`);
     }
 
     let html = await page.content();
+    html = cleanHtmlTags(html);
 
-    // The route can be `/` or `/something`
     const routeDir = route.path === '/' ? distDir : path.join(distDir, route.path.slice(1));
     if (!fs.existsSync(routeDir)) {
       fs.mkdirSync(routeDir, { recursive: true });
@@ -75,22 +100,23 @@ async function prerender() {
     fs.writeFileSync(filePath, html);
     console.log(`Saved ${filePath}`);
     
-    // Add to sitemap
     const siteUrl = route.path === '/' ? 'https://queromeumcmv.com.br/' : `https://queromeumcmv.com.br${route.path}`;
     sitemapXML += `  <url>\n    <loc>${siteUrl}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${route.changefreq}</changefreq>\n    <priority>${route.priority}</priority>\n  </url>\n`;
     
     await page.close();
   }
-
+  
   sitemapXML += `</urlset>`;
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXML);
   console.log('Saved sitemap.xml');
 
   await browser.close();
   server.httpServer.close();
+
   if (fs.existsSync(path.join(distDir, 'index.prerendered.html'))) {
     fs.renameSync(path.join(distDir, 'index.prerendered.html'), path.join(distDir, 'index.html'));
   }
+  
   console.log('Prerendering complete!');
 }
 

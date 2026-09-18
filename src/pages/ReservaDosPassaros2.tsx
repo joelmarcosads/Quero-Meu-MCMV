@@ -17,6 +17,7 @@ export default function ReservaDosPassaros2() {
         <meta name="description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
         <link rel="canonical" href="https://queromeumcmv.com.br/reserva-dos-passaros-2" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/reserva-dos-passaros-2" />
         <meta property="og:title" content="Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí" />
         <meta property="og:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-da-casa-reserva-dos-passaros.webp" />

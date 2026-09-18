@@ -18,6 +18,7 @@ export default function ResidencialFlorescer() {
 <link rel="canonical" href="https://queromeumcmv.com.br/residencial-florescer" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://queromeumcmv.com.br/residencial-florescer" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-residencial-florescer.webp" />
         <meta property="og:image:alt" content="Fachada do Residencial Florescer em São Gonçalo" />
         <meta property="og:title" content="Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo" />
@@ -67,10 +68,9 @@ export default function ResidencialFlorescer() {
                 "priceCurrency": "BRL",
                 "description": "Condições exclusivas de negociação para as últimas unidades"
               }
-              ]
             }
-              ]
-            }
+          ]
+        }
           `}
         </script>
       </Helmet>

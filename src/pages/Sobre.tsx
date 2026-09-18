@@ -11,6 +11,9 @@ export default function Sobre() {
         <title>Sobre Nós | Joel Marcos - Corretor de Imóveis MCMV</title>
         <meta name="description" content="Conheça Joel Marcos, corretor de imóveis CRECI 39.583F especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Niterói." />
         <link rel="canonical" href="https://queromeumcmv.com.br/sobre" />
+        <meta property="og:title" content="Sobre Nós | Joel Marcos - Corretor de Imóveis MCMV" />
+        <meta property="og:description" content="Conheça Joel Marcos, corretor especialista em imóveis do Minha Casa Minha Vida em Itaboraí e São Gonçalo." />
+        <meta property="og:url" content="https://queromeumcmv.com.br/sobre" />
       </Helmet>
       <Header />
       
