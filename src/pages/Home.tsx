@@ -27,7 +27,7 @@ export default function Home() {
         "@type": "RealEstateAgent",
         "@id": "https://queromeumcmv.com.br/#organization",
         "name": "Joel Marcos - Corretor de Imóveis",
-        "image": "https://queromeumcmv.com.br/capa-open-graph-facebook.jpg",
+        "image": "https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp",
         "url": "https://queromeumcmv.com.br/",
         "telephone": "+55 21 96592-8399",
         "address": {
@@ -61,7 +61,7 @@ export default function Home() {
         <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí e São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/" />
-        <meta property="og:image" content="https://queromeumcmv.com.br/capa-open-graph-facebook.jpg" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta property="og:image:alt" content="Quero Meu MCMV - Apartamentos e Lançamentos em Itaboraí e São Gonçalo" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí, São Gonçalo" />
