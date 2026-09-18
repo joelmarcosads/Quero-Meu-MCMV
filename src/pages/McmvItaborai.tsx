@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Properties from '../components/Properties';
 import { CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AuthorProfile from '../components/AuthorProfile';
 
 export default function McmvItaborai() {
   const schema = {
@@ -136,7 +137,30 @@ export default function McmvItaborai() {
         </section>
 
         {/* Reuse the properties list, could filter but we can just show all and specify in title */}
-        <Properties filterCity="Itaboraí" />
+        
+        <section className="py-12 bg-slate-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Link to="/renda-minha-casa-minha-vida" className="bg-white p-6 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition-all">
+                <h3 className="font-bold text-slate-900 mb-2">Faixas de Renda</h3>
+                <p className="text-sm text-slate-600">Descubra sua faixa de renda e os limites de aprovação para Itaboraí.</p>
+              </Link>
+              <Link to="/subsidio-minha-casa-minha-vida" className="bg-white p-6 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition-all">
+                <h3 className="font-bold text-slate-900 mb-2">Subsídio MCMV</h3>
+                <p className="text-sm text-slate-600">Entenda como conseguir desconto na compra do seu apartamento.</p>
+              </Link>
+              <Link to="/fgts-minha-casa-minha-vida" className="bg-white p-6 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition-all">
+                <h3 className="font-bold text-slate-900 mb-2">Uso do FGTS</h3>
+                <p className="text-sm text-slate-600">Saiba como abater a entrada usando o seu saldo do Fundo de Garantia.</p>
+              </Link>
+              <Link to="/documentos-minha-casa-minha-vida" className="bg-white p-6 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition-all">
+                <h3 className="font-bold text-slate-900 mb-2">Documentos</h3>
+                <p className="text-sm text-slate-600">Veja o que separar para aprovar seu crédito imobiliário na Caixa.</p>
+              </Link>
+            </div>
+          </div>
+        </section>
+    <Properties filterCity="Itaboraí" />
 
         <section className="py-16 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,6 +182,12 @@ export default function McmvItaborai() {
             </div>
           </div>
         </section>
+        <section className="py-12 bg-slate-50 border-t border-slate-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <AuthorProfile />
+          </div>
+        </section>
+    
       </main>
       
       <Footer />

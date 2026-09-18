@@ -19,6 +19,10 @@ const routes = [
   { path: '/minha-casa-minha-vida-itaborai', priority: '0.9', changefreq: 'weekly' },
   { path: '/minha-casa-minha-vida-sao-goncalo', priority: '0.9', changefreq: 'weekly' },
   { path: '/financiamento-minha-casa-minha-vida', priority: '0.9', changefreq: 'monthly' },
+  { path: '/fgts-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
+  { path: '/subsidio-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
+  { path: '/renda-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
+  { path: '/documentos-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
   { path: '/sobre', priority: '0.8', changefreq: 'monthly' }
 ];
 

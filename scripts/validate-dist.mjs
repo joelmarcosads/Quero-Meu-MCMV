@@ -83,6 +83,17 @@ for (const file of files) {
         console.error(`  ERROR: og:url mismatch. Expected ${canonical}, got ${ogUrl}`);
     }
     
+    
+    // Check visual breadcrumbs for Maricá
+    if (route === '/conquista-oceanica' && html.includes('MCMV São Gonçalo')) {
+       if (html.indexOf('MCMV São Gonçalo') < html.indexOf('<main>') || html.indexOf('MCMV São Gonçalo') > html.indexOf('</main>')) {
+           // allow in footer/header
+       } else {
+           hasErrors = true;
+           console.error(`  ERROR: Conquista Oceânica HTML contains São Gonçalo in main content`);
+       }
+    }
+
     // JSON-LD
     const schemaMatches = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
     for (const match of schemaMatches) {

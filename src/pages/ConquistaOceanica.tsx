@@ -210,8 +210,7 @@ export default function ConquistaOceanica() {
                 <ol className="flex flex-wrap items-center space-x-2">
                   <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
                   <li><span className="mx-2">&gt;</span></li>
-                  <li><a href="/minha-casa-minha-vida-sao-goncalo" className="hover:text-white transition-colors">MCMV São Gonçalo</a></li>
-                  <li><span className="mx-2">&gt;</span></li>
+                  
                   <li className="text-orange-300" aria-current="page">Conquista Oceânica</li>
                 </ol>
               </nav>
