@@ -67,7 +67,7 @@ export default function Hero() {
                 <span className="text-base sm:text-lg font-medium">Subsídio sujeito à análise de crédito</span>
               </li>
             </ul>
-            <div className="text-xs text-slate-400 mb-6 text-center lg:text-left">*Condições sujeitas à análise de crédito, renda e disponibilidade do empreendimento com a construtora e instituição financeira.</div>
+            <div className="text-[10px] text-slate-400 italic mb-6 text-center lg:text-left">*As informações podem sofrer alteração sem prévio aviso. Consulte preço, condições de pagamento e disponibilidade. Cadastre-se para mais informações.</div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700 max-w-md mx-auto lg:mx-0">
               <div className="flex items-center justify-center bg-accent/20 p-2 rounded-full">

@@ -129,88 +129,82 @@ export default function ConquistaOceanica() {
           </div>
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              {/* Left Column - Copy, Diferenciais e Estatísticas alinhados com o Formulário */}
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+              {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="lg:col-span-7 flex flex-col justify-center text-left space-y-5"
+                className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
               >
-                <div>
-                  <div className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-accent/90 border border-amber-300/30 text-white text-xs sm:text-sm font-bold tracking-wider uppercase shadow-lg">
-                    <MapPin className="w-3.5 h-3.5 text-amber-200" />
-                    <span>Maricá / Divisa Niterói • Minha Casa Minha Vida</span>
+                {/* Topo do Texto - Alinhado ao topo do formulário */}
+                <div className="space-y-4">
+                  <div>
+                    <div className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-accent/90 border border-amber-300/30 text-white text-xs sm:text-sm font-bold tracking-wider uppercase shadow-lg">
+                      <MapPin className="w-3.5 h-3.5 text-amber-200" />
+                      <span>Maricá / Divisa Niterói • Minha Casa Minha Vida</span>
+                    </div>
+                  </div>
+
+                  <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-black leading-[1.18] text-white drop-shadow-md tracking-tight">
+                    Conquista Oceânica: 1 e 2 Quartos a Minutos das Praias de Niterói
+                  </h1>
+
+                  <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
+                    More no empreendimento Direcional que conecta você à tranquilidade e às praias da Região Oceânica. Condomínio fechado com lazer completo, conforto e condições do <strong className="text-white font-semibold">Minha Casa Minha Vida</strong>.
+                  </p>
+                </div>
+
+                {/* Meio - 4 Diferenciais em Grade e Cards de Condições */}
+                <div className="space-y-4 my-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-inner">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                        <Home className="w-4 h-4 text-amber-300" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-100">1 e 2 Quartos com Opção de Gardens</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                        <Shield className="w-4 h-4 text-amber-300" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-100">Condomínio Fechado com Portaria 24h</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                        <Waves className="w-4 h-4 text-amber-300" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-100">Piscina, Espaço Gourmet e Área Pet</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                        <MapPin className="w-4 h-4 text-amber-300" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-100">Acesso Direto à Região Oceânica e Niterói</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Até R$ 55 Mil</span>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Garantia Total</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Caixa Federal</span>
+                    </div>
                   </div>
                 </div>
 
-                <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-black leading-[1.18] text-white drop-shadow-md tracking-tight">
-                  Conquista Oceânica: 1 e 2 Quartos a Minutos das Praias de Niterói
-                </h1>
-
-                <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-                  More no empreendimento Direcional que conecta você à tranquilidade e às praias da Região Oceânica. Condomínio fechado com lazer completo, conforto e condições do <strong className="text-white font-semibold">Minha Casa Minha Vida</strong>.
-                </p>
-
-                {/* 4 Diferenciais em Grade */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-inner">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
-                      <Home className="w-4 h-4 text-amber-300" />
-                    </div>
-                    <span className="text-sm font-medium text-slate-100">1 e 2 Quartos com Opção de Gardens</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
-                      <Shield className="w-4 h-4 text-amber-300" />
-                    </div>
-                    <span className="text-sm font-medium text-slate-100">Condomínio Fechado com Portaria 24h</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
-                      <Waves className="w-4 h-4 text-amber-300" />
-                    </div>
-                    <span className="text-sm font-medium text-slate-100">Piscina, Espaço Gourmet e Área Pet</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
-                      <MapPin className="w-4 h-4 text-amber-300" />
-                    </div>
-                    <span className="text-sm font-medium text-slate-100">Acesso Direto à Região Oceânica e Niterói</span>
-                  </div>
-                </div>
-
-                {/* Cards de Condições */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                    <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
-                    <span className="block text-base sm:text-lg font-black text-amber-300">Até R$ 55 Mil</span>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Garantia Total</span>
-                    <span className="block text-base sm:text-lg font-black text-amber-300">Caixa Federal</span>
-                  </div>
-                </div>
-
-                {/* CTA WhatsApp com Selo */}
-                <div className="pt-1 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <a 
-                    href={gerarLinkWhatsApp(nomeEmpreendimento, "Agendar Atendimento Exclusivo")} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    <span>Simulação Rápida no WhatsApp</span>
-                  </a>
-                  <span className="text-xs text-slate-300 flex items-center gap-1.5">
-                    <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                    Atendimento imediato por especialista Caixa
-                  </span>
+                {/* Rodapé do Texto - Alinhado à base do formulário com Aviso Legal Fonte 10 */}
+                <div className="pt-2">
+                  <p className="text-[10px] text-slate-300/80 leading-normal italic border-t border-white/10 pt-2">
+                    *As informações podem sofrer alteração sem prévio aviso. Consulte preço, condições de pagamento e disponibilidade. Cadastre-se para mais informações.
+                  </p>
                 </div>
               </motion.div>
 
@@ -220,7 +214,7 @@ export default function ConquistaOceanica() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 self-center"
+                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 flex flex-col justify-center"
               >
                 <LeadForm />
               </motion.div>
