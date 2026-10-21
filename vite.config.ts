@@ -38,6 +38,9 @@ export default defineConfig(({mode}) => {
   return {
     appType: 'spa',
     plugins: [react(), tailwindcss(), inlineCssPlugin()],
+    define: {
+      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

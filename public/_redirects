@@ -1,1 +1,33 @@
-/*    /index.html    200
+# Redirecionamentos 301 de trailing slash para URLs canonicas sem barra final
+/politica-de-privacidade/            /politica-de-privacidade            301
+/termos-de-uso/                     /termos-de-uso                      301
+/reserva-dos-passaros-2/             /reserva-dos-passaros-2             301
+/prime-club-itaborai/               /prime-club-itaborai                301
+/flores-de-maio/                    /flores-de-maio                     301
+/solar-da-trindade/                 /solar-da-trindade                  301
+/residencial-florescer/             /residencial-florescer              301
+/conquista-oceanica/                /conquista-oceanica                 301
+/minha-casa-minha-vida-itaborai/    /minha-casa-minha-vida-itaborai     301
+/minha-casa-minha-vida-sao-goncalo/ /minha-casa-minha-vida-sao-goncalo   301
+/financiamento-minha-casa-minha-vida/ /financiamento-minha-casa-minha-vida 301
+/fgts-minha-casa-minha-vida/        /fgts-minha-casa-minha-vida         301
+/subsidio-minha-casa-minha-vida/    /subsidio-minha-casa-minha-vida     301
+/renda-minha-casa-minha-vida/       /renda-minha-casa-minha-vida        301
+/documentos-minha-casa-minha-vida/  /documentos-minha-casa-minha-vida   301
+/sobre/                             /sobre                              301
+/obrigado/                          /obrigado                           301
+
+# Redirecionamentos historicos (slugs legados sem hifen)
+/primeclubitaborai                  /prime-club-itaborai                301
+/primeclubitaborai/                 /prime-club-itaborai                301
+/floresdemaio                       /flores-de-maio                     301
+/floresdemaio/                      /flores-de-maio                     301
+/reservadospassaros2                /reserva-dos-passaros-2             301
+/reservadospassaros2/               /reserva-dos-passaros-2             301
+/residencialflorescer               /residencial-florescer              301
+/residencialflorescer/              /residencial-florescer              301
+/conquistaoceanica                  /conquista-oceanica                 301
+/conquistaoceanica/                 /conquista-oceanica                 301
+
+# SPA rewrite fallback
+/*                                  /index.html                         200

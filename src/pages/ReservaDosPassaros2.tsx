@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
@@ -22,6 +23,12 @@ export default function ReservaDosPassaros2() {
         <meta property="og:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-da-casa-reserva-dos-passaros.webp" />
         <meta property="og:image:alt" content="Fachada da casa no Reserva dos Pássaros 2 em Itaboraí" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí" />
+        <meta name="twitter:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-da-casa-reserva-dos-passaros.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
         <link rel="preload" as="image" href="/fachada-da-casa-reserva-dos-passaros.webp" />
@@ -150,61 +157,75 @@ export default function ReservaDosPassaros2() {
       <Header />
       
       <main>
-        {/* Hero Section */}
-        <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
+        {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
+        <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img fetchPriority="high" 
               src={imgFachada} 
               alt="Casas de 2 quartos em condomínio fechado Reserva dos Pássaros 2 em Itaboraí RJ" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-slate-900/75"></div>
+            <div className="absolute inset-0 bg-slate-900/80"></div>
           </div>
           
-          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl mx-auto"
-            >
-              <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-sm font-bold tracking-widest mb-6 uppercase shadow-lg">
-                Lançamento Imobiliário em Itaboraí - RJ
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight text-white drop-shadow-md">
-                Reserva dos Pássaros 2: Casa de 2 Quartos em Condomínio Clube em Itaboraí
-              </h1>
-              <p className="text-xl md:text-2xl text-slate-200 mb-10 text-justify md:text-center leading-relaxed font-medium">
-                Dê adeus ao barulho de apartamentos geminados e conquiste seu quintal privativo. Viva com total segurança, liberdade e lazer de resort. Financiamento facilitado com a chancela da <strong className="text-white">Realiza Construtora</strong> e garantia da <strong className="text-white">Caixa Econômica Federal</strong>.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center w-full sm:w-1/3">
-                  <span className="block text-sm font-semibold text-blue-200 mb-1">Entrada Facilitada</span>
-                  <span className="block text-2xl font-bold text-accent">Sinal de R$ 1.000</span>
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left Column - Copy & Benefícios */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="lg:col-span-7 text-left"
+              >
+                <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-xs sm:text-sm font-bold tracking-widest mb-4 uppercase shadow-lg">
+                  Lançamento Imobiliário em Itaboraí - RJ
+                </span>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 leading-tight text-white drop-shadow-md">
+                  Reserva dos Pássaros 2: Casa de 2 Quartos em Condomínio Clube em Itaboraí
+                </h1>
+                <p className="text-base sm:text-lg text-slate-200 mb-6 leading-relaxed font-normal">
+                  Dê adeus ao barulho de apartamentos geminados e conquiste seu quintal privativo. Viva com total segurança, liberdade e lazer de resort. Financiamento facilitado com a chancela da <strong className="text-white">Realiza Construtora</strong> e garantia da <strong className="text-white">Caixa Econômica Federal</strong>.
+                </p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Entrada Facilitada</span>
+                    <span className="block text-lg sm:text-xl font-bold text-accent">Sinal R$ 1.000</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Programa Governo</span>
+                    <span className="block text-lg sm:text-xl font-bold text-accent">Subsídio até R$ 55 Mil</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Garantia</span>
+                    <span className="block text-lg sm:text-xl font-bold text-accent">Caixa Federal</span>
+                  </div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center w-full sm:w-1/3">
-                  <span className="block text-sm font-semibold text-blue-200 mb-1">Programa do Governo</span>
-                  <span className="block text-2xl font-bold text-accent">Subsídio até R$ 55 Mil</span>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a 
+                    href={`https://wa.me/5521965928399?text=${encodeURIComponent("Olá! Quero fazer uma simulação de financiamento para o Reserva dos Pássaros 2 com entrada de R$ 1.000.")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 inline-flex items-center justify-center"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Simulação Rápida no WhatsApp
+                  </a>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center w-full sm:w-1/3">
-                  <span className="block text-sm font-semibold text-blue-200 mb-1">Garantia Construtiva</span>
-                  <span className="block text-2xl font-bold text-accent">Caixa Econômica</span>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a 
-                  href={`https://wa.me/5521965928399?text=${encodeURIComponent("Olá! Quero fazer uma simulação de financiamento para o Reserva dos Pássaros 2 com entrada de R$ 1.000.")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
-                >
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  Fazer Simulação de Financiamento
-                </a>
-              </div>
-            </motion.div>
+              </motion.div>
+
+              {/* Right Column - Strategic Lead Form na 1ª Dobra */}
+              <motion.div
+                id="formulario"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900"
+              >
+                <LeadForm />
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -371,21 +392,30 @@ export default function ReservaDosPassaros2() {
         
         {/* Call to Action Final - Gatilho de Escassez e Urgência */}
         <section className="py-16 bg-slate-100 border-t border-slate-200">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">
               A oportunidade de sair do aluguel está acabando.
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
               As unidades não geminadas da Realiza Construtora em Itaboraí possuem disponibilidade rigorosamente limitada na fase de lançamento. Fale com um corretor para assegurar as melhores condições.
             </p>
-            <a 
-              href={`https://wa.me/5521965928399?text=${encodeURIComponent("Olá! Gostaria de consultar a tabela de valores e as unidades disponíveis do Reserva dos Pássaros 2.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
-            >
-              Consultar Disponibilidade e Valores
-            </a>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <a 
+                href="#formulario"
+                className="inline-flex items-center justify-center bg-accent hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl text-lg transform hover:-translate-y-1"
+              >
+                Preencher Formulário de Simulação
+              </a>
+              <a 
+                href={`https://wa.me/5521965928399?text=${encodeURIComponent("Olá! Gostaria de consultar a tabela de valores e as unidades disponíveis do Reserva dos Pássaros 2.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Consultar Disponibilidade e Valores
+              </a>
+            </div>
           </div>
         </section>
 

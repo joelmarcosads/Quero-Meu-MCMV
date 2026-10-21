@@ -3,7 +3,9 @@ import { Suspense, lazy } from 'react';
 import { LazyMotion, domAnimation } from 'motion/react';
 import ScrollToTop from './components/ScrollToTop';
 import WhatsAppButton from "./components/WhatsAppButton";
+import UtmTracker from "./components/UtmTracker";
 import Home from './pages/Home';
+import Obrigado from './pages/Obrigado';
 
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfUse = lazy(() => import('./pages/TermsOfUse'));
@@ -24,14 +26,20 @@ const Sobre = lazy(() => import('./pages/Sobre'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 export default function App() {
+  if (typeof window !== 'undefined' && (window.location.pathname === '/obrigado' || window.location.pathname === '/obrigado/')) {
+    return <Obrigado />;
+  }
+
   return (
     <LazyMotion features={domAnimation}>
       <BrowserRouter>
         <ScrollToTop />
         <WhatsAppButton />
+        <UtmTracker />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"></div></div>}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/obrigado" element={<Obrigado />} />
             <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
             <Route path="/termos-de-uso" element={<TermsOfUse />} />
             <Route path="/reserva-dos-passaros-2" element={<ReservaDosPassaros2 />} />

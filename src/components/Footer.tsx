@@ -49,6 +49,26 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/subsidio-minha-casa-minha-vida" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Subsídio MCMV
+                </Link>
+              </li>
+              <li>
+                <Link to="/fgts-minha-casa-minha-vida" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Uso do FGTS
+                </Link>
+              </li>
+              <li>
+                <Link to="/renda-minha-casa-minha-vida" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Faixas de Renda
+                </Link>
+              </li>
+              <li>
+                <Link to="/documentos-minha-casa-minha-vida" className="text-sm hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Documentos Caixa
+                </Link>
+              </li>
+              <li>
                 <Link to="/sobre" className="text-sm hover:text-white transition-colors flex items-center">
                   <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Sobre o Corretor
                 </Link>

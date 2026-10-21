@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Gamepad2, Sun } from 'lucide-react';
@@ -23,13 +24,19 @@ export default function ResidencialFlorescer() {
         <meta property="og:image:alt" content="Fachada do Residencial Florescer em São Gonçalo" />
         <meta property="og:title" content="Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo" />
         <meta property="og:description" content="Eleve seu padrão de vida no Residencial Florescer em Vila Iara, São Gonçalo - RJ. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e lazer completo." />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo" />
+        <meta name="twitter:description" content="Eleve seu padrão de vida no Residencial Florescer em Vila Iara, São Gonçalo - RJ. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e lazer completo." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-residencial-florescer.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Vila Iara, São Gonçalo" />
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
-                            "@graph": [
+              "@graph": [
                 {
                   "@type": "BreadcrumbList",
                   "itemListElement": [
@@ -55,68 +62,119 @@ export default function ResidencialFlorescer() {
                 },
                 {
                   "@type": "RealEstateListing",
-              "name": "Residencial Florescer",
-              "description": "Apartamentos de 2 e 3 Quartos com Suíte e Varanda Gourmet em São Gonçalo",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "São Gonçalo",
-                "addressRegion": "RJ",
-                "addressCountry": "BR"
-              },
-              "offers": {
-                "@type": "Offer",
-                "priceCurrency": "BRL",
-                "description": "Condições exclusivas de negociação para as últimas unidades"
-              }
+                  "name": "Residencial Florescer",
+                  "description": "Apartamentos de 2 e 3 Quartos com Suíte e Varanda Gourmet em São Gonçalo",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "São Gonçalo",
+                    "addressRegion": "RJ",
+                    "addressCountry": "BR"
+                  },
+                  "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "BRL",
+                    "description": "Condições exclusivas de negociação para as últimas unidades"
+                  }
+                },
+                {
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "Onde fica localizado o Residencial Florescer?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "O Residencial Florescer está estrategicamente localizado no bairro de Vila Iara, em São Gonçalo, RJ, oferecendo fácil acesso à infraestrutura local e tranquilidade para sua família."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Os apartamentos possuem varanda?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Absolutamente. O Residencial Florescer dispõe de plantas sofisticadas de 2 e 3 quartos com varanda gourmet, um espaço ideal para receber amigos e celebrar a vida."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Como funciona o financiamento para o Residencial Florescer?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Oferecemos condições personalizadas com planejamento financeiro inteligente. Nossos especialistas em crédito imobiliário estão à disposição para desenhar a estrutura de pagamento que melhor se adapta ao seu perfil."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Quem é a construtora responsável?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "O empreendimento é um projeto da RJ Engenharia, uma empresa com histórico de qualidade e compromisso com o bem-estar dos moradores."
+                      }
+                    }
+                  ]
+                }
+              ]
             }
-          ]
-        }
           `}
         </script>
       </Helmet>
       <Header />
       
       <main>
-        {/* Hero Section */}
-        <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
+        {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
+        <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img fetchPriority="high" 
               src={imgFachada} 
               alt="Fachada do Residencial Florescer" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-slate-900/75"></div>
+            <div className="absolute inset-0 bg-slate-900/80"></div>
           </div>
           
-          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl mx-auto"
-            >
-              <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-sm font-bold tracking-widest mb-6 uppercase shadow-lg">
-                Lançamento Imobiliário em Vila Iara, São Gonçalo - RJ
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight text-white drop-shadow-md">
-                Residencial Florescer: Apartamentos de 2 e 3 Quartos com Suíte e Varanda Gourmet
-              </h1>
-              <p className="text-xl md:text-2xl text-slate-200 mb-10 text-justify md:text-center leading-relaxed font-medium">
-                Descubra o Residencial Florescer, um marco de sofisticação e conforto da RJ Engenharia. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e infraestrutura de lazer completa. Invista no seu bem-estar e viva momentos inesquecíveis em coberturas de tirar o fôlego, com 3 quartos e 2 vagas. Planejamento financeiro inteligente para transformar seu sonho em realidade.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a 
-                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Agendar Atendimento Exclusivo")} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
-                >
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  Agendar Atendimento Exclusivo
-                </a>
-              </div>
-            </motion.div>
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left Column - Copy & Benefícios */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="lg:col-span-7 text-left"
+              >
+                <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-xs sm:text-sm font-bold tracking-widest mb-4 uppercase shadow-lg">
+                  Lançamento Imobiliário em Vila Iara, São Gonçalo - RJ
+                </span>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 leading-tight text-white drop-shadow-md">
+                  Residencial Florescer: Apartamentos de 2 e 3 Quartos com Suíte e Varanda Gourmet
+                </h1>
+                <p className="text-base sm:text-lg text-slate-200 mb-6 leading-relaxed font-normal">
+                  Descubra o Residencial Florescer, um marco de sofisticação e conforto da RJ Engenharia. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e infraestrutura de lazer completa. Invista no seu bem-estar e viva momentos inesquecíveis em coberturas de tirar o fôlego, com 3 quartos e 2 vagas.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a 
+                    href={gerarLinkWhatsApp(nomeEmpreendimento, "Agendar Atendimento Exclusivo")} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 inline-flex items-center justify-center"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Atendimento Exclusivo no WhatsApp
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Right Column - Strategic Lead Form na 1ª Dobra */}
+              <motion.div
+                id="formulario"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900"
+              >
+                <LeadForm />
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -290,21 +348,30 @@ export default function ResidencialFlorescer() {
         
         {/* Call to Action Final */}
         <section className="py-16 bg-slate-100 border-t border-slate-200">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">
               Descubra o Privilégio de Morar no Residencial Florescer
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
               As unidades do Residencial Florescer são altamente cobiçadas. Fale com um de nossos consultores de alto padrão e dê o próximo passo rumo ao seu novo estilo de vida.
             </p>
-            <a 
-              href={gerarLinkWhatsApp(nomeEmpreendimento, "Falar com um Especialista")} 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
-            >
-              Falar com um Especialista
-            </a>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <a 
+                href="#formulario"
+                className="inline-flex items-center justify-center bg-accent hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl text-lg transform hover:-translate-y-1"
+              >
+                Preencher Formulário de Simulação
+              </a>
+              <a 
+                href={gerarLinkWhatsApp(nomeEmpreendimento, "Falar com um Especialista")} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Falar com um Especialista
+              </a>
+            </div>
           </div>
         </section>
 

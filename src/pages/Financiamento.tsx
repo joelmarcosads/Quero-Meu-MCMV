@@ -1,58 +1,78 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import ArticleMeta from '../components/ArticleMeta';
 import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
 import { Calculator, FileText, Home, Coins, HandCoins, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
 
 export default function Financiamento() {
-  const faqSchema = {
+  const schema = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
+    "@graph": [
       {
-        "@type": "Question",
-        "name": "O que mudou no novo Minha Casa Minha Vida?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "O novo Minha Casa Minha Vida ampliou o limite de renda da faixa 1, aumentou o valor máximo do imóvel que pode ser financiado (até R$ 350 mil na faixa 3) e elevou o teto do subsídio para até R$ 55 mil, dependendo da região e da renda familiar."
-        }
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://queromeumcmv.com.br/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Financiamento MCMV",
+            "item": "https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida"
+          }
+        ]
       },
       {
-        "@type": "Question",
-        "name": "Posso juntar renda com outra pessoa?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Sim, é possível compor renda com cônjuge, familiares ou até amigos. A soma das rendas será considerada para definir a faixa do programa e a capacidade de pagamento das parcelas."
-        }
+        "@type": "Article",
+        "headline": "Guia Completo: Financiamento Minha Casa Minha Vida",
+        "description": "Entenda as faixas de renda, como conseguir subsídio, utilizar o FGTS e os documentos exigidos pela Caixa Econômica no MCMV.",
+        "author": {
+          "@type": "Person",
+          "name": "Joel Marcos",
+          "jobTitle": "Corretor de Imóveis"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Quero Meu MCMV"
+        },
+        "dateModified": "2026-09-17"
       },
       {
-        "@type": "Question",
-        "name": "Autônomo pode financiar pelo Minha Casa Minha Vida?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Sim. Profissionais autônomos e MEIs podem financiar comprovando renda através de extratos bancários dos últimos 6 meses e Declaração de Imposto de Renda."
-        }
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "O que mudou no novo Minha Casa Minha Vida?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "O novo Minha Casa Minha Vida ampliou o limite de renda da faixa 1, aumentou o valor máximo do imóvel que pode ser financiado (até R$ 350 mil na faixa 3) e elevou o teto do subsídio para até R$ 55 mil, dependendo da região e da renda familiar."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso juntar renda com outra pessoa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim, é possível compor renda com cônjuge, familiares ou até amigos. A soma das rendas será considerada para definir a faixa do programa e a capacidade de pagamento das parcelas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Autônomo pode financiar pelo Minha Casa Minha Vida?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim. Profissionais autônomos e MEIs podem financiar comprovando renda através de extratos bancários dos últimos 6 meses e Declaração de Imposto de Renda."
+            }
+          }
+        ]
       }
     ]
-  };
-
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "Guia Completo: Financiamento Minha Casa Minha Vida",
-    "description": "Entenda as faixas de renda, como conseguir subsídio, utilizar o FGTS e os documentos exigidos pela Caixa Econômica no MCMV.",
-    "author": {
-      "@type": "Person",
-      "name": "Joel Marcos",
-      "jobTitle": "Corretor de Imóveis"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Quero Meu MCMV"
-    },
-    "dateModified": "2026-09-17"
   };
 
   return (
@@ -61,12 +81,18 @@ export default function Financiamento() {
         <title>Como Financiar pelo Minha Casa Minha Vida | Guia Completo MCMV</title>
         <meta name="description" content="Entenda as faixas de renda, como conseguir subsídio de até R$ 55 mil, utilizar o FGTS na entrada e os documentos exigidos pela Caixa Econômica." />
         <link rel="canonical" href="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Como Financiar pelo Minha Casa Minha Vida | Guia Completo MCMV" />
         <meta property="og:description" content="Entenda as faixas de renda, como conseguir subsídio de até R$ 55 mil, utilizar o FGTS na entrada e os documentos exigidos pela Caixa Econômica." />
         <meta property="og:url" content="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
-        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Como Financiar pelo Minha Casa Minha Vida | Guia Completo MCMV" />
+        <meta name="twitter:description" content="Entenda as faixas de renda, como conseguir subsídio de até R$ 55 mil, utilizar o FGTS na entrada e os documentos exigidos pela Caixa Econômica." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
       <Header />
@@ -77,7 +103,7 @@ export default function Financiamento() {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10"></div>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary-light font-medium text-sm mb-4 border border-primary/30">
-              Guia Definitivo 2024
+              Guia Completo e Atualizado 2026
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight leading-tight">
               Como funciona o Financiamento <span className="text-primary-light">Minha Casa Minha Vida</span>
@@ -255,6 +281,23 @@ export default function Financiamento() {
                 <h3 className="text-lg font-bold text-slate-900 mb-2">Autônomo pode financiar pelo Minha Casa Minha Vida?</h3>
                 <p className="text-slate-600">Sim. Profissionais autônomos e MEIs podem financiar comprovando renda através de extratos bancários dos últimos 6 meses e Declaração de Imposto de Renda.</p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Formulário de Captação Estratégico */}
+        <section className="py-16 bg-slate-100 border-t border-slate-200" id="simulacao">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
+                Simule seu Financiamento Minha Casa Minha Vida
+              </h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">
+                Descubra as condições liberadas pela Caixa Econômica para o seu perfil e receba opções no WhatsApp.
+              </p>
+            </div>
+            <div className="max-w-xl mx-auto shadow-xl rounded-2xl overflow-hidden">
+              <LeadForm />
             </div>
           </div>
         </section>

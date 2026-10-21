@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import ArticleMeta from '../components/ArticleMeta';
 import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
@@ -46,6 +47,35 @@ export default function DocumentosMcmv() {
             "item": "https://queromeumcmv.com.br/documentos-minha-casa-minha-vida"
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quais são os documentos básicos para financiar pelo Minha Casa Minha Vida?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Documento oficial com foto (RG ou CNH), CPF, Certidão de Estado Civil (nascimento ou casamento), comprovante de residência recente e comprovante de renda."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como trabalhador CLT comprova renda na Caixa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Com os três últimos contracheques, Carteira de Trabalho (física ou digital) e extrato atualizado da conta vinculada do FGTS."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como autônomo comprova renda sem carteira assinada?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Através dos extratos bancários de pessoa física dos últimos 6 meses e da Declaração de Imposto de Renda (IRPF) do exercício vigente acompanhada do recibo de entrega."
+            }
+          }
+        ]
       }
     ]
   };
@@ -56,10 +86,17 @@ export default function DocumentosMcmv() {
         <title>Documentos para Financiamento Minha Casa Minha Vida | Quero Meu MCMV</title>
         <meta name="description" content="Lista completa e atualizada dos documentos exigidos pela Caixa Econômica para a análise e aprovação de crédito imobiliário do Minha Casa Minha Vida." />
         <link rel="canonical" href="https://queromeumcmv.com.br/documentos-minha-casa-minha-vida" />
-        <meta property="og:title" content="Documentos para Financiamento Minha Casa Minha Vida" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:title" content="Documentos para Financiamento Minha Casa Minha Vida | Quero Meu MCMV" />
         <meta property="og:description" content="Lista completa e atualizada dos documentos exigidos pela Caixa Econômica para a análise e aprovação de crédito imobiliário do Minha Casa Minha Vida." />
         <meta property="og:url" content="https://queromeumcmv.com.br/documentos-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Documentos para Financiamento Minha Casa Minha Vida | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Lista completa e atualizada dos documentos exigidos pela Caixa Econômica para a análise e aprovação de crédito imobiliário do Minha Casa Minha Vida." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
@@ -117,17 +154,16 @@ export default function DocumentosMcmv() {
               A análise considerará seu <Link to="/subsidio-minha-casa-minha-vida" className="text-primary hover:underline">enquadramento para o recebimento de subsídio</Link>, conferirá restrições cadastrais através de birôs de crédito e validará a capacidade de pagamento familiar e comprometimento da renda. É possível que, durante a avaliação de crédito ou emissão da pasta habitacional, o banco, a assessoria imobiliária ou a Caixa solicitem documentos ou certidões complementares para dar seguimento ao contrato de compra de imóvel em <Link to="/minha-casa-minha-vida-sao-goncalo" className="text-primary hover:underline">São Gonçalo</Link> ou <Link to="/minha-casa-minha-vida-itaborai" className="text-primary hover:underline">Itaboraí</Link>.
             </p>
             
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-10 text-center">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Descubra hoje se você pode financiar</h3>
-              <p className="text-slate-700 mb-6">
-                Realize uma simulação gratuita e deixe que façamos as contas da sua análise preliminar, sem burocracia.
-              </p>
-              <a 
-                href="/#simulacao"
-                className="inline-block bg-accent hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md transform hover:-translate-y-0.5"
-              >
-                Quero saber se posso financiar
-              </a>
+            <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 sm:p-8 my-10" id="simulacao">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Descubra hoje se você pode financiar</h3>
+                <p className="text-slate-700 max-w-xl mx-auto">
+                  Realize uma simulação gratuita e deixe que façamos as contas da sua análise preliminar, sem burocracia.
+                </p>
+              </div>
+              <div className="max-w-xl mx-auto shadow-lg rounded-2xl overflow-hidden">
+                <LeadForm />
+              </div>
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">

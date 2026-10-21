@@ -1,51 +1,9 @@
-import React, { useState } from 'react';
 import { m as motion } from 'motion/react';
 import { CheckCircle2, TrendingDown, Clock, Home, ShieldCheck } from 'lucide-react';
+import LeadForm from './LeadForm';
 
 export default function Hero() {
-  const [formData, setFormData] = useState({
-    nome: '',
-    email: '',
-    telefone: ''
-  });
 
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    
-    // Dispara o evento pro Google Tag Manager / Analytics se existir
-    if (typeof window !== 'undefined' && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
-        event: 'generate_lead',
-        formName: 'SimulacaoHero',
-        leadName: formData.nome
-      });
-    }
-
-    const numeroWhatsApp = "5521965928399";
-    const textoBase = `Olá Joel Marcos! Gostaria de fazer uma simulação de financiamento pelo Minha Casa Minha Vida.\n\n*Meus Dados:*\n- Nome: ${formData.nome}\n- Telefone: ${formData.telefone}\n- E-mail: ${formData.email || 'Não informado'}\n\nVim pelo site Quero Meu MCMV.`;
-    const textoCodificado = encodeURIComponent(textoBase);
-    
-    // Redirect immediately to ensure popup isn't blocked, but keep state clean
-    window.open(`https://wa.me/${numeroWhatsApp}?text=${textoCodificado}`, '_blank', 'noopener,noreferrer');
-    
-    // Reset form after a brief pause so user sees it processed
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        nome: '',
-        email: '',
-        telefone: ''
-      });
-    }, 500);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
   return (
     <section className="relative bg-slate-900 overflow-hidden text-white" id="simulacao">
@@ -127,82 +85,9 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full max-w-md mx-auto"
+            className="w-full max-w-xl mx-auto shadow-2xl rounded-2xl overflow-hidden"
           >
-            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-accent"></div>
-              
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-slate-900 mb-2">Faça sua Simulação Gratuita</h2>
-                <p className="text-slate-600 text-sm">Descubra agora quanto o banco libera para você comprar seu apartamento.</p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="nome" className="block text-sm font-semibold text-slate-700 mb-1">Seu Nome Completo</label>
-                  <input 
-                    type="text" 
-                    id="nome" 
-                    name="nome" 
-                    required
-                    value={formData.nome}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 text-slate-900 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
-                    placeholder="Ex: João da Silva"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="telefone" className="block text-sm font-semibold text-slate-700 mb-1">Seu WhatsApp</label>
-                  <input 
-                    type="tel" 
-                    id="telefone" 
-                    name="telefone" 
-                    required
-                    value={formData.telefone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 text-slate-900 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
-                    placeholder="(21) 99999-9999"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1">Seu E-mail (Opcional)</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-300 text-slate-900 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow"
-                    placeholder="joao@email.com"
-                  />
-                </div>
-
-                <button 
-                  type="submit" 
-                  disabled={submitted}
-                  className="w-full mt-6 bg-success hover:bg-green-700 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl text-[15px] sm:text-lg shadow-lg shadow-green-600/30 transition-all transform hover:-translate-y-0.5 flex justify-center items-center"
-                >
-                  {submitted ? 'Enviando...' : 'QUERO FAZER MINHA SIMULAÇÃO'}
-                </button>
-                <div className="mt-4 flex items-start">
-                  <input
-                    type="checkbox"
-                    id="privacy"
-                    required
-                    className="mt-0.5 mr-2 h-4 w-4 shrink-0 rounded border-slate-300 text-primary focus:ring-primary"
-                  />
-                  <label htmlFor="privacy" className="text-[11px] text-slate-500 leading-tight text-left text-justify">
-                    Estou de acordo com a política de privacidade e aceito receber contatos (WhatsApp, SMS, e-mail, ligações).
-                  </label>
-                </div>
-                <div className="text-center mt-3 flex items-center justify-center text-xs text-slate-500">
-                  <ShieldCheck className="w-3.5 h-3.5 mr-1" />
-                  Seus dados estão seguros conosco
-                </div>
-              </form>
-            </div>
+            <LeadForm />
           </motion.div>
 
         </div>

@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle2, MapPin, Home, Shield, Trees, Info, MessageCircle } from 'lucide-react';
@@ -24,16 +25,23 @@ export default function PrimeClubItaborai() {
         <meta property="og:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
         <meta property="og:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
         
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
+        <meta name="twitter:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
+        
         {/* GEO Tags */}
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
         
-        {/* Schema.org for RealEstateListing */}
+        {/* Schema.org for RealEstateListing and FAQPage */}
         <script type="application/ld+json">
           {`
             {
               "@context": "https://schema.org",
-                            "@graph": [
+              "@graph": [
                 {
                   "@type": "BreadcrumbList",
                   "itemListElement": [
@@ -59,83 +67,134 @@ export default function PrimeClubItaborai() {
                 },
                 {
                   "@type": "RealEstateListing",
-              "name": "Prime Club Itaboraí",
-              "description": "Apartamentos de 2 Quartos em Condomínio Clube em Itaboraí",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Itaboraí",
-                "addressRegion": "RJ",
-                "addressCountry": "BR"
-              },
-              "offers": {
-                "@type": "Offer",
-                "priceCurrency": "BRL",
-                "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
-              }
+                  "name": "Prime Club Itaboraí",
+                  "description": "Apartamentos de 2 Quartos em Condomínio Clube em Itaboraí",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Itaboraí",
+                    "addressRegion": "RJ",
+                    "addressCountry": "BR"
+                  },
+                  "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "BRL",
+                    "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
+                  }
+                },
+                {
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "Onde fica localizado o condomínio Prime Club?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "O condomínio fechado Prime Club está estrategicamente localizado em Itaboraí, RJ. Com acesso rápido a escolas e comércios da região, trazendo total facilidade para sua rotina."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Os apartamentos no Prime Club possuem vaga de garagem?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Sim. O Prime Club oferece apartamentos de 2 quartos com direito a vaga de garagem, proporcionando mais segurança e conforto para você e sua família."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Como comprar apartamento pelo Minha Casa Minha Vida em Itaboraí?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "É muito simples. O Prime Club está aprovado pelo programa Minha Casa Minha Vida (MCMV) da Caixa Econômica Federal. Você pode utilizar seu FGTS como parte da entrada, aproveitar taxas de juros reduzidas e garantir o subsídio do governo de acordo com a sua renda familiar."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Quais opções de lazer o condomínio clube oferece?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "A área de lazer do condomínio é uma das mais completas da região, incluindo: piscinas adulto e infantil, academia equipada, salão de festas com churrasqueira, playground infantil, espaço pet (pet place), quadra de esportes e muito mais."
+                      }
+                    }
+                  ]
+                }
+              ]
             }
-          ]
-        }
           `}
         </script>
       </Helmet>
       <Header />
       
       <main>
-        {/* Hero Section */}
-        <section className="relative pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden">
+        {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
+        <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img fetchPriority="high" 
               src={imgCapa} 
               alt="Apartamentos de 2 quartos em condomínio clube Prime Club em Itaboraí RJ" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-slate-900/75"></div>
+            <div className="absolute inset-0 bg-slate-900/80"></div>
           </div>
           
-          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-4xl mx-auto"
-            >
-              <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-sm font-bold tracking-widest mb-6 uppercase shadow-lg">
-                Lançamento Imobiliário em Itaboraí - RJ
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight text-white drop-shadow-md">
-                Prime Club Itaboraí: Apartamentos de 2 Quartos em Condomínio Clube
-              </h1>
-              <p className="text-xl md:text-2xl text-slate-200 mb-10 text-justify md:text-center leading-relaxed font-medium">
-                Transforme o valor do aluguel na parcela do seu apartamento próprio. Viva com total segurança, conforto e lazer completo. Financiamento facilitado pelo <strong className="text-white">Minha Casa Minha Vida</strong>.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-10">
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center w-full sm:w-1/3">
-                  <span className="block text-sm font-semibold text-blue-200 mb-1">Entrada Facilitada</span>
-                  <span className="block text-2xl font-bold text-accent">Sinal de R$ 1.000</span>
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              {/* Left Column - Copy & Benefícios */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="lg:col-span-7 text-left"
+              >
+                <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-xs sm:text-sm font-bold tracking-widest mb-4 uppercase shadow-lg">
+                  Lançamento Imobiliário em Itaboraí - RJ
+                </span>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 leading-tight text-white drop-shadow-md">
+                  Prime Club Itaboraí: Apartamentos de 2 Quartos em Condomínio Clube
+                </h1>
+                <p className="text-base sm:text-lg text-slate-200 mb-6 leading-relaxed font-normal">
+                  Transforme o valor do aluguel na parcela do seu apartamento próprio. Viva com total segurança, conforto e lazer completo. Financiamento facilitado pelo <strong className="text-white">Minha Casa Minha Vida</strong>.
+                </p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Entrada Facilitada</span>
+                    <span className="block text-lg sm:text-xl font-bold text-accent">Sinal R$ 1.000</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Programa Governo</span>
+                    <span className="block text-lg sm:text-xl font-bold text-accent">Subsídio até R$ 55 Mil</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Garantia</span>
+                    <span className="block text-lg sm:text-xl font-bold text-accent">Caixa Federal</span>
+                  </div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center w-full sm:w-1/3">
-                  <span className="block text-sm font-semibold text-blue-200 mb-1">Programa do Governo</span>
-                  <span className="block text-2xl font-bold text-accent">Subsídio até R$ 55 Mil</span>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a 
+                    href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação de Financiamento")} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 inline-flex items-center justify-center"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Simulação Rápida no WhatsApp
+                  </a>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center w-full sm:w-1/3">
-                  <span className="block text-sm font-semibold text-blue-200 mb-1">Garantia Construtiva</span>
-                  <span className="block text-2xl font-bold text-accent">Caixa Econômica</span>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a 
-                  href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação de Financiamento")} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-success hover:bg-green-600 text-white font-bold text-lg py-4 px-8 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 flex items-center justify-center"
-                >
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  Fazer Simulação de Financiamento
-                </a>
-              </div>
-            </motion.div>
+              </motion.div>
+
+              {/* Right Column - Strategic Lead Form na 1ª Dobra */}
+              <motion.div
+                id="formulario"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900"
+              >
+                <LeadForm />
+              </motion.div>
+            </div>
           </div>
         </section>
 
@@ -155,7 +214,7 @@ export default function PrimeClubItaborai() {
                     "Apartamentos de 2 quartos com acabamento impecável",
                     "Condomínio clube com área de lazer completa",
                     "Controle de acesso e portaria 24 horas para sua proteção",
-                    "Condições exclusivas pelo programa Minha Casa Minha Vida 2024"
+                    "Condições exclusivas pelo programa Minha Casa Minha Vida 2026"
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start">
                       <CheckCircle2 className="w-6 h-6 text-success mr-3 shrink-0 mt-0.5" />
@@ -302,21 +361,30 @@ export default function PrimeClubItaborai() {
         
         {/* Call to Action Final - Gatilho de Escassez e Urgência */}
         <section className="py-16 bg-slate-100 border-t border-slate-200">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4">
               A oportunidade de sair do aluguel está acabando.
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
               Os apartamentos no Prime Club têm alta procura em Itaboraí. Fale com um de nossos corretores credenciados e garanta as melhores condições de lançamento.
             </p>
-            <a 
-              href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")} 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
-            >
-              Consultar Disponibilidade e Valores
-            </a>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <a 
+                href="#formulario"
+                className="inline-flex items-center justify-center bg-accent hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl text-lg transform hover:-translate-y-1"
+              >
+                Preencher Formulário de Simulação
+              </a>
+              <a 
+                href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")} 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Consultar Disponibilidade e Valores
+              </a>
+            </div>
           </div>
         </section>
 

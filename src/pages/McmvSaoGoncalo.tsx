@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import Properties from '../components/Properties';
 import { CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -65,10 +66,17 @@ export default function McmvSaoGoncalo() {
         <title>Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV</title>
         <meta name="description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV" />
         <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="São Gonçalo" />
         <script type="application/ld+json">
@@ -176,6 +184,24 @@ export default function McmvSaoGoncalo() {
             </div>
           </div>
         </section>
+        
+        {/* Formulário de Captação Estratégico */}
+        <section className="py-16 bg-slate-100 border-t border-slate-200" id="simulacao">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
+                Receba Opções de Imóveis em São Gonçalo
+              </h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">
+                Faça sua simulação gratuita e receba no seu WhatsApp as melhores oportunidades pelo Minha Casa Minha Vida.
+              </p>
+            </div>
+            <div className="max-w-xl mx-auto shadow-xl rounded-2xl overflow-hidden">
+              <LeadForm />
+            </div>
+          </div>
+        </section>
+
         <section className="py-12 bg-slate-50 border-t border-slate-200">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <AuthorProfile />

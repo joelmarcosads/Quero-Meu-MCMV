@@ -19,24 +19,21 @@ let hasErrors = false;
 const files = findHtmlFiles('dist');
 for (const file of files) {
     const html = fs.readFileSync(file, 'utf-8');
-    let route = file.replace('dist/', '').replace('/index.html', '').replace('index.html', '/');
-    if (!route.startsWith('/')) route = '/' + route;
+    let relPath = file.replace(/^dist\/?/, '');
+    let route = relPath === 'index.html' ? '/' : '/' + relPath.replace(/\.html$/, '').replace(/\/index$/, '');
     
     console.log(`[VALIDATING] ${route}`);
     
-    // Check for GTM
-    const gtmId = 'GTM-TQ6T5V7K';
-    const hasGtmBootstrap = html.includes(gtmId);
-    const hasGtmNoscript = html.includes('ns.html?id=GTM-TQ6T5V7K');
-    const gtmScripts = [...html.matchAll(/<script[^>]*src="[^"]*googletagmanager\.com\/gtm\.js[^"]*"[^>]*>/gi)].length;
+    // Check for GTM (Server-Side Tagging)
+    const hasGtmBootstrap = html.includes('sst.queromeumcmv.com.br');
+    const gtmScripts = [...html.matchAll(/<script[^>]*src="[^"]*(googletagmanager\.com\/gtm\.js|sst\.queromeumcmv\.com\.br\/69jurczmsf\.js)[^"]*"[^>]*>/gi)].length;
     
-    console.log(`  GTM ID: ${hasGtmBootstrap}`);
-    console.log(`  noscript: ${hasGtmNoscript}`);
+    console.log(`  GTM SST: ${hasGtmBootstrap}`);
     console.log(`  serialized scripts: ${gtmScripts}`);
     
-    if (!hasGtmBootstrap || !hasGtmNoscript || gtmScripts > 0) {
+    if (!hasGtmBootstrap || gtmScripts > 0) {
         hasErrors = true;
-        console.error(`  ERROR: GTM integration is incorrect on ${route}`);
+        console.error(`  ERROR: GTM SST integration is incorrect on ${route}`);
     }
     
     // Check tags uniqueness

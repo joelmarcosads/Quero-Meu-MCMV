@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import ArticleMeta from '../components/ArticleMeta';
 import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
@@ -46,6 +47,43 @@ export default function SubsidioMcmv() {
             "item": "https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida"
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "O que é o subsídio habitacional do Minha Casa Minha Vida?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "O subsídio é um benefício financeiro concedido pelo Governo Federal para ajudar famílias a comprarem a casa própria. Esse valor não é empréstimo e não precisa ser devolvido: é um desconto direto que reduz o montante financiado ou a entrada."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quem tem direito ao subsídio do governo?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Famílias com renda mensal de até R$ 5.000,00 que não possuam imóvel próprio no município e que não tenham sido beneficiadas por programas habitacionais anteriores."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Como é calculado o valor do subsídio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "O valor é calculado pela Caixa de acordo com a renda familiar, a cidade do imóvel e o valor de avaliação. Quanto menor a renda, maior tende a ser o desconto concedido, podendo chegar a até R$ 55 mil."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso juntar o subsídio com o FGTS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim! A junção do subsídio governamental com o saldo do FGTS é a melhor estratégia para abater a entrada, podendo até zerar a necessidade de recursos próprios na compra do imóvel."
+            }
+          }
+        ]
       }
     ]
   };
@@ -56,10 +94,17 @@ export default function SubsidioMcmv() {
         <title>O que é Subsídio no Minha Casa Minha Vida? | Quero Meu MCMV</title>
         <meta name="description" content="Entenda como funciona o subsídio do Minha Casa Minha Vida, quem tem direito ao desconto de até R$ 55 mil e as regras aplicadas pela Caixa." />
         <link rel="canonical" href="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
-        <meta property="og:title" content="O que é Subsídio no Minha Casa Minha Vida?" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:title" content="O que é Subsídio no Minha Casa Minha Vida? | Quero Meu MCMV" />
         <meta property="og:description" content="Entenda como funciona o subsídio do Minha Casa Minha Vida, quem tem direito ao desconto de até R$ 55 mil e as regras aplicadas pela Caixa." />
         <meta property="og:url" content="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="O que é Subsídio no Minha Casa Minha Vida? | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Entenda como funciona o subsídio do Minha Casa Minha Vida, quem tem direito ao desconto de até R$ 55 mil e as regras aplicadas pela Caixa." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
@@ -120,17 +165,16 @@ export default function SubsidioMcmv() {
               Dependendo do perfil da família, do valor do imóvel, do saldo de FGTS, do subsídio calculado e das condições da operação, esses recursos podem reduzir significativamente a necessidade de entrada e, em determinados casos, até eliminá-la. E quando há necessidade de diferença, construtoras costumam facilitar o parcelamento.
             </p>
             
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-10 text-center">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Descubra qual o valor do seu subsídio!</h3>
-              <p className="text-slate-700 mb-6">
-                Fale comigo agora e solicite uma simulação gratuita e sem compromisso para vermos quanto de desconto o governo libera para o seu perfil.
-              </p>
-              <a 
-                href="/#simulacao"
-                className="inline-block bg-accent hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md transform hover:-translate-y-0.5"
-              >
-                Simular o meu Subsídio
-              </a>
+            <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 sm:p-8 my-10" id="simulacao">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Descubra qual o valor do seu subsídio!</h3>
+                <p className="text-slate-700 max-w-xl mx-auto">
+                  Fale comigo agora e solicite uma simulação gratuita e sem compromisso para vermos quanto de desconto o governo libera para o seu perfil.
+                </p>
+              </div>
+              <div className="max-w-xl mx-auto shadow-lg rounded-2xl overflow-hidden">
+                <LeadForm />
+              </div>
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">

@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import ArticleMeta from '../components/ArticleMeta';
 import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
@@ -46,6 +47,35 @@ export default function FgtsMcmv() {
             "item": "https://queromeumcmv.com.br/fgts-minha-casa-minha-vida"
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quem pode usar o FGTS na compra do imóvel pelo MCMV?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Trabalhadores com pelo menos 3 anos de carteira assinada sob o regime do FGTS (somando todos os períodos trabalhados), que não tenham financiamento ativo no SFH e não possuam outro imóvel residencial no mesmo município."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso usar o FGTS como entrada?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim! O saldo do FGTS pode ser utilizado integralmente para pagar ou abater o valor da entrada exigido pela Caixa Econômica Federal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "É possível abater parcelas do financiamento com o FGTS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim, você pode usar o FGTS tanto para amortizar o saldo devedor (reduzindo o prazo ou o valor das prestações) quanto para diminuir em até 80% o valor de até 12 prestações consecutivas."
+            }
+          }
+        ]
       }
     ]
   };
@@ -56,10 +86,17 @@ export default function FgtsMcmv() {
         <title>Como Usar o FGTS no Minha Casa Minha Vida | Quero Meu MCMV</title>
         <meta name="description" content="Saiba como utilizar o saldo do seu FGTS para comprar um imóvel pelo Minha Casa Minha Vida. Confira as regras e quem tem direito." />
         <link rel="canonical" href="https://queromeumcmv.com.br/fgts-minha-casa-minha-vida" />
-        <meta property="og:title" content="Como Usar o FGTS no Minha Casa Minha Vida" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:title" content="Como Usar o FGTS no Minha Casa Minha Vida | Quero Meu MCMV" />
         <meta property="og:description" content="Saiba como utilizar o saldo do seu FGTS para comprar um imóvel pelo Minha Casa Minha Vida. Confira as regras e quem tem direito." />
         <meta property="og:url" content="https://queromeumcmv.com.br/fgts-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Como Usar o FGTS no Minha Casa Minha Vida | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Saiba como utilizar o saldo do seu FGTS para comprar um imóvel pelo Minha Casa Minha Vida. Confira as regras e quem tem direito." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
@@ -122,17 +159,16 @@ export default function FgtsMcmv() {
               Recomendamos que você verifique o seu extrato no aplicativo antes de iniciar o processo. Lá você consegue ver o valor disponível para o "Saque-Moradia". Isso facilita muito no momento de separar os <Link to="/documentos-minha-casa-minha-vida" className="text-primary hover:underline">documentos para o financiamento</Link> e iniciar a sua simulação de compra.
             </p>
             
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-10 text-center">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Quer saber se o seu FGTS cobre a entrada?</h3>
-              <p className="text-slate-700 mb-6">
-                Faça uma simulação gratuita e descubra o valor da entrada, o subsídio liberado e o valor das parcelas para o seu perfil.
-              </p>
-              <a 
-                href="/#simulacao"
-                className="inline-block bg-accent hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md transform hover:-translate-y-0.5"
-              >
-                Quero fazer uma simulação
-              </a>
+            <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 sm:p-8 my-10" id="simulacao">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Quer saber se o seu FGTS cobre a entrada?</h3>
+                <p className="text-slate-700 max-w-xl mx-auto">
+                  Faça uma simulação gratuita e descubra o valor da entrada, o subsídio liberado e o valor das parcelas para o seu perfil.
+                </p>
+              </div>
+              <div className="max-w-xl mx-auto shadow-lg rounded-2xl overflow-hidden">
+                <LeadForm />
+              </div>
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">

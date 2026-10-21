@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LeadForm from '../components/LeadForm';
 import ArticleMeta from '../components/ArticleMeta';
 import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
@@ -46,6 +47,35 @@ export default function RendaMcmv() {
             "item": "https://queromeumcmv.com.br/renda-minha-casa-minha-vida"
           }
         ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quais são as faixas de renda do Minha Casa Minha Vida?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "O programa é dividido em 3 faixas: Faixa 1 (renda até R$ 3.200,00), Faixa 2 (renda até R$ 5.000,00) e Faixa 3 (renda até R$ 9.600,00), com taxas de juros reduzidas e subsídios para famílias de menor renda."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Posso compor renda com outra pessoa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim! Você pode somar sua renda bruta com cônjuge, companheiro(a), pais, filhos, irmãos ou até mesmo amigos para elevar o valor do financiamento aprovado pela Caixa."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Autônomo ou MEI pode comprovar renda no MCMV?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sim. A comprovação de renda para autônomos e microempreendedores individuais é realizada através dos últimos 6 meses de extratos bancários de pessoa física e da Declaração de Imposto de Renda."
+            }
+          }
+        ]
       }
     ]
   };
@@ -56,10 +86,17 @@ export default function RendaMcmv() {
         <title>Renda Familiar e as Faixas do Minha Casa Minha Vida | Quero Meu MCMV</title>
         <meta name="description" content="Saiba como a sua renda bruta impacta a análise de crédito, os juros e o subsídio no Minha Casa Minha Vida. Veja se você pode juntar renda com outra pessoa." />
         <link rel="canonical" href="https://queromeumcmv.com.br/renda-minha-casa-minha-vida" />
-        <meta property="og:title" content="Renda Familiar e as Faixas do Minha Casa Minha Vida" />
+        <meta property="og:site_name" content="Quero Meu MCMV" />
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:title" content="Renda Familiar e as Faixas do Minha Casa Minha Vida | Quero Meu MCMV" />
         <meta property="og:description" content="Saiba como a sua renda bruta impacta a análise de crédito, os juros e o subsídio no Minha Casa Minha Vida. Veja se você pode juntar renda com outra pessoa." />
         <meta property="og:url" content="https://queromeumcmv.com.br/renda-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Renda Familiar e as Faixas do Minha Casa Minha Vida | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Saiba como a sua renda bruta impacta a análise de crédito, os juros e o subsídio no Minha Casa Minha Vida. Veja se você pode juntar renda com outra pessoa." />
+        <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
@@ -113,17 +150,16 @@ export default function RendaMcmv() {
               A diferença está apenas na documentação. Em vez de apresentar um contracheque, a análise de crédito é feita cruzando informações do Imposto de Renda, extratos bancários de movimentação recente e pagamentos de contribuições (como o DAS do MEI). <Link to="/documentos-minha-casa-minha-vida" className="text-primary hover:underline">Saiba mais sobre a documentação exigida</Link>.
             </p>
 
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 my-10 text-center">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Vamos analisar a sua capacidade de compra?</h3>
-              <p className="text-slate-700 mb-6">
-                Descubra qual é a sua faixa e as condições liberadas preenchendo algumas informações simples. Faremos a simulação gratuitamente.
-              </p>
-              <a 
-                href="/#simulacao"
-                className="inline-block bg-accent hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md transform hover:-translate-y-0.5"
-              >
-                Analisar meu perfil
-              </a>
+            <div className="bg-orange-50 border border-orange-200 rounded-2xl p-6 sm:p-8 my-10" id="simulacao">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">Vamos analisar a sua capacidade de compra?</h3>
+                <p className="text-slate-700 max-w-xl mx-auto">
+                  Descubra qual é a sua faixa e as condições liberadas preenchendo algumas informações simples. Faremos a simulação gratuitamente.
+                </p>
+              </div>
+              <div className="max-w-xl mx-auto shadow-lg rounded-2xl overflow-hidden">
+                <LeadForm />
+              </div>
             </div>
 
             <div className="mt-12 p-4 bg-slate-50 text-sm text-slate-500 rounded-lg border border-slate-100">
