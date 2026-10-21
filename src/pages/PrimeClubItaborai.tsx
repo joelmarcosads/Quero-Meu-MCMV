@@ -127,60 +127,100 @@ export default function PrimeClubItaborai() {
       
       <main>
         {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
-        <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
+        {/* Hero Section - Primeira Dobra Harmoniosa com Formulário Estratégico */}
+        <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img fetchPriority="high" 
               src={imgCapa} 
-              alt="Apartamentos de 2 quartos em condomínio clube Prime Club em Itaboraí RJ" 
+              alt="Apartamentos Prime Clube Itaboraí Minha Casa Minha Vida" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-slate-900/80"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/90 to-slate-900/80"></div>
           </div>
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              {/* Left Column - Copy & Benefícios */}
+              {/* Left Column - Copy, Diferenciais e Estatísticas alinhados com o Formulário */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="lg:col-span-7 text-left"
+                className="lg:col-span-7 flex flex-col justify-center text-left space-y-5"
               >
-                <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-xs sm:text-sm font-bold tracking-widest mb-4 uppercase shadow-lg">
-                  Lançamento Imobiliário em Itaboraí - RJ
-                </span>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 leading-tight text-white drop-shadow-md">
-                  Prime Club Itaboraí: Apartamentos de 2 Quartos em Condomínio Clube
-                </h1>
-                <p className="text-base sm:text-lg text-slate-200 mb-6 leading-relaxed font-normal">
-                  Transforme o valor do aluguel na parcela do seu apartamento próprio. Viva com total segurança, conforto e lazer completo. Financiamento facilitado pelo <strong className="text-white">Minha Casa Minha Vida</strong>.
-                </p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Entrada Facilitada</span>
-                    <span className="block text-lg sm:text-xl font-bold text-accent">Sinal R$ 1.000</span>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Programa Governo</span>
-                    <span className="block text-lg sm:text-xl font-bold text-accent">Subsídio até R$ 55 Mil</span>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                    <span className="block text-xs font-semibold text-blue-200 mb-0.5">Garantia</span>
-                    <span className="block text-lg sm:text-xl font-bold text-accent">Caixa Federal</span>
+                <div>
+                  <div className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-accent/90 border border-amber-300/30 text-white text-xs sm:text-sm font-bold tracking-wider uppercase shadow-lg">
+                    <MapPin className="w-3.5 h-3.5 text-amber-200" />
+                    <span>Outeiro das Pedras, Itaboraí • Minha Casa Minha Vida</span>
                   </div>
                 </div>
-                
-                <div className="flex flex-col sm:flex-row gap-3">
+
+                <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-black leading-[1.18] text-white drop-shadow-md tracking-tight">
+                  Prime Clube Itaboraí: Apartamentos 2 Quartos em Condomínio Clube
+                </h1>
+
+                <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
+                  Transforme o valor do aluguel na parcela do seu apartamento próprio com varanda e elevador. Viva com segurança 24h, lazer completo de clube e financiamento facilitado com garantia da <strong className="text-white font-semibold">Caixa Econômica Federal</strong>.
+                </p>
+
+                {/* 4 Diferenciais em Grade */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-inner">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <Home className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">2 Quartos com Opção de Suíte Reversível</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <Shield className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">Portaria e Monitoramento com Segurança 24h</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <Trees className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">Lazer com Piscina, Churrasqueira e Playground</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">Localização Privilegiada perto da Av. 22 de Maio</span>
+                  </div>
+                </div>
+
+                {/* Cards de Condições */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
+                    <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
+                    <span className="block text-base sm:text-lg font-black text-amber-300">Até R$ 55 Mil</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Garantia Total</span>
+                    <span className="block text-base sm:text-lg font-black text-amber-300">Caixa Federal</span>
+                  </div>
+                </div>
+
+                {/* CTA WhatsApp com Selo */}
+                <div className="pt-1 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <a 
                     href={gerarLinkWhatsApp(nomeEmpreendimento, "Fazer Simulação de Financiamento")} 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 inline-flex items-center justify-center"
+                    className="w-full sm:w-auto bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
                   >
-                    <MessageCircle className="w-5 h-5 mr-2" />
-                    Simulação Rápida no WhatsApp
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Simulação Rápida no WhatsApp</span>
                   </a>
+                  <span className="text-xs text-slate-300 flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    Atendimento imediato por especialista Caixa
+                  </span>
                 </div>
               </motion.div>
 
@@ -190,7 +230,7 @@ export default function PrimeClubItaborai() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900"
+                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 self-center"
               >
                 <LeadForm />
               </motion.div>

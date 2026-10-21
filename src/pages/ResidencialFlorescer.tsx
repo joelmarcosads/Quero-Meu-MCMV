@@ -122,45 +122,100 @@ export default function ResidencialFlorescer() {
       
       <main>
         {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
-        <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
+        {/* Hero Section - Primeira Dobra Harmoniosa com Formulário Estratégico */}
+        <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img fetchPriority="high" 
               src={imgFachada} 
-              alt="Fachada do Residencial Florescer" 
+              alt="Fachada do Residencial Florescer em São Gonçalo" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-slate-900/80"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/90 to-slate-900/80"></div>
           </div>
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              {/* Left Column - Copy & Benefícios */}
+              {/* Left Column - Copy, Diferenciais e Estatísticas alinhados com o Formulário */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="lg:col-span-7 text-left"
+                className="lg:col-span-7 flex flex-col justify-center text-left space-y-5"
               >
-                <span className="inline-block py-1.5 px-4 rounded-full bg-accent text-white text-xs sm:text-sm font-bold tracking-widest mb-4 uppercase shadow-lg">
-                  Lançamento Imobiliário em Vila Iara, São Gonçalo - RJ
-                </span>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 leading-tight text-white drop-shadow-md">
-                  Residencial Florescer: Apartamentos de 2 e 3 Quartos com Suíte e Varanda Gourmet
+                <div>
+                  <div className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-accent/90 border border-amber-300/30 text-white text-xs sm:text-sm font-bold tracking-wider uppercase shadow-lg">
+                    <MapPin className="w-3.5 h-3.5 text-amber-200" />
+                    <span>Vila Iara, São Gonçalo • Minha Casa Minha Vida</span>
+                  </div>
+                </div>
+
+                <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-black leading-[1.18] text-white drop-shadow-md tracking-tight">
+                  Residencial Florescer: 2 e 3 Quartos com Suíte e Varanda Gourmet
                 </h1>
-                <p className="text-base sm:text-lg text-slate-200 mb-6 leading-relaxed font-normal">
-                  Descubra o Residencial Florescer, um marco de sofisticação e conforto da RJ Engenharia. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e infraestrutura de lazer completa. Invista no seu bem-estar e viva momentos inesquecíveis em coberturas de tirar o fôlego, com 3 quartos e 2 vagas.
+
+                <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
+                  Descubra o padrão superior de acabamento e sofisticação em Vila Iara. Apartamentos com suíte, varanda gourmet e lazer de resort com financiamento facilitado pela <strong className="text-white font-semibold">Caixa Econômica Federal</strong>.
                 </p>
-                
-                <div className="flex flex-col sm:flex-row gap-3">
+
+                {/* 4 Diferenciais em Grade */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-inner">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <Home className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">Plantas de 2 e 3 Quartos com Suíte e Varanda</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <Shield className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">Condomínio Fechado com Monitoramento 24h</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <Dumbbell className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">Lazer Completo com Piscina e Academia</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0">
+                      <MapPin className="w-4 h-4 text-amber-300" />
+                    </div>
+                    <span className="text-sm font-medium text-slate-100">A Poucos Minutos de Niterói e do Centro</span>
+                  </div>
+                </div>
+
+                {/* Cards de Condições */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
+                    <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
+                    <span className="block text-base sm:text-lg font-black text-amber-300">Até R$ 55 Mil</span>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
+                    <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Garantia Total</span>
+                    <span className="block text-base sm:text-lg font-black text-amber-300">Caixa Federal</span>
+                  </div>
+                </div>
+
+                {/* CTA WhatsApp com Selo */}
+                <div className="pt-1 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <a 
                     href={gerarLinkWhatsApp(nomeEmpreendimento, "Agendar Atendimento Exclusivo")} 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-1 inline-flex items-center justify-center"
+                    className="w-full sm:w-auto bg-success hover:bg-green-600 text-white font-bold text-base py-3.5 px-6 rounded-xl shadow-xl shadow-green-600/30 transition-transform transform hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
                   >
-                    <MessageCircle className="w-5 h-5 mr-2" />
-                    Atendimento Exclusivo no WhatsApp
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Simulação Rápida no WhatsApp</span>
                   </a>
+                  <span className="text-xs text-slate-300 flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    Atendimento imediato por especialista Caixa
+                  </span>
                 </div>
               </motion.div>
 
@@ -170,7 +225,7 @@ export default function ResidencialFlorescer() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900"
+                className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 self-center"
               >
                 <LeadForm />
               </motion.div>
