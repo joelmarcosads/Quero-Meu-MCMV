@@ -37,8 +37,11 @@ for file in files:
     # 404 behavior - the file should represent a route, if not it's just index.html
     # but we are checking generated routes.
     
-    route = file.replace('dist/', '').replace('/index.html', '').replace('index.html', '/')
-    if not route.startswith('/'): route = '/' + route
+    rel_path = file.replace('dist/', '')
+    if rel_path == 'index.html':
+        route = '/'
+    else:
+        route = '/' + rel_path.replace('.html', '').replace('/index', '')
     
     results.append({
         'Route': route,

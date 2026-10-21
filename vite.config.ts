@@ -36,10 +36,8 @@ function inlineCssPlugin() {
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
+    appType: 'spa',
     plugins: [react(), tailwindcss(), inlineCssPlugin()],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
