@@ -1,5 +1,3 @@
-import puppeteer from 'puppeteer';
-import { preview } from 'vite';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -78,7 +76,7 @@ async function prerender() {
 
   // Em ambientes de CI como Cloudflare Pages ou Vercel onde o Chrome headless não está disponível,
   // finaliza a geração com sucesso após salvar o sitemap.xml.
-  if (process.env.CF_PAGES || process.env.VERCEL) {
+  if (process.env.CF_PAGES || process.env.VERCEL || process.env.CI) {
     console.log('[Prerender] Ambiente Cloudflare Pages / Vercel detectado. Sitemap gerado e build finalizado com sucesso.');
     return;
   }
@@ -88,6 +86,7 @@ async function prerender() {
   let browser;
 
   try {
+    const { preview } = await import('vite');
     server = await preview({
       preview: {
         port: 5000,
@@ -96,6 +95,8 @@ async function prerender() {
     });
 
     console.log('Server started. Launching Puppeteer...');
+    const puppeteerModule = await import('puppeteer');
+    const puppeteer = puppeteerModule.default || puppeteerModule;
     browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
