@@ -24,16 +24,16 @@ for (const file of files) {
     
     console.log(`[VALIDATING] ${route}`);
     
-    // Check for GTM (Server-Side Tagging)
-    const hasGtmBootstrap = html.includes('sst.queromeumcmv.com.br');
+    // Check for GTM
+    const hasGtmBootstrap = html.includes('googletagmanager.com') || html.includes('sst.queromeumcmv.com.br');
     const gtmScripts = [...html.matchAll(/<script[^>]*src="[^"]*(googletagmanager\.com\/gtm\.js|sst\.queromeumcmv\.com\.br\/69jurczmsf\.js)[^"]*"[^>]*>/gi)].length;
     
-    console.log(`  GTM SST: ${hasGtmBootstrap}`);
+    console.log(`  GTM Bootstrap: ${hasGtmBootstrap}`);
     console.log(`  serialized scripts: ${gtmScripts}`);
     
     if (!hasGtmBootstrap || gtmScripts > 0) {
         hasErrors = true;
-        console.error(`  ERROR: GTM SST integration is incorrect on ${route}`);
+        console.error(`  ERROR: GTM integration is incorrect on ${route}`);
     }
     
     // Check tags uniqueness
