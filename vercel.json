@@ -1,39 +1,13 @@
 {
   "cleanUrls": true,
-  "headers": [
-    {
-      "source": "/(.*)\\.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/index.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ],
+  "trailingSlash": false,
   "rewrites": [
+    { "source": "/captacaodeimoveis", "destination": "/captacaodeimoveis/index.html" },
+    { "source": "/captacaodeimoveis/", "destination": "/captacaodeimoveis/index.html" },
     { "source": "/obrigado.imoveis", "destination": "/obrigado.imoveis.html" },
-    { "source": "/obrigado.imoveis/(.*)", "destination": "/obrigado.imoveis.html" },
+    { "source": "/obrigado.imoveis/", "destination": "/obrigado.imoveis.html" },
     { "source": "/obrigado", "destination": "/obrigado.html" },
-    { "source": "/obrigado/(.*)", "destination": "/obrigado.html" },
+    { "source": "/obrigado/", "destination": "/obrigado.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

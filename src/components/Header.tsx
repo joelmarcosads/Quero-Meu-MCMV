@@ -10,6 +10,7 @@ export default function Header() {
     { to: '/minha-casa-minha-vida-itaborai', label: 'MCMV Itaboraí' },
     { to: '/minha-casa-minha-vida-sao-goncalo', label: 'MCMV São Gonçalo' },
     { to: '/financiamento-minha-casa-minha-vida', label: 'Financiamento' },
+    { to: '/captacaodeimoveis', label: 'Avaliar Imóvel' },
     { to: '/sobre', label: 'Sobre' },
   ];
 

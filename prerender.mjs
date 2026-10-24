@@ -21,7 +21,8 @@ const routes = [
   { path: '/subsidio-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
   { path: '/renda-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
   { path: '/documentos-minha-casa-minha-vida', priority: '0.8', changefreq: 'monthly' },
-  { path: '/sobre', priority: '0.8', changefreq: 'monthly' }
+  { path: '/sobre', priority: '0.8', changefreq: 'monthly' },
+  { path: '/captacaodeimoveis', priority: '0.9', changefreq: 'weekly' }
 ];
 
 function cleanHtmlTags(html) {

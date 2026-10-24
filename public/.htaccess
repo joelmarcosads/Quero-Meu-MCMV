@@ -2,16 +2,32 @@
   RewriteEngine On
   RewriteBase /
 
+  # Redirect aliases to canonical /captacaodeimoveis
+  RewriteRule ^captacao/?$ /captacaodeimoveis [R=301,L]
+  RewriteRule ^captacao-de-imoveis/?$ /captacaodeimoveis [R=301,L]
+
+  # Direct routing for captacaodeimoveis
+  RewriteRule ^captacaodeimoveis/?$ /captacaodeimoveis/index.html [L]
+
+  # Direct routing for obrigado pages
+  RewriteRule ^obrigado\.imoveis/?$ /obrigado.imoveis.html [L]
+  RewriteRule ^obrigado/?$ /obrigado.html [L]
+
+  # Serve existing file or directory directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
   # Serve prerendered .html files if they exist
   RewriteCond %{DOCUMENT_ROOT}/$1.html -f
   RewriteRule ^(.*)$ $1.html [L]
 
-  # SPA fallback to index.html
+  # SPA fallback to root index.html
   RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
+
+DirectoryIndex index.html
 
 <IfModule mod_headers.c>
   # Disable cache for HTML files so updates are immediately visible

@@ -24,6 +24,11 @@ export default function Footer() {
             <h2 className="text-white font-bold mb-4 uppercase tracking-wider text-sm">Links Úteis</h2>
             <ul className="space-y-3 pl-0">
               <li>
+                <Link to="/captacaodeimoveis" className="text-sm font-semibold text-orange-400 hover:text-white transition-colors flex items-center">
+                  <ChevronRight className="w-4 h-4 mr-1 text-orange-400" /> Avaliar / Vender Imóvel
+                </Link>
+              </li>
+              <li>
                 <a href="/#simulacao" className="text-sm hover:text-white transition-colors flex items-center">
                   <ChevronRight className="w-4 h-4 mr-1 text-slate-400" /> Fazer Simulação
                 </a>

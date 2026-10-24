@@ -27,7 +27,7 @@ export default function Home() {
         "@type": "RealEstateAgent",
         "@id": "https://queromeumcmv.com.br/#organization",
         "name": "Joel Marcos - Corretor de Imóveis MCMV",
-        "legalName": "Joel Marcos dos Santos",
+        "legalName": "Joel Marcos da Silva",
         "image": "https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp",
         "url": "https://queromeumcmv.com.br/",
         "telephone": "+55 21 96592-8399",

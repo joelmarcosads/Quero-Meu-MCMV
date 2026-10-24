@@ -485,7 +485,7 @@ function testarGravacao() {
       utm_source: 'teste_apps_script',
       utm_medium: 'editor',
       utm_campaign: 'teste_31_colunas',
-      pagina: 'https://queromeumcmv.com.br/'
+      pagina: 'https://queromeumcmv.com.br/captacaodeimoveis'
     }
   };
 

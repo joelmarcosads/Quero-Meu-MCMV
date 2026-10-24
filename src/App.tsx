@@ -24,6 +24,7 @@ const DocumentosMcmv = lazy(() => import('./pages/DocumentosMcmv'));
 const Sobre = lazy(() => import('./pages/Sobre'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ObrigadoImovel = lazy(() => import('./components/ObrigadoImovel'));
+const CaptacaoDeImoveis = lazy(() => import('./pages/CaptacaoDeImoveis'));
 
 export default function App() {
   if (
@@ -46,8 +47,19 @@ export default function App() {
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"></div></div>}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/captacaodeimoveis" element={<CaptacaoDeImoveis />} />
+            <Route path="/captacaodeimoveis/" element={<CaptacaoDeImoveis />} />
+            <Route path="/captacaodeimoveis/index.html" element={<CaptacaoDeImoveis />} />
+            <Route path="/captacaodeimoveis.html" element={<CaptacaoDeImoveis />} />
+            <Route path="/captacao" element={<CaptacaoDeImoveis />} />
+            <Route path="/captacao/" element={<CaptacaoDeImoveis />} />
+            <Route path="/captacao-de-imoveis" element={<CaptacaoDeImoveis />} />
             <Route path="/obrigado" element={<Obrigado />} />
+            <Route path="/obrigado/" element={<Obrigado />} />
             <Route path="/obrigado.imoveis" element={<ObrigadoImovel />} />
+            <Route path="/obrigado.imoveis/" element={<ObrigadoImovel />} />
+            <Route path="/obrigado-imovel" element={<ObrigadoImovel />} />
+            <Route path="/obrigado-imovel/" element={<ObrigadoImovel />} />
             <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
             <Route path="/termos-de-uso" element={<TermsOfUse />} />
             <Route path="/reserva-dos-passaros-2" element={<ReservaDosPassaros2 />} />

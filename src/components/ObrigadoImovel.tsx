@@ -136,11 +136,11 @@ export default function ObrigadoImovel() {
       <header className="border-b border-stone-200/80 bg-white/90 backdrop-blur sticky top-0 z-30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <a
-            href="/"
+            href="/captacaodeimoveis"
             className="inline-flex items-center gap-2 text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Voltar à página inicial</span>
+            <span>Voltar à página de avaliação</span>
           </a>
 
           <div className="flex items-center gap-2 text-xs text-stone-600">
@@ -442,7 +442,7 @@ export default function ObrigadoImovel() {
             </a>
           </p>
           <p className="mt-1 text-xs text-stone-400">
-            Joel Marcos dos Santos · Itaboraí, RJ · CRECI 39.583F
+            Joel Marcos · Itaboraí, RJ · CRECI 39.583F
           </p>
         </div>
       </main>

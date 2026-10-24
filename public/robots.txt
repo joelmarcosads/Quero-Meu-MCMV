@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /obrigado
+Disallow: /obrigado/
 Disallow: /obrigado.html
+Disallow: /obrigado.imoveis
+Disallow: /obrigado.imoveis/
+Disallow: /obrigado.imoveis.html
+Disallow: /obrigado-imovel
 
 Sitemap: https://queromeumcmv.com.br/sitemap.xml

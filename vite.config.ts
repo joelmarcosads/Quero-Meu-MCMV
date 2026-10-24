@@ -16,16 +16,22 @@ function inlineCssPlugin() {
           cssKeys.push(key);
         }
       }
-      const htmlKey = Object.keys(bundle).find(key => key.endsWith('.html'));
-      if (htmlKey && cssCode) {
-        const htmlFile = bundle[htmlKey];
-        htmlFile.source = htmlFile.source.replace('</head>', `<style>${cssCode}</style></head>`);
-        for (const cssKey of cssKeys) {
-          const basename = cssKey.split('/').pop();
-          if (basename) {
-            const regex = new RegExp(`<link[^>]+href="[^"]*` + basename + `"[^>]*>`, 'g');
-            htmlFile.source = htmlFile.source.replace(regex, '');
+      const htmlKeys = Object.keys(bundle).filter((key) => key.endsWith('.html'));
+      if (htmlKeys.length && cssCode) {
+        for (const htmlKey of htmlKeys) {
+          const htmlFile = bundle[htmlKey];
+          if (htmlFile && typeof htmlFile.source === 'string') {
+            htmlFile.source = htmlFile.source.replace('</head>', `<style>${cssCode}</style></head>`);
+            for (const cssKey of cssKeys) {
+              const basename = cssKey.split('/').pop();
+              if (basename) {
+                const regex = new RegExp(`<link[^>]+href="[^"]*` + basename + `"[^>]*>`, 'g');
+                htmlFile.source = htmlFile.source.replace(regex, '');
+              }
+            }
           }
+        }
+        for (const cssKey of cssKeys) {
           delete bundle[cssKey];
         }
       }
@@ -41,6 +47,11 @@ function obrigadoMiddlewarePlugin() {
         if (req.url) {
           const urlObj = new URL(req.url, 'http://localhost');
           if (
+            urlObj.pathname === '/captacaodeimoveis' ||
+            urlObj.pathname === '/captacaodeimoveis/'
+          ) {
+            req.url = '/captacaodeimoveis/index.html' + urlObj.search;
+          } else if (
             urlObj.pathname === '/obrigado.imoveis' ||
             urlObj.pathname === '/obrigado.imoveis/'
           ) {
@@ -60,6 +71,11 @@ function obrigadoMiddlewarePlugin() {
         if (req.url) {
           const urlObj = new URL(req.url, 'http://localhost');
           if (
+            urlObj.pathname === '/captacaodeimoveis' ||
+            urlObj.pathname === '/captacaodeimoveis/'
+          ) {
+            req.url = '/captacaodeimoveis/index.html' + urlObj.search;
+          } else if (
             urlObj.pathname === '/obrigado.imoveis' ||
             urlObj.pathname === '/obrigado.imoveis/'
           ) {
@@ -93,6 +109,10 @@ export default defineConfig(({mode}) => {
     build: {
       sourcemap: true,
       rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          captacaodeimoveis: path.resolve(__dirname, 'captacaodeimoveis/index.html'),
+        },
         output: {
           manualChunks: {
             'react-vendor': ['react', 'react-dom']
