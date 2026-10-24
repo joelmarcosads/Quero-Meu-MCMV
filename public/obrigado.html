@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imóvel cadastrado com sucesso</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    #obrigado-imovel {
+      --ink: #2a1d15;
+      --cafe: #5b3a29;
+      --line: #e0d3c4;
+      --wa: #0f7a5a;
+      --gold: #d4a64a;
+      font-family: 'Figtree', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #faf7f2;
+      box-sizing: border-box;
+    }
+    #obrigado-imovel * { box-sizing: border-box; }
+    #obrigado-imovel main {
+      max-width: 520px;
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(42, 29, 21, 0.05);
+    }
+    #obrigado-imovel h1 {
+      margin: 0 0 10px;
+      font-size: 1.6rem;
+      line-height: 1.2;
+      color: var(--cafe);
+      font-weight: 700;
+    }
+    #obrigado-imovel p {
+      margin: 0 0 20px;
+      line-height: 1.55;
+      color: #5d4a3c;
+    }
+    #obrigado-imovel .wa {
+      display: inline-block;
+      padding: 15px 26px;
+      border-radius: 12px;
+      background: var(--wa);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+    #obrigado-imovel .wa:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+    #obrigado-imovel .wa:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+    #obrigado-imovel ul {
+      margin: 26px 0 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+      font-size: 0.95rem;
+      color: #5d4a3c;
+    }
+    #obrigado-imovel li {
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+      line-height: 1.5;
+    }
+    #obrigado-imovel b {
+      color: var(--ink);
+    }
+    #obrigado-imovel .creci {
+      margin: 22px 0 0;
+      font-size: 0.82rem;
+      color: #7a6657;
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;">
+  <div id="obrigado-imovel">
+    <main>
+      <h1 id="title-elem">Imóvel cadastrado!</h1>
+      <p>Recebi os dados do seu imóvel. Para agilizar a avaliação, me chame agora no WhatsApp.</p>
+      <a id="btn-wa-elem" class="wa" href="https://wa.me/5521965928399" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+      <ul>
+        <li><b>Agora:</b> analiso as características e a localização do imóvel.</li>
+        <li><b>Em seguida:</b> entro em contato para confirmar os detalhes e apresentar a avaliação.</li>
+        <li><b>Depois:</b> formalizamos a autorização por escrito e iniciamos a divulgação.</li>
+      </ul>
+      <p class="creci">Joel Marcos · CRECI-RJ 39.583</p>
+    </main>
+  </div>
+
+  <script>
+    (function() {
+      var WHATSAPP = '5521965928399';
+      var nome = '';
+      var link = '';
+      var phone = '';
+      var externalId = '';
+      var jaMarcou = false;
+      try {
+        nome = sessionStorage.getItem('prop_nome') || '';
+        link = sessionStorage.getItem('prop_wa') || '';
+        phone = sessionStorage.getItem('prop_phone') || '';
+        externalId = sessionStorage.getItem('prop_external_id') || '';
+        jaMarcou = sessionStorage.getItem('prop_convertido') === '1';
+      } catch (_) {}
+
+      var titleEl = document.getElementById('title-elem');
+      if (titleEl) {
+        titleEl.textContent = nome ? ('Imóvel cadastrado, ' + nome + '!') : 'Imóvel cadastrado!';
+      }
+
+      var btnWa = document.getElementById('btn-wa-elem');
+      if (btnWa) {
+        if (link && link.indexOf('https://wa.me/') === 0) {
+          btnWa.href = link;
+        } else {
+          btnWa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Olá! Acabei de cadastrar meu imóvel no site e gostaria de falar com o corretor.');
+        }
+      }
+
+      // Conversão: 1 evento por envio, via dataLayer (Google Tag Manager)
+      if (!jaMarcou && externalId) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'lead_captacao_imovel',
+          form_name: 'captacao_imovel',
+          external_id: externalId,
+          event_id: externalId,
+          user_data: { phone_number: phone || undefined },
+        });
+        try {
+          sessionStorage.setItem('prop_convertido', '1');
+          sessionStorage.removeItem('prop_phone');
+        } catch (_) {}
+      }
+    })();
+  </script>
+</body>
+</html>

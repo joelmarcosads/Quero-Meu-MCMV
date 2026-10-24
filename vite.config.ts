@@ -33,11 +33,55 @@ function inlineCssPlugin() {
   };
 }
 
+function obrigadoMiddlewarePlugin() {
+  return {
+    name: 'obrigado-middleware',
+    configureServer(server: any) {
+      server.middlewares.use((req: any, _res: any, next: any) => {
+        if (req.url) {
+          const urlObj = new URL(req.url, 'http://localhost');
+          if (
+            urlObj.pathname === '/obrigado.imoveis' ||
+            urlObj.pathname === '/obrigado.imoveis/'
+          ) {
+            req.url = '/obrigado.imoveis.html' + urlObj.search;
+          } else if (
+            urlObj.pathname === '/obrigado' ||
+            urlObj.pathname === '/obrigado/'
+          ) {
+            req.url = '/obrigado.html' + urlObj.search;
+          }
+        }
+        next();
+      });
+    },
+    configurePreviewServer(server: any) {
+      server.middlewares.use((req: any, _res: any, next: any) => {
+        if (req.url) {
+          const urlObj = new URL(req.url, 'http://localhost');
+          if (
+            urlObj.pathname === '/obrigado.imoveis' ||
+            urlObj.pathname === '/obrigado.imoveis/'
+          ) {
+            req.url = '/obrigado.imoveis.html' + urlObj.search;
+          } else if (
+            urlObj.pathname === '/obrigado' ||
+            urlObj.pathname === '/obrigado/'
+          ) {
+            req.url = '/obrigado.html' + urlObj.search;
+          }
+        }
+        next();
+      });
+    }
+  };
+}
+
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     appType: 'spa',
-    plugins: [react(), tailwindcss(), inlineCssPlugin()],
+    plugins: [react(), tailwindcss(), inlineCssPlugin(), obrigadoMiddlewarePlugin()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
@@ -51,9 +95,7 @@ export default defineConfig(({mode}) => {
       rollupOptions: {
         output: {
           manualChunks: {
-            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-            'motion-vendor': ['motion', 'motion-dom', 'framer-motion'],
-            'lucide-vendor': ['lucide-react']
+            'react-vendor': ['react', 'react-dom']
           }
         }
       }

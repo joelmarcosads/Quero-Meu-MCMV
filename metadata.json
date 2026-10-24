@@ -1,6 +1,6 @@
 {
-  "name": "Quero Meu MCMV",
-  "description": "Portal imobiliário para simulação e aquisição de imóveis pelo programa Minha Casa Minha Vida em São Gonçalo, Itaboraí e Maricá.",
+  "name": "Vender ou Alugar Imóvel em Itaboraí RJ | Avaliação Grátis",
+  "description": "Descubra quanto vale seu imóvel em Itaboraí. Avaliação gratuita por corretor credenciado CRECI, com retorno rápido pelo WhatsApp e acompanhamento completo.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

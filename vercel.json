@@ -30,6 +30,10 @@
     }
   ],
   "rewrites": [
+    { "source": "/obrigado.imoveis", "destination": "/obrigado.imoveis.html" },
+    { "source": "/obrigado.imoveis/(.*)", "destination": "/obrigado.imoveis.html" },
+    { "source": "/obrigado", "destination": "/obrigado.html" },
+    { "source": "/obrigado/(.*)", "destination": "/obrigado.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

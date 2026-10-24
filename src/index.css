@@ -1,18 +1,58 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-primary: #1e3a8a; /* blue-900 for trust */
-  --color-accent: #c2410c;  /* orange-500 for urgency */
-  --color-success: #15803d; /* green-600 for WhatsApp/success */
+:root {
+  --paper: #FAF7F2;
+  --bege: #F1EADF;
+  --cafe: #5B3A29;
+  --bronze: #A9743B;
+  --ink: #2A1D15;
+  --line: #E0D3C4;
+  --cta: #0F7A5A;
+  --cta-dark: #0B5F46;
+  --gold: #D4A64A;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Figtree', system-ui, -apple-system, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: #f8fafc; /* slate-50 */
-  color: #0f172a; /* slate-900 */
+  background-color: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-serif);
+}
+
+/* Scroll margin para alinhamento correto dos links de âncora considerando o cabeçalho fixo */
+#avaliacao, #calculadora, #como-funciona, #sobre, #faq {
+  scroll-margin-top: 88px;
+}
+
+/* Ocultar barra flutuante mobile quando o formulário estiver visível para não cobrir campos nem botão de envio */
+.mobile-bar-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Modal de Política de Privacidade LGPD */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+  background-color: rgba(42, 29, 21, 0.65);
+}
+
+/* Focus indicator uniforme com o ouro requintado */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }

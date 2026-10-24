@@ -23,8 +23,17 @@ const RendaMcmv = lazy(() => import('./pages/RendaMcmv'));
 const DocumentosMcmv = lazy(() => import('./pages/DocumentosMcmv'));
 const Sobre = lazy(() => import('./pages/Sobre'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const ObrigadoImovel = lazy(() => import('./components/ObrigadoImovel'));
 
 export default function App() {
+  if (
+    typeof window !== 'undefined' &&
+    (window.location.pathname === '/obrigado.imoveis' ||
+      window.location.pathname === '/obrigado.imoveis/')
+  ) {
+    return <ObrigadoImovel />;
+  }
+
   if (typeof window !== 'undefined' && (window.location.pathname === '/obrigado' || window.location.pathname === '/obrigado/')) {
     return <Obrigado />;
   }
@@ -38,6 +47,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/obrigado" element={<Obrigado />} />
+            <Route path="/obrigado.imoveis" element={<ObrigadoImovel />} />
             <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
             <Route path="/termos-de-uso" element={<TermsOfUse />} />
             <Route path="/reserva-dos-passaros-2" element={<ReservaDosPassaros2 />} />

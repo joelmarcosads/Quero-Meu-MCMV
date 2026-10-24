@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação de Imóvel Solicitada | Joel Marcos Corretor</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+      background-color: #FBF9F5;
+      color: #1c1917;
+      line-height: 1.5;
+    }
+    .header-bar {
+      border-bottom: 1px solid rgba(231, 229, 228, 0.8);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 16px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #57534e;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .back-link:hover { color: #1c1917; }
+    .creci-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #57534e;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #10b981;
+      display: inline-block;
+    }
+    .main-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 36px 16px 64px;
+    }
+    .card-main {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid rgba(214, 211, 209, 0.9);
+      box-shadow: 0 10px 30px rgba(28, 25, 23, 0.05);
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      .card-main { padding: 44px 40px; }
+    }
+    .accent-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #d97706, #059669, #b45309);
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .status-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      color: #047857;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .status-text-kicker {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #047857;
+    }
+    .status-text-sub {
+      font-size: 12px;
+      color: #78716c;
+    }
+    h1 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 800;
+      color: #1c1917;
+      letter-spacing: -0.02em;
+    }
+    @media (min-width: 640px) {
+      h1 { font-size: 34px; }
+    }
+    .highlight-name { color: #92400e; }
+    .prop-summary {
+      display: none;
+      margin: 16px 0;
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: rgba(254, 243, 199, 0.5);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      font-size: 14px;
+      color: #78350f;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .lead-text {
+      font-size: 17px;
+      color: #57534e;
+      line-height: 1.6;
+      margin: 0 0 24px;
+    }
+    .cta-wa-box {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #064e3b 0%, #1c1917 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 8px 24px rgba(6, 78, 59, 0.2);
+    }
+    @media (min-width: 640px) {
+      .cta-wa-box {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .cta-wa-text h2 {
+      margin: 0 0 6px;
+      font-size: 19px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .cta-wa-text p {
+      margin: 0;
+      font-size: 14px;
+      color: #d1fae5;
+      line-height: 1.5;
+    }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 28px;
+      border-radius: 12px;
+      background: #10b981;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-wa:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    }
+    .btn-wa svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+    .broker-box {
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid #f0ebe4;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #faf7f2;
+      border-radius: 16px;
+      padding: 20px;
+    }
+    @media (min-width: 640px) {
+      .broker-box {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+    .broker-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #b45309, #1c1917);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .broker-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1c1917;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .broker-tag {
+      font-size: 11px;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .broker-quote {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #57534e;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    @media (min-width: 640px) {
+      .steps-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .step-card {
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid #e7e5e4;
+      background: #ffffff;
+    }
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #f5f5f4;
+      color: #1c1917;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .step-card h4 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    .step-card p {
+      margin: 0;
+      font-size: 12px;
+      color: #57534e;
+      line-height: 1.5;
+    }
+    .desire-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+    @media (min-width: 768px) {
+      .desire-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .desire-card {
+      background: #ffffff;
+      border: 1px solid #e7e5e4;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+    }
+    .desire-card h3 {
+      margin: 12px 0 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1c1917;
+    }
+    .desire-card p {
+      margin: 0 0 16px;
+      font-size: 13px;
+      color: #57534e;
+      line-height: 1.55;
+    }
+    .badge-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .badge-amber { background: #fef3c7; color: #b45309; }
+    .badge-emerald { background: #d1fae5; color: #047857; }
+    .desire-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #f5f5f4;
+    }
+    .desire-link-amber { color: #b45309; }
+    .desire-link-emerald { color: #047857; }
+    .trust-strip {
+      margin-top: 24px;
+      padding: 18px 24px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid #e7e5e4;
+      text-align: center;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      font-size: 12px;
+      color: #57534e;
+      font-weight: 500;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 13px;
+      color: #78716c;
+    }
+    footer a { color: #1c1917; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="header-bar">
+    <div class="header-inner">
+      <a href="/" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        <span>Voltar à página inicial</span>
+      </a>
+      <div class="creci-badge">
+        <span class="pulse-dot"></span>
+        <strong style="color:#1c1917">Joel Marcos</strong>
+        <span>·</span>
+        <span>CRECI-RJ 39.583F</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Wrap -->
+  <main class="main-wrap">
+    <div class="card-main">
+      <div class="accent-bar"></div>
+
+      <!-- Status Header -->
+      <div class="status-row">
+        <div class="status-icon">✓</div>
+        <div>
+          <div class="status-text-kicker">Cadastro recebido com sucesso</div>
+          <div class="status-text-sub">Prioridade de atendimento ativada · Atendimento direto</div>
+        </div>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 id="title-elem">Excelente decisão! Seu imóvel já está em análise técnica.</h1>
+
+      <!-- Property Summary -->
+      <div id="prop-summary-box" class="prop-summary">
+        <strong id="prop-summary-text">Seu Imóvel</strong>
+      </div>
+
+      <p class="lead-text">
+        Para que você não perca dinheiro nem tempo com palpites infundados, o corretor credenciado 
+        <strong style="color:#1c1917;">Joel Marcos</strong> cruzará pessoalmente os dados do seu imóvel 
+        com as vendas e locações reais mais recentes na região para apresentar uma avaliação técnica e precisa.
+      </p>
+
+      <!-- Primary CTA Box -->
+      <div class="cta-wa-box">
+        <div class="cta-wa-text">
+          <div style="font-size:12px;font-weight:700;color:#6ee7b7;text-transform:uppercase;margin-bottom:4px;">Atendimento Imediato</div>
+          <h2>Quer acelerar a avaliação ou tirar dúvidas agora?</h2>
+          <p>Fale diretamente com o Joel pelo WhatsApp. Você pode enviar fotos ou vídeos do imóvel para antecipar o parecer.</p>
+        </div>
+
+        <a id="btn-wa-elem" class="btn-wa" href="https://wa.me/5521965928399" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          <span>Falar no WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Humanized Broker Profile Box -->
+      <div class="broker-box">
+        <div class="broker-avatar">JM</div>
+        <div style="flex:1;">
+          <div class="broker-name">
+            <span>Joel Marcos</span>
+            <span class="broker-tag">CRECI-RJ 39.583F</span>
+            <span style="font-size:12px;color:#78716c;font-weight:normal;">Especialista em Itaboraí, São Gonçalo e Região</span>
+          </div>
+          <p class="broker-quote">
+            &ldquo;Avaliar um patrimônio é um compromisso sério. Eu não trabalho com palpites de internet:
+            analiso liquidez, documentação e compradores reais para valorizar cada centavo do seu imóvel.&rdquo;
+          </p>
+        </div>
+      </div>
+
+      <!-- Steps Flow -->
+      <div style="margin-top:32px;">
+        <div style="font-size:12px;font-weight:700;color:#78716c;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;">
+          O que acontece a partir de agora:
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h4>Estudo de Mercado Local</h4>
+            <p>Comparamos seu imóvel com o valor do metro quadrado praticado e fechado em cartório no seu bairro.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number" style="background:#fef3c7;color:#92400e;">2</div>
+            <h4>Parecer de Liquidez</h4>
+            <p>Apresentamos a estimativa do valor de venda e o tempo médio esperado para encontrar o comprador ideal.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number" style="background:#d1fae5;color:#065f46;">3</div>
+            <h4>Compradores Qualificados</h4>
+            <p>Se desejar vender, ofertamos o imóvel diretamente para clientes com crédito habitacional já aprovado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desire Grid: Vender ou Comprar -->
+    <div class="desire-grid">
+      <div class="desire-card">
+        <div>
+          <div class="badge-icon badge-amber">📈</div>
+          <h3>Por que proprietários fecham conosco?</h3>
+          <p>Divulgação estratégica nos principais portais, fotos profissionais, triagem rigorosa de clientes e assessoria jurídica completa.</p>
+          <div style="font-size:12px;color:#57534e;display:flex;flex-direction:column;gap:6px;">
+            <div>✓ Compradores pré-aprovados pela Caixa</div>
+            <div>✓ Taxa apenas após a venda concluída em cartório</div>
+            <div>✓ Acompanhamento do início até as chaves</div>
+          </div>
+        </div>
+        <a id="btn-wa-duvidas" class="desire-link desire-link-amber" href="https://wa.me/5521965928399" target="_blank" rel="noopener noreferrer">
+          <span>Tirar dúvidas sobre a venda</span> →
+        </a>
+      </div>
+
+      <div class="desire-card">
+        <div>
+          <div class="badge-icon badge-emerald">🏡</div>
+          <h3>Pensando em comprar ou trocar de imóvel?</h3>
+          <p>Se o seu plano é vender para comprar uma casa maior, apartamento em condomínio com lazer ou investir, conheça os destaques da região.</p>
+          <div style="font-size:12px;color:#57534e;display:flex;flex-direction:column;gap:8px;">
+            <div style="background:#faf7f2;padding:8px 12px;border-radius:8px;">
+              <strong style="color:#1c1917;display:block;">Condomínio Prime Club Itaboraí</strong>
+              <span style="font-size:11px;color:#78716c;">Lazer completo com clube privativo · Entrada facilitada</span>
+            </div>
+            <div style="background:#faf7f2;padding:8px 12px;border-radius:8px;">
+              <strong style="color:#1c1917;display:block;">Reserva dos Pássaros 2</strong>
+              <span style="font-size:11px;color:#78716c;">Casas com quintal em condomínio fechado · Subsídio Caixa</span>
+            </div>
+          </div>
+        </div>
+        <a class="desire-link desire-link-emerald" href="/#imoveis">
+          <span>Ver lançamentos disponíveis no site</span> →
+        </a>
+      </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="trust-strip">
+      <div class="trust-item">
+        <span style="color:#059669;">🛡️</span>
+        <span>Intermediação 100% Segura</span>
+      </div>
+      <div class="trust-item">
+        <span style="color:#d97706;">⭐</span>
+        <span>CRECI-RJ 39.583F Ativo</span>
+      </div>
+      <div class="trust-item">
+        <span style="color:#059669;">🤝</span>
+        <span>Avaliação Sem Custo ou Compromisso</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Precisa de atendimento urgente? Ligue ou envie WhatsApp para <a href="tel:+5521965928399">(21) 96592-8399</a></p>
+      <p style="font-size:11px;color:#a8a29e;margin-top:4px;">Joel Marcos dos Santos · Itaboraí, RJ · CRECI 39.583F</p>
+    </footer>
+  </main>
+
+  <script>
+    (function() {
+      var WHATSAPP = '5521965928399';
+      var nome = '';
+      var link = '';
+      var phone = '';
+      var externalId = '';
+      var tipo = '';
+      var situacao = '';
+      var bairro = '';
+      var cidade = '';
+      var estado = '';
+      var quartos = '';
+      var suites = '';
+      var banheiros = '';
+      var diferenciais = '';
+      var objetivo = '';
+      var jaMarcou = false;
+
+      try {
+        nome = sessionStorage.getItem('prop_nome') || '';
+        link = sessionStorage.getItem('prop_wa') || '';
+        phone = sessionStorage.getItem('prop_phone') || '';
+        externalId = sessionStorage.getItem('prop_external_id') || '';
+        tipo = sessionStorage.getItem('prop_tipo') || '';
+        situacao = sessionStorage.getItem('prop_situacao') || '';
+        bairro = sessionStorage.getItem('prop_bairro') || '';
+        cidade = sessionStorage.getItem('prop_cidade') || '';
+        estado = sessionStorage.getItem('prop_estado') || '';
+        quartos = sessionStorage.getItem('prop_quartos') || '';
+        suites = sessionStorage.getItem('prop_suites') || '';
+        banheiros = sessionStorage.getItem('prop_banheiros') || '';
+        diferenciais = sessionStorage.getItem('prop_diferenciais') || '';
+        objetivo = sessionStorage.getItem('prop_objetivo') || '';
+        jaMarcou = sessionStorage.getItem('prop_convertido') === '1';
+      } catch (_) {}
+
+      var titleEl = document.getElementById('title-elem');
+      if (titleEl && nome) {
+        titleEl.innerHTML = 'Excelente decisão, <span class="highlight-name">' + nome + '</span>! Seu imóvel já está em análise técnica.';
+      }
+
+      var summaryBox = document.getElementById('prop-summary-box');
+      var summaryText = document.getElementById('prop-summary-text');
+      if (summaryBox && summaryText && tipo) {
+        var parts = [tipo];
+        if (situacao) parts[0] += ' · ' + situacao;
+        if (estado) parts[0] += ' (' + estado + ')';
+        if (bairro) parts.push(bairro);
+        if (cidade) parts.push(cidade);
+        var comodos = [];
+        if (quartos) comodos.push(quartos);
+        if (suites && suites !== 'Sem suíte') comodos.push(suites);
+        if (banheiros) comodos.push(banheiros);
+        if (comodos.length) parts.push(comodos.join(' / '));
+        var label = '🏠 Imóvel cadastrado: ' + parts.join(' - ');
+        if (diferenciais) label += ' · ' + diferenciais;
+        if (objetivo) label += ' · ' + objetivo;
+        summaryText.textContent = label;
+        summaryBox.style.display = 'flex';
+      }
+
+      var btnWa = document.getElementById('btn-wa-elem');
+      var btnDuvidas = document.getElementById('btn-wa-duvidas');
+      var finalLink = link && link.indexOf('https://wa.me/') === 0
+        ? link
+        : 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent('Olá, Joel! Cadastrei meu imóvel para avaliação e gostaria de conversar.');
+
+      if (btnWa) btnWa.href = finalLink;
+      if (btnDuvidas) btnDuvidas.href = finalLink;
+
+      // Conversão dataLayer (Google Tag Manager)
+      if (!jaMarcou && externalId) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'lead_captacao_imovel',
+          form_name: 'captacao_imovel',
+          external_id: externalId,
+          event_id: externalId,
+          user_data: { phone_number: phone || undefined },
+        });
+        try {
+          sessionStorage.setItem('prop_convertido', '1');
+          sessionStorage.removeItem('prop_phone');
+        } catch (_) {}
+      }
+    })();
+  </script>
+</body>
+</html>
