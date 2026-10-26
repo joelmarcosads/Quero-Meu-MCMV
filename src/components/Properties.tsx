@@ -1,7 +1,7 @@
 import { m as motion } from 'motion/react';
 import { MapPin, BedDouble, Car, Shield, Waves } from 'lucide-react';
-
 import { Link } from 'react-router-dom';
+
 const imgReserva = '/fachada-da-casa-reserva-dos-passaros.webp';
 const imgPrime = '/capa-do-site-prime-club-itaborai.webp';
 const imgFlores = '/fachada-flores-de-maio.webp';
@@ -14,9 +14,10 @@ type Property = {
   name: string;
   location: string;
   image: string;
+  imageAlt?: string;
   badges: string[];
   features: {
-    bed: number;
+    bed: number | string;
     bedText?: string;
     car: number;
     carText?: string;
@@ -33,6 +34,7 @@ const PROPERTIES: Property[] = [
     name: "Reserva dos Pássaros 2",
     location: "Itaboraí - RJ",
     image: imgReserva,
+    imageAlt: "Fachada do empreendimento Reserva dos Pássaros 2 localizado em Itaboraí - RJ - Minha Casa Minha Vida",
     badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Parcelas Mensais a Partir de R$ 650,00*",
@@ -43,6 +45,7 @@ const PROPERTIES: Property[] = [
     name: "Prime Club Itaboraí",
     location: "Itaboraí - RJ",
     image: imgPrime,
+    imageAlt: "Fachada do empreendimento Prime Club Itaboraí localizado em Itaboraí - RJ - Minha Casa Minha Vida",
     badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Entrada Facilitada em até 72X",
@@ -53,6 +56,7 @@ const PROPERTIES: Property[] = [
     name: "Flores de Maio",
     location: "Santo Expedito, Itaboraí - RJ",
     image: imgFlores,
+    imageAlt: "Fachada do empreendimento Flores de Maio localizado em Santo Expedito, Itaboraí - RJ - Minha Casa Minha Vida",
     badges: ["MCMV - Caixa", "A 5 min. do Centro de Itaboraí"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
@@ -63,6 +67,7 @@ const PROPERTIES: Property[] = [
     name: "Residencial Florescer",
     location: "Vila Iara, São Gonçalo - RJ",
     image: imgResidencial,
+    imageAlt: "Fachada do lançamento Residencial Florescer, em Vila Iara, São Gonçalo - RJ",
     badges: ["Lançamento Exclusivo", "Alto Padrão"],
     features: { bed: 3, bedText: "2 e 3 Quartos c/ Suíte", car: 2, carText: "1 ou 2 Vagas", leisure: true, security: true },
     priceCondition: "Condições Exclusivas de Negociação",
@@ -73,6 +78,7 @@ const PROPERTIES: Property[] = [
     name: "Solar da Trindade",
     location: "Trindade, São Gonçalo - RJ",
     image: imgSolar,
+    imageAlt: "Fachada do empreendimento Solar da Trindade localizado em Trindade, São Gonçalo - RJ - Minha Casa Minha Vida",
     badges: ["MCMV - Caixa", "A 300m da Faculdade UNIVERSO"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 500 + Entrada Facilitada em até 100X",
@@ -83,8 +89,9 @@ const PROPERTIES: Property[] = [
     name: "Conquista Oceânica",
     location: "Maricá - RJ",
     image: imgConquista,
+    imageAlt: "Fachada do condomínio Conquista Oceânica em Maricá - RJ",
     badges: ["Lançamento", "Minha Casa Minha Vida"],
-    features: { bed: "1 e 2" as any, car: 1, leisure: true, security: true },
+    features: { bed: "1 e 2", car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 1.000*",
     slug: "/conquista-oceanica"
   }
@@ -103,7 +110,7 @@ export default function Properties({ filterCity }: PropertiesProps) {
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
             {filterCity 
               ? `Empreendimentos em Destaque em ${filterCity}` 
-              : "Empreendimentos em Destaque no Rio de Janeiro"}
+              : "Empreendimentos Minha Casa Minha Vida em Itaboraí e Região"}
           </h2>
           <p className="text-lg text-slate-600 text-justify md:text-center">
             Conheça as melhores opções do programa Minha Casa Minha Vida na sua região. Compre com facilidade e pare de pagar aluguel hoje.
@@ -123,7 +130,7 @@ export default function Properties({ filterCity }: PropertiesProps) {
               <div className="relative h-56 overflow-hidden">
                 <img loading="lazy" 
                   src={prop.image} 
-                  alt={`Fachada do empreendimento ${prop.name} localizado em ${prop.location} - Apartamentos Minha Casa Minha Vida`} 
+                  alt={prop.imageAlt || `Fachada do empreendimento ${prop.name} localizado em ${prop.location} - Apartamentos Minha Casa Minha Vida`} 
                   title={`Empreendimento ${prop.name}`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

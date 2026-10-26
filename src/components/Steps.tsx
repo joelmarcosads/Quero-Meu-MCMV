@@ -5,7 +5,7 @@ const STEPS = [
   {
     icon: <MessageCircle className="w-8 h-8 text-primary" />,
     title: "Fale pelo WhatsApp",
-    desc: "Encontre o apartamento dos seus sonhos e conte com nosso suporte durante todo o processo. Um de nossos corretores te acompanha desde o envio dos documentos, até a análise dos bancos."
+    desc: "Encontre o apartamento dos seus sonhos e conte com meu suporte durante todo o processo. Eu, Joel Marcos, acompanho você pessoalmente desde o envio dos documentos, até a análise dos bancos."
   },
   {
     icon: <FileText className="w-8 h-8 text-primary" />,
@@ -34,7 +34,7 @@ export default function Steps() {
             Como se inscrever no Minha Casa Minha Vida com as melhores condições
           </h2>
           <p className="text-lg text-slate-600 text-justify md:text-center">
-            Cuidamos de tudo para você. Veja como o processo é simples e transparente.
+            Eu cuido de tudo para você. Veja como o processo é simples e transparente.
           </p>
         </div>
 

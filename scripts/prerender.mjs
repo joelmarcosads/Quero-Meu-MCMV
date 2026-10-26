@@ -48,6 +48,10 @@ async function runPrerender() {
   for (const route of ROUTES) {
     const isRoot = route.path === '/';
     const canonicalUrl = isRoot ? `${CANONICAL_DOMAIN}/` : `${CANONICAL_DOMAIN}${route.path}`;
+    
+    // Per requirement 1.2: URLs have no trailing slash (ex: /sobre).
+    // Generate dist/index.html for "/" and dist/<slug>.html for each route (ex: dist/sobre.html).
+    // DO NOT generate dist/sobre/index.html.
     const targetFile = route.outputFile
       ? path.join(distDir, route.outputFile)
       : isRoot
@@ -59,7 +63,7 @@ async function runPrerender() {
     // 1. Render application React tree
     const { html: appHtml } = render(route.path);
 
-    // 2. Clean any static opacity:0 inline styles from motion SSR and strip hoisted head metadata
+    // 2. Strip hoisted head metadata and clean any static opacity:0 inline styles from motion SSR
     const cleanedAppHtml = appHtml
       .replace(/<title[^>]*>[\s\S]*?<\/title>/gi, '')
       .replace(/<meta[^>]*>/gi, '')
@@ -73,10 +77,9 @@ async function runPrerender() {
         return cleaned;
       });
 
-    // 3. Clean existing template head meta tags to ensure tag uniqueness (1 title, 1 canonical, 1 og:*, etc.)
+    // 3. Clean existing template head meta tags to ensure complete uniqueness
     let pageHtml = template;
 
-    // Remove old tags from head template
     pageHtml = pageHtml
       .replace(/<title[^>]*>[\s\S]*?<\/title>/gi, '')
       .replace(/<meta[^>]*name="description"[^>]*>/gi, '')
@@ -86,6 +89,7 @@ async function runPrerender() {
       .replace(/<meta[^>]*property="og:url"[^>]*>/gi, '')
       .replace(/<meta[^>]*property="og:type"[^>]*>/gi, '')
       .replace(/<meta[^>]*property="og:image"[^>]*>/gi, '')
+      .replace(/<meta[^>]*property="og:image:alt"[^>]*>/gi, '')
       .replace(/<meta[^>]*property="og:site_name"[^>]*>/gi, '')
       .replace(/<meta[^>]*property="og:locale"[^>]*>/gi, '')
       .replace(/<meta[^>]*name="twitter:card"[^>]*>/gi, '')
@@ -96,11 +100,17 @@ async function runPrerender() {
       .replace(/<script[^>]*type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/gi, '');
 
     // 4. Build exact, canonical head tags
+    const robotsContent = route.noindex
+      ? route.nofollow
+        ? 'noindex, nofollow'
+        : 'noindex'
+      : null;
+
     const headTags = [
       `<title>${escapeText(route.title)}</title>`,
       `<meta name="description" content="${escapeAttr(route.description)}" />`,
+      ...(robotsContent ? [`<meta name="robots" content="${robotsContent}" />`] : []),
       `<link rel="canonical" href="${canonicalUrl}" />`,
-      ...(route.noindex ? [`<meta name="robots" content="noindex${route.nofollow ? ', nofollow' : ''}" />`] : []),
       `<meta property="og:type" content="${route.schemaType === 'Article' ? 'article' : 'website'}" />`,
       `<meta property="og:url" content="${canonicalUrl}" />`,
       `<meta property="og:title" content="${escapeAttr(route.title)}" />`,
@@ -112,7 +122,7 @@ async function runPrerender() {
       `<meta name="twitter:title" content="${escapeAttr(route.title)}" />`,
       `<meta name="twitter:description" content="${escapeAttr(route.description)}" />`,
       `<meta name="twitter:image" content="${CANONICAL_DOMAIN}/capa-site-quero-meu-mcmv-open-graph.webp" />`,
-      `<script type="application/ld+json">${JSON.stringify(buildSchemaGraph(route))}</script>`,
+      ...(route.noindex ? [] : [`<script type="application/ld+json">${JSON.stringify(buildSchemaGraph(route))}</script>`]),
     ].join('\n    ');
 
     // Inject head tags right before </head>
@@ -124,28 +134,18 @@ async function runPrerender() {
       `<div id="root">${cleanedAppHtml}</div>`
     );
 
-    // Ensure target directory exists
+    // Ensure target directory exists and write dist/<slug>.html
     const targetDir = path.dirname(targetFile);
     if (!fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir, { recursive: true });
     }
 
     fs.writeFileSync(targetFile, pageHtml, 'utf-8');
-
-    // Also write dist/<path>/index.html for hosting conventions if route is not root and not a standalone output file
-    if (!isRoot && !route.outputFile) {
-      const dirIndexFile = path.join(distDir, route.path.replace(/^\//, ''), 'index.html');
-      const dirPath = path.dirname(dirIndexFile);
-      if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true });
-      }
-      fs.writeFileSync(dirIndexFile, pageHtml, 'utf-8');
-    }
   }
 
   // 5. Build sitemap.xml
   console.log('[Prerender] Generating sitemap.xml...');
-  const indexableRoutes = ROUTES.filter((r) => !r.noindex);
+  const indexableRoutes = ROUTES.filter((r) => !r.noindex && r.path !== '/404');
   console.log(`[Prerender] Found ${indexableRoutes.length} indexable routes for sitemap.`);
 
   const today = new Date().toISOString().split('T')[0];
@@ -167,9 +167,15 @@ async function runPrerender() {
   sitemapXml += '</urlset>\n';
 
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml, 'utf-8');
+
+  // Copy llms.txt and robots.txt to dist if present in public
   const publicDir = path.join(rootDir, 'public');
-  if (fs.existsSync(publicDir)) {
-    fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml, 'utf-8');
+  for (const fileName of ['llms.txt', 'robots.txt', '_headers']) {
+    const src = path.join(publicDir, fileName);
+    const dest = path.join(distDir, fileName);
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, dest);
+    }
   }
 
   // 6. Clean up temporary dist-server directory

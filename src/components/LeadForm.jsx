@@ -48,7 +48,7 @@ const CSS = `
 @media(prefers-reduced-motion:reduce){#lead-box *{transition:none!important}}
 `;
 
-const CIDADES = ['Niterói', 'São Gonçalo', 'Itaboraí', 'Ainda não sei'];
+const CIDADES = ['Itaboraí', 'São Gonçalo', 'Niterói', 'Ainda não sei'];
 const PAGAMENTOS = ['à vista', 'Financiamento Imobiliário', 'Consórcio'];
 const FAIXAS = ['Até R$ 200 mil', 'R$ 200 a 300 mil', 'R$ 300 a 450 mil', 'R$ 450 a 700 mil', 'Acima de R$ 700 mil'];
 const QUARTOS = ['1 quarto', '2 quartos', '3 quartos', '4 ou mais'];

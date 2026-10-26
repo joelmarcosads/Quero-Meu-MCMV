@@ -11,18 +11,18 @@ export default function SubsidioMcmv() {
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe</title>
-        <meta name="description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo." />
+        <meta name="description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região." />
         <link rel="canonical" href="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe" />
-        <meta property="og:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo." />
+        <meta property="og:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região." />
         <meta property="og:url" content="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe" />
-        <meta name="twitter:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo." />
+        <meta name="twitter:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       

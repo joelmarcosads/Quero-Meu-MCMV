@@ -8,17 +8,17 @@ export default function TermsOfUse() {
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Termos de Uso | Quero Meu MCMV</title>
-        <meta name="description" content="Leia nossos Termos de Uso e entenda as condições para a utilização do site." />
+        <meta name="description" content="Termos e condições de uso do site Quero Meu MCMV." />
         <link rel="canonical" href="https://queromeumcmv.com.br/termos-de-uso" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Termos de Uso | Quero Meu MCMV" />
-        <meta property="og:description" content="Leia nossos Termos de Uso e entenda as regras de utilização da plataforma." />
+        <meta property="og:description" content="Termos e condições de uso do site Quero Meu MCMV." />
         <meta property="og:url" content="https://queromeumcmv.com.br/termos-de-uso" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Termos de Uso | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Leia nossos Termos de Uso e entenda as condições para a utilização do site." />
+        <meta name="twitter:description" content="Termos e condições de uso do site Quero Meu MCMV." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       <Header />
@@ -42,7 +42,7 @@ export default function TermsOfUse() {
 
           <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">3. Informações do Usuário</h2>
           <p>
-            Você é responsável por garantir que todas as informações que você nos fornece (como nome, renda, etc.) sejam precisas e verdadeiras. Ao fornecer suas informações de contato, você concorda em ser contatado por nossos consultores e parceiros.
+            Você é responsável por garantir que todas as informações que você nos fornece (como nome, renda, etc.) sejam precisas e verdadeiras. Ao fornecer suas informações de contato, você concorda em ser contatado pelo corretor Joel Marcos e parceiros para atendimento imobiliário.
           </p>
 
           <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">4. Links para Outros Sites</h2>

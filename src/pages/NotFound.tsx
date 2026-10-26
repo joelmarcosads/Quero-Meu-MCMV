@@ -4,19 +4,17 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
 import { Home, MapPin, MessageCircle, AlertTriangle } from 'lucide-react';
-import { gerarLinkWhatsApp } from '../utils/whatsapp';
+
+const WHATSAPP_URL =
+  'https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida.';
 
 export default function NotFound() {
-  const whatsappUrl = gerarLinkWhatsApp(
-    'Página 404',
-    'Falar com corretor no WhatsApp'
-  );
-
   return (
     <div className="min-h-screen flex flex-col font-sans bg-slate-50 selection:bg-accent selection:text-white">
       <Helmet>
         <title>Página Não Encontrada | Quero Meu MCMV</title>
-        <meta name="robots" content="noindex, follow" />
+        <meta name="description" content="A página que você está procurando não existe ou foi movida. Conheça as opções do Minha Casa Minha Vida." />
+        <meta name="robots" content="noindex" />
       </Helmet>
       <Header />
       
@@ -31,7 +29,7 @@ export default function NotFound() {
         </h1>
 
         <p className="text-slate-600 mb-8 max-w-xl text-base sm:text-lg leading-relaxed">
-          O link que você tentou acessar não existe, mudou de endereço ou foi desativado. Mas não se preocupe! Você pode explorar as opções do Minha Casa Minha Vida pelos links abaixo ou falar diretamente com nosso corretor:
+          O link que você tentou acessar não existe, mudou de endereço ou foi desativado. Mas não se preocupe! Você pode explorar as opções do Minha Casa Minha Vida pelos links abaixo ou falar diretamente com Joel Marcos no WhatsApp:
         </p>
 
         {/* Quick Links */}
@@ -61,9 +59,9 @@ export default function NotFound() {
           </Link>
 
           <a
-            href={whatsappUrl}
+            href={WHATSAPP_URL}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className="inline-flex items-center gap-2 bg-success hover:bg-green-700 text-white font-semibold py-2.5 px-5 rounded-xl transition-all shadow-sm text-sm"
           >
             <MessageCircle className="w-4 h-4" />

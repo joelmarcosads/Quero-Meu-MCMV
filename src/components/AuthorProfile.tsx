@@ -1,5 +1,3 @@
-import { User, Calendar, CheckCircle2 } from 'lucide-react';
-
 export default function AuthorProfile() {
   return (
     <div className="mt-12 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start gap-6">
@@ -10,8 +8,8 @@ export default function AuthorProfile() {
         <div className="text-sm font-semibold text-accent mb-1">Conteúdo preparado por:</div>
         <h3 className="font-bold text-slate-900 text-lg">Joel Marcos</h3>
         <p className="text-sm text-slate-600 mb-3">Corretor de Imóveis • CRECI 39.583F</p>
-        <p className="text-slate-700 text-sm">
-          Especialista no programa Minha Casa Minha Vida, dedicando-se a orientar famílias de Itaboraí, São Gonçalo e região em todas as etapas do financiamento habitacional.
+        <p className="text-slate-700 text-sm leading-relaxed">
+          Joel Marcos é corretor de imóveis (CRECI 39.583F) especialista no programa Minha Casa Minha Vida em Itaboraí-RJ, com atendimento também em São Gonçalo, Niterói e Maricá.
         </p>
       </div>
     </div>

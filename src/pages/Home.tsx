@@ -12,24 +12,24 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá | Quero Meu MCMV</title>
-        <meta name="description" content="Saia do aluguel com o Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Sinal a partir de R$ 500, FGTS e subsídio. Simule grátis no WhatsApp." />
+        <title>Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV</title>
+        <meta name="description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
         <link rel="canonical" href="https://queromeumcmv.com.br/" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá | Quero Meu MCMV" />
-        <meta property="og:description" content="Saia do aluguel com o Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Sinal a partir de R$ 500, FGTS e subsídio. Simule grátis no WhatsApp." />
+        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV" />
+        <meta property="og:description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <meta property="og:image:alt" content="Quero Meu MCMV - Apartamentos e Lançamentos em Itaboraí e São Gonçalo" />
+        <meta property="og:image:alt" content="Quero Meu MCMV - Apartamentos e Lançamentos Minha Casa Minha Vida em Itaboraí" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Saia do aluguel com o Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Sinal a partir de R$ 500, FGTS e subsídio. Simule grátis no WhatsApp." />
+        <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
-        <meta name="geo.placename" content="Itaboraí, São Gonçalo" />
+        <meta name="geo.placename" content="Itaboraí" />
         <link rel="preload" as="image" href="/imperio-do-ouro-mrv-mobile.webp" media="(max-width: 600px)" fetchPriority="high" />
         <link rel="preload" as="image" href="/imperio-do-ouro-mrv-desktop.webp" media="(min-width: 601px)" fetchPriority="high" />
       </Helmet>

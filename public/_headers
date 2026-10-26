@@ -1,25 +1,9 @@
-# Cloudflare Pages Headers Configuration
-
-# Regras globais de segurança e políticas HTTP
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  X-Frame-Options: DENY
-  Content-Security-Policy: default-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com https://viacep.com.br https://www.google-analytics.com https://stats.g.doubleclick.net https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; frame-ancestors 'none'; base-uri 'self';
-
-# Cache curto para arquivos HTML para garantir atualização imediata
-/*.html
-  Cache-Control: public, max-age=0, must-revalidate
-
-/
-  Cache-Control: public, max-age=0, must-revalidate
-
-/obrigado
-  Cache-Control: public, max-age=0, must-revalidate
-
-/obrigado.imoveis
-  Cache-Control: public, max-age=0, must-revalidate
-
-# Cache longo e imutável para assets estáticos com hash
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+/llms.txt
+  Content-Type: text/plain; charset=utf-8

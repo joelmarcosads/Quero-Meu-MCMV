@@ -12,18 +12,18 @@ export default function McmvItaborai() {
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Minha Casa Minha Vida em Itaboraí: Apartamentos 2026</title>
-        <meta name="description" content="Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule." />
+        <meta name="description" content="Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí: Apartamentos 2026" />
-        <meta property="og:description" content="Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule." />
+        <meta property="og:description" content="Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí: Apartamentos 2026" />
-        <meta name="twitter:description" content="Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule." />
+        <meta name="twitter:description" content="Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />

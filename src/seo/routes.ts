@@ -38,12 +38,20 @@ export interface SeoRoute {
 
 export const CANONICAL_DOMAIN = 'https://queromeumcmv.com.br';
 
+export const FRASE_ENTIDADE_OFICIAL =
+  'Joel Marcos é corretor de imóveis (CRECI 39.583F) especialista no programa Minha Casa Minha Vida em Itaboraí-RJ, com atendimento também em São Gonçalo, Niterói e Maricá.';
+
 export const BASE_ORGANIZATION_DATA = {
-  name: 'Joel Marcos - Corretor de Imóveis MCMV',
+  '@type': 'RealEstateAgent',
+  '@id': `${CANONICAL_DOMAIN}/#organization`,
+  name: 'Joel Marcos - Corretor Minha Casa Minha Vida em Itaboraí',
   legalName: 'Joel Marcos da Silva',
-  image: `${CANONICAL_DOMAIN}/capa-site-quero-meu-mcmv-open-graph.webp`,
+  description: FRASE_ENTIDADE_OFICIAL,
+  slogan: 'Especialista em Minha Casa Minha Vida em Itaboraí-RJ',
   url: `${CANONICAL_DOMAIN}/`,
+  image: `${CANONICAL_DOMAIN}/capa-site-quero-meu-mcmv-open-graph.webp`,
   telephone: '+55 21 96592-8399',
+  email: 'contato@queromeumcmv.com.br',
   priceRange: 'R$ 150.000 - R$ 600.000',
   openingHours: 'Mo-Sa 08:00-20:00',
   address: {
@@ -59,29 +67,56 @@ export const BASE_ORGANIZATION_DATA = {
     latitude: -22.7444,
     longitude: -42.8597,
   },
-  areaServed: ['Itaboraí', 'São Gonçalo', 'Niterói', 'Maricá', 'Rio de Janeiro'],
-  knowsAbout: [
-    'Minha Casa Minha Vida',
-    'Financiamento Caixa Econômica Federal',
-    'Subsídio Habitacional',
-    'FGTS na Compra do Imóvel',
-    'Apartamentos em Itaboraí e São Gonçalo',
-  ],
-  identifier: [
+  identifier: {
+    '@type': 'PropertyValue',
+    name: 'CRECI',
+    value: '39.583F',
+  },
+  areaServed: [
     {
-      '@type': 'PropertyValue',
-      name: 'CRECI',
-      value: '39.583F',
+      '@type': 'City',
+      name: 'Itaboraí',
+      sameAs: 'https://pt.wikipedia.org/wiki/Itabora%C3%AD',
     },
+    {
+      '@type': 'City',
+      name: 'São Gonçalo',
+      sameAs: 'https://pt.wikipedia.org/wiki/S%C3%A3o_Gon%C3%A7alo_(Rio_de_Janeiro)',
+    },
+    {
+      '@type': 'City',
+      name: 'Niterói',
+      sameAs: 'https://pt.wikipedia.org/wiki/Niter%C3%B3i',
+    },
+    {
+      '@type': 'City',
+      name: 'Maricá',
+      sameAs: 'https://pt.wikipedia.org/wiki/Maric%C3%A1',
+    },
+  ],
+  knowsAbout: [
+    'Minha Casa Minha Vida em Itaboraí',
+    'Programa Minha Casa Minha Vida',
+    'Financiamento habitacional Caixa',
+    'Subsídio habitacional',
+    'Uso do FGTS na compra do imóvel',
+    'Imóveis em Itaboraí-RJ',
+  ],
+  founder: {
+    '@id': `${CANONICAL_DOMAIN}/#joel-marcos`,
+  },
+  sameAs: [
+    'https://www.instagram.com/queromeumcmv/',
+    'https://www.facebook.com/queromeumcmv',
   ],
 };
 
 export const ROUTES: SeoRoute[] = [
   {
     path: '/',
-    title: 'Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá | Quero Meu MCMV',
-    description: 'Saia do aluguel com o Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Sinal a partir de R$ 500, FGTS e subsídio. Simule grátis no WhatsApp.',
-    h1: 'Saia do aluguel! Seu apartamento Minha Casa Minha Vida em Itaboraí e São Gonçalo',
+    title: 'Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV',
+    description: 'Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500.',
+    h1: 'Saia do aluguel! Seu apartamento Minha Casa Minha Vida em Itaboraí',
     schemaType: 'WebSite',
     priority: '1.0',
     changefreq: 'weekly',
@@ -104,20 +139,20 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Quanto tempo demora a aprovação do banco?',
-        answer: 'O tempo de análise costuma ser rápido. Nossos corretores ajudam você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis (prazo médio que pode variar conforme a demanda do banco).',
+        answer: 'O tempo de análise costuma ser rápido. Eu ajudo você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis (prazo médio que pode variar conforme a demanda do banco).',
       },
     ],
   },
   {
     path: '/minha-casa-minha-vida-itaborai',
     title: 'Minha Casa Minha Vida em Itaboraí: Apartamentos 2026',
-    description: 'Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule.',
+    description: 'Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule.',
     h1: 'Minha Casa Minha Vida em Itaboraí - RJ',
     schemaType: 'CollectionPage',
     priority: '0.9',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Minha Casa Minha Vida Itaboraí', path: '/minha-casa-minha-vida-itaborai' },
     ],
     faqs: [
@@ -138,13 +173,13 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/minha-casa-minha-vida-sao-goncalo',
     title: 'Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026',
-    description: 'Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Veja opções, subsídio e simule seu financiamento.',
+    description: 'Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Atendimento com corretor CRECI. Simule seu financiamento.',
     h1: 'Minha Casa Minha Vida em São Gonçalo - RJ',
     schemaType: 'CollectionPage',
     priority: '0.9',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Minha Casa Minha Vida São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
     ],
     faqs: [
@@ -171,7 +206,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.9',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Financiamento MCMV', path: '/financiamento-minha-casa-minha-vida' },
     ],
     faqs: [
@@ -189,7 +224,7 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Posso financiar um imóvel estando com nome negativado?',
-        answer: 'A Caixa Econômica exige que o comprador esteja com o nome limpo no momento da contratação do financiamento habitacional. Nossos consultores orientam sobre os passos para regularização.',
+        answer: 'A Caixa Econômica exige que o comprador esteja com o nome limpo no momento da contratação do financiamento habitacional. Joel Marcos orienta você sobre os passos para regularização.',
       },
       {
         question: 'O subsídio do governo precisa ser devolvido?',
@@ -200,13 +235,13 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/subsidio-minha-casa-minha-vida',
     title: 'Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe',
-    description: 'Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo.',
+    description: 'Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região.',
     h1: 'O que é o Subsídio do Minha Casa Minha Vida?',
     schemaType: 'Article',
     priority: '0.8',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Subsídio MCMV', path: '/subsidio-minha-casa-minha-vida' },
     ],
     faqs: [
@@ -215,7 +250,7 @@ export const ROUTES: SeoRoute[] = [
         answer: 'Famílias enquadradas principalmente nas Faixas 1 e 2 do programa, que comprovem renda dentro dos limites vigentes e não possuam imóvel próprio.',
       },
       {
-        question: 'Quanto posso receber de subsídio em Itaboraí e São Gonçalo?',
+        question: 'Quanto posso receber de subsídio em Itaboraí e região?',
         answer: 'O valor do subsídio pode chegar a até R$ 55.000, calculado conforme a renda familiar bruta, o município do imóvel e a composição familiar.',
       },
       {
@@ -233,7 +268,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'FGTS no MCMV', path: '/fgts-minha-casa-minha-vida' },
     ],
     faqs: [
@@ -260,7 +295,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Renda MCMV', path: '/renda-minha-casa-minha-vida' },
     ],
     faqs: [
@@ -287,7 +322,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Documentos MCMV', path: '/documentos-minha-casa-minha-vida' },
     ],
     faqs: [
@@ -308,19 +343,19 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/captacaodeimoveis',
     title: 'Avaliação Gratuita do Seu Imóvel em Itaboraí e Região',
-    description: 'Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F.',
+    description: 'Quer vender seu imóvel em Itaboraí, São Gonçalo, Niterói ou Maricá? Receba avaliação gratuita com corretor CRECI 39.583F.',
     h1: 'Descubra quanto vale o seu imóvel em Itaboraí, gratuitamente',
     schemaType: 'Service',
     priority: '0.9',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Avaliação de Imóveis', path: '/captacaodeimoveis' },
     ],
     faqs: [
       {
         question: 'Como funciona a avaliação gratuita do imóvel?',
-        answer: 'Você preenche as características do seu imóvel no formulário e nosso corretor credenciado analisa a localização, tamanho e o valor de mercado atualizado da região.',
+        answer: 'Você preenche as características do seu imóvel no formulário e Joel Marcos analisa a localização, tamanho e o valor de mercado atualizado de Itaboraí e região atendida.',
       },
       {
         question: 'Preciso pagar alguma taxa pela avaliação?',
@@ -328,7 +363,7 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Quais cidades são atendidas na captação?',
-        answer: 'Atendemos com foco em Itaboraí, São Gonçalo, Niterói e Maricá.',
+        answer: 'Atendemos com especialidade em Itaboraí, e com atendimento também em São Gonçalo, Niterói e Maricá.',
       },
       {
         question: 'O corretor possui registro no CRECI?',
@@ -338,14 +373,14 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/sobre',
-    title: 'Joel Marcos, Corretor de Imóveis CRECI 39.583F',
-    description: 'Conheça Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Atendimento humano e transparente.',
+    title: 'Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F',
+    description: 'Joel Marcos é corretor de imóveis especialista no Minha Casa Minha Vida em Itaboraí-RJ, com atendimento em São Gonçalo, Niterói e Maricá.',
     h1: 'Sobre o Quero Meu MCMV',
     schemaType: 'AboutPage',
     priority: '0.8',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Sobre', path: '/sobre' },
     ],
   },
@@ -358,7 +393,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'MCMV Itaboraí', path: '/minha-casa-minha-vida-itaborai' },
       { name: 'Reserva dos Pássaros 2', path: '/reserva-dos-passaros-2' },
     ],
@@ -372,14 +407,14 @@ export const ROUTES: SeoRoute[] = [
       image: `${CANONICAL_DOMAIN}/fachada-da-casa-reserva-dos-passaros.webp`,
       commercialCondition: 'Sinal a partir de R$ 1.000, parcelas a partir de R$ 650 e subsídio de até R$ 55 mil Caixa',
       amenities: [
+        { name: 'Vaga de Garagem', value: 'True' },
+        { name: 'Condomínio Fechado', value: 'True' },
+        { name: 'Lazer Completo', value: 'True' },
         { name: 'Piscinas Climatizadas (Adulto e Infantil)', value: 'True' },
         { name: 'Salão de Festas com Churrasqueira', value: 'True' },
         { name: 'Academia', value: 'True' },
         { name: 'Pet Place', value: 'True' },
         { name: 'Segurança 24 horas', value: 'True' },
-        { name: 'Quadra de esportes', value: 'True' },
-        { name: 'Pomar e Redário', value: 'True' },
-        { name: 'Minimercado autônomo', value: 'True' },
       ],
     },
     faqs: [
@@ -410,7 +445,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'MCMV Itaboraí', path: '/minha-casa-minha-vida-itaborai' },
       { name: 'Prime Club Itaboraí', path: '/prime-club-itaborai' },
     ],
@@ -420,20 +455,20 @@ export const ROUTES: SeoRoute[] = [
       addressRegion: 'RJ',
       numberOfBedrooms: 2,
       image: `${CANONICAL_DOMAIN}/capa-do-site-prime-club-itaborai.webp`,
-      commercialCondition: 'Sinal a partir de R$ 1.000, entrada facilitada em até 72x e subsídio de até R$ 55 mil',
+      commercialCondition: 'Sinal a partir de R$ 1.000, entrada facilitada em até 72x e subsídio de até R$ 55 mil Caixa',
       amenities: [
+        { name: 'Vaga de Garagem', value: 'True' },
+        { name: 'Condomínio Fechado', value: 'True' },
+        { name: 'Lazer Completo', value: 'True' },
         { name: 'Piscina Adulto e Infantil', value: 'True' },
         { name: 'Salão de Festas com Churrasqueira', value: 'True' },
         { name: 'Academia Equipada', value: 'True' },
-        { name: 'Playground Infantil', value: 'True' },
-        { name: 'Pet Place', value: 'True' },
-        { name: 'Condomínio Fechado com Portaria', value: 'True' },
       ],
     },
     faqs: [
       {
         question: 'Onde fica localizado o condomínio Prime Club?',
-        answer: 'O condomínio fechado Prime Club está estrategicamente localizado em Itaboraí, RJ, com acesso rápido a escolas e comércios da região.',
+        answer: 'O condomínio fechado Prime Club está estrategicamente localizado em Itaboraí, RJ, com acesso rápido a escolas e comércios da cidade.',
       },
       {
         question: 'Os apartamentos no Prime Club possuem vaga de garagem?',
@@ -458,7 +493,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'MCMV Itaboraí', path: '/minha-casa-minha-vida-itaborai' },
       { name: 'Flores de Maio', path: '/flores-de-maio' },
     ],
@@ -472,12 +507,13 @@ export const ROUTES: SeoRoute[] = [
       image: `${CANONICAL_DOMAIN}/fachada-flores-de-maio.webp`,
       commercialCondition: 'Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil Caixa',
       amenities: [
+        { name: 'Vaga de Garagem', value: 'True' },
+        { name: 'Condomínio Fechado', value: 'True' },
+        { name: 'Lazer Completo', value: 'True' },
         { name: 'Piscina', value: 'True' },
         { name: 'Churrasqueira', value: 'True' },
         { name: 'Playground', value: 'True' },
         { name: 'Varanda nas Unidades', value: 'True' },
-        { name: 'Vaga de Garagem', value: 'True' },
-        { name: 'Portaria e Segurança', value: 'True' },
       ],
     },
     faqs: [
@@ -508,7 +544,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'MCMV São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
       { name: 'Residencial Florescer', path: '/residencial-florescer' },
     ],
@@ -522,12 +558,12 @@ export const ROUTES: SeoRoute[] = [
       image: `${CANONICAL_DOMAIN}/fachada-residencial-florescer.webp`,
       commercialCondition: 'Condições exclusivas de lançamento com financiamento facilitado pela Caixa',
       amenities: [
+        { name: '1 ou 2 Vagas', value: 'True' },
+        { name: 'Condomínio Fechado', value: 'True' },
+        { name: 'Lazer Completo', value: 'True' },
         { name: 'Suíte e Varanda Gourmet', value: 'True' },
         { name: 'Piscina e Deck', value: 'True' },
         { name: 'Salão de Festas', value: 'True' },
-        { name: 'Playground', value: 'True' },
-        { name: '1 ou 2 Vagas', value: 'True' },
-        { name: 'Portaria 24h', value: 'True' },
       ],
     },
     faqs: [
@@ -558,7 +594,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'MCMV São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
       { name: 'Solar da Trindade', path: '/solar-da-trindade' },
     ],
@@ -572,11 +608,12 @@ export const ROUTES: SeoRoute[] = [
       image: `${CANONICAL_DOMAIN}/fachada-solar-trindade.webp`,
       commercialCondition: 'Sinal a partir de R$ 500 e entrada parcelada em até 100x com subsídio Caixa',
       amenities: [
+        { name: 'Vaga de Garagem', value: 'True' },
+        { name: 'Condomínio Fechado', value: 'True' },
+        { name: 'Lazer Completo', value: 'True' },
         { name: 'Churrasqueira', value: 'True' },
         { name: 'Playground', value: 'True' },
         { name: 'Fitness Externo', value: 'True' },
-        { name: 'Vaga de Garagem', value: 'True' },
-        { name: 'Portaria 24 horas', value: 'True' },
       ],
     },
     faqs: [
@@ -607,7 +644,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.8',
     changefreq: 'weekly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Conquista Oceânica', path: '/conquista-oceanica' },
     ],
     development: {
@@ -620,13 +657,13 @@ export const ROUTES: SeoRoute[] = [
       image: `${CANONICAL_DOMAIN}/fachada-conquista-oceanica.webp`,
       commercialCondition: 'Sinal a partir de R$ 1.000 e financiamento pelo Minha Casa Minha Vida',
       amenities: [
+        { name: 'Vaga de Garagem', value: 'True' },
+        { name: 'Condomínio Fechado', value: 'True' },
+        { name: 'Lazer Completo', value: 'True' },
         { name: 'Piscina Adulto e Infantil', value: 'True' },
         { name: 'Salão de Festas', value: 'True' },
         { name: 'Espaço Fitness', value: 'True' },
         { name: 'Espaço Pet', value: 'True' },
-        { name: 'Churrasqueiras', value: 'True' },
-        { name: 'Vaga de Garagem', value: 'True' },
-        { name: 'Portaria 24h', value: 'True' },
       ],
     },
     faqs: [
@@ -657,7 +694,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.5',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Política de Privacidade', path: '/politica-de-privacidade' },
     ],
   },
@@ -670,7 +707,7 @@ export const ROUTES: SeoRoute[] = [
     priority: '0.5',
     changefreq: 'monthly',
     breadcrumbs: [
-      { name: 'Home', path: '/' },
+      { name: 'Início', path: '/' },
       { name: 'Termos de Uso', path: '/termos-de-uso' },
     ],
   },
@@ -678,7 +715,7 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/obrigado',
     title: 'Recebemos seu interesse! | Quero Meu MCMV',
-    description: 'Recebemos seu contato com sucesso. Em breve um consultor credenciado falará com você no WhatsApp.',
+    description: 'Recebemos seu contato com sucesso. Em breve Joel Marcos entrará em contato com você pelo WhatsApp.',
     h1: 'Recebemos seu interesse! 🏡💚',
     schemaType: 'WebPage',
     noindex: true,
@@ -717,40 +754,51 @@ export const ROUTES: SeoRoute[] = [
 ];
 
 /**
- * Builds the Schema.org JSON-LD @graph for a route according to requirement E
+ * Builds the Schema.org JSON-LD @graph for a route according to FASE 5
  */
 export function buildSchemaGraph(route: SeoRoute): object {
   const graph: any[] = [
     {
       '@type': 'WebSite',
       '@id': `${CANONICAL_DOMAIN}/#website`,
-      url: `${CANONICAL_DOMAIN}/`,
       name: 'Quero Meu MCMV',
-      description:
-        'Portal imobiliário para simulação e aquisição de imóveis pelo programa Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá.',
+      url: `${CANONICAL_DOMAIN}/`,
       publisher: {
         '@id': `${CANONICAL_DOMAIN}/#organization`,
       },
     },
     {
+      ...BASE_ORGANIZATION_DATA,
+    },
+    {
       '@type': 'Person',
       '@id': `${CANONICAL_DOMAIN}/#joel-marcos`,
       name: 'Joel Marcos',
-      jobTitle: 'Corretor de Imóveis',
-      telephone: '+55 21 96592-8399',
-      sameAs: [],
-    },
-    {
-      '@type': 'RealEstateAgent',
-      '@id': `${CANONICAL_DOMAIN}/#organization`,
-      ...BASE_ORGANIZATION_DATA,
-      founder: {
-        '@id': `${CANONICAL_DOMAIN}/#joel-marcos`,
+      jobTitle: 'Corretor de imóveis especialista em Minha Casa Minha Vida em Itaboraí-RJ',
+      description: FRASE_ENTIDADE_OFICIAL,
+      worksFor: {
+        '@id': `${CANONICAL_DOMAIN}/#organization`,
       },
+      workLocation: {
+        '@type': 'City',
+        name: 'Itaboraí',
+        sameAs: 'https://pt.wikipedia.org/wiki/Itabora%C3%AD',
+      },
+      knowsAbout: BASE_ORGANIZATION_DATA.knowsAbout,
+      identifier: {
+        '@type': 'PropertyValue',
+        name: 'CRECI',
+        value: '39.583F',
+      },
+      url: `${CANONICAL_DOMAIN}/sobre`,
+      sameAs: [
+        'https://www.instagram.com/queromeumcmv/',
+        'https://www.facebook.com/queromeumcmv',
+      ],
     },
   ];
 
-  // BreadcrumbList for internal pages
+  // BreadcrumbList for internal pages (Início > página)
   if (route.breadcrumbs && route.breadcrumbs.length > 0) {
     graph.push({
       '@type': 'BreadcrumbList',
@@ -763,7 +811,7 @@ export function buildSchemaGraph(route: SeoRoute): object {
     });
   }
 
-  // ApartmentComplex for developments
+  // ApartmentComplex for developments (FASE 5.4)
   if (route.development) {
     const dev = route.development;
     const complexObj: any = {
@@ -775,6 +823,7 @@ export function buildSchemaGraph(route: SeoRoute): object {
         addressLocality: dev.addressLocality,
         addressRegion: dev.addressRegion,
         addressCountry: 'BR',
+        ...(dev.neighborhood ? { streetAddress: dev.neighborhood } : {}),
       },
       image: dev.image,
       numberOfBedrooms: dev.numberOfBedrooms,
@@ -803,7 +852,7 @@ export function buildSchemaGraph(route: SeoRoute): object {
     graph.push(complexObj);
   }
 
-  // FAQPage (single block for the page)
+  // FAQPage: single block for the page if FAQs exist (FASE 5.3)
   if (route.faqs && route.faqs.length > 0) {
     graph.push({
       '@type': 'FAQPage',

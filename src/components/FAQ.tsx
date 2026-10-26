@@ -1,4 +1,7 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, MessageCircle } from 'lucide-react';
+
+const WHATSAPP_URL =
+  'https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida.';
 
 const FAQS = [
   { 
@@ -24,7 +27,7 @@ const FAQS = [
   { 
     id: 5,
     q: "Quanto tempo demora a aprovação do banco?", 
-    a: "O tempo de análise costuma ser rápido. Nossos corretores ajudam você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis (prazo médio que pode variar conforme a demanda do banco)." 
+    a: "O tempo de análise costuma ser rápido. Eu ajudo você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis (prazo médio que pode variar conforme a demanda do banco)." 
   }
 ];
 
@@ -38,7 +41,7 @@ export default function FAQ() {
             Dúvidas Frequentes
           </h2>
           <p className="text-lg text-slate-600 text-justify md:text-center">
-            Ainda não tem certeza de como funciona? Separamos as respostas para as principais dúvidas dos nossos clientes.
+            Ainda não tem certeza de como funciona? Separamos as respostas para as principais dúvidas de quem busca o Minha Casa Minha Vida.
           </p>
         </div>
 
@@ -64,10 +67,13 @@ export default function FAQ() {
         <div className="mt-12 text-center">
           <p className="text-slate-600 mb-4">Ainda tem dúvidas?</p>
           <a 
-            href="/#simulacao"
-            className="inline-flex items-center justify-center text-center bg-success hover:bg-green-700 text-white font-bold py-3 px-4 sm:px-8 text-sm sm:text-base rounded-xl transition-all shadow-lg shadow-green-600/20 w-full sm:w-auto"
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center justify-center text-center bg-success hover:bg-green-700 text-white font-bold py-3.5 px-6 sm:px-8 text-sm sm:text-base rounded-xl transition-all shadow-lg shadow-green-600/20 w-full sm:w-auto"
           >
-            Fale com um Consultor pelo WhatsApp
+            <MessageCircle className="w-5 h-5 mr-2" />
+            <span>Fale com um Consultor pelo WhatsApp</span>
           </a>
         </div>
 

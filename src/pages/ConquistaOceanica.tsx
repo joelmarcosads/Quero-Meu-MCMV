@@ -3,32 +3,34 @@ import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
 import { m as motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
-import { CheckCircle2, MapPin, Home, Shield, Trees, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Gamepad2, Sun } from 'lucide-react';
-import { gerarLinkWhatsApp } from '../utils/whatsapp';
+import { CheckCircle2, MapPin, Home, Shield, Trees, MessageCircle, Waves, Dumbbell, Accessibility, Map, Flame, Cctv, Car, Utensils, Smile, UserCheck, PartyPopper, Sun } from 'lucide-react';
+
 const imgFachada = '/fachada-conquista-oceanica.webp';
 const imgPiscina = '/piscina-conquista-oceanica.webp';
 const imgChurrasqueira = '/churrasqueira-conquista-oceanica.webp';
 
+const WHATSAPP_URL =
+  'https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida.';
+
 export default function ConquistaOceanica() {
-  const nomeEmpreendimento = "Conquista Oceânica";
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Conquista Oceânica | 1 e 2 Quartos em Maricá</title>
-        <meta name="description" content="Conquista Oceânica em Maricá - RJ. Apartamentos de 1 e 2 quartos com gardens e lazer completo. Compre com o Minha Casa Minha Vida." />
-<link rel="canonical" href="https://queromeumcmv.com.br/conquista-oceanica" />
+        <title>Conquista Oceânica, Maricá: Lançamento MCMV</title>
+        <meta name="description" content="Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000." />
+        <link rel="canonical" href="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Conquista Oceânica em Maricá" />
-        <meta property="og:title" content="Conquista Oceânica | 1 e 2 Quartos em Maricá" />
-        <meta property="og:description" content="Conquista Oceânica em Maricá - RJ. Apartamentos de 1 e 2 quartos com gardens e lazer completo. Compre com o Minha Casa Minha Vida." />
+        <meta property="og:title" content="Conquista Oceânica, Maricá: Lançamento MCMV" />
+        <meta property="og:description" content="Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000." />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Conquista Oceânica | 1 e 2 Quartos em Maricá" />
-        <meta name="twitter:description" content="Conquista Oceânica em Maricá - RJ. Apartamentos de 1 e 2 quartos com gardens e lazer completo. Compre com o Minha Casa Minha Vida." />
+        <meta name="twitter:title" content="Conquista Oceânica, Maricá: Lançamento MCMV" />
+        <meta name="twitter:description" content="Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Maricá" />
@@ -37,8 +39,7 @@ export default function ConquistaOceanica() {
       <Header />
       
       <main>
-        {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
-        {/* Hero Section - Primeira Dobra Harmoniosa com Formulário Estratégico */}
+        {/* Hero Section */}
         <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img fetchPriority="high" 
@@ -51,14 +52,12 @@ export default function ConquistaOceanica() {
           
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-              {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
                 initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
               >
-                {/* Topo do Texto - Alinhado ao topo do formulário */}
                 <div className="space-y-4">
                   <div>
                     <div className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-accent/90 border border-amber-300/30 text-white text-xs sm:text-sm font-bold tracking-wider uppercase shadow-lg">
@@ -74,9 +73,12 @@ export default function ConquistaOceanica() {
                   <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
                     More no empreendimento Direcional que conecta você à tranquilidade e às praias da Região Oceânica. Condomínio fechado com lazer completo, conforto e condições do <strong className="text-white font-semibold">Minha Casa Minha Vida</strong>.
                   </p>
+                  
+                  <p className="text-sm text-orange-200/90 font-medium">
+                    Atendimento com Joel Marcos, corretor especialista em MCMV em Itaboraí, que também atende Maricá.
+                  </p>
                 </div>
 
-                {/* Meio - 4 Diferenciais em Grade e Cards de Condições */}
                 <div className="space-y-4 my-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-inner">
                     <div className="flex items-center gap-3">
@@ -121,7 +123,6 @@ export default function ConquistaOceanica() {
                   </div>
                 </div>
 
-                {/* Rodapé do Texto - Alinhado à base do formulário com Aviso Legal Fonte 10 */}
                 <div className="pt-2">
                   <p className="text-[10px] text-slate-300/80 leading-normal italic border-t border-white/10 pt-2">
                     *As informações podem sofrer alteração sem prévio aviso. Consulte preço, condições de pagamento e disponibilidade. Cadastre-se para mais informações.
@@ -129,7 +130,6 @@ export default function ConquistaOceanica() {
                 </div>
               </motion.div>
 
-              {/* Right Column - Strategic Lead Form na 1ª Dobra */}
               <motion.div
                 id="formulario"
                 initial={false}
@@ -234,16 +234,15 @@ export default function ConquistaOceanica() {
                 />
               </div>
               <div className="order-1 lg:order-2">
-                              <nav className="text-sm font-medium text-slate-300 mb-6" aria-label="Breadcrumb">
-                <ol className="flex flex-wrap items-center space-x-2">
-                  <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-                  <li><span className="mx-2">&gt;</span></li>
-                  
-                  <li className="text-orange-300" aria-current="page">Conquista Oceânica</li>
-                </ol>
-              </nav>
+                <nav className="text-sm font-medium text-slate-300 mb-6" aria-label="Breadcrumb">
+                  <ol className="flex flex-wrap items-center space-x-2">
+                    <li><a href="/" className="hover:text-white transition-colors">Início</a></li>
+                    <li><span className="mx-2">&gt;</span></li>
+                    <li className="text-orange-300" aria-current="page">Conquista Oceânica</li>
+                  </ol>
+                </nav>
 
-              <div className="inline-flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full mb-6">
+                <div className="inline-flex items-center space-x-2 bg-white/10 px-4 py-2 rounded-full mb-6">
                   <MapPin className="w-5 h-5 text-accent" />
                   <span className="font-semibold tracking-wide uppercase text-sm">Maricá - RJ</span>
                 </div>
@@ -271,7 +270,7 @@ export default function ConquistaOceanica() {
           </div>
         </section>
 
-        {/* AEO / FAQ SEO */}
+        {/* FAQ */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
             <div className="text-center mb-12">
@@ -318,7 +317,7 @@ export default function ConquistaOceanica() {
               Realize o Sonho da Casa Própria no Conquista Oceânica
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-              Saia do aluguel hoje mesmo e conquiste o seu apartamento com lazer completo em Maricá. Fale com um especialista.
+              Saia do aluguel hoje mesmo e conquiste o seu apartamento com lazer completo em Maricá. Atendimento com Joel Marcos, corretor especialista em MCMV em Itaboraí, que também atende Maricá.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a 
@@ -328,13 +327,13 @@ export default function ConquistaOceanica() {
                 Preencher Formulário de Simulação
               </a>
               <a 
-                href={gerarLinkWhatsApp(nomeEmpreendimento, "Falar com um Especialista")} 
+                href={WHATSAPP_URL} 
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Falar com um Especialista
+                Falar com Joel Marcos no WhatsApp
               </a>
             </div>
           </div>

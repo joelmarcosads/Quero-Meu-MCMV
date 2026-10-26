@@ -294,7 +294,7 @@ export default function ResidencialFlorescer() {
                 },
                 {
                   q: "Como funciona o financiamento para o Residencial Florescer?",
-                  a: "Oferecemos condições personalizadas com planejamento financeiro inteligente. Nossos especialistas em crédito imobiliário estão à disposição para desenhar a estrutura de pagamento que melhor se adapta ao seu perfil."
+                  a: "Oferecemos condições personalizadas com planejamento financeiro inteligente. Joel Marcos está à disposição para estruturar o plano de pagamento que melhor se adapta ao seu perfil."
                 },
                 {
                   q: "Quem é a construtora responsável?",
@@ -317,7 +317,7 @@ export default function ResidencialFlorescer() {
               Descubra o Privilégio de Morar no Residencial Florescer
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-              As unidades do Residencial Florescer são altamente cobiçadas. Fale com um de nossos consultores de alto padrão e dê o próximo passo rumo ao seu novo estilo de vida.
+              As unidades do Residencial Florescer são altamente cobiçadas. Atendimento com Joel Marcos, corretor especialista em MCMV em Itaboraí, que também atende São Gonçalo.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a 
@@ -327,13 +327,13 @@ export default function ResidencialFlorescer() {
                 Preencher Formulário de Simulação
               </a>
               <a 
-                href={gerarLinkWhatsApp(nomeEmpreendimento, "Falar com um Especialista")} 
+                href="https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida." 
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Falar com um Especialista
+                Falar com Joel Marcos no WhatsApp
               </a>
             </div>
           </div>

@@ -7,18 +7,18 @@ export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Política de Privacidade | Quero Meu MCMV</title>
-        <meta name="description" content="Leia nossa Política de Privacidade e saiba como protegemos seus dados." />
+        <title>Política de Privacidade (LGPD) | Quero Meu MCMV</title>
+        <meta name="description" content="Como tratamos seus dados pessoais conforme a LGPD (Lei 13.709/2018)." />
         <link rel="canonical" href="https://queromeumcmv.com.br/politica-de-privacidade" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Política de Privacidade | Quero Meu MCMV" />
-        <meta property="og:description" content="Leia nossa Política de Privacidade e saiba como protegemos seus dados." />
+        <meta property="og:title" content="Política de Privacidade (LGPD) | Quero Meu MCMV" />
+        <meta property="og:description" content="Como tratamos seus dados pessoais conforme a LGPD (Lei 13.709/2018)." />
         <meta property="og:url" content="https://queromeumcmv.com.br/politica-de-privacidade" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Política de Privacidade | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Leia nossa Política de Privacidade e saiba como protegemos seus dados." />
+        <meta name="twitter:title" content="Política de Privacidade (LGPD) | Quero Meu MCMV" />
+        <meta name="twitter:description" content="Como tratamos seus dados pessoais conforme a LGPD (Lei 13.709/2018)." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       <Header />

@@ -304,7 +304,7 @@ export default function FloresDeMaio() {
               A oportunidade de sair do aluguel está acabando.
             </h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-              Os apartamentos no Flores de Maio têm alta procura. Fale com um de nossos corretores credenciados e garanta as melhores condições.
+              Os apartamentos no Flores de Maio têm alta procura. Fale com Joel Marcos, corretor especialista em MCMV em Itaboraí, e garanta as melhores condições.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a 
@@ -314,9 +314,9 @@ export default function FloresDeMaio() {
                 Preencher Formulário de Simulação
               </a>
               <a 
-                href={gerarLinkWhatsApp(nomeEmpreendimento, "Consultar Disponibilidade e Valores")} 
+                href="https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida." 
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="inline-flex items-center justify-center bg-success hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-xl shadow-green-600/30 text-lg transform hover:-translate-y-1"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />

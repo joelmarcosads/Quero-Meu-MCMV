@@ -1,5 +1,8 @@
-import { MapPin, Phone, Mail, ChevronRight } from 'lucide-react';
+import { MapPin, Phone, Mail, ChevronRight, Instagram, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const WHATSAPP_URL =
+  'https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida.';
 
 export default function Footer() {
   return (
@@ -13,7 +16,7 @@ export default function Footer() {
               <span className="font-black text-xl leading-none text-orange-300 tracking-tighter uppercase">MCMV</span>
             </div>
             <p className="text-sm text-slate-400 mb-6 leading-relaxed">
-              Especialistas em realizar o sonho da casa própria na região de Niterói, Itaboraí, São Gonçalo e Maricá. Atendimento humano, transparente e focado na sua aprovação usando todos os benefícios do Minha Casa Minha Vida.
+              Joel Marcos é corretor de imóveis (CRECI 39.583F) especialista no programa Minha Casa Minha Vida em Itaboraí-RJ, com atendimento também em São Gonçalo, Niterói e Maricá. Atendimento humano, transparente e focado na sua aprovação.
             </p>
             <div className="text-sm font-bold text-slate-400">
               CRECI: 39.583F
@@ -88,14 +91,53 @@ export default function Footer() {
                 <Phone className="w-5 h-5 mr-3 text-orange-300 shrink-0" />
                 <div>
                   <div className="text-sm font-medium text-white mb-0.5">WhatsApp Central</div>
-                  <a href="https://wa.me/5521965928399" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-white transition-colors">(21) 96592-8399</a>
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm hover:text-white transition-colors"
+                  >
+                    (21) 96592-8399
+                  </a>
                 </div>
               </li>
               <li className="flex items-start">
                 <Mail className="w-5 h-5 mr-3 text-orange-300 shrink-0" />
                 <div>
                   <div className="text-sm font-medium text-white mb-0.5">E-mail Comercial</div>
-                  <a href="mailto:contato@queromeumcmv.com.br" className="text-sm hover:text-white transition-colors">contato@queromeumcmv.com.br</a>
+                  <a href="mailto:contato@queromeumcmv.com.br" className="text-sm hover:text-white transition-colors">
+                    contato@queromeumcmv.com.br
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start">
+                <Instagram className="w-5 h-5 mr-3 text-orange-300 shrink-0" />
+                <div>
+                  <div className="text-sm font-medium text-white mb-0.5">Instagram</div>
+                  <a
+                    href="https://www.instagram.com/queromeumcmv/"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Instagram de Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí"
+                    className="text-sm hover:text-white transition-colors"
+                  >
+                    @queromeumcmv
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start">
+                <Facebook className="w-5 h-5 mr-3 text-orange-300 shrink-0" />
+                <div>
+                  <div className="text-sm font-medium text-white mb-0.5">Facebook</div>
+                  <a
+                    href="https://www.facebook.com/queromeumcmv"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Facebook de Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí"
+                    className="text-sm hover:text-white transition-colors"
+                  >
+                    Quero Meu MCMV
+                  </a>
                 </div>
               </li>
             </ul>
@@ -108,7 +150,7 @@ export default function Footer() {
               <p className="text-sm leading-relaxed">
                 Rua H, nº 492<br />
                 Retiro São Joaquim - Itaboraí - RJ<br />
-                CEP: 24.813-066<br />
+                CEP: 24813-066<br />
                 Atendimento com hora marcada
               </p>
             </div>

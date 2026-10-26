@@ -68,7 +68,7 @@ export default function Financiamento() {
                   <ArticleMeta date="17 de Setembro de 2026" />
 
                   <p className="lead text-lg font-medium text-slate-800">
-                    O programa Minha Casa Minha Vida (MCMV) retornou com novas regras, limites ampliados e taxas de juros reduzidas para facilitar o acesso da população brasileira à casa própria. Se você mora em <Link to="/minha-casa-minha-vida-itaborai">Itaboraí</Link>, <Link to="/minha-casa-minha-vida-sao-goncalo">São Gonçalo</Link> ou região, este guia explicará o passo a passo para a sua aprovação.
+                    O programa Minha Casa Minha Vida (MCMV) retornou com novas regras, limites ampliados e taxas de juros reduzidas para facilitar o acesso da população brasileira à casa própria. Se você quer morar em <Link to="/minha-casa-minha-vida-itaborai">Itaboraí</Link>, <Link to="/minha-casa-minha-vida-sao-goncalo">São Gonçalo</Link>, Niterói ou Maricá, este guia explicará o passo a passo para a sua aprovação.
                   </p>
 
                   <h2 id="o-programa">O que é o Programa Minha Casa Minha Vida?</h2>

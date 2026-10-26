@@ -36,26 +36,26 @@ export default function CaptacaoDeImoveis() {
     <div className="captacao-page bg-[#FAF7F2] text-[#2A1D15] antialiased selection:bg-[#E0D3C4] min-h-screen">
       <Helmet>
         <title>Avaliação Gratuita do Seu Imóvel em Itaboraí e Região</title>
-        <meta name="description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F." />
+        <meta name="description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo, Niterói ou Maricá? Receba avaliação gratuita com corretor CRECI 39.583F." />
         <link rel="canonical" href="https://queromeumcmv.com.br/captacaodeimoveis" />
 
         {/* Open Graph / Redes Sociais */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/captacaodeimoveis" />
         <meta property="og:title" content="Avaliação Gratuita do Seu Imóvel em Itaboraí e Região" />
-        <meta property="og:description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F." />
+        <meta property="og:description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo, Niterói ou Maricá? Receba avaliação gratuita com corretor CRECI 39.583F." />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta property="og:locale" content="pt_BR" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Avaliação Gratuita do Seu Imóvel em Itaboraí e Região" />
-        <meta name="twitter:description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F." />
+        <meta name="twitter:description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo, Niterói ou Maricá? Receba avaliação gratuita com corretor CRECI 39.583F." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
 
         {/* Geo Tags / AEO */}
         <meta name="geo.region" content="BR-RJ" />
-        <meta name="geo.placename" content="Itaboraí, Rio de Janeiro" />
+        <meta name="geo.placename" content="Itaboraí" />
         <meta name="geo.position" content="-22.7444;-42.8597" />
         <meta name="ICBM" content="-22.7444, -42.8597" />
       </Helmet>
