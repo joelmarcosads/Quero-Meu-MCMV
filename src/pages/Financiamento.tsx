@@ -8,91 +8,23 @@ import { Link } from 'react-router-dom';
 import { Calculator, FileText, Home, Coins, HandCoins, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
 
 export default function Financiamento() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Financiamento MCMV",
-            "item": "https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida"
-          }
-        ]
-      },
-      {
-        "@type": "Article",
-        "headline": "Guia Completo: Financiamento Minha Casa Minha Vida",
-        "description": "Entenda as faixas de renda, como conseguir subsídio, utilizar o FGTS e os documentos exigidos pela Caixa Econômica no MCMV.",
-        "author": {
-          "@type": "Person",
-          "name": "Joel Marcos",
-          "jobTitle": "Corretor de Imóveis"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Quero Meu MCMV"
-        },
-        "dateModified": "2026-09-17"
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "O que mudou no novo Minha Casa Minha Vida?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O novo Minha Casa Minha Vida ampliou o limite de renda da faixa 1, aumentou o valor máximo do imóvel que pode ser financiado (até R$ 350 mil na faixa 3) e elevou o teto do subsídio para até R$ 55 mil, dependendo da região e da renda familiar."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso juntar renda com outra pessoa?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim, é possível compor renda com cônjuge, familiares ou até amigos. A soma das rendas será considerada para definir a faixa do programa e a capacidade de pagamento das parcelas."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Autônomo pode financiar pelo Minha Casa Minha Vida?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim. Profissionais autônomos e MEIs podem financiar comprovando renda através de extratos bancários dos últimos 6 meses e Declaração de Imposto de Renda."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Como Financiar pelo Minha Casa Minha Vida | Guia Completo MCMV</title>
-        <meta name="description" content="Entenda as faixas de renda, como conseguir subsídio de até R$ 55 mil, utilizar o FGTS na entrada e os documentos exigidos pela Caixa Econômica." />
+        <title>Financiamento Minha Casa Minha Vida: Como Funciona em 2026</title>
+        <meta name="description" content="Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis." />
         <link rel="canonical" href="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Como Financiar pelo Minha Casa Minha Vida | Guia Completo MCMV" />
-        <meta property="og:description" content="Entenda as faixas de renda, como conseguir subsídio de até R$ 55 mil, utilizar o FGTS na entrada e os documentos exigidos pela Caixa Econômica." />
+        <meta property="og:title" content="Financiamento Minha Casa Minha Vida: Como Funciona em 2026" />
+        <meta property="og:description" content="Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis." />
         <meta property="og:url" content="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Como Financiar pelo Minha Casa Minha Vida | Guia Completo MCMV" />
-        <meta name="twitter:description" content="Entenda as faixas de renda, como conseguir subsídio de até R$ 55 mil, utilizar o FGTS na entrada e os documentos exigidos pela Caixa Econômica." />
+        <meta name="twitter:title" content="Financiamento Minha Casa Minha Vida: Como Funciona em 2026" />
+        <meta name="twitter:description" content="Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
       <Header />

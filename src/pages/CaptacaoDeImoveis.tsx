@@ -24,138 +24,6 @@ export default function CaptacaoDeImoveis() {
     return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   };
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://queromeumcmv.com.br/#website",
-        "url": "https://queromeumcmv.com.br/",
-        "name": "Quero Meu MCMV",
-        "description": "Portal imobiliário e captação de imóveis em Itaboraí e região com Joel Marcos Corretor.",
-        "publisher": {
-          "@id": "https://queromeumcmv.com.br/#realestateagent"
-        }
-      },
-      {
-        "@type": "WebPage",
-        "@id": "https://queromeumcmv.com.br/captacaodeimoveis#webpage",
-        "url": "https://queromeumcmv.com.br/captacaodeimoveis",
-        "name": "Vender ou Alugar Imóvel em Itaboraí RJ | Avaliação Grátis | Joel Marcos Corretor",
-        "description": "Descubra quanto vale seu imóvel em Itaboraí. Avaliação gratuita por corretor credenciado CRECI 39.583F, com retorno rápido pelo WhatsApp e acompanhamento completo.",
-        "isPartOf": {
-          "@id": "https://queromeumcmv.com.br/#website"
-        }
-      },
-      {
-        "@type": "RealEstateAgent",
-        "@id": "https://queromeumcmv.com.br/#realestateagent",
-        "name": "Joel Marcos - Corretor de Imóveis em Itaboraí",
-        "legalName": "Joel Marcos da Silva",
-        "telephone": "+55 21 96592-8399",
-        "url": "https://queromeumcmv.com.br/captacaodeimoveis",
-        "image": "https://queromeumcmv.com.br/assets/aistudio/Quem_Somos_-Market-Local-digital_ce8da42d.webp",
-        "priceRange": "Gratuito / Avaliação de Mercado",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Rua H, nº 492, Retiro São Joaquim",
-          "addressLocality": "Itaboraí",
-          "addressRegion": "RJ",
-          "postalCode": "24813-066",
-          "addressCountry": "BR"
-        },
-        "areaServed": [
-          { "@type": "City", "name": "Itaboraí" }
-        ],
-        "identifier": [
-          {
-            "@type": "PropertyValue",
-            "name": "CRECI",
-            "value": "39.583F"
-          }
-        ]
-      },
-      {
-        "@type": "Service",
-        "@id": "https://queromeumcmv.com.br/captacaodeimoveis#service",
-        "name": "Avaliação Gratuita de Imóveis em Itaboraí",
-        "serviceType": "Avaliação Imobiliária para Venda e Locação",
-        "provider": {
-          "@id": "https://queromeumcmv.com.br/#realestateagent"
-        },
-        "areaServed": "Itaboraí",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "BRL",
-          "description": "Avaliação gratuita por corretor credenciado CRECI, com retorno rápido pelo WhatsApp e acompanhamento completo."
-        }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://queromeumcmv.com.br/captacaodeimoveis#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Como funciona a avaliação gratuita do meu imóvel em Itaboraí?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Você cadastra os dados do imóvel no formulário e eu analiso o mercado de Itaboraí, comparando imóveis parecidos na região. Depois te chamo no WhatsApp para apresentar a avaliação e explicar como cheguei no valor. É gratuita e sem compromisso: você decide se quer vender ou alugar comigo."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como o preço do meu imóvel é definido?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Comparo imóveis semelhantes do mesmo bairro e região de Itaboraí, considerando metragem, estado de conservação, localização e o que está sendo realmente negociado. O objetivo é um preço de mercado: sem inflar só para agradar e sem rebaixar para vender rápido."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "O Comperj (GasLub) valoriza o meu imóvel?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Ninguém pode garantir valorização. O antigo Comperj hoje é o Polo GasLub e há retomada de obras, mas o preço do seu imóvel depende principalmente do mercado de hoje, da localização e do estado dele. Por isso a avaliação usa comparativos atuais, e não promessas futuras."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Meu imóvel tem pendência na documentação. Posso vender ou alugar?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Em muitos casos, sim. Pendências como IPTU em atraso, certidões vencidas ou escritura irregular precisam ser tratadas, mas nem sempre impedem a negociação. Na checagem documental gratuita eu oriento o que regularizar."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como vocês evitam levar curiosos para visitar o meu imóvel?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Antes de marcar uma visita, converso com o interessado para entender renda, forma de pagamento e se há financiamento ou análise de crédito em andamento. Assim, só visita o seu imóvel quem tem perfil para fechar negócio."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como vou acompanhar o andamento da venda ou do aluguel?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Combinamos em contrato a frequência dos retornos. Pelo WhatsApp você recebe quantas pessoas se interessaram, quantas visitaram e o que disseram do imóvel, inclusive os motivos de recusa."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quanto custa trabalhar com você?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A avaliação é gratuita. A comissão só é paga se o imóvel for vendido ou alugado, conforme o contrato de autorização assinado por escrito."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
     const el = document.getElementById(id);
@@ -167,22 +35,22 @@ export default function CaptacaoDeImoveis() {
   return (
     <div className="captacao-page bg-[#FAF7F2] text-[#2A1D15] antialiased selection:bg-[#E0D3C4] min-h-screen">
       <Helmet>
-        <title>Vender ou Alugar Imóvel em Itaboraí RJ | Avaliação Grátis | Joel Marcos Corretor</title>
-        <meta name="description" content="Descubra quanto vale seu imóvel em Itaboraí. Avaliação gratuita por corretor credenciado CRECI 39.583F, com retorno rápido pelo WhatsApp e acompanhamento completo." />
+        <title>Avaliação Gratuita do Seu Imóvel em Itaboraí e Região</title>
+        <meta name="description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F." />
         <link rel="canonical" href="https://queromeumcmv.com.br/captacaodeimoveis" />
 
         {/* Open Graph / Redes Sociais */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/captacaodeimoveis" />
-        <meta property="og:title" content="Vender ou Alugar Imóvel em Itaboraí RJ | Avaliação Grátis | Joel Marcos Corretor" />
-        <meta property="og:description" content="Descubra quanto vale seu imóvel em Itaboraí. Avaliação gratuita por corretor credenciado CRECI, com retorno rápido pelo WhatsApp e acompanhamento completo." />
+        <meta property="og:title" content="Avaliação Gratuita do Seu Imóvel em Itaboraí e Região" />
+        <meta property="og:description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F." />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta property="og:locale" content="pt_BR" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Vender ou Alugar Imóvel em Itaboraí RJ | Avaliação Grátis" />
-        <meta name="twitter:description" content="Descubra quanto vale seu imóvel em Itaboraí. Avaliação gratuita por corretor credenciado CRECI, com retorno rápido pelo WhatsApp." />
+        <meta name="twitter:title" content="Avaliação Gratuita do Seu Imóvel em Itaboraí e Região" />
+        <meta name="twitter:description" content="Quer vender seu imóvel em Itaboraí, São Gonçalo ou Niterói? Receba uma avaliação gratuita com corretor CRECI 39.583F." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
 
         {/* Geo Tags / AEO */}
@@ -190,10 +58,6 @@ export default function CaptacaoDeImoveis() {
         <meta name="geo.placename" content="Itaboraí, Rio de Janeiro" />
         <meta name="geo.position" content="-22.7444;-42.8597" />
         <meta name="ICBM" content="-22.7444, -42.8597" />
-
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
       </Helmet>
 
       {/* CABEÇALHO OFICIAL */}

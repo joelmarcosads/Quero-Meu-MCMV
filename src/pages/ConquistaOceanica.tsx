@@ -32,85 +32,6 @@ export default function ConquistaOceanica() {
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Maricá" />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://queromeumcmv.com.br/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "Conquista Oceânica",
-                      "item": "https://queromeumcmv.com.br/conquista-oceanica"
-                    }
-                  ]
-                },
-                {
-                  "@type": "RealEstateListing",
-                  "name": "Conquista Oceânica",
-                  "description": "Apartamentos de 1 e 2 quartos com gardens e lazer completo em Maricá.",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Maricá",
-                    "addressRegion": "RJ",
-                    "addressCountry": "BR"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "BRL",
-                    "description": "Financiamento pelo programa Minha Casa Minha Vida"
-                  }
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Onde fica localizado o Conquista Oceânica?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O Conquista Oceânica está localizado em Maricá - RJ, a minutos de distância das melhores praias de Niterói e perto de toda infraestrutura."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quais os tipos de apartamentos?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O empreendimento oferece apartamentos de 1 e 2 quartos com opções de gardens."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "O empreendimento tem área de lazer?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Sim, o Conquista Oceânica possui lazer completo entregue equipado e mobiliado, incluindo piscina, salão de festas, fitness, espaço pet, churrasqueiras e muito mais."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quais as formas de pagamento?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O imóvel pode ser financiado pelo programa Minha Casa Minha Vida, permitindo o uso do FGTS e oferecendo condições imperdíveis de entrada."
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          `}
-        </script>
       </Helmet>
 
       <Header />
@@ -132,7 +53,7 @@ export default function ConquistaOceanica() {
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
               {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
@@ -211,7 +132,7 @@ export default function ConquistaOceanica() {
               {/* Right Column - Strategic Lead Form na 1ª Dobra */}
               <motion.div
                 id="formulario"
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 flex flex-col justify-center"

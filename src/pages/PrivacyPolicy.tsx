@@ -4,29 +4,6 @@ import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
 
 export default function PrivacyPolicy() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Política de Privacidade",
-            "item": "https://queromeumcmv.com.br/politica-de-privacidade"
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
@@ -43,7 +20,6 @@ export default function PrivacyPolicy() {
         <meta name="twitter:title" content="Política de Privacidade | Quero Meu MCMV" />
         <meta name="twitter:description" content="Leia nossa Política de Privacidade e saiba como protegemos seus dados." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-24 sm:py-32">

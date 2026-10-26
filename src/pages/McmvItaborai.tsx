@@ -8,80 +8,25 @@ import { Link } from 'react-router-dom';
 import AuthorProfile from '../components/AuthorProfile';
 
 export default function McmvItaborai() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Minha Casa Minha Vida Itaboraí",
-            "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Quais imóveis estão disponíveis em Itaboraí?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Temos diversas opções, como o Prime Club Itaboraí, Flores de Maio e Reserva dos Pássaros 2. Consulte nossa lista de empreendimentos para ver as plantas e metragens disponíveis."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quais documentos são necessários?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Geralmente exigimos RG, CPF, Certidão de Nascimento/Casamento, Comprovante de Residência, Carteira de Trabalho, Extrato do FGTS e os últimos 3 contracheques (ou extratos bancários para autônomos)."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como funciona a entrada?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A entrada varia de acordo com a aprovação de crédito da Caixa, o valor do imóvel e o subsídio concedido. Em alguns lançamentos, é possível dar um sinal a partir de R$ 500 ou R$ 1.000 e parcelar o restante da entrada direto com a construtora."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Minha Casa Minha Vida em Itaboraí RJ | Quero Meu MCMV</title>
-        <meta name="description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <title>Minha Casa Minha Vida em Itaboraí: Apartamentos 2026</title>
+        <meta name="description" content="Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí RJ | Quero Meu MCMV" />
-        <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí: Apartamentos 2026" />
+        <meta property="og:description" content="Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí RJ | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Encontre apartamentos Minha Casa Minha Vida em Itaboraí. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí: Apartamentos 2026" />
+        <meta name="twitter:description" content="Apartamentos MCMV em Itaboraí com sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja empreendimentos, faixas de renda e simule." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
       </Helmet>
       <Header />
       

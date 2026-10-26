@@ -31,91 +31,6 @@ export default function SolarDaTrindade() {
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-solar-trindade.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Trindade, São Gonçalo" />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://queromeumcmv.com.br/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "MCMV São Gonçalo",
-                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
-                      "name": "Solar da Trindade",
-                      "item": "https://queromeumcmv.com.br/solar-da-trindade"
-                    }
-                  ]
-                },
-                {
-                  "@type": "RealEstateListing",
-                  "name": "Solar da Trindade",
-                  "description": "Apartamentos de 2 Quartos em São Gonçalo",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "São Gonçalo",
-                    "addressRegion": "RJ",
-                    "addressCountry": "BR"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "BRL",
-                    "description": "Consulte condições, sujeito à análise de crédito"
-                  }
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Onde fica localizado o Solar da Trindade?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O Solar da Trindade está estrategicamente localizado no bairro de Trindade, em São Gonçalo, RJ, oferecendo fácil acesso à infraestrutura local e tranquilidade para sua família."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Os apartamentos possuem vaga de garagem?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O empreendimento conta com unidades com vaga de garagem, proporcionando mais segurança e praticidade para o seu veículo."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Como funciona o financiamento para o Solar da Trindade?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O financiamento é facilitado e realizado em parceria com a Caixa Econômica Federal. Nossos corretores estão prontos para ajudar na simulação e nas melhores condições para você."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quem é a construtora responsável?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O empreendimento é um projeto da Tenda, uma empresa com histórico de qualidade e compromisso com o bem-estar dos moradores."
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          `}
-        </script>
       </Helmet>
       <Header />
       
@@ -135,7 +50,7 @@ export default function SolarDaTrindade() {
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
               {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
@@ -214,7 +129,7 @@ export default function SolarDaTrindade() {
               {/* Right Column - Strategic Lead Form na 1ª Dobra */}
               <motion.div
                 id="formulario"
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 flex flex-col justify-center"

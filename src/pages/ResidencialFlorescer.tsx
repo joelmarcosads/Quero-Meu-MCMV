@@ -32,91 +32,6 @@ export default function ResidencialFlorescer() {
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-residencial-florescer.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Vila Iara, São Gonçalo" />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://queromeumcmv.com.br/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "MCMV São Gonçalo",
-                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
-                      "name": "Residencial Florescer",
-                      "item": "https://queromeumcmv.com.br/residencial-florescer"
-                    }
-                  ]
-                },
-                {
-                  "@type": "RealEstateListing",
-                  "name": "Residencial Florescer",
-                  "description": "Apartamentos de 2 e 3 Quartos com Suíte e Varanda Gourmet em São Gonçalo",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "São Gonçalo",
-                    "addressRegion": "RJ",
-                    "addressCountry": "BR"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "BRL",
-                    "description": "Condições exclusivas de negociação para as últimas unidades"
-                  }
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Onde fica localizado o Residencial Florescer?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O Residencial Florescer está estrategicamente localizado no bairro de Vila Iara, em São Gonçalo, RJ, oferecendo fácil acesso à infraestrutura local e tranquilidade para sua família."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Os apartamentos possuem varanda?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Absolutamente. O Residencial Florescer dispõe de plantas sofisticadas de 2 e 3 quartos com varanda gourmet, um espaço ideal para receber amigos e celebrar a vida."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Como funciona o financiamento para o Residencial Florescer?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Oferecemos condições personalizadas com planejamento financeiro inteligente. Nossos especialistas em crédito imobiliário estão à disposição para desenhar a estrutura de pagamento que melhor se adapta ao seu perfil."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quem é a construtora responsável?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O empreendimento é um projeto da RJ Engenharia, uma empresa com histórico de qualidade e compromisso com o bem-estar dos moradores."
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          `}
-        </script>
       </Helmet>
       <Header />
       
@@ -137,7 +52,7 @@ export default function ResidencialFlorescer() {
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
               {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
@@ -216,7 +131,7 @@ export default function ResidencialFlorescer() {
               {/* Right Column - Strategic Lead Form na 1ª Dobra */}
               <motion.div
                 id="formulario"
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 flex flex-col justify-center"

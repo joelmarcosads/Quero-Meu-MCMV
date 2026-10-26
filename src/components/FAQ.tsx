@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { m as motion, AnimatePresence } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 
 const FAQS = [
@@ -31,31 +29,8 @@ const FAQS = [
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFaq = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  // Schema Markup for SEO
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": FAQS.map(faq => ({
-      "@type": "Question",
-      "name": faq.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.a
-      }
-    }))
-  };
-
   return (
     <section className="py-24 bg-white" id="duvidas-frequentes">
-      {/* Search Engine Optimization: Json-LD Schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center mb-12">
@@ -68,43 +43,21 @@ export default function FAQ() {
         </div>
 
         <div className="space-y-4">
-          {FAQS.map((faq, index) => (
-            <motion.div 
+          {FAQS.map((faq) => (
+            <details
               key={faq.id}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 transition-colors hover:border-slate-300"
+              className="border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 transition-colors hover:border-slate-300 group"
             >
-              <button
-                onClick={() => toggleFaq(index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
-                aria-expanded={openIndex === index}
-              >
+              <summary className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer list-none focus:outline-none select-none">
                 <span className="font-bold text-slate-900 text-lg pr-4">{faq.q}</span>
                 <ChevronDown 
-                  className={`w-6 h-6 text-primary flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`} 
+                  className="w-6 h-6 text-primary flex-shrink-0 transition-transform duration-300 group-open:rotate-180" 
                 />
-              </button>
-              
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    <div className="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-100 pt-4">
-                      {faq.a}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              </summary>
+              <div className="px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-100 pt-4">
+                {faq.a}
+              </div>
+            </details>
           ))}
         </div>
 

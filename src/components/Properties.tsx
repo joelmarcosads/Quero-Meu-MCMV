@@ -114,7 +114,7 @@ export default function Properties({ filterCity }: PropertiesProps) {
           {PROPERTIES.filter(prop => !filterCity || prop.location.includes(filterCity)).map((prop, idx) => (
             <motion.div 
               key={prop.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}

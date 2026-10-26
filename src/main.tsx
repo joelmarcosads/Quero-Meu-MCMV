@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App.tsx';
 import './index.css';
@@ -7,15 +7,21 @@ import './index.css';
 const rootElement = document.getElementById('root');
 
 if (rootElement) {
-  createRoot(rootElement).render(
+  const app = (
     <StrictMode>
       <HelmetProvider>
         <App />
       </HelmetProvider>
     </StrictMode>
   );
+
+  if (rootElement.hasChildNodes()) {
+    hydrateRoot(rootElement, app);
+  } else {
+    createRoot(rootElement).render(app);
+  }
 } else {
-  // Suporte a carregamento direto em arquivos HTML estáticos pré-renderizados
+  // Suporte a carregamento direto em arquivos HTML estáticos específicos se houver
   const ownerFormRoot = document.getElementById('owner-form-root');
   if (ownerFormRoot) {
     import('./components/OwnerForm').then(({ default: OwnerForm }) => {

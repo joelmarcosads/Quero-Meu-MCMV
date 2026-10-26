@@ -35,93 +35,6 @@ export default function PrimeClubItaborai() {
         {/* GEO Tags */}
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
-        
-        {/* Schema.org for RealEstateListing and FAQPage */}
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://queromeumcmv.com.br/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "MCMV Itaboraí",
-                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
-                      "name": "Prime Club Itaboraí",
-                      "item": "https://queromeumcmv.com.br/prime-club-itaborai"
-                    }
-                  ]
-                },
-                {
-                  "@type": "RealEstateListing",
-                  "name": "Prime Club Itaboraí",
-                  "description": "Apartamentos de 2 Quartos em Condomínio Clube em Itaboraí",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Itaboraí",
-                    "addressRegion": "RJ",
-                    "addressCountry": "BR"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "BRL",
-                    "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
-                  }
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Onde fica localizado o condomínio Prime Club?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O condomínio fechado Prime Club está estrategicamente localizado em Itaboraí, RJ. Com acesso rápido a escolas e comércios da região, trazendo total facilidade para sua rotina."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Os apartamentos no Prime Club possuem vaga de garagem?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Sim. O Prime Club oferece apartamentos de 2 quartos com direito a vaga de garagem, proporcionando mais segurança e conforto para você e sua família."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Como comprar apartamento pelo Minha Casa Minha Vida em Itaboraí?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "É muito simples. O Prime Club está aprovado pelo programa Minha Casa Minha Vida (MCMV) da Caixa Econômica Federal. Você pode utilizar seu FGTS como parte da entrada, aproveitar taxas de juros reduzidas e garantir o subsídio do governo de acordo com a sua renda familiar."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quais opções de lazer o condomínio clube oferece?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "A área de lazer do condomínio é uma das mais completas da região, incluindo: piscinas adulto e infantil, academia equipada, salão de festas com churrasqueira, playground infantil, espaço pet (pet place), quadra de esportes e muito mais."
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          `}
-        </script>
       </Helmet>
       <Header />
       
@@ -142,7 +55,7 @@ export default function PrimeClubItaborai() {
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
               {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
@@ -221,7 +134,7 @@ export default function PrimeClubItaborai() {
               {/* Right Column - Strategic Lead Form na 1ª Dobra */}
               <motion.div
                 id="formulario"
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 flex flex-col justify-center"

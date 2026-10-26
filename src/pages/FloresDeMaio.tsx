@@ -31,91 +31,6 @@ export default function FloresDeMaio() {
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-flores-de-maio.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Santo Expedito, Itaboraí" />
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://queromeumcmv.com.br/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "MCMV Itaboraí",
-                      "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
-                      "name": "Flores de Maio",
-                      "item": "https://queromeumcmv.com.br/flores-de-maio"
-                    }
-                  ]
-                },
-                {
-                  "@type": "RealEstateListing",
-                  "name": "Flores de Maio",
-                  "description": "Apartamentos de 2 Quartos com Varanda em Itaboraí",
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Itaboraí",
-                    "addressRegion": "RJ",
-                    "addressCountry": "BR"
-                  },
-                  "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "BRL",
-                    "description": "Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil"
-                  }
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Onde fica localizado o Flores de Maio?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O Flores de Maio está estrategicamente localizado no bairro de Santo Expedito, em Itaboraí, RJ, oferecendo fácil acesso à infraestrutura local e tranquilidade para sua família."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Os apartamentos possuem varanda?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Sim. O Flores de Maio oferece apartamentos de 2 quartos com varanda, trazendo mais ventilação, iluminação natural e um espaço a mais para o seu conforto."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Como funciona o financiamento para o Flores de Maio?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O financiamento é facilitado e realizado em parceria com a Caixa Econômica Federal. Nossos corretores estão prontos para ajudar na simulação e nas melhores condições para você."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Quem é a construtora responsável?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "O empreendimento é um projeto da RJ Incorporadora, uma empresa com histórico de qualidade e compromisso com o bem-estar dos moradores."
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          `}
-        </script>
       </Helmet>
       <Header />
       
@@ -135,7 +50,7 @@ export default function FloresDeMaio() {
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
               {/* Left Column - Alinhado perfeitamente com o topo e rodapé do formulário */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-7 flex flex-col justify-between text-left h-full py-1"
@@ -214,7 +129,7 @@ export default function FloresDeMaio() {
               {/* Right Column - Strategic Lead Form na 1ª Dobra */}
               <motion.div
                 id="formulario"
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="lg:col-span-5 w-full max-w-lg mx-auto shadow-2xl rounded-2xl overflow-hidden text-slate-900 flex flex-col justify-center"

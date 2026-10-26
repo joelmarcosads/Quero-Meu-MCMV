@@ -4,29 +4,6 @@ import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
 
 export default function TermsOfUse() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Termos de Uso",
-            "item": "https://queromeumcmv.com.br/termos-de-uso"
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
@@ -43,7 +20,6 @@ export default function TermsOfUse() {
         <meta name="twitter:title" content="Termos de Uso | Quero Meu MCMV" />
         <meta name="twitter:description" content="Leia nossos Termos de Uso e entenda as condições para a utilização do site." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       <Header />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-24 sm:py-32">

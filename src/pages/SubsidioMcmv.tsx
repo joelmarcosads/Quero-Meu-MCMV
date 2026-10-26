@@ -7,105 +7,23 @@ import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
 
 export default function SubsidioMcmv() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "headline": "O que é o Subsídio Habitacional do Minha Casa Minha Vida?",
-        "description": "Descubra o que é o subsídio, quem tem direito ao desconto e como ele funciona para a compra de imóveis financiados pela Caixa.",
-        "author": {
-          "@type": "Person",
-          "name": "Joel Marcos",
-          "jobTitle": "Corretor de Imóveis"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Quero Meu MCMV"
-        },
-        "dateModified": "2026-09-17"
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Financiamento",
-            "item": "https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Subsídio MCMV",
-            "item": "https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "O que é o subsídio habitacional do Minha Casa Minha Vida?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O subsídio é um benefício financeiro concedido pelo Governo Federal para ajudar famílias a comprarem a casa própria. Esse valor não é empréstimo e não precisa ser devolvido: é um desconto direto que reduz o montante financiado ou a entrada."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quem tem direito ao subsídio do governo?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Famílias com renda mensal de até R$ 5.000,00 que não possuam imóvel próprio no município e que não tenham sido beneficiadas por programas habitacionais anteriores."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como é calculado o valor do subsídio?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O valor é calculado pela Caixa de acordo com a renda familiar, a cidade do imóvel e o valor de avaliação. Quanto menor a renda, maior tende a ser o desconto concedido, podendo chegar a até R$ 55 mil."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso juntar o subsídio com o FGTS?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim! A junção do subsídio governamental com o saldo do FGTS é a melhor estratégia para abater a entrada, podendo até zerar a necessidade de recursos próprios na compra do imóvel."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>O que é Subsídio no Minha Casa Minha Vida? | Quero Meu MCMV</title>
-        <meta name="description" content="Entenda como funciona o subsídio do Minha Casa Minha Vida, quem tem direito ao desconto de até R$ 55 mil e as regras aplicadas pela Caixa." />
+        <title>Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe</title>
+        <meta name="description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo." />
         <link rel="canonical" href="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="O que é Subsídio no Minha Casa Minha Vida? | Quero Meu MCMV" />
-        <meta property="og:description" content="Entenda como funciona o subsídio do Minha Casa Minha Vida, quem tem direito ao desconto de até R$ 55 mil e as regras aplicadas pela Caixa." />
+        <meta property="og:title" content="Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe" />
+        <meta property="og:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo." />
         <meta property="og:url" content="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="O que é Subsídio no Minha Casa Minha Vida? | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Entenda como funciona o subsídio do Minha Casa Minha Vida, quem tem direito ao desconto de até R$ 55 mil e as regras aplicadas pela Caixa." />
+        <meta name="twitter:title" content="Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe" />
+        <meta name="twitter:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e São Gonçalo." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
       <Header />

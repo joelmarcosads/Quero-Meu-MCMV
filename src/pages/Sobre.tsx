@@ -6,85 +6,23 @@ import { UserCheck, Award, Target, Home, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Sobre() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Sobre Nós",
-            "item": "https://queromeumcmv.com.br/sobre"
-          }
-        ]
-      },
-      {
-        "@type": "RealEstateAgent",
-        "@id": "https://queromeumcmv.com.br/#organization",
-        "name": "Joel Marcos - Corretor de Imóveis MCMV",
-        "legalName": "Joel Marcos da Silva",
-        "image": "https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp",
-        "url": "https://queromeumcmv.com.br/sobre",
-        "telephone": "+55 21 96592-8399",
-        "description": "Corretor de imóveis credenciado CRECI 39.583F especializado no programa Minha Casa Minha Vida em Itaboraí, São Gonçalo e região.",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Rua H, nº 492, Retiro São Joaquim",
-          "addressLocality": "Itaboraí",
-          "addressRegion": "RJ",
-          "postalCode": "24.813-066",
-          "addressCountry": "BR"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": -22.7444,
-          "longitude": -42.8597
-        },
-        "areaServed": ["Itaboraí", "São Gonçalo", "Niterói", "Maricá", "Rio de Janeiro"],
-        "knowsAbout": [
-          "Minha Casa Minha Vida",
-          "Financiamento Habitacional Caixa",
-          "Subsídio do Governo",
-          "Imóveis na Planta e Lançamentos",
-          "Caixa Econômica Federal"
-        ],
-        "identifier": [
-          {
-            "@type": "PropertyValue",
-            "name": "CRECI",
-            "value": "39.583F"
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Sobre Nós | Joel Marcos - Corretor de Imóveis MCMV</title>
-        <meta name="description" content="Conheça Joel Marcos, corretor de imóveis CRECI 39.583F especialista no Minha Casa Minha Vida em Itaboraí e São Gonçalo. Transparência e segurança." />
+        <title>Joel Marcos, Corretor de Imóveis CRECI 39.583F</title>
+        <meta name="description" content="Conheça Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Atendimento humano e transparente." />
         <link rel="canonical" href="https://queromeumcmv.com.br/sobre" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Sobre Nós | Joel Marcos - Corretor de Imóveis MCMV" />
-        <meta property="og:description" content="Conheça Joel Marcos, corretor especialista em imóveis do Minha Casa Minha Vida em Itaboraí e São Gonçalo." />
+        <meta property="og:title" content="Joel Marcos, Corretor de Imóveis CRECI 39.583F" />
+        <meta property="og:description" content="Conheça Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Atendimento humano e transparente." />
         <meta property="og:url" content="https://queromeumcmv.com.br/sobre" />
         <meta property="og:type" content="profile" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Sobre Nós | Joel Marcos - Corretor de Imóveis MCMV" />
-        <meta name="twitter:description" content="Conheça Joel Marcos, corretor de imóveis CRECI 39.583F especialista no Minha Casa Minha Vida em Itaboraí e São Gonçalo." />
+        <meta name="twitter:title" content="Joel Marcos, Corretor de Imóveis CRECI 39.583F" />
+        <meta name="twitter:description" content="Conheça Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Maricá. Atendimento humano e transparente." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       <Header />
       

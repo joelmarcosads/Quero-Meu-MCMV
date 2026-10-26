@@ -7,97 +7,23 @@ import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
 
 export default function RendaMcmv() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "headline": "Renda Familiar no Minha Casa Minha Vida: Regras e Faixas",
-        "description": "Entenda o que é a renda bruta familiar, quais são as faixas do programa Minha Casa Minha Vida e como elas influenciam o seu financiamento habitacional.",
-        "author": {
-          "@type": "Person",
-          "name": "Joel Marcos",
-          "jobTitle": "Corretor de Imóveis"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Quero Meu MCMV"
-        },
-        "dateModified": "2026-09-17"
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Financiamento",
-            "item": "https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Renda MCMV",
-            "item": "https://queromeumcmv.com.br/renda-minha-casa-minha-vida"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Quais são as faixas de renda do Minha Casa Minha Vida?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "O programa é dividido em 3 faixas: Faixa 1 (renda até R$ 3.200,00), Faixa 2 (renda até R$ 5.000,00) e Faixa 3 (renda até R$ 9.600,00), com taxas de juros reduzidas e subsídios para famílias de menor renda."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso compor renda com outra pessoa?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim! Você pode somar sua renda bruta com cônjuge, companheiro(a), pais, filhos, irmãos ou até mesmo amigos para elevar o valor do financiamento aprovado pela Caixa."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Autônomo ou MEI pode comprovar renda no MCMV?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim. A comprovação de renda para autônomos e microempreendedores individuais é realizada através dos últimos 6 meses de extratos bancários de pessoa física e da Declaração de Imposto de Renda."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Renda Familiar e as Faixas do Minha Casa Minha Vida | Quero Meu MCMV</title>
-        <meta name="description" content="Saiba como a sua renda bruta impacta a análise de crédito, os juros e o subsídio no Minha Casa Minha Vida. Veja se você pode juntar renda com outra pessoa." />
+        <title>Faixas de Renda do Minha Casa Minha Vida 2026</title>
+        <meta name="description" content="Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma." />
         <link rel="canonical" href="https://queromeumcmv.com.br/renda-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Renda Familiar e as Faixas do Minha Casa Minha Vida | Quero Meu MCMV" />
-        <meta property="og:description" content="Saiba como a sua renda bruta impacta a análise de crédito, os juros e o subsídio no Minha Casa Minha Vida. Veja se você pode juntar renda com outra pessoa." />
+        <meta property="og:title" content="Faixas de Renda do Minha Casa Minha Vida 2026" />
+        <meta property="og:description" content="Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma." />
         <meta property="og:url" content="https://queromeumcmv.com.br/renda-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Renda Familiar e as Faixas do Minha Casa Minha Vida | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Saiba como a sua renda bruta impacta a análise de crédito, os juros e o subsídio no Minha Casa Minha Vida. Veja se você pode juntar renda com outra pessoa." />
+        <meta name="twitter:title" content="Faixas de Renda do Minha Casa Minha Vida 2026" />
+        <meta name="twitter:description" content="Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
       <Header />

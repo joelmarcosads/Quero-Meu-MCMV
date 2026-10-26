@@ -82,7 +82,7 @@ export default function Hero() {
 
           {/* Right Column - Lead Form */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full max-w-xl mx-auto shadow-2xl rounded-2xl overflow-hidden"

@@ -7,97 +7,23 @@ import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
 
 export default function FgtsMcmv() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "headline": "Como usar o FGTS no Financiamento Minha Casa Minha Vida",
-        "description": "Entenda as regras, requisitos e como o saldo do FGTS pode ajudar na compra do seu imóvel pelo programa Minha Casa Minha Vida.",
-        "author": {
-          "@type": "Person",
-          "name": "Joel Marcos",
-          "jobTitle": "Corretor de Imóveis"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Quero Meu MCMV"
-        },
-        "dateModified": "2026-09-17"
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Financiamento",
-            "item": "https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "FGTS no Minha Casa Minha Vida",
-            "item": "https://queromeumcmv.com.br/fgts-minha-casa-minha-vida"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Quem pode usar o FGTS na compra do imóvel pelo MCMV?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Trabalhadores com pelo menos 3 anos de carteira assinada sob o regime do FGTS (somando todos os períodos trabalhados), que não tenham financiamento ativo no SFH e não possuam outro imóvel residencial no mesmo município."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso usar o FGTS como entrada?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim! O saldo do FGTS pode ser utilizado integralmente para pagar ou abater o valor da entrada exigido pela Caixa Econômica Federal."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "É possível abater parcelas do financiamento com o FGTS?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim, você pode usar o FGTS tanto para amortizar o saldo devedor (reduzindo o prazo ou o valor das prestações) quanto para diminuir em até 80% o valor de até 12 prestações consecutivas."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Como Usar o FGTS no Minha Casa Minha Vida | Quero Meu MCMV</title>
-        <meta name="description" content="Saiba como utilizar o saldo do seu FGTS para comprar um imóvel pelo Minha Casa Minha Vida. Confira as regras e quem tem direito." />
+        <title>Como Usar o FGTS no Minha Casa Minha Vida</title>
+        <meta name="description" content="Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar." />
         <link rel="canonical" href="https://queromeumcmv.com.br/fgts-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Como Usar o FGTS no Minha Casa Minha Vida | Quero Meu MCMV" />
-        <meta property="og:description" content="Saiba como utilizar o saldo do seu FGTS para comprar um imóvel pelo Minha Casa Minha Vida. Confira as regras e quem tem direito." />
+        <meta property="og:title" content="Como Usar o FGTS no Minha Casa Minha Vida" />
+        <meta property="og:description" content="Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar." />
         <meta property="og:url" content="https://queromeumcmv.com.br/fgts-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Como Usar o FGTS no Minha Casa Minha Vida | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Saiba como utilizar o saldo do seu FGTS para comprar um imóvel pelo Minha Casa Minha Vida. Confira as regras e quem tem direito." />
+        <meta name="twitter:title" content="Como Usar o FGTS no Minha Casa Minha Vida" />
+        <meta name="twitter:description" content="Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
       <Header />

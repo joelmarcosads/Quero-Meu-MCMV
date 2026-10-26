@@ -7,97 +7,23 @@ import AuthorProfile from '../components/AuthorProfile';
 import { Link } from 'react-router-dom';
 
 export default function DocumentosMcmv() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "headline": "Documentos para Financiamento pelo Minha Casa Minha Vida",
-        "description": "Lista de documentos necessários para financiar um imóvel. Saiba o que separar, seja você trabalhador CLT, autônomo ou MEI.",
-        "author": {
-          "@type": "Person",
-          "name": "Joel Marcos",
-          "jobTitle": "Corretor de Imóveis"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Quero Meu MCMV"
-        },
-        "dateModified": "2026-09-17"
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Financiamento",
-            "item": "https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Documentos MCMV",
-            "item": "https://queromeumcmv.com.br/documentos-minha-casa-minha-vida"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Quais são os documentos básicos para financiar pelo Minha Casa Minha Vida?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Documento oficial com foto (RG ou CNH), CPF, Certidão de Estado Civil (nascimento ou casamento), comprovante de residência recente e comprovante de renda."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como trabalhador CLT comprova renda na Caixa?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Com os três últimos contracheques, Carteira de Trabalho (física ou digital) e extrato atualizado da conta vinculada do FGTS."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como autônomo comprova renda sem carteira assinada?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Através dos extratos bancários de pessoa física dos últimos 6 meses e da Declaração de Imposto de Renda (IRPF) do exercício vigente acompanhada do recibo de entrega."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Documentos para Financiamento Minha Casa Minha Vida | Quero Meu MCMV</title>
-        <meta name="description" content="Lista completa e atualizada dos documentos exigidos pela Caixa Econômica para a análise e aprovação de crédito imobiliário do Minha Casa Minha Vida." />
+        <title>Documentos para o Minha Casa Minha Vida (Caixa)</title>
+        <meta name="description" content="Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda." />
         <link rel="canonical" href="https://queromeumcmv.com.br/documentos-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Documentos para Financiamento Minha Casa Minha Vida | Quero Meu MCMV" />
-        <meta property="og:description" content="Lista completa e atualizada dos documentos exigidos pela Caixa Econômica para a análise e aprovação de crédito imobiliário do Minha Casa Minha Vida." />
+        <meta property="og:title" content="Documentos para o Minha Casa Minha Vida (Caixa)" />
+        <meta property="og:description" content="Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda." />
         <meta property="og:url" content="https://queromeumcmv.com.br/documentos-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Documentos para Financiamento Minha Casa Minha Vida | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Lista completa e atualizada dos documentos exigidos pela Caixa Econômica para a análise e aprovação de crédito imobiliário do Minha Casa Minha Vida." />
+        <meta name="twitter:title" content="Documentos para o Minha Casa Minha Vida (Caixa)" />
+        <meta name="twitter:description" content="Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
-        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
       
       <Header />

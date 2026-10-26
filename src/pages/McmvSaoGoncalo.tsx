@@ -8,80 +8,25 @@ import { Link } from 'react-router-dom';
 import AuthorProfile from '../components/AuthorProfile';
 
 export default function McmvSaoGoncalo() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://queromeumcmv.com.br/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Minha Casa Minha Vida São Gonçalo",
-            "item": "https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Existem apartamentos Minha Casa Minha Vida em São Gonçalo?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim! Trabalhamos com diversas opções como o Solar da Trindade e o Residencial Florescer, que oferecem apartamentos de 2 e 3 quartos, suíte e varanda."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso usar meu FGTS na compra?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sim, o FGTS pode ser utilizado como parte do pagamento da entrada ou para reduzir o valor das parcelas do financiamento, desde que você tenha pelo menos 3 anos de trabalho sob regime do FGTS (somando todos os períodos trabalhados)."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Como solicitar uma simulação?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Basta clicar em qualquer botão de simulação no nosso site ou entrar em contato direto pelo WhatsApp. Faremos a sua análise de forma ágil e transparente."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV</title>
-        <meta name="description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <title>Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026</title>
+        <meta name="description" content="Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Veja opções, subsídio e simule seu financiamento." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV" />
-        <meta property="og:description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta property="og:title" content="Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026" />
+        <meta property="og:description" content="Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Veja opções, subsídio e simule seu financiamento." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Minha Casa Minha Vida em São Gonçalo RJ | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Encontre apartamentos Minha Casa Minha Vida em São Gonçalo. Consulte empreendimentos, financiamento, FGTS, subsídio e condições disponíveis." />
+        <meta name="twitter:title" content="Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026" />
+        <meta name="twitter:description" content="Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Veja opções, subsídio e simule seu financiamento." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="São Gonçalo" />
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
       </Helmet>
       <Header />
       

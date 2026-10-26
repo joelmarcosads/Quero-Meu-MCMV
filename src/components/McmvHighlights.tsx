@@ -42,7 +42,7 @@ export default function McmvHighlights() {
           {HIGHLIGHTS.map((item, idx) => (
             <motion.div 
               key={idx}
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={false}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}

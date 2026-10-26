@@ -47,11 +47,6 @@ function obrigadoMiddlewarePlugin() {
         if (req.url) {
           const urlObj = new URL(req.url, 'http://localhost');
           if (
-            urlObj.pathname === '/captacaodeimoveis' ||
-            urlObj.pathname === '/captacaodeimoveis/'
-          ) {
-            req.url = '/captacaodeimoveis/index.html' + urlObj.search;
-          } else if (
             urlObj.pathname === '/obrigado.imoveis' ||
             urlObj.pathname === '/obrigado.imoveis/'
           ) {
@@ -71,11 +66,6 @@ function obrigadoMiddlewarePlugin() {
         if (req.url) {
           const urlObj = new URL(req.url, 'http://localhost');
           if (
-            urlObj.pathname === '/captacaodeimoveis' ||
-            urlObj.pathname === '/captacaodeimoveis/'
-          ) {
-            req.url = '/captacaodeimoveis/index.html' + urlObj.search;
-          } else if (
             urlObj.pathname === '/obrigado.imoveis' ||
             urlObj.pathname === '/obrigado.imoveis/'
           ) {
@@ -93,7 +83,7 @@ function obrigadoMiddlewarePlugin() {
   };
 }
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({mode, isSsrBuild}) => {
   const env = loadEnv(mode, '.', '');
   return {
     appType: 'spa',
@@ -109,15 +99,18 @@ export default defineConfig(({mode}) => {
     build: {
       sourcemap: true,
       rollupOptions: {
-        input: {
-          main: path.resolve(__dirname, 'index.html'),
-          captacaodeimoveis: path.resolve(__dirname, 'captacaodeimoveis/index.html'),
-        },
-        output: {
-          manualChunks: {
-            'react-vendor': ['react', 'react-dom']
-          }
-        }
+        input: isSsrBuild
+          ? undefined
+          : {
+              main: path.resolve(__dirname, 'index.html'),
+            },
+        output: isSsrBuild
+          ? {}
+          : {
+              manualChunks: {
+                'react-vendor': ['react', 'react-dom']
+              }
+            }
       }
     },
     server: {
