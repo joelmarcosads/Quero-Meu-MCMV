@@ -375,7 +375,7 @@ export const ROUTES: SeoRoute[] = [
     path: '/sobre',
     title: 'Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F',
     description: 'Joel Marcos é corretor de imóveis especialista no Minha Casa Minha Vida em Itaboraí-RJ, com atendimento em São Gonçalo, Niterói e Maricá.',
-    h1: 'Sobre o Quero Meu MCMV',
+    h1: 'Joel Marcos, Corretor Especialista em Minha Casa Minha Vida em Itaboraí',
     schemaType: 'AboutPage',
     priority: '0.8',
     changefreq: 'monthly',

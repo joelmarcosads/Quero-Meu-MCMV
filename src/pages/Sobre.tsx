@@ -35,7 +35,7 @@ export default function Sobre() {
             <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary-light font-medium text-sm mb-4 border border-primary/30">
               Conheça Nossa História
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Sobre o Quero Meu MCMV</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Joel Marcos, Corretor Especialista em Minha Casa Minha Vida em Itaboraí</h1>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
               Transparência, ética e dedicação para ajudar você a conquistar o sonho da casa própria com segurança jurídica.
             </p>
