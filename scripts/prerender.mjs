@@ -8,6 +8,19 @@ const distDir = path.resolve(rootDir, 'dist');
 const distServerDir = path.resolve(rootDir, 'dist-server');
 const distServerEntry = path.resolve(distServerDir, 'entry-server.js');
 
+// Imagens de compartilhamento (WhatsApp/Facebook): JPG leve, 1,91:1, gerado em public/og/
+// WhatsApp não exibe prévia de imagens pesadas (> ~300 KB) e tem suporte irregular a WebP.
+const OG_IMAGES = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'og-images.json'), 'utf-8'));
+const OG_DEFAULT_SRC = 'capa-site-quero-meu-mcmv-open-graph.webp';
+
+function resolveOgImage(route, domain) {
+  const src = route.development && route.development.image
+    ? String(route.development.image).split('/').pop()
+    : OG_DEFAULT_SRC;
+  const og = OG_IMAGES[src] || OG_IMAGES[OG_DEFAULT_SRC];
+  return { url: `${domain}/${og.file}`, width: og.width, height: og.height };
+}
+
 function escapeAttr(str) {
   return String(str || '')
     .replace(/&/g, '&amp;')
@@ -150,10 +163,18 @@ async function runPrerender() {
       `<meta property="og:type" content="${route.schemaType === 'Article' ? 'article' : 'website'}" />`
     );
 
+    const ogImg = resolveOgImage(route, CANONICAL_DOMAIN);
+    // Remove variações antigas de og:image:* antes de reinserir
+    pageHtml = pageHtml.replace(/<meta(?=[^>]*\bproperty\s*=\s*["']og:image:[a-z_]+["'])[^>]*\/?>\s*/gi, '');
     pageHtml = replaceOrInsertHeadTag(
       pageHtml,
       /<meta(?=[^>]*\bproperty\s*=\s*["']og:image["'])[^>]*\/?>/i,
-      `<meta property="og:image" content="${CANONICAL_DOMAIN}/capa-site-quero-meu-mcmv-open-graph.webp" />`
+      `<meta property="og:image" content="${ogImg.url}" />\n` +
+      `    <meta property="og:image:secure_url" content="${ogImg.url}" />\n` +
+      `    <meta property="og:image:type" content="image/jpeg" />\n` +
+      `    <meta property="og:image:width" content="${ogImg.width}" />\n` +
+      `    <meta property="og:image:height" content="${ogImg.height}" />\n` +
+      `    <meta property="og:image:alt" content="${escapeAttr(route.title)}" />`
     );
 
     pageHtml = replaceOrInsertHeadTag(
@@ -189,7 +210,7 @@ async function runPrerender() {
     pageHtml = replaceOrInsertHeadTag(
       pageHtml,
       /<meta(?=[^>]*\bname\s*=\s*["']twitter:image["'])[^>]*\/?>/i,
-      `<meta name="twitter:image" content="${CANONICAL_DOMAIN}/capa-site-quero-meu-mcmv-open-graph.webp" />`
+      `<meta name="twitter:image" content="${ogImg.url}" />`
     );
 
     // Robots meta tag
