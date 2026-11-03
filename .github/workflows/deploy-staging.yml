@@ -18,7 +18,6 @@ jobs:
   deploy-staging:
     name: Build & Deploy → api-staging.queromeumcmv.com.br
     runs-on: ubuntu-latest
-    environment: staging          # opcional: adicione proteção de ambiente no GitHub
 
     # Bloqueia runs acidentais sem confirmação explícita
     if: ${{ github.event.inputs.confirmar == 'CONFIRMAR' }}
