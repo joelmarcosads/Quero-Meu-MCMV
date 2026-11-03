@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Fundo azul escuro -->
+  <rect width="32" height="32" rx="6" fill="#071B38"/>
+  <!-- Casa: telhado laranja -->
+  <path d="M16 6L26 15H22V26H10V15H6L16 6Z" fill="#FF8A30"/>
+  <!-- Interior da casa (porta) -->
+  <rect x="13" y="19" width="6" height="7" rx="1" fill="#071B38"/>
+</svg>

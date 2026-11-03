@@ -196,6 +196,37 @@ export const ROUTES: SeoRoute[] = [
     ],
   },
   {
+    path: '/niteroirj',
+    title: 'Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026',
+    description: 'Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis.',
+    h1: 'Minha Casa Minha Vida em Niterói - RJ',
+    schemaType: 'CollectionPage',
+    priority: '0.8',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'MCMV Niterói', path: '/niteroirj' },
+    ],
+    faqs: [
+      {
+        question: 'Tem apartamento Minha Casa Minha Vida em Niterói?',
+        answer: 'Sim. Niterói tem opções enquadradas no MCMV, especialmente em bairros como Pendotiba, Largo da Batalha e regiões com acesso ao centro. Consulte nossa carteira de imóveis disponíveis via WhatsApp para ver as opções atuais.',
+      },
+      {
+        question: 'Qual a renda mínima para financiar em Niterói pelo MCMV?',
+        answer: 'A renda familiar bruta deve ser de até R$ 8.000 (Faixa 2) ou até R$ 4.400 (Faixa 1, com maior subsídio). Trabalhadores formais, informais e MEIs podem participar, desde que comprovem renda conforme as exigências da Caixa Econômica Federal.',
+      },
+      {
+        question: 'Joel Marcos atende presencialmente em Niterói?',
+        answer: 'O atendimento inicial é consultivo, feito por WhatsApp, vídeo ou telefone. O deslocamento até Niterói para visitas e assinatura de documentos é combinado conforme andamento do processo.',
+      },
+      {
+        question: 'Posso usar o FGTS na compra de imóvel em Niterói?',
+        answer: 'Sim, desde que você tenha pelo menos 3 anos de trabalho com carteira assinada (somando todos os vínculos). O FGTS pode ser usado como entrada, para abater parcelas ou reduzir o saldo devedor.',
+      },
+    ],
+  },
+  {
     path: '/financiamento-minha-casa-minha-vida',
     title: 'Financiamento Minha Casa Minha Vida: Como Funciona em 2026',
     description: 'Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis.',
