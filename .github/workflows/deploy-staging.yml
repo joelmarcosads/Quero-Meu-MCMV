@@ -30,18 +30,17 @@ jobs:
         with:
           ref: feat/market-imobi-crm-staging
 
-      # 2. Node 20 LTS
-      - name: Setup Node.js 20
+      # 2. Node 22 LTS (20 depreciado nos runners GitHub em 2026)
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: crm-worker/package-lock.json
+          node-version: '22'
 
       # 3. Instalar dependências (inclui wrangler ^3.87.0)
+      #    npm install usado pois não há package-lock.json no repo
       - name: Install dependencies
         working-directory: crm-worker
-        run: npm ci
+        run: npm install
 
       # 4. Compilar TypeScript → dist/worker.js (esbuild via wrangler)
       #    O wrangler compila internamente ao fazer deploy
