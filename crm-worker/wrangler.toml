@@ -16,6 +16,11 @@ database_id = "f214ad6c-50d5-4afb-89c0-a18a4208cf89"
 binding = "JWKS_CACHE"
 id = "f17d5063d19d4f739db793931c6b6e43"
 
+# Hostname customizado de staging (DNS AAAA 100:: proxied no Cloudflare)
+[[env.staging.routes]]
+pattern = "api-staging.queromeumcmv.com.br/*"
+zone_name = "queromeumcmv.com.br"
+
 [env.staging.vars]
 ENVIRONMENT = "staging"
 CF_ACCESS_TEAM_DOMAIN = "PLACEHOLDER_SEU_DOMINIO.cloudflareaccess.com"
