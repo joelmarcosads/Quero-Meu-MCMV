@@ -72,11 +72,14 @@
 
     /* NUMBERS */
     .numbers{background:var(--c-surface);padding:40px;border-bottom:1px solid var(--c-border)}
-    .numbers-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
-    .stat{text-align:center;padding:20px}
+    .numbers-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+    .stat{text-align:center;padding:20px 32px;border-right:1px solid var(--c-border)}
+    .stat:last-child{border-right:none}
     .stat-num{font-size:36px;font-weight:800;color:var(--c-primary);line-height:1;margin-bottom:4px}
     .stat-num span{color:var(--c-accent)}
-    .stat-label{font-size:14px;color:var(--c-text-muted);font-weight:500}
+    .stat-val{font-size:36px;font-weight:800;color:var(--c-primary);line-height:1}
+    .stat-sub{font-size:20px;font-weight:800;color:var(--c-primary);line-height:1.2}
+    .stat-label{font-size:14px;color:var(--c-text-muted);font-weight:500;margin-top:6px}
 
     /* SECTIONS */
     .section{padding:72px 40px}
@@ -107,6 +110,8 @@
     .prop-specs{display:flex;gap:14px;font-size:13px;color:var(--c-text-muted);margin-bottom:14px;flex-wrap:wrap}
     .prop-price-label{font-size:11px;color:var(--c-text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
     .prop-price{font-size:20px;font-weight:800;color:var(--c-accent);margin:2px 0 2px}
+    .prop-price-consulta{font-size:15px;font-weight:700;color:var(--c-text-body);margin:2px 0 2px;display:flex;align-items:center;gap:6px}
+    .prop-price-consulta::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c-accent);flex-shrink:0}
     .prop-disc{font-size:11px;color:var(--c-text-muted)}
     .prop-actions{display:flex;gap:8px;margin-top:16px}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-sans);font-weight:700;border-radius:var(--r-md);cursor:pointer;border:2px solid transparent;transition:all .2s;text-decoration:none;white-space:nowrap;font-size:14px;padding:10px 18px}
@@ -184,7 +189,7 @@
     .footer-copy{font-size:13px;color:rgba(255,255,255,.4)}
 
     /* MOBILE CTA */
-    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:800;padding:16px;background:linear-gradient(to top,rgba(7,27,56,.95),transparent)}
+    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:800;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,rgba(7,27,56,.98) 70%,transparent)}
     .mobile-cta button{width:100%;padding:18px 24px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:17px;font-weight:700;cursor:pointer;font-family:var(--font-sans);box-shadow:0 8px 24px rgba(37,211,102,.5)}
 
     /* FOCUS VISIBLE — acessibilidade por teclado */
@@ -204,6 +209,9 @@
       .hero-inner{grid-template-columns:1fr;gap:32px}
       .hero-card{display:none}
       .numbers-inner{grid-template-columns:repeat(2,1fr)}
+      .stat{border-right:none;border-bottom:1px solid var(--c-border)}
+      .stat:nth-child(odd){border-right:1px solid var(--c-border)}
+      .stat:nth-last-child(-n+2){border-bottom:none}
       .edu-grid{grid-template-columns:1fr 1fr}
       .author-inner{grid-template-columns:1fr;gap:32px}
       .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
@@ -213,13 +221,14 @@
       .nav-links{display:none}
       .nav-burger{display:flex}
       .hero{padding:48px 20px 40px;min-height:auto}
-      .numbers{padding:32px 20px}
-      .numbers-inner{grid-template-columns:repeat(2,1fr);gap:20px}
+      .numbers{padding:24px 20px}
+      .numbers-inner{grid-template-columns:repeat(2,1fr)}
+      .stat{padding:16px 20px}
       .section{padding:48px 20px}
       .prop-grid{grid-template-columns:1fr}
       .edu-grid{grid-template-columns:1fr}
       .simulator,.author{padding:48px 20px}
-      .footer{padding:48px 20px 100px}
+      .footer{padding:48px 20px calc(100px + env(safe-area-inset-bottom,0px))}
       .footer-grid{grid-template-columns:1fr;gap:32px}
       .mobile-cta{display:block}
     }
@@ -306,12 +315,12 @@
 </section>
 
 <!-- TRUST NUMBERS -->
-<div class="numbers">
+<div class="numbers" aria-label="Credenciais e atuação">
   <div class="numbers-inner">
-    <div class="stat"><div class="stat-num">24<span>+</span></div><div class="stat-label">anos de experiência</div></div>
-    <div class="stat"><div class="stat-num" style="font-size:20px;color:var(--c-text-muted)">CRECI</div><div class="stat-num" style="font-size:28px">39.583<span>F</span></div><div class="stat-label">Corretor credenciado</div></div>
-    <div class="stat"><div class="stat-num">4<span>★</span></div><div class="stat-label">cidades atendidas</div></div>
-    <div class="stat"><div class="stat-num"><span style="font-size:24px">Faixa 1</span><br><span style="font-size:24px">& 2</span></div><div class="stat-label">MCMV disponível</div></div>
+    <div class="stat"><div class="stat-num">24<span>+</span></div><div class="stat-label">Anos de mercado imobiliário</div></div>
+    <div class="stat"><div class="stat-sub" style="color:var(--c-accent)">CRECI</div><div class="stat-val" style="font-size:28px">39.583<span style="color:var(--c-accent)">F</span></div><div class="stat-label">Corretor credenciado</div></div>
+    <div class="stat"><div class="stat-num">4<span>★</span></div><div class="stat-label">Cidades atendidas</div></div>
+    <div class="stat"><div class="stat-sub">Faixas 1 <span style="color:var(--c-accent)">&</span> 2</div><div class="stat-label">MCMV — Subsídio disponível</div></div>
   </div>
 </div>
 
@@ -324,11 +333,11 @@
         <h2 class="section-title">Apartamentos disponíveis<br>na sua região</h2>
         <p class="section-sub">Dados verificados e atualizados. Informações comerciais confirmadas com as construtoras.</p>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-outline btn-sm" style="font-size:13px">Itaboraí</button>
-        <button class="btn btn-orange btn-sm" style="font-size:13px">São Gonçalo</button>
-        <button class="btn btn-outline btn-sm" style="font-size:13px">Niterói</button>
-        <button class="btn btn-outline btn-sm" style="font-size:13px">Maricá</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" role="group" aria-label="Filtrar por cidade">
+        <button class="btn btn-outline btn-sm" style="font-size:13px" aria-pressed="false" type="button">Itaboraí</button>
+        <button class="btn btn-orange btn-sm" style="font-size:13px" aria-pressed="true" type="button">São Gonçalo</button>
+        <button class="btn btn-outline btn-sm" style="font-size:13px" aria-pressed="false" type="button">Niterói</button>
+        <button class="btn btn-outline btn-sm" style="font-size:13px" aria-pressed="false" type="button">Maricá</button>
       </div>
     </div>
 
@@ -369,7 +378,7 @@
           <div class="prop-name">Flores de Maio</div>
           <div class="prop-specs"><span>🛏 2 quartos</span><span>⬛ 42m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:16px;color:var(--c-text-primary)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Dados verificados em [data de referência]</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Saiba mais</a>
@@ -390,7 +399,7 @@
           <div class="prop-name">Solar da Trindade</div>
           <div class="prop-specs"><span>🛏 2 quartos</span><span>⬛ 48m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:16px;color:var(--c-text-primary)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Dados verificados em [data de referência]</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Saiba mais</a>

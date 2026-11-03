@@ -86,7 +86,7 @@
     .typo-tab{flex:1;padding:12px 16px;background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--c-text-muted);transition:all .15s;border-right:1px solid var(--c-border);text-align:center}
     .typo-tab:last-child{border-right:none}
     .typo-tab:hover{background:var(--c-base);color:var(--c-text-primary)}
-    .typo-tab.active{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}
+    .typo-tab.active{background:var(--c-accent);color:#fff;border-color:var(--c-accent);box-shadow:inset 0 -3px 0 rgba(255,255,255,.35)}
     .typo-panel{display:none}
     .typo-panel.active{display:block}
     .typo-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
@@ -95,10 +95,12 @@
     .typo-spec-val{font-size:17px;font-weight:800;color:var(--c-text-primary);margin-bottom:2px}
     .typo-spec-lbl{font-size:11px;color:var(--c-text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
     .typo-plant{background:var(--c-base);border-radius:var(--r-md);height:220px;display:flex;align-items:center;justify-content:center;border:2px dashed var(--c-border);color:var(--c-text-muted);font-size:14px;text-align:center;padding:20px;margin-bottom:16px}
-    .typo-price-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px;background:rgba(255,138,48,.05);border-radius:var(--r-md);border:1px solid rgba(255,138,48,.15)}
+    .typo-price-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px;background:rgba(255,138,48,.06);border-radius:var(--r-md);border:1px solid rgba(255,138,48,.2);border-left:4px solid var(--c-accent)}
     .typo-price-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-text-muted);margin-bottom:4px}
-    .typo-price-val{font-size:22px;font-weight:800;color:var(--c-accent)}
-    .typo-price-disc{font-size:11px;color:var(--c-text-muted);margin-top:2px}
+    .typo-price-val{font-size:24px;font-weight:800;color:var(--c-accent);line-height:1.1}
+    .typo-price-consulta{font-size:16px;font-weight:700;color:var(--c-text-body);display:flex;align-items:center;gap:6px;line-height:1.2}
+    .typo-price-consulta::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c-accent);flex-shrink:0}
+    .typo-price-disc{font-size:11px;color:var(--c-text-muted);margin-top:4px}
 
     /* SPECS TABLE */
     .specs-table{width:100%;border-collapse:collapse}
@@ -179,7 +181,7 @@
     .related-price{font-size:13px;font-weight:700;color:var(--c-accent);margin-top:6px}
 
     /* MOBILE STICKY CTA */
-    .mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;z-index:700;padding:12px 16px;background:var(--c-surface);border-top:1px solid var(--c-border);gap:10px}
+    .mobile-sticky{display:none;position:fixed;bottom:0;left:0;right:0;z-index:700;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--c-surface);border-top:1px solid var(--c-border);gap:10px}
     .mobile-sticky .btn-wpp{flex:2;padding:16px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
     .mobile-sticky .btn-call{flex:1;padding:16px;background:var(--c-base);color:var(--c-text-primary);border:1.5px solid var(--c-border);border-radius:var(--r-full);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
 
@@ -315,7 +317,7 @@
           </div>
           <div>
             <div class="typo-price-label">Valor total (ref.)</div>
-            <div style="font-size:16px;font-weight:800;color:var(--c-text-primary)">Consulte</div>
+            <div class="typo-price-consulta">Consulte</div>
             <div class="typo-price-disc">Dados confirmados em [data]</div>
           </div>
         </div>
@@ -331,7 +333,7 @@
         <div class="typo-price-row">
           <div>
             <div class="typo-price-label">Parcelas a partir de</div>
-            <div class="typo-price-val">Consulte</div>
+            <div class="typo-price-consulta">Consulte condições</div>
             <div class="typo-price-disc">*Sujeito à aprovação CEF</div>
           </div>
         </div>
@@ -347,7 +349,7 @@
         <div class="typo-price-row">
           <div>
             <div class="typo-price-label">Parcelas a partir de</div>
-            <div class="typo-price-val">Consulte</div>
+            <div class="typo-price-consulta">Consulte condições</div>
             <div class="typo-price-disc">*Faixa 2 MCMV · Sujeito à aprovação</div>
           </div>
         </div>

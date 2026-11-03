@@ -46,7 +46,7 @@
     .strip-tags{display:flex;gap:8px;flex-wrap:wrap;flex:1}
     .strip-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(7,27,56,.06);border:1px solid var(--c-border);border-radius:var(--r-full);font-size:13px;font-weight:600;color:var(--c-text-primary);cursor:pointer;transition:all .15s}
     .strip-tag:hover{border-color:var(--c-accent);color:var(--c-accent)}
-    .strip-tag .remove{font-size:14px;color:var(--c-text-muted);line-height:1}
+    .strip-tag .remove{font-size:14px;color:var(--c-text-muted);line-height:1;background:none;border:none;cursor:pointer;padding:0;font-family:var(--font-sans)}
     .strip-clear{padding:6px 14px;border-radius:var(--r-full);border:1px solid var(--c-border);background:transparent;font-size:13px;color:var(--c-text-muted);cursor:pointer;font-family:var(--font-sans);transition:all .15s;white-space:nowrap}
     .strip-clear:hover{border-color:var(--c-text-primary);color:var(--c-text-primary)}
 
@@ -71,7 +71,8 @@
     .range-sep{font-size:12px;color:var(--c-text-muted);font-weight:600}
     .filter-chips{display:flex;flex-wrap:wrap;gap:6px}
     .filter-chip{padding:6px 12px;border:1.5px solid var(--c-border);border-radius:var(--r-full);font-size:13px;font-weight:600;color:var(--c-text-muted);cursor:pointer;transition:all .15s;background:none}
-    .filter-chip:hover,.filter-chip.active{border-color:var(--c-accent);color:var(--c-accent);background:rgba(255,138,48,.06)}
+    .filter-chip:hover{border-color:var(--c-accent);color:var(--c-accent);background:rgba(255,138,48,.06)}
+    .filter-chip.active,.filter-chip[aria-pressed="true"]{border-color:var(--c-accent);color:#fff;background:var(--c-accent)}
     .apply-btn{width:100%;padding:14px;background:var(--c-accent);color:#fff;border:none;border-radius:var(--r-md);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:background .2s;margin-top:4px}
     .apply-btn:hover{background:#e87520}
 
@@ -119,6 +120,8 @@
     .prop-price{font-size:18px;font-weight:800;color:var(--c-accent);margin:2px 0}
     .prop-disc{font-size:11px;color:var(--c-text-muted)}
     .prop-actions{display:flex;gap:7px;margin-top:14px}
+    .prop-price-consulta{font-size:15px;font-weight:700;color:var(--c-text-body);margin:2px 0 2px;display:flex;align-items:center;gap:6px}
+    .prop-price-consulta::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c-accent);flex-shrink:0}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-sans);font-weight:700;border-radius:var(--r-md);cursor:pointer;border:2px solid transparent;transition:all .2s;text-decoration:none;white-space:nowrap}
     .btn-sm{padding:8px 13px;font-size:13px;border-radius:var(--r-sm)}
     .btn-orange{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}
@@ -127,7 +130,7 @@
     .btn-outline:hover{border-color:var(--c-primary)}
 
     /* FEATURED BANNER */
-    .featured-banner{background:linear-gradient(135deg,#071B38,#0A2548);border-radius:var(--r-lg);padding:24px 28px;margin-bottom:20px;display:flex;align-items:center;gap:24px;border:1px solid rgba(100,223,255,.15)}
+    .featured-banner{background:linear-gradient(135deg,#071B38,#0A2548);border-radius:var(--r-lg);padding:24px 28px;margin-bottom:20px;display:flex;align-items:center;gap:24px;border:1px solid rgba(100,223,255,.15);border-left:4px solid var(--c-accent)}
     .fb-left{flex:1}
     .fb-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:rgba(255,138,48,.15);border:1px solid rgba(255,138,48,.3);border-radius:var(--r-full);font-size:11px;font-weight:700;color:var(--c-accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
     .fb-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
@@ -162,7 +165,7 @@
     .sheet-apply button{width:100%;padding:16px;background:var(--c-accent);color:#fff;border:none;border-radius:var(--r-md);font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
 
     /* MOBILE CTA */
-    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;padding:12px 16px;background:linear-gradient(to top,rgba(7,27,56,.95) 80%,transparent)}
+    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,rgba(7,27,56,.95) 80%,transparent)}
     .mobile-cta button{width:100%;padding:16px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
 
     /* FOCUS VISIBLE — acessibilidade por teclado */
@@ -230,10 +233,10 @@
   <div class="search-strip-inner">
     <span class="strip-label">Filtros ativos:</span>
     <div class="strip-tags">
-      <span class="strip-tag">Itaboraí <span class="remove">×</span></span>
-      <span class="strip-tag">MCMV Faixa 1 <span class="remove">×</span></span>
-      <span class="strip-tag">2 quartos <span class="remove">×</span></span>
-      <span class="strip-tag">Até R$ 250.000 <span class="remove">×</span></span>
+      <span class="strip-tag">Itaboraí <button class="remove" type="button" aria-label="Remover filtro Itaboraí">×</button></span>
+      <span class="strip-tag">MCMV Faixa 1 <button class="remove" type="button" aria-label="Remover filtro MCMV Faixa 1">×</button></span>
+      <span class="strip-tag">2 quartos <button class="remove" type="button" aria-label="Remover filtro 2 quartos">×</button></span>
+      <span class="strip-tag">Até R$ 250.000 <button class="remove" type="button" aria-label="Remover filtro Até R$ 250.000">×</button></span>
     </div>
     <button class="strip-clear">Limpar filtros</button>
   </div>
@@ -266,11 +269,11 @@
 
     <div class="filter-group">
       <div class="filter-label">Quartos</div>
-      <div class="filter-chips">
-        <button class="filter-chip">1</button>
-        <button class="filter-chip active">2</button>
-        <button class="filter-chip">3</button>
-        <button class="filter-chip">3+</button>
+      <div class="filter-chips" role="group" aria-label="Filtrar por quartos">
+        <button class="filter-chip" aria-pressed="false" type="button">1</button>
+        <button class="filter-chip active" aria-pressed="true" type="button">2</button>
+        <button class="filter-chip" aria-pressed="false" type="button">3</button>
+        <button class="filter-chip" aria-pressed="false" type="button">3+</button>
       </div>
     </div>
 
@@ -395,7 +398,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#0d2e4a,#1a4060)">
           <div class="prop-img-text">📸 Foto/render oficial<br>Flores de Maio</div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Flores de Maio">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span></div>
         </div>
         <div class="prop-body">
@@ -403,7 +406,7 @@
           <div class="prop-name">Flores de Maio</div>
           <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 42m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Dados confirmados em [data]</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
@@ -416,7 +419,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#1a2a4a,#0e2040)">
           <div class="prop-img-text">📸 Foto/render oficial<br>Residencial Florescer</div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Residencial Florescer">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-ready">Pronto</span></div>
         </div>
         <div class="prop-body">
@@ -424,7 +427,7 @@
           <div class="prop-name">Residencial Florescer</div>
           <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 44m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Pronto para morar</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
@@ -437,7 +440,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#122040,#0b1a35)">
           <div class="prop-img-text">📸 Foto/render oficial<br>Solar da Trindade</div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Solar da Trindade">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-few">Últimas unids.</span></div>
         </div>
         <div class="prop-body">
@@ -445,7 +448,7 @@
           <div class="prop-name">Solar da Trindade</div>
           <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 48m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Poucas unidades restantes</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
@@ -458,7 +461,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#0a1e38,#102040)">
           <div class="prop-img-text">📸 Foto/render oficial<br>Conquista Oceânica</div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Conquista Oceânica">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span></div>
         </div>
         <div class="prop-body">
@@ -466,7 +469,7 @@
           <div class="prop-name">Conquista Oceânica</div>
           <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 46m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Dados confirmados em [data]</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
@@ -479,7 +482,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#142040,#0d1830)">
           <div class="prop-img-text">📸 Foto/render oficial<br>Reserva dos Pássaros 2</div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Reserva dos Pássaros 2">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-launch">Lançamento</span></div>
         </div>
         <div class="prop-body">
@@ -487,7 +490,7 @@
           <div class="prop-name">Reserva dos Pássaros 2</div>
           <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 43m²</span><span>🚗 1 vaga</span></div>
           <div class="prop-price-label">Condição comercial</div>
-          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-price-consulta">Consulte condições atuais</div>
           <div class="prop-disc">Em lançamento</div>
           <div class="prop-actions">
             <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
@@ -500,13 +503,13 @@
 
     <!-- PAGINATION -->
     <nav class="pagination" aria-label="Paginação">
-      <button class="page-btn">‹</button>
-      <button class="page-btn active">1</button>
+      <button class="page-btn" aria-label="Página anterior">‹</button>
+      <button class="page-btn active" aria-current="page">1</button>
       <button class="page-btn">2</button>
       <button class="page-btn">3</button>
-      <span class="page-ellipsis">…</span>
+      <span class="page-ellipsis" aria-hidden="true">…</span>
       <button class="page-btn">8</button>
-      <button class="page-btn">›</button>
+      <button class="page-btn" aria-label="Próxima página">›</button>
     </nav>
 
     <!-- FOOTER NOTE -->
@@ -533,36 +536,36 @@
     <div class="sheet-body">
       <div style="margin-bottom:24px">
         <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Cidade</div>
-        <div class="filter-chips">
-          <button class="filter-chip active">Itaboraí</button>
-          <button class="filter-chip">São Gonçalo</button>
-          <button class="filter-chip">Niterói</button>
-          <button class="filter-chip">Maricá</button>
+        <div class="filter-chips" role="group" aria-label="Filtrar por cidade">
+          <button class="filter-chip active" aria-pressed="true" type="button">Itaboraí</button>
+          <button class="filter-chip" aria-pressed="false" type="button">São Gonçalo</button>
+          <button class="filter-chip" aria-pressed="false" type="button">Niterói</button>
+          <button class="filter-chip" aria-pressed="false" type="button">Maricá</button>
         </div>
       </div>
       <div style="margin-bottom:24px">
         <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Quartos</div>
-        <div class="filter-chips">
-          <button class="filter-chip">1</button>
-          <button class="filter-chip active">2</button>
-          <button class="filter-chip">3</button>
-          <button class="filter-chip">3+</button>
+        <div class="filter-chips" role="group" aria-label="Filtrar por quartos">
+          <button class="filter-chip" aria-pressed="false" type="button">1</button>
+          <button class="filter-chip active" aria-pressed="true" type="button">2</button>
+          <button class="filter-chip" aria-pressed="false" type="button">3</button>
+          <button class="filter-chip" aria-pressed="false" type="button">3+</button>
         </div>
       </div>
       <div style="margin-bottom:24px">
         <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Programa</div>
-        <div class="filter-chips">
-          <button class="filter-chip active">Faixa 1</button>
-          <button class="filter-chip">Faixa 2</button>
-          <button class="filter-chip">Faixa 3</button>
+        <div class="filter-chips" role="group" aria-label="Filtrar por programa">
+          <button class="filter-chip active" aria-pressed="true" type="button">Faixa 1</button>
+          <button class="filter-chip" aria-pressed="false" type="button">Faixa 2</button>
+          <button class="filter-chip" aria-pressed="false" type="button">Faixa 3</button>
         </div>
       </div>
       <div>
         <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Status</div>
-        <div class="filter-chips">
-          <button class="filter-chip">Lançamento</button>
-          <button class="filter-chip">Em obras</button>
-          <button class="filter-chip">Pronto</button>
+        <div class="filter-chips" role="group" aria-label="Filtrar por status">
+          <button class="filter-chip" aria-pressed="false" type="button">Lançamento</button>
+          <button class="filter-chip" aria-pressed="false" type="button">Em obras</button>
+          <button class="filter-chip" aria-pressed="false" type="button">Pronto</button>
         </div>
       </div>
     </div>
