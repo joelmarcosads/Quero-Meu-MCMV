@@ -57,21 +57,23 @@ jobs:
           npx wrangler deploy --env staging
           echo "✅ Deploy concluído"
 
-      # 6. Verificação rápida de saúde pós-deploy
-      - name: Health check pós-deploy
+      # 6. Instrução pós-deploy
+      #    O health check automático foi removido porque o hostname está protegido
+      #    pelo Cloudflare Access — curl sem sessão recebe 302/403 mesmo com o
+      #    Worker funcionando. Teste manualmente após o deploy:
+      #
+      #    Opção A (browser com sessão CF Access):
+      #      https://api-staging.queromeumcmv.com.br/health
+      #
+      #    Opção B (curl com bypass configurado no Dashboard):
+      #      Zero Trust → Access → Applications → Market Imobi CRM - Staging
+      #      → adicionar regra Bypass para Path = /health
+      #
+      - name: Instrucoes pos-deploy
         run: |
-          echo "⏳ Aguardando propagação (10s)..."
-          sleep 10
-          RESP=$(curl -sS --max-time 15 \
-            -w "\nHTTP_STATUS:%{http_code}" \
-            "https://api-staging.queromeumcmv.com.br/health" 2>&1)
-          HTTP_STATUS=$(echo "$RESP" | grep "HTTP_STATUS:" | cut -d: -f2)
-          BODY=$(echo "$RESP" | grep -v "HTTP_STATUS:")
-          echo "Status HTTP: $HTTP_STATUS"
-          echo "Resposta: $BODY"
-          if [ "$HTTP_STATUS" = "200" ]; then
-            echo "✅ /health respondeu 200 — Worker está no ar"
-          else
-            echo "⚠️  /health retornou $HTTP_STATUS — verifique Cloudflare Dashboard"
-            echo "   (pode ser propagação ainda em andamento; aguarde ~1 min e teste manualmente)"
-          fi
+          echo "✅ Deploy concluído com sucesso."
+          echo ""
+          echo "Para verificar o Worker, abra no browser (com sessão CF Access ativa):"
+          echo "  https://api-staging.queromeumcmv.com.br/health"
+          echo ""
+          echo "Ou consulte: Cloudflare Dashboard → Workers → market-imobi-crm-staging → Logs"

@@ -6,6 +6,7 @@ compatibility_flags = ["nodejs_compat"]
 # ─── Ambiente de staging ─────────────────────────────────────────────────────
 [env.staging]
 name = "market-imobi-crm-staging"
+workers_dev = false   # desativa subdomínio *.workers.dev — acesso apenas via CF Access
 
 [[env.staging.d1_databases]]
 binding = "DB"
