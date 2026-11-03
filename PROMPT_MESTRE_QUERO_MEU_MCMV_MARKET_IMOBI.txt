@@ -70,7 +70,7 @@ Navegação nunca bloqueada por formulário. Dois caminhos: (A) contato rápido 
 - WhatsApp oficial de atendimento: +55 21 96592-8399; URL https://wa.me/5521965928399. Mensagem predefinida com contexto real de empreendimento, tipologia, cidade e interesse; não incluir dados sensíveis ou valores de renda em URLs. Distinguir clique em link de conversa iniciada/lead confirmado.
 - Botão mobile fixo “Simular pelo WhatsApp” quando apropriado, sem colisão com navegação inferior; testar viewport pequeno e teclado.
 - Leads persistidos de forma idempotente, com estados de envio e falha, confirmação real de sucesso, proteção antispam e tratamento de consentimento; manter notificações e integrações existentes.
-- Identificação profissional: Joel Marcos, CRECI-RJ 39.583-F; e-mail contato@queromeumcmv.com.br. Verificar dados institucionais/endereço no site e com proprietário antes de publicar; endereço informado para conferência: Rua H, nº 492, Itaboraí/RJ, CEP 24813-066.
+- Identificação profissional: Joel Marcos, CRECI-RJ 39.583-F; e-mail contato@queromeumcmv.com.br. Verificar dados institucionais/endereço no site e com proprietário antes de publicar; endereço de atendimento a confirmar com o proprietário antes de publicar.
 - Transparência publicitária: CDC arts. 30, 31, 36 e 37; Lei 4.591/64 art. 32 quando aplicável; normas COFECI/CRECI; LGPD; políticas Meta categoria especial Habitação. Nunca garantir aprovação de financiamento, subsídio, 100% financiado ou condições não verificadas.
 
 7. SIMULADOR DE GASTOS COM ALUGUEL
@@ -108,7 +108,7 @@ Auditar configuração atual antes de qualquer alteração. Preservar tags e med
 
 11. INTEGRAÇÕES EXISTENTES — NÃO QUEBRAR
 Stack histórica relatada: Google AI Studio, Vite, Tailwind, GitHub e Cloudflare Pages. Validar no repositório; não pressupor.
-- Integração atual Google Sheets: planilha “Banco de Dados Forms”, ID 1VAeZ_Qd_osqmCEoBUkhvLrvxzow8WJEeS3INN9xDm1A, aba “Leads”. Campos conhecidos: Data/Hora, Nome, WhatsApp, E-mail, Cidade, Faixa de valor, Quartos, Pagamento, Primeira compra, Prazo, Consentimento LGPD, utm_source, utm_medium, utm_campaign, Página, Referrer, Status, external_id. Verificar esquema real, autorizações e funcionamento.
+- Integração atual Google Sheets: planilha “Banco de Dados Forms”, ID [SHEETS_ID — manter em variável de ambiente, não expor em repositórios públicos], aba “Leads”. Campos conhecidos: Data/Hora, Nome, WhatsApp, E-mail, Cidade, Faixa de valor, Quartos, Pagamento, Primeira compra, Prazo, Consentimento LGPD, utm_source, utm_medium, utm_campaign, Página, Referrer, Status, external_id. Verificar esquema real, autorizações e funcionamento.
 - Preservar notificações por e-mail e página de agradecimento com WhatsApp; se migrar fonte de verdade para CRM/D1, planejar sincronização resiliente, deduplicação, filas/retries e reconciliação com Sheets, evitando dupla gravação e perda silenciosa.
 - Não expor IDs sensíveis, tokens, webhooks, credenciais ou dados pessoais no frontend ou logs. Usar secrets/variáveis de ambiente, permissões mínimas e rotação quando necessária.
 
