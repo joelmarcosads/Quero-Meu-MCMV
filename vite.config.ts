@@ -97,7 +97,7 @@ export default defineConfig(({mode, isSsrBuild}) => {
       },
     },
     build: {
-      sourcemap: true,
+      sourcemap: mode === 'development',
       rollupOptions: {
         input: isSsrBuild
           ? undefined

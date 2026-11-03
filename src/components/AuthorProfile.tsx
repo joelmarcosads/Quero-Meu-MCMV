@@ -1,9 +1,15 @@
 export default function AuthorProfile() {
   return (
     <div className="mt-12 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-      <div className="w-20 h-20 bg-primary/10 rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-2xl">
-        JM
-      </div>
+      <img
+        src="/joel-marcos-corretor-minha-casa-minha-vida-itaborai.png"
+        alt="Joel Marcos, corretor de imóveis especialista em Minha Casa Minha Vida em Itaboraí-RJ – CRECI 39.583F"
+        width={80}
+        height={80}
+        className="w-20 h-20 rounded-full flex-shrink-0 object-cover object-top border-2 border-primary/20"
+        loading="lazy"
+        decoding="async"
+      />
       <div>
         <div className="text-sm font-semibold text-accent mb-1">Conteúdo preparado por:</div>
         <h3 className="font-bold text-slate-900 text-lg">Joel Marcos</h3>

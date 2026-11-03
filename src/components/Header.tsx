@@ -15,6 +15,13 @@ export default function Header() {
   ];
 
   return (
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-semibold focus:shadow-lg"
+      >
+        Pular para o conteúdo principal
+      </a>
     <header className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20 gap-4 flex-nowrap">
@@ -106,6 +113,7 @@ export default function Header() {
         )}
       </AnimatePresence>
     </header>
+    </>
   );
 }
 

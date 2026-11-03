@@ -15,8 +15,7 @@ export default function Home() {
         <title>Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV</title>
         <meta name="description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
         <link rel="canonical" href="https://queromeumcmv.com.br/" />
-        <meta property="fb:app_id" content="966242223397117" />
-        <meta property="og:site_name" content="Quero Meu MCMV" />
+<meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV" />
         <meta property="og:description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
@@ -34,7 +33,7 @@ export default function Home() {
         <link rel="preload" as="image" href="/imperio-do-ouro-mrv-desktop.webp" media="(min-width: 601px)" fetchPriority="high" />
       </Helmet>
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <McmvRules />
         <McmvHighlights />

@@ -53,13 +53,11 @@ export const BASE_ORGANIZATION_DATA = {
   telephone: '+55 21 96592-8399',
   email: 'contato@queromeumcmv.com.br',
   priceRange: 'R$ 150.000 - R$ 600.000',
-  openingHours: 'Mo-Sa 08:00-20:00',
+  openingHours: 'Mo-Fr 09:00-17:00',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Rua H, nº 492, Retiro São Joaquim',
     addressLocality: 'Itaboraí',
     addressRegion: 'RJ',
-    postalCode: '24813-066',
     addressCountry: 'BR',
   },
   geo: {
