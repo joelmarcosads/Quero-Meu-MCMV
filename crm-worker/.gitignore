@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.wrangler/
+backup/
+*.db
+*.db-shm
+*.db-wal
+.dev.vars
