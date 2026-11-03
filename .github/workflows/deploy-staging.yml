@@ -1,0 +1,77 @@
+name: Deploy Worker — Staging
+
+# ─── Disparo manual pelo browser ────────────────────────────────────────────
+# GitHub → Actions → "Deploy Worker — Staging" → Run workflow
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite CONFIRMAR para autorizar o deploy'
+        required: true
+        default: ''
+
+# ─── Permissões mínimas ──────────────────────────────────────────────────────
+permissions:
+  contents: read
+
+jobs:
+  deploy-staging:
+    name: Build & Deploy → api-staging.queromeumcmv.com.br
+    runs-on: ubuntu-latest
+    environment: staging          # opcional: adicione proteção de ambiente no GitHub
+
+    # Bloqueia runs acidentais sem confirmação explícita
+    if: ${{ github.event.inputs.confirmar == 'CONFIRMAR' }}
+
+    steps:
+      # 1. Checkout da branch de staging (nunca toca em main)
+      - name: Checkout feat/market-imobi-crm-staging
+        uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
+
+      # 2. Node 20 LTS
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: crm-worker/package-lock.json
+
+      # 3. Instalar dependências (inclui wrangler ^3.87.0)
+      - name: Install dependencies
+        working-directory: crm-worker
+        run: npm ci
+
+      # 4. Compilar TypeScript → dist/worker.js (esbuild via wrangler)
+      #    O wrangler compila internamente ao fazer deploy
+      #    Não é necessário rodar esbuild separado
+
+      # 5. Deploy → ambiente staging (rota api-staging.queromeumcmv.com.br)
+      - name: Deploy Worker to staging
+        working-directory: crm-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          echo "🚀 Deploy iniciado em $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          npx wrangler deploy --env staging
+          echo "✅ Deploy concluído"
+
+      # 6. Verificação rápida de saúde pós-deploy
+      - name: Health check pós-deploy
+        run: |
+          echo "⏳ Aguardando propagação (10s)..."
+          sleep 10
+          RESP=$(curl -sS --max-time 15 \
+            -w "\nHTTP_STATUS:%{http_code}" \
+            "https://api-staging.queromeumcmv.com.br/health" 2>&1)
+          HTTP_STATUS=$(echo "$RESP" | grep "HTTP_STATUS:" | cut -d: -f2)
+          BODY=$(echo "$RESP" | grep -v "HTTP_STATUS:")
+          echo "Status HTTP: $HTTP_STATUS"
+          echo "Resposta: $BODY"
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ /health respondeu 200 — Worker está no ar"
+          else
+            echo "⚠️  /health retornou $HTTP_STATUS — verifique Cloudflare Dashboard"
+            echo "   (pode ser propagação ainda em andamento; aguarde ~1 min e teste manualmente)"
+          fi

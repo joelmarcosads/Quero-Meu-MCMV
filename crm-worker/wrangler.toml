@@ -23,8 +23,8 @@ zone_name = "queromeumcmv.com.br"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
-CF_ACCESS_TEAM_DOMAIN = "PLACEHOLDER_SEU_DOMINIO.cloudflareaccess.com"
-CF_ACCESS_AUD = "PLACEHOLDER_AUD_DO_SEU_APP"
+CF_ACCESS_TEAM_DOMAIN = "hidden-block-6fbc.cloudflareaccess.com"
+CF_ACCESS_AUD = "4e8722c354df3e583fb04ceb1c1c3da7bdac50aaabccb867764cce151e59327d"
 
 # ─── Desenvolvimento local (wrangler dev) ─────────────────────────────────────
 [[d1_databases]]
