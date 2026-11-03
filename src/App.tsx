@@ -23,6 +23,7 @@ import Sobre from './pages/Sobre';
 import NotFound from './pages/NotFound';
 import ObrigadoImovel from './components/ObrigadoImovel';
 import CaptacaoDeImoveis from './pages/CaptacaoDeImoveis';
+import NiteroiRJ from './pages/NiteroiRJ';
 
 export function AppRoutes() {
   return (
@@ -62,6 +63,7 @@ export function AppRoutes() {
         <Route path="/subsidio-minha-casa-minha-vida" element={<SubsidioMcmv />} />
         <Route path="/renda-minha-casa-minha-vida" element={<RendaMcmv />} />
         <Route path="/documentos-minha-casa-minha-vida" element={<DocumentosMcmv />} />
+        <Route path="/niteroirj" element={<NiteroiRJ />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

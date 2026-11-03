@@ -118,14 +118,14 @@ export default function Sobre() {
                 <span className="text-xs text-slate-500 mt-2">Ver lançamentos MCMV</span>
               </Link>
 
-              <div className="bg-white p-6 rounded-2xl shadow-sm flex flex-col items-center text-center border border-slate-200">
-                <Home className="w-10 h-10 text-slate-500 mb-3" />
+              <Link to="/niteroirj" className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center group border border-slate-200 hover:border-primary">
+                <Home className="w-10 h-10 text-slate-700 mb-3 group-hover:scale-110 transition-transform" />
                 <span className="font-bold text-slate-900 text-lg">3. Niterói</span>
                 <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
                   Área de Atendimento
                 </span>
-                <span className="text-xs text-slate-500 mt-2">Atendimento consultivo</span>
-              </div>
+                <span className="text-xs text-slate-500 mt-2">Ver MCMV em Niterói</span>
+              </Link>
 
               <Link to="/conquista-oceanica" className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center group border border-slate-200 hover:border-primary">
                 <Home className="w-10 h-10 text-slate-700 mb-3 group-hover:scale-110 transition-transform" />
