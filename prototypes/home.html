@@ -232,6 +232,14 @@
       .footer-grid{grid-template-columns:1fr;gap:32px}
       .mobile-cta{display:block}
     }
+    /* Telas muito estreitas (≤359 px) — CTA do hero cabe na tela */
+    @media(max-width:359px){
+      .btn-lg{padding:13px 20px;font-size:14px}
+      .hero-sub{font-size:16px;margin-bottom:24px}
+      .nav-cta{display:none}
+    }
+    /* salvaguarda global */
+    html,body{max-width:100%;overflow-x:hidden}
   </style>
 </head>
 <body>

@@ -187,7 +187,8 @@
 
     /* RESPONSIVE */
     @media(max-width:960px){
-      .detail-layout{grid-template-columns:1fr;padding:20px 20px 80px}
+      .detail-layout{grid-template-columns:1fr;padding:20px 20px 80px;width:100%;box-sizing:border-box}
+      .detail-main{min-width:0;max-width:100%}
       .lead-card{display:none}
       .mobile-sticky{display:flex}
       .typo-specs{grid-template-columns:repeat(3,1fr)}
@@ -195,6 +196,7 @@
     }
     @media(max-width:640px){
       .header{padding:0 16px}
+      .nav-cta{display:none}
       .gallery-main{height:280px}
       .gallery-thumbs{display:none}
       .breadcrumb{padding:10px 16px}
@@ -202,7 +204,17 @@
       .mcmv-grid{grid-template-columns:1fr}
       .related-grid{grid-template-columns:1fr}
       .typo-specs{grid-template-columns:repeat(2,1fr)}
+      /* typo-tabs: rolagem horizontal em vez de overflow oculto */
+      .typo-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r-md)}
+      .typo-tab{flex-shrink:0;font-size:12px;padding:10px 10px;min-width:0}
+      .section-card{padding:20px}
+      .detail-badges{flex-wrap:wrap}
+      /* author-strip: empilha botão CTA na linha abaixo em mobile */
+      .author-strip{flex-wrap:wrap;gap:16px}
+      .author-strip .btn-wpp{width:100%;justify-content:center;flex-shrink:1;white-space:normal}
     }
+    /* salvaguarda global */
+    html,body{max-width:100%;overflow-x:hidden}
 
     /* FOCUS VISIBLE — acessibilidade por teclado */
     :focus-visible{outline:3px solid var(--c-cyan);outline-offset:2px;border-radius:3px}
