@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[PROTÓTIPO] Resultados — Quero Meu MCMV 2.0</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap">
+  <style>
+    :root {
+      --c-primary:#071B38; --c-accent:#FF8A30; --c-cyan:#64DFFF; --c-base:#F4F7FB;
+      --c-surface:#FFFFFF; --c-surface-alt:#F1F5F9; --c-border:#E2E8F0;
+      --c-text-primary:#0F172A; --c-text-body:#334155; --c-text-muted:#64748B;
+      --c-text-inverse:#F4F7FB; --c-success:#16A34A; --c-whatsapp:#25D366;
+      --shadow-sm:0 1px 3px rgba(7,27,56,.08); --shadow-md:0 4px 16px rgba(7,27,56,.10);
+      --shadow-lg:0 8px 32px rgba(7,27,56,.14); --shadow-cyan:0 0 0 3px rgba(100,223,255,.35);
+      --font-sans:'Figtree',system-ui,sans-serif; --font-serif:'Playfair Display',Georgia,serif;
+      --r-sm:6px; --r-md:12px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+      --t-base:250ms ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:var(--font-sans);background:var(--c-base);color:var(--c-text-body);line-height:1.6}
+
+    /* PROTO BANNER */
+    .proto-banner{background:#DC2626;color:#fff;text-align:center;padding:10px 16px;font-size:12px;font-weight:700;letter-spacing:.08em;position:sticky;top:0;z-index:1000}
+
+    /* HEADER */
+    .header{background:var(--c-primary);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:36px;z-index:900}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-icon{width:36px;height:36px;background:var(--c-accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .logo-text{font-weight:800;font-size:15px;color:#fff;line-height:1.1}
+    .logo-sub{font-size:10px;color:rgba(255,255,255,.5);font-weight:400;letter-spacing:.04em}
+    .header-search{flex:1;max-width:560px;margin:0 40px;position:relative}
+    .header-search input{width:100%;padding:10px 16px 10px 44px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:14px;font-family:var(--font-sans);outline:none;transition:border-color .2s,background .2s}
+    .header-search input::placeholder{color:rgba(255,255,255,.4)}
+    .header-search input:focus{border-color:var(--c-cyan);background:rgba(255,255,255,.12)}
+    .header-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);font-size:16px}
+    .nav-cta{padding:9px 18px;background:var(--c-accent);color:#fff;border-radius:var(--r-md);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+    .nav-burger span{width:22px;height:2px;background:#fff;border-radius:2px}
+
+    /* SEARCH BAR STRIP */
+    .search-strip{background:var(--c-surface);border-bottom:1px solid var(--c-border);padding:16px 40px}
+    .search-strip-inner{max-width:1360px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .strip-label{font-size:13px;font-weight:600;color:var(--c-text-muted);white-space:nowrap}
+    .strip-tags{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+    .strip-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(7,27,56,.06);border:1px solid var(--c-border);border-radius:var(--r-full);font-size:13px;font-weight:600;color:var(--c-text-primary);cursor:pointer;transition:all .15s}
+    .strip-tag:hover{border-color:var(--c-accent);color:var(--c-accent)}
+    .strip-tag .remove{font-size:14px;color:var(--c-text-muted);line-height:1}
+    .strip-clear{padding:6px 14px;border-radius:var(--r-full);border:1px solid var(--c-border);background:transparent;font-size:13px;color:var(--c-text-muted);cursor:pointer;font-family:var(--font-sans);transition:all .15s;white-space:nowrap}
+    .strip-clear:hover{border-color:var(--c-text-primary);color:var(--c-text-primary)}
+
+    /* LAYOUT */
+    .page-layout{max-width:1360px;margin:0 auto;padding:28px 40px 80px;display:grid;grid-template-columns:280px 1fr;gap:28px;align-items:start}
+
+    /* SIDEBAR FILTERS */
+    .sidebar{position:sticky;top:120px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .sidebar-header{padding:16px 20px;border-bottom:1px solid var(--c-border);display:flex;justify-content:space-between;align-items:center;background:var(--c-surface-alt)}
+    .sidebar-title{font-size:14px;font-weight:700;color:var(--c-text-primary);display:flex;align-items:center;gap:6px}
+    .sidebar-reset{font-size:12px;color:var(--c-accent);font-weight:700;cursor:pointer;background:none;border:none;font-family:var(--font-sans)}
+    .filter-group{padding:16px 20px;border-bottom:1px solid var(--c-border)}
+    .filter-group:last-child{border-bottom:none}
+    .filter-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px}
+    .checkbox-item{display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer}
+    .checkbox-item input{width:16px;height:16px;accent-color:var(--c-accent);cursor:pointer}
+    .checkbox-text{font-size:14px;color:var(--c-text-body);flex:1}
+    .checkbox-count{font-size:12px;color:var(--c-text-muted);font-weight:600}
+    .range-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .range-input{flex:1;padding:8px 12px;border:1.5px solid var(--c-border);border-radius:var(--r-sm);font-size:13px;font-family:var(--font-sans);outline:none;transition:border-color .2s}
+    .range-input:focus{border-color:var(--c-accent)}
+    .range-sep{font-size:12px;color:var(--c-text-muted);font-weight:600}
+    .filter-chips{display:flex;flex-wrap:wrap;gap:6px}
+    .filter-chip{padding:6px 12px;border:1.5px solid var(--c-border);border-radius:var(--r-full);font-size:13px;font-weight:600;color:var(--c-text-muted);cursor:pointer;transition:all .15s;background:none}
+    .filter-chip:hover,.filter-chip.active{border-color:var(--c-accent);color:var(--c-accent);background:rgba(255,138,48,.06)}
+    .apply-btn{width:100%;padding:14px;background:var(--c-accent);color:#fff;border:none;border-radius:var(--r-md);font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font-sans);transition:background .2s;margin-top:4px}
+    .apply-btn:hover{background:#e87520}
+
+    /* RESULTS AREA */
+    .results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:gap;gap:12px}
+    .results-count{font-size:15px;color:var(--c-text-muted)}<br>    .results-count strong{color:var(--c-text-primary)}
+    .results-controls{display:flex;align-items:center;gap:10px}
+    .sort-select{padding:9px 14px;border:1.5px solid var(--c-border);border-radius:var(--r-md);font-size:13px;font-family:var(--font-sans);outline:none;background:var(--c-surface);color:var(--c-text-primary);cursor:pointer}
+    .view-toggle{display:flex;border:1.5px solid var(--c-border);border-radius:var(--r-md);overflow:hidden}
+    .view-btn{padding:8px 12px;background:none;border:none;cursor:pointer;font-size:16px;transition:background .15s;color:var(--c-text-muted)}
+    .view-btn.active{background:var(--c-accent);color:#fff}
+    .map-toggle-btn{padding:9px 16px;border:1.5px solid var(--c-border);border-radius:var(--r-md);background:none;font-size:13px;font-weight:600;color:var(--c-text-body);cursor:pointer;font-family:var(--font-sans);display:flex;align-items:center;gap:6px;transition:all .15s}
+    .map-toggle-btn:hover{border-color:var(--c-accent);color:var(--c-accent)}
+
+    /* MAP PANEL */
+    .map-panel{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:24px;display:none}
+    .map-panel.show{display:block}
+    .map-placeholder{height:320px;background:linear-gradient(135deg,#e8f0fe,#dbeafe,#e0f2fe);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--c-text-muted);gap:12px;position:relative}
+    .map-pin{position:absolute;font-size:24px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+    .map-overlay-badge{position:absolute;bottom:16px;left:16px;background:rgba(7,27,56,.8);color:#fff;padding:8px 16px;border-radius:var(--r-full);font-size:13px;font-weight:600;backdrop-filter:blur(4px)}
+
+    /* PROPERTY CARDS */
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+    .prop-card{background:var(--c-surface);border-radius:var(--r-lg);border:1px solid var(--c-border);box-shadow:var(--shadow-sm);overflow:hidden;transition:transform .25s,box-shadow .25s;cursor:pointer}
+    .prop-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .prop-card.featured{border-color:var(--c-accent);box-shadow:0 0 0 1px var(--c-accent),var(--shadow-sm)}
+    .prop-img{height:190px;position:relative;overflow:hidden;background:linear-gradient(135deg,#0F2D5E,#1e3a6a,#071B38);display:flex;align-items:center;justify-content:center}
+    .prop-img-text{color:rgba(255,255,255,.3);font-size:12px;text-align:center;padding:16px}
+    .prop-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,27,56,.55) 0%,transparent 50%)}
+    .prop-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .15s}
+    .prop-fav:hover{background:#fff;transform:scale(1.1)}
+    .prop-badges{position:absolute;bottom:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:var(--r-full);text-transform:uppercase;letter-spacing:.04em}
+    .b-mcmv{background:rgba(255,138,48,.9);color:#fff}
+    .b-launch{background:rgba(100,223,255,.9);color:#0369A1}
+    .b-ready{background:rgba(22,163,74,.9);color:#fff}
+    .b-few{background:rgba(245,158,11,.9);color:#fff}
+    .b-featured{background:var(--c-accent);color:#fff}
+    .prop-body{padding:16px}
+    .prop-loc{font-size:11px;color:var(--c-text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+    .prop-name{font-size:16px;font-weight:700;color:var(--c-text-primary);margin-bottom:10px;line-height:1.3}
+    .prop-specs{display:flex;gap:12px;font-size:12px;color:var(--c-text-muted);margin-bottom:12px;flex-wrap:wrap}
+    .prop-price-label{font-size:11px;color:var(--c-text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+    .prop-price{font-size:18px;font-weight:800;color:var(--c-accent);margin:2px 0}
+    .prop-disc{font-size:11px;color:var(--c-text-muted)}
+    .prop-actions{display:flex;gap:7px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-sans);font-weight:700;border-radius:var(--r-md);cursor:pointer;border:2px solid transparent;transition:all .2s;text-decoration:none;white-space:nowrap}
+    .btn-sm{padding:8px 13px;font-size:13px;border-radius:var(--r-sm)}
+    .btn-orange{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}
+    .btn-orange:hover{background:#e87520}
+    .btn-outline{background:transparent;color:var(--c-primary);border-color:var(--c-border)}
+    .btn-outline:hover{border-color:var(--c-primary)}
+
+    /* FEATURED BANNER */
+    .featured-banner{background:linear-gradient(135deg,#071B38,#0A2548);border-radius:var(--r-lg);padding:24px 28px;margin-bottom:20px;display:flex;align-items:center;gap:24px;border:1px solid rgba(100,223,255,.15)}
+    .fb-left{flex:1}
+    .fb-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:rgba(255,138,48,.15);border:1px solid rgba(255,138,48,.3);border-radius:var(--r-full);font-size:11px;font-weight:700;color:var(--c-accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+    .fb-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
+    .fb-sub{font-size:14px;color:rgba(255,255,255,.55)}
+    .fb-price{font-size:22px;font-weight:800;color:var(--c-accent);margin-top:8px}
+    .fb-img{width:120px;height:120px;border-radius:var(--r-lg);background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0}
+    .fb-cta{flex-shrink:0}
+
+    /* EMPTY STATE */
+    .empty-state{text-align:center;padding:60px 20px;color:var(--c-text-muted)}
+    .empty-icon{font-size:48px;margin-bottom:12px}
+    .empty-title{font-size:18px;font-weight:700;color:var(--c-text-primary);margin-bottom:8px}
+    .empty-sub{font-size:14px}
+
+    /* PAGINATION */
+    .pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:32px}
+    .page-btn{width:38px;height:38px;border-radius:var(--r-md);border:1.5px solid var(--c-border);background:var(--c-surface);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-sans);transition:all .15s;display:flex;align-items:center;justify-content:center}
+    .page-btn:hover{border-color:var(--c-accent);color:var(--c-accent)}
+    .page-btn.active{background:var(--c-accent);border-color:var(--c-accent);color:#fff}
+    .page-ellipsis{padding:0 4px;color:var(--c-text-muted)}
+
+    /* MOBILE FILTER BOTTOM SHEET */
+    .filter-fab{display:none;position:fixed;bottom:24px;right:24px;z-index:700;width:52px;height:52px;border-radius:50%;background:var(--c-primary);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:var(--shadow-lg)}
+    .bottom-sheet{display:none;position:fixed;inset:0;z-index:800}
+    .sheet-backdrop{position:absolute;inset:0;background:rgba(7,27,56,.5);backdrop-filter:blur(2px)}
+    .sheet-panel{position:absolute;bottom:0;left:0;right:0;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;max-height:88vh;overflow-y:auto;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+    .sheet-handle{width:40px;height:4px;background:var(--c-border);border-radius:2px;margin:14px auto 20px}
+    .sheet-header{padding:0 20px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--c-border)}
+    .sheet-close{width:32px;height:32px;border:none;background:var(--c-base);border-radius:50%;font-size:16px;cursor:pointer}
+    .sheet-body{padding:20px}
+    .sheet-apply{position:sticky;bottom:0;padding:16px 20px;background:var(--c-surface);border-top:1px solid var(--c-border)}
+    .sheet-apply button{width:100%;padding:16px;background:var(--c-accent);color:#fff;border:none;border-radius:var(--r-md);font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
+
+    /* MOBILE CTA */
+    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;padding:12px 16px;background:linear-gradient(to top,rgba(7,27,56,.95) 80%,transparent)}
+    .mobile-cta button{width:100%;padding:16px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      .header-search{display:none}
+      .page-layout{grid-template-columns:1fr;padding:20px 20px 80px}
+      .sidebar{display:none}
+      .filter-fab{display:flex;align-items:center;justify-content:center}
+      .bottom-sheet{display:block}
+      .mobile-cta{display:block}
+      .search-strip{padding:12px 20px}
+    }
+    @media(max-width:640px){
+      .header{padding:0 16px}
+      .nav-burger{display:flex}
+      .nav-cta{display:none}
+      .featured-banner{flex-direction:column;gap:16px}
+      .fb-img{width:80px;height:80px;font-size:28px}
+      .fb-cta{width:100%}
+      .fb-cta .btn{width:100%;justify-content:center}
+      .prop-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<div class="proto-banner">⚠️ PROTÓTIPO — BRANCH feat/fase1-planning — NÃO É PRODUÇÃO — DADOS FICTÍCIOS PARA FINS ILUSTRATIVOS</div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="home.html" class="logo">
+    <div class="logo-icon">🏠</div>
+    <div>
+      <div class="logo-text">Quero Meu MCMV</div>
+      <div class="logo-sub">CRECI 39.583F</div>
+    </div>
+  </a>
+  <div class="header-search">
+    <span class="header-search-icon">🔍</span>
+    <input type="text" value="2 quartos em Itaboraí" placeholder="Buscar imóveis…" aria-label="Buscar" />
+  </div>
+  <a href="#" class="nav-cta">💬 WhatsApp</a>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- ACTIVE FILTERS STRIP -->
+<div class="search-strip">
+  <div class="search-strip-inner">
+    <span class="strip-label">Filtros ativos:</span>
+    <div class="strip-tags">
+      <span class="strip-tag">Itaboraí <span class="remove">×</span></span>
+      <span class="strip-tag">MCMV Faixa 1 <span class="remove">×</span></span>
+      <span class="strip-tag">2 quartos <span class="remove">×</span></span>
+      <span class="strip-tag">Até R$ 250.000 <span class="remove">×</span></span>
+    </div>
+    <button class="strip-clear">Limpar filtros</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="page-layout">
+
+  <!-- SIDEBAR (DESKTOP) -->
+  <aside class="sidebar" aria-label="Filtros">
+    <div class="sidebar-header">
+      <span class="sidebar-title">⚙️ Filtros</span>
+      <button class="sidebar-reset">Limpar tudo</button>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Cidade</div>
+      <label class="checkbox-item"><input type="checkbox" checked /> <span class="checkbox-text">Itaboraí</span><span class="checkbox-count">6</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">São Gonçalo</span><span class="checkbox-count">4</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Niterói</span><span class="checkbox-count">3</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Maricá</span><span class="checkbox-count">2</span></label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Programa</div>
+      <label class="checkbox-item"><input type="checkbox" checked /> <span class="checkbox-text">MCMV Faixa 1</span><span class="checkbox-count">5</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">MCMV Faixa 2</span><span class="checkbox-count">6</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">MCMV Faixa 3</span><span class="checkbox-count">4</span></label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Quartos</div>
+      <div class="filter-chips">
+        <button class="filter-chip">1</button>
+        <button class="filter-chip active">2</button>
+        <button class="filter-chip">3</button>
+        <button class="filter-chip">3+</button>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Valor do imóvel</div>
+      <div class="range-row">
+        <input type="text" class="range-input" placeholder="Mín." value="R$ 150.000" />
+        <span class="range-sep">até</span>
+        <input type="text" class="range-input" placeholder="Máx." value="R$ 250.000" />
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Parcela estimada</div>
+      <div class="range-row">
+        <input type="text" class="range-input" placeholder="Até" value="R$ 1.000/mês" />
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Status do empreendimento</div>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Lançamento</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Em obras</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Pronto para morar</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Últimas unidades</span></label>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Diferenciais</div>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Churrasqueira</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Salão de festas</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Parquinho</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Câmeras de segurança</span></label>
+      <label class="checkbox-item"><input type="checkbox" /> <span class="checkbox-text">Academia</span></label>
+    </div>
+
+    <div class="filter-group">
+      <button class="apply-btn" type="button">Aplicar filtros</button>
+    </div>
+  </aside>
+
+  <!-- RESULTS MAIN -->
+  <div>
+
+    <!-- RESULTS HEADER -->
+    <div class="results-header">
+      <div>
+        <div class="results-count"><strong>15 empreendimentos</strong> encontrados</div>
+        <div style="font-size:13px;color:var(--c-text-muted);margin-top:2px">Filtrado por: Itaboraí · MCMV · 2 quartos</div>
+      </div>
+      <div class="results-controls">
+        <button class="map-toggle-btn" onclick="toggleMap(this)">🗺️ Mapa</button>
+        <select class="sort-select" aria-label="Ordenar por">
+          <option>Relevância</option>
+          <option>Menor preço</option>
+          <option>Maior preço</option>
+          <option>Menor parcela</option>
+          <option>Lançamento</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" title="Grade">⊞</button>
+          <button class="view-btn" title="Lista">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP PANEL -->
+    <div class="map-panel" id="mapPanel">
+      <div class="map-placeholder">
+        <div class="map-pin" style="top:35%;left:42%">📍</div>
+        <div class="map-pin" style="top:50%;left:58%">📍</div>
+        <div class="map-pin" style="top:62%;left:35%">📍</div>
+        <div style="text-align:center">
+          <div style="font-size:32px;margin-bottom:8px">🗺️</div>
+          <div style="font-weight:700;color:var(--c-text-primary);margin-bottom:4px">Mapa dos empreendimentos</div>
+          <div style="font-size:13px">Integração com mapa interativo — implementação na Fase 2</div>
+        </div>
+        <div class="map-overlay-badge">15 empreendimentos na área</div>
+      </div>
+    </div>
+
+    <!-- FEATURED CARD -->
+    <div class="featured-banner">
+      <div class="fb-img">🏢</div>
+      <div class="fb-left">
+        <div class="fb-badge">⭐ Destaque — Disponível agora</div>
+        <div class="fb-title">Prime Club Itaboraí</div>
+        <div class="fb-sub">📍 Santo Expedito · Itaboraí · 2 quartos + 1 suíte · 45m² · 1 vaga</div>
+        <div class="fb-price">Parcelas a partir de R$ 650/mês*</div>
+      </div>
+      <div class="fb-cta">
+        <a href="empreendimento.html" class="btn btn-orange" style="padding:14px 24px;font-size:15px;border-radius:var(--r-md)">Ver detalhes →</a>
+      </div>
+    </div>
+
+    <!-- PROPERTY GRID -->
+    <div class="prop-grid">
+
+      <article class="prop-card featured">
+        <div class="prop-img">
+          <div class="prop-img-text">📸 Foto/render oficial<br>Prime Club Itaboraí</div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-launch">Lançamento</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Itaboraí — Faixa 1</div>
+          <div class="prop-name">Prime Club Itaboraí</div>
+          <div class="prop-specs"><span>🛏 2Q+suíte</span><span>⬛ 45m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Parcelas a partir de</div>
+          <div class="prop-price">R$ 650/mês*</div>
+          <div class="prop-disc">*Sujeito à aprovação CEF</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#0d2e4a,#1a4060)">
+          <div class="prop-img-text">📸 Foto/render oficial<br>Flores de Maio</div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Itaboraí</div>
+          <div class="prop-name">Flores de Maio</div>
+          <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 42m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-disc">Dados confirmados em [data]</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#1a2a4a,#0e2040)">
+          <div class="prop-img-text">📸 Foto/render oficial<br>Residencial Florescer</div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-ready">Pronto</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Itaboraí — Faixa 2</div>
+          <div class="prop-name">Residencial Florescer</div>
+          <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 44m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-disc">Pronto para morar</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#122040,#0b1a35)">
+          <div class="prop-img-text">📸 Foto/render oficial<br>Solar da Trindade</div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-few">Últimas unids.</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 São Gonçalo</div>
+          <div class="prop-name">Solar da Trindade</div>
+          <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 48m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-disc">Poucas unidades restantes</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#0a1e38,#102040)">
+          <div class="prop-img-text">📸 Foto/render oficial<br>Conquista Oceânica</div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 São Gonçalo</div>
+          <div class="prop-name">Conquista Oceânica</div>
+          <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 46m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-disc">Dados confirmados em [data]</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#142040,#0d1830)">
+          <div class="prop-img-text">📸 Foto/render oficial<br>Reserva dos Pássaros 2</div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-launch">Lançamento</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Itaboraí</div>
+          <div class="prop-name">Reserva dos Pássaros 2</div>
+          <div class="prop-specs"><span>🛏 2Q</span><span>⬛ 43m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:15px;color:var(--c-text-body)">Consulte condições atuais</div>
+          <div class="prop-disc">Em lançamento</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Ver detalhes</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <nav class="pagination" aria-label="Paginação">
+      <button class="page-btn">‹</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <span class="page-ellipsis">…</span>
+      <button class="page-btn">8</button>
+      <button class="page-btn">›</button>
+    </nav>
+
+    <!-- FOOTER NOTE -->
+    <div style="margin-top:32px;padding:20px;background:var(--c-surface);border-radius:var(--r-lg);border:1px solid var(--c-border);font-size:13px;color:var(--c-text-muted);line-height:1.7">
+      <strong style="color:var(--c-text-primary)">⚠️ Sobre os dados exibidos:</strong> Condições comerciais, disponibilidade de unidades e valores sujeitos a alteração. Informações verificadas junto às construtoras e atualizadas periodicamente. Para dados precisos e atualizados, consulte diretamente o corretor Joel Marcos — CRECI 39.583F.
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE FILTER FAB -->
+<button class="filter-fab" onclick="openSheet()" aria-label="Abrir filtros">⚙️</button>
+
+<!-- BOTTOM SHEET (MOBILE) -->
+<div class="bottom-sheet" id="bottomSheet" style="display:none">
+  <div class="sheet-backdrop" onclick="closeSheet()"></div>
+  <div class="sheet-panel">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <span style="font-size:17px;font-weight:700;color:var(--c-text-primary)">⚙️ Filtros</span>
+      <button class="sheet-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div style="margin-bottom:24px">
+        <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Cidade</div>
+        <div class="filter-chips">
+          <button class="filter-chip active">Itaboraí</button>
+          <button class="filter-chip">São Gonçalo</button>
+          <button class="filter-chip">Niterói</button>
+          <button class="filter-chip">Maricá</button>
+        </div>
+      </div>
+      <div style="margin-bottom:24px">
+        <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Quartos</div>
+        <div class="filter-chips">
+          <button class="filter-chip">1</button>
+          <button class="filter-chip active">2</button>
+          <button class="filter-chip">3</button>
+          <button class="filter-chip">3+</button>
+        </div>
+      </div>
+      <div style="margin-bottom:24px">
+        <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Programa</div>
+        <div class="filter-chips">
+          <button class="filter-chip active">Faixa 1</button>
+          <button class="filter-chip">Faixa 2</button>
+          <button class="filter-chip">Faixa 3</button>
+        </div>
+      </div>
+      <div>
+        <div class="filter-label" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted);margin-bottom:12px">Status</div>
+        <div class="filter-chips">
+          <button class="filter-chip">Lançamento</button>
+          <button class="filter-chip">Em obras</button>
+          <button class="filter-chip">Pronto</button>
+        </div>
+      </div>
+    </div>
+    <div class="sheet-apply">
+      <button onclick="closeSheet()">Aplicar filtros — 15 resultados</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE CTA -->
+<div class="mobile-cta">
+  <button>💬 Consultar pelo WhatsApp</button>
+</div>
+
+<script>
+  function toggleMap(btn){
+    const panel=document.getElementById('mapPanel');
+    panel.classList.toggle('show');
+    btn.textContent = panel.classList.contains('show') ? '❌ Fechar mapa' : '🗺️ Mapa';
+  }
+  function openSheet(){document.getElementById('bottomSheet').style.display='block';document.body.style.overflow='hidden'}
+  function closeSheet(){document.getElementById('bottomSheet').style.display='none';document.body.style.overflow=''}
+  document.querySelectorAll('.filter-chip').forEach(c=>c.addEventListener('click',function(){this.classList.toggle('active')}));
+</script>
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[PROTÓTIPO] Home — Quero Meu MCMV 2.0</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap">
+  <style>
+    :root {
+      --c-primary:#071B38; --c-accent:#FF8A30; --c-cyan:#64DFFF; --c-base:#F4F7FB;
+      --c-surface:#FFFFFF; --c-surface-alt:#F1F5F9; --c-border:#E2E8F0;
+      --c-text-primary:#0F172A; --c-text-body:#334155; --c-text-muted:#64748B;
+      --c-text-inverse:#F4F7FB; --c-success:#16A34A; --c-whatsapp:#25D366;
+      --shadow-sm:0 1px 3px rgba(7,27,56,.08); --shadow-md:0 4px 16px rgba(7,27,56,.10);
+      --shadow-lg:0 8px 32px rgba(7,27,56,.14); --shadow-cyan:0 0 0 3px rgba(100,223,255,.35);
+      --font-sans:'Figtree',system-ui,sans-serif; --font-serif:'Playfair Display',Georgia,serif;
+      --r-sm:6px; --r-md:12px; --r-lg:16px; --r-xl:24px; --r-full:999px;
+      --t-base:250ms ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:var(--font-sans);background:var(--c-base);color:var(--c-text-body);line-height:1.6}
+    img{display:block;max-width:100%}
+
+    /* PROTOTYPE BANNER */
+    .proto-banner{background:#DC2626;color:#fff;text-align:center;padding:10px 16px;font-size:12px;font-weight:700;letter-spacing:.08em;position:sticky;top:0;z-index:1000}
+
+    /* HEADER */
+    .header{background:var(--c-primary);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:36px;z-index:900}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo-icon{width:36px;height:36px;background:var(--c-accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .logo-text{font-family:var(--font-sans);font-weight:800;font-size:15px;color:#fff;line-height:1.1}
+    .logo-sub{font-size:10px;color:rgba(255,255,255,.5);font-weight:400;letter-spacing:.04em}
+    .nav-links{display:flex;align-items:center;gap:4px}
+    .nav-link{padding:8px 14px;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;font-weight:500;border-radius:var(--r-sm);transition:background var(--t-base),color var(--t-base)}
+    .nav-link:hover{background:rgba(255,255,255,.08);color:#fff}
+    .nav-cta{padding:9px 18px;background:var(--c-accent);color:#fff;border-radius:var(--r-md);font-weight:700;font-size:14px;text-decoration:none;transition:background var(--t-base)}
+    .nav-cta:hover{background:#e87520}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+    .nav-burger span{width:22px;height:2px;background:#fff;border-radius:2px}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#071B38 0%,#0A2548 55%,#071B38 100%);padding:80px 40px 64px;position:relative;overflow:hidden;min-height:70vh;display:flex;align-items:center}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 40%,rgba(100,223,255,.09) 0%,transparent 65%)}
+    .hero::after{content:'';position:absolute;bottom:-60px;right:-60px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(100,223,255,.08);pointer-events:none}
+    .hero-inner{max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;position:relative}
+    .hero-kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--c-cyan);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .hero-kicker::before{content:'';display:inline-block;width:24px;height:2px;background:var(--c-cyan)}
+    .hero-h1{font-family:var(--font-serif);font-size:clamp(32px,5vw,54px);font-weight:700;color:#fff;line-height:1.12;margin-bottom:18px}
+    .hero-h1 .city-highlight{color:var(--c-accent)}
+    .hero-sub{font-size:18px;color:#94A3B8;margin-bottom:36px;line-height:1.6;max-width:520px}
+    .search-wrap{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:var(--r-lg);overflow:hidden;transition:border-color .2s,box-shadow .2s;margin-bottom:16px}
+    .search-wrap:focus-within{border-color:var(--c-cyan);box-shadow:var(--shadow-cyan);background:rgba(255,255,255,.1)}
+    .search-wrap input{width:100%;padding:18px 24px;background:transparent;border:none;color:#fff;font-size:16px;font-family:var(--font-sans);outline:none}
+    .search-wrap input::placeholder{color:rgba(255,255,255,.4)}
+    .search-btn{width:100%;padding:16px 24px;background:var(--c-accent);border:none;color:#fff;font-weight:700;font-size:16px;cursor:pointer;transition:background .2s;font-family:var(--font-sans)}
+    .search-btn:hover{background:#e87520}
+    .city-pills{display:flex;gap:8px;flex-wrap:wrap}
+    .city-pill{padding:7px 16px;border-radius:var(--r-full);background:rgba(255,138,48,.1);border:1px solid rgba(255,138,48,.25);color:var(--c-accent);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+    .city-pill:hover{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}
+    .hero-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-xl);padding:28px;backdrop-filter:blur(8px)}
+    .hero-card-title{font-size:14px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px}
+    .mini-property{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:var(--r-md);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:background .2s;margin-bottom:10px}
+    .mini-property:hover{background:rgba(255,255,255,.1)}
+    .mini-property:last-child{margin-bottom:0}
+    .mini-img{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,rgba(255,138,48,.3),rgba(7,27,56,.8));flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+    .mini-info{flex:1}
+    .mini-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+    .mini-loc{font-size:12px;color:rgba(255,255,255,.5)}
+    .mini-price{font-size:13px;font-weight:800;color:var(--c-accent)}
+    .mini-badge{display:inline-block;padding:3px 8px;background:rgba(255,138,48,.15);border-radius:4px;font-size:11px;font-weight:700;color:var(--c-accent)}
+
+    /* NUMBERS */
+    .numbers{background:var(--c-surface);padding:40px;border-bottom:1px solid var(--c-border)}
+    .numbers-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+    .stat{text-align:center;padding:20px}
+    .stat-num{font-size:36px;font-weight:800;color:var(--c-primary);line-height:1;margin-bottom:4px}
+    .stat-num span{color:var(--c-accent)}
+    .stat-label{font-size:14px;color:var(--c-text-muted);font-weight:500}
+
+    /* SECTIONS */
+    .section{padding:72px 40px}
+    .section-inner{max-width:1160px;margin:0 auto}
+    .section-header{margin-bottom:40px}
+    .section-kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--c-accent);margin-bottom:8px}
+    .section-title{font-size:clamp(24px,4vw,36px);font-weight:800;color:var(--c-text-primary);line-height:1.2}
+    .section-sub{font-size:17px;color:var(--c-text-muted);margin-top:10px;max-width:560px}
+
+    /* EMPREENDIMENTOS GRID */
+    .prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+    .prop-card{background:var(--c-surface);border-radius:var(--r-lg);border:1px solid var(--c-border);box-shadow:var(--shadow-sm);overflow:hidden;transition:transform .25s,box-shadow .25s;cursor:pointer}
+    .prop-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+    .prop-img{height:210px;position:relative;overflow:hidden;background:linear-gradient(135deg,#0F2D5E,#1e3a6a,#071B38);display:flex;align-items:center;justify-content:center}
+    .prop-img-placeholder{color:rgba(255,255,255,.35);font-size:13px;text-align:center;padding:20px}
+    .prop-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,27,56,.6) 0%,transparent 50%)}
+    .prop-fav{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s;backdrop-filter:blur(4px)}
+    .prop-fav:hover{background:#fff;transform:scale(1.1)}
+    .prop-badges{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}
+    .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:var(--r-full);text-transform:uppercase;letter-spacing:.04em}
+    .b-mcmv{background:rgba(255,138,48,.9);color:#fff}
+    .b-launch{background:rgba(100,223,255,.9);color:#0369A1}
+    .b-ready{background:rgba(22,163,74,.9);color:#fff}
+    .b-few{background:rgba(245,158,11,.9);color:#fff}
+    .prop-body{padding:20px}
+    .prop-loc{font-size:12px;color:var(--c-text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+    .prop-name{font-size:18px;font-weight:700;color:var(--c-text-primary);margin-bottom:12px;line-height:1.3}
+    .prop-specs{display:flex;gap:14px;font-size:13px;color:var(--c-text-muted);margin-bottom:14px;flex-wrap:wrap}
+    .prop-price-label{font-size:11px;color:var(--c-text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+    .prop-price{font-size:20px;font-weight:800;color:var(--c-accent);margin:2px 0 2px}
+    .prop-disc{font-size:11px;color:var(--c-text-muted)}
+    .prop-actions{display:flex;gap:8px;margin-top:16px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-sans);font-weight:700;border-radius:var(--r-md);cursor:pointer;border:2px solid transparent;transition:all .2s;text-decoration:none;white-space:nowrap;font-size:14px;padding:10px 18px}
+    .btn-sm{padding:8px 14px;font-size:13px;border-radius:var(--r-sm)}
+    .btn-lg{padding:16px 32px;font-size:17px;border-radius:var(--r-lg)}
+    .btn-orange{background:var(--c-accent);color:#fff;border-color:var(--c-accent)}
+    .btn-orange:hover{background:#e87520;border-color:#e87520;transform:translateY(-1px);box-shadow:var(--shadow-md)}
+    .btn-outline{background:transparent;color:var(--c-primary);border-color:var(--c-border)}
+    .btn-outline:hover{border-color:var(--c-primary);color:var(--c-primary)}
+    .btn-wpp{background:var(--c-whatsapp);color:#fff;border-color:var(--c-whatsapp)}
+    .btn-wpp:hover{background:#1db954;transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,211,102,.3)}
+
+    /* SIMULATOR */
+    .simulator{background:var(--c-primary);padding:72px 40px}
+    .simulator-inner{max-width:800px;margin:0 auto;text-align:center}
+    .sim-title{font-family:var(--font-serif);font-size:clamp(26px,4vw,38px);color:#fff;margin-bottom:12px;font-weight:700}
+    .sim-sub{color:#94A3B8;font-size:17px;margin-bottom:40px}
+    .sim-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-xl);padding:36px;backdrop-filter:blur(8px)}
+    .sim-label{font-size:14px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:8px}
+    .sim-value{font-size:32px;font-weight:800;color:var(--c-accent);margin-bottom:20px}
+    .slider{width:100%;appearance:none;height:6px;background:rgba(255,255,255,.15);border-radius:3px;outline:none;cursor:pointer;margin-bottom:24px}
+    .slider::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:var(--c-accent);cursor:pointer;border:3px solid #fff;box-shadow:var(--shadow-md)}
+    .sim-periods{display:flex;gap:8px;justify-content:center;margin-bottom:28px}
+    .sim-period{padding:8px 20px;border-radius:var(--r-full);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+    .sim-period:hover,.sim-period.active{background:var(--c-accent);border-color:var(--c-accent);color:#fff}
+    .sim-result{background:rgba(7,27,56,.4);border-radius:var(--r-lg);padding:24px;margin-bottom:24px;border:1px solid rgba(100,223,255,.2)}
+    .sim-result-label{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:4px}
+    .sim-result-value{font-size:36px;font-weight:800;color:var(--c-cyan)}
+    .sim-result-detail{font-size:13px;color:rgba(255,255,255,.4);margin-top:4px}
+    .sim-disclaimer{font-size:11px;color:rgba(255,255,255,.3);margin-top:16px}
+
+    /* EDUCATIVO */
+    .edu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .edu-card{background:var(--c-surface);border-radius:var(--r-lg);padding:28px;border:1px solid var(--c-border);border-left:4px solid var(--c-accent);transition:box-shadow .2s}
+    .edu-card:hover{box-shadow:var(--shadow-md)}
+    .edu-icon{font-size:32px;margin-bottom:14px}
+    .edu-title{font-size:17px;font-weight:700;color:var(--c-text-primary);margin-bottom:8px}
+    .edu-desc{font-size:14px;color:var(--c-text-muted);line-height:1.6}
+    .edu-link{display:inline-flex;align-items:center;gap:4px;margin-top:14px;font-size:13px;font-weight:700;color:var(--c-accent);text-decoration:none}
+    .edu-link:hover{gap:8px}
+
+    /* AUTHOR */
+    .author{background:var(--c-primary);padding:72px 40px}
+    .author-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 480px;gap:60px;align-items:center}
+    .author-photo{width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,rgba(255,138,48,.3),rgba(100,223,255,.2));display:flex;align-items:center;justify-content:center;font-size:64px;border:4px solid rgba(255,255,255,.1);margin-bottom:20px}
+    .author-name{font-family:var(--font-serif);font-size:28px;color:#fff;font-weight:700;margin-bottom:4px}
+    .author-creci{font-size:14px;color:var(--c-cyan);font-weight:600;margin-bottom:16px}
+    .author-bio{font-size:16px;color:#94A3B8;line-height:1.7;margin-bottom:24px}
+    .trust-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+    .trust-item{display:flex;align-items:center;gap:10px}
+    .trust-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .trust-val{font-size:15px;font-weight:800;color:#fff}
+    .trust-lbl{font-size:12px;color:rgba(255,255,255,.5)}
+    .author-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-xl);padding:28px;backdrop-filter:blur(8px)}
+
+    /* FAQ */
+    .faq-item{border-bottom:1px solid var(--c-border)}
+    .faq-q{width:100%;text-align:left;padding:20px 0;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .faq-q-text{font-size:16px;font-weight:600;color:var(--c-text-primary);flex:1}
+    .faq-icon{width:28px;height:28px;border-radius:50%;background:var(--c-base);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--c-accent);transition:transform .2s;flex-shrink:0}
+    .faq-a{font-size:15px;color:var(--c-text-muted);line-height:1.7;padding-bottom:20px;max-width:700px}
+
+    /* FOOTER */
+    .footer{background:var(--c-primary);color:#fff;padding:60px 40px 32px}
+    .footer-inner{max-width:1160px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+    .footer-logo-text{font-weight:800;font-size:18px;margin-bottom:8px}
+    .footer-tagline{font-size:14px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:20px;max-width:260px}
+    .footer-creci{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--r-md);background:rgba(100,223,255,.1);border:1px solid rgba(100,223,255,.2);font-size:13px;font-weight:600;color:var(--c-cyan)}
+    .footer-heading{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px}
+    .footer-links{display:flex;flex-direction:column;gap:10px}
+    .footer-link{color:rgba(255,255,255,.65);text-decoration:none;font-size:14px;transition:color .15s}
+    .footer-link:hover{color:#fff}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    .footer-copy{font-size:13px;color:rgba(255,255,255,.4)}
+
+    /* MOBILE CTA */
+    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:800;padding:16px;background:linear-gradient(to top,rgba(7,27,56,.95),transparent)}
+    .mobile-cta button{width:100%;padding:18px 24px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:17px;font-weight:700;cursor:pointer;font-family:var(--font-sans);box-shadow:0 8px 24px rgba(37,211,102,.5)}
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      .hero-inner{grid-template-columns:1fr;gap:32px}
+      .hero-card{display:none}
+      .numbers-inner{grid-template-columns:repeat(2,1fr)}
+      .edu-grid{grid-template-columns:1fr 1fr}
+      .author-inner{grid-template-columns:1fr;gap:32px}
+      .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
+    }
+    @media(max-width:640px){
+      .header{padding:0 20px}
+      .nav-links{display:none}
+      .nav-burger{display:flex}
+      .hero{padding:48px 20px 40px;min-height:auto}
+      .numbers{padding:32px 20px}
+      .numbers-inner{grid-template-columns:repeat(2,1fr);gap:20px}
+      .section{padding:48px 20px}
+      .prop-grid{grid-template-columns:1fr}
+      .edu-grid{grid-template-columns:1fr}
+      .simulator,.author{padding:48px 20px}
+      .footer{padding:48px 20px 100px}
+      .footer-grid{grid-template-columns:1fr;gap:32px}
+      .mobile-cta{display:block}
+    }
+  </style>
+</head>
+<body>
+
+<div class="proto-banner">⚠️ PROTÓTIPO — BRANCH feat/fase1-planning — NÃO É PRODUÇÃO — DADOS FICTÍCIOS PARA FINS ILUSTRATIVOS</div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="#" class="logo">
+    <div class="logo-icon">🏠</div>
+    <div>
+      <div class="logo-text">Quero Meu MCMV</div>
+      <div class="logo-sub">Corretor Joel Marcos · CRECI 39.583F</div>
+    </div>
+  </a>
+  <nav class="nav-links">
+    <a href="#" class="nav-link">Itaboraí</a>
+    <a href="#" class="nav-link">São Gonçalo</a>
+    <a href="#" class="nav-link">Niterói</a>
+    <a href="#" class="nav-link">Como funciona</a>
+    <a href="#" class="nav-cta">💬 WhatsApp</a>
+  </nav>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-kicker">✦ Minha Casa Minha Vida — Especialista na Região</div>
+      <h1 class="hero-h1">Saia do aluguel.<br>Encontre seu apartamento MCMV em <span class="city-highlight">Itaboraí.</span></h1>
+      <p class="hero-sub">Atendimento consultivo com corretor credenciado. Simulação gratuita e sem compromisso — CRECI 39.583F.</p>
+      <div class="search-wrap">
+        <input type="text" placeholder="Ex: 2 quartos com suíte em Itaboraí…" aria-label="Buscar imóveis" />
+        <button class="search-btn" type="button">🔍 Buscar imóveis →</button>
+      </div>
+      <div class="city-pills">
+        <span class="city-pill">📍 Itaboraí</span>
+        <span class="city-pill">📍 São Gonçalo</span>
+        <span class="city-pill">📍 Niterói</span>
+        <span class="city-pill">📍 Maricá</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-title">✨ Empreendimentos em destaque</div>
+      <div class="mini-property">
+        <div class="mini-img">🏢</div>
+        <div class="mini-info">
+          <div class="mini-name">Prime Club Itaboraí</div>
+          <div class="mini-loc">📍 Santo Expedito · Itaboraí</div>
+          <div class="mini-price">A partir de R$ 650/mês*</div>
+        </div>
+        <span class="mini-badge">MCMV</span>
+      </div>
+      <div class="mini-property">
+        <div class="mini-img">🏢</div>
+        <div class="mini-info">
+          <div class="mini-name">Reserva dos Pássaros 2</div>
+          <div class="mini-loc">📍 Itaboraí</div>
+          <div class="mini-price">Consulte condições</div>
+        </div>
+        <span class="mini-badge">MCMV</span>
+      </div>
+      <div class="mini-property">
+        <div class="mini-img">🏢</div>
+        <div class="mini-info">
+          <div class="mini-name">Solar da Trindade</div>
+          <div class="mini-loc">📍 Trindade · São Gonçalo</div>
+          <div class="mini-price">Consulte condições</div>
+        </div>
+        <span class="mini-badge">MCMV</span>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <a href="resultados.html" style="font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;font-weight:600">Ver todos os empreendimentos →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST NUMBERS -->
+<div class="numbers">
+  <div class="numbers-inner">
+    <div class="stat"><div class="stat-num">24<span>+</span></div><div class="stat-label">anos de experiência</div></div>
+    <div class="stat"><div class="stat-num" style="font-size:20px;color:var(--c-text-muted)">CRECI</div><div class="stat-num" style="font-size:28px">39.583<span>F</span></div><div class="stat-label">Corretor credenciado</div></div>
+    <div class="stat"><div class="stat-num">4<span>★</span></div><div class="stat-label">cidades atendidas</div></div>
+    <div class="stat"><div class="stat-num"><span style="font-size:24px">Faixa 1</span><br><span style="font-size:24px">& 2</span></div><div class="stat-label">MCMV disponível</div></div>
+  </div>
+</div>
+
+<!-- EMPREENDIMENTOS -->
+<section class="section" style="background:var(--c-base)">
+  <div class="section-inner">
+    <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+      <div>
+        <div class="section-kicker">🏠 Empreendimentos</div>
+        <h2 class="section-title">Apartamentos disponíveis<br>na sua região</h2>
+        <p class="section-sub">Dados verificados e atualizados. Informações comerciais confirmadas com as construtoras.</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-outline btn-sm" style="font-size:13px">Itaboraí</button>
+        <button class="btn btn-orange btn-sm" style="font-size:13px">São Gonçalo</button>
+        <button class="btn btn-outline btn-sm" style="font-size:13px">Niterói</button>
+        <button class="btn btn-outline btn-sm" style="font-size:13px">Maricá</button>
+      </div>
+    </div>
+
+    <div class="prop-grid">
+
+      <article class="prop-card">
+        <div class="prop-img">
+          <div class="prop-img-placeholder">📸 Foto/render oficial<br><small style="font-size:11px;display:block;margin-top:6px;opacity:.6">Prime Club Itaboraí</small></div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-launch">Lançamento</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Santo Expedito · Itaboraí</div>
+          <div class="prop-name">Prime Club Itaboraí</div>
+          <div class="prop-specs">
+            <span>🛏 2 quartos</span><span>✦ 1 suíte</span><span>⬛ 45m²</span><span>🚗 1 vaga</span>
+          </div>
+          <div class="prop-price-label">Parcelas a partir de</div>
+          <div class="prop-price">R$ 650/mês*</div>
+          <div class="prop-disc">*Sujeito à aprovação de crédito pela CEF · Sinal R$ 1.000</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Saiba mais</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#0d2e4a,#1a4060)">
+          <div class="prop-img-placeholder">📸 Foto/render oficial<br><small style="font-size:11px;display:block;margin-top:6px;opacity:.6">Flores de Maio</small></div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Itaboraí</div>
+          <div class="prop-name">Flores de Maio</div>
+          <div class="prop-specs"><span>🛏 2 quartos</span><span>⬛ 42m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:16px;color:var(--c-text-primary)">Consulte condições atuais</div>
+          <div class="prop-disc">Dados verificados em [data de referência]</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Saiba mais</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="prop-card">
+        <div class="prop-img" style="background:linear-gradient(135deg,#1a2a4a,#0e2040)">
+          <div class="prop-img-placeholder">📸 Foto/render oficial<br><small style="font-size:11px;display:block;margin-top:6px;opacity:.6">Solar da Trindade</small></div>
+          <div class="prop-img-overlay"></div>
+          <button class="prop-fav">♡</button>
+          <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-few">Últimas unids.</span></div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc">📍 Trindade · São Gonçalo</div>
+          <div class="prop-name">Solar da Trindade</div>
+          <div class="prop-specs"><span>🛏 2 quartos</span><span>⬛ 48m²</span><span>🚗 1 vaga</span></div>
+          <div class="prop-price-label">Condição comercial</div>
+          <div class="prop-price" style="font-size:16px;color:var(--c-text-primary)">Consulte condições atuais</div>
+          <div class="prop-disc">Dados verificados em [data de referência]</div>
+          <div class="prop-actions">
+            <a href="empreendimento.html" class="btn btn-orange btn-sm">Saiba mais</a>
+            <a href="#" class="btn btn-outline btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div style="text-align:center;margin-top:32px">
+      <a href="resultados.html" class="btn btn-orange btn-lg">Ver todos os empreendimentos →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR DE ALUGUEL -->
+<section class="simulator">
+  <div class="simulator-inner">
+    <div class="section-kicker" style="color:var(--c-cyan)">💡 Simulador</div>
+    <h2 class="sim-title">Quanto você já pagou com aluguel?</h2>
+    <p class="sim-sub">Descubra o valor acumulado e compare com um apartamento próprio.</p>
+    <div class="sim-card">
+      <div class="sim-label">Valor mensal do aluguel</div>
+      <div class="sim-value" id="rentVal">R$ 1.200</div>
+      <input type="range" class="slider" min="600" max="3000" step="50" value="1200" id="rentSlider" oninput="updateSim()" />
+      <div class="sim-periods">
+        <button class="sim-period" onclick="setPeriod(1,this)">1 ano</button>
+        <button class="sim-period active" onclick="setPeriod(3,this)">3 anos</button>
+        <button class="sim-period" onclick="setPeriod(5,this)">5 anos</button>
+        <button class="sim-period" onclick="setPeriod(10,this)">10 anos</button>
+      </div>
+      <div class="sim-result">
+        <div class="sim-result-label">Você já pagou em aluguel</div>
+        <div class="sim-result-value" id="simResult">R$ 43.200</div>
+        <div class="sim-result-detail" id="simDetail">3 anos × R$ 1.200/mês = R$ 43.200 que não voltam</div>
+      </div>
+      <a href="#" class="btn btn-orange btn-lg" style="width:100%;justify-content:center">Ver apartamentos a partir de R$ 650/mês →</a>
+      <div class="sim-disclaimer">*Estimativa sem reajustes. Apenas para fins informativos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATIVO -->
+<section class="section" style="background:var(--c-surface-alt)">
+  <div class="section-inner">
+    <div class="section-kicker">📚 Aprenda</div>
+    <h2 class="section-title">Tudo sobre o Minha Casa Minha Vida</h2>
+    <p class="section-sub">Conteúdo criado pelo Joel Marcos com base na experiência real de atendimento.</p>
+    <div class="edu-grid" style="margin-top:32px">
+      <div class="edu-card">
+        <div class="edu-icon">🏦</div>
+        <div class="edu-title">Como funciona o MCMV</div>
+        <div class="edu-desc">Entenda as faixas de renda, o processo de aprovação pela Caixa e os benefícios do programa para compradores de primeira viagem.</div>
+        <a href="#" class="edu-link">Ler mais →</a>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">💰</div>
+        <div class="edu-title">Usar o FGTS na compra</div>
+        <div class="edu-desc">Descubra como utilizar o saldo do FGTS como entrada ou para amortizar parcelas do financiamento pelo programa.</div>
+        <a href="#" class="edu-link">Ler mais →</a>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">🎁</div>
+        <div class="edu-title">Subsídio de até R$ 55.000*</div>
+        <div class="edu-desc">Famílias nas faixas 1 e 2 podem receber subsídio do governo. Simule o valor a que você tem direito de acordo com a sua renda.</div>
+        <a href="#" class="edu-link">Simular subsídio →</a>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--c-text-muted);margin-top:16px">*Valores sujeitos às regras vigentes do Programa MCMV. Verificar elegibilidade.</p>
+  </div>
+</section>
+
+<!-- AUTHOR / CONFIANÇA -->
+<section class="author">
+  <div class="author-inner">
+    <div>
+      <div class="author-photo">🧑‍💼</div>
+      <div style="color:var(--c-cyan);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Corretor especialista</div>
+      <div class="author-name">Joel Marcos</div>
+      <div class="author-creci">CRECI 39.583F · Itaboraí, São Gonçalo, Niterói e Maricá</div>
+      <div class="author-bio">24 anos de mercado imobiliário com foco em Minha Casa Minha Vida na Baixada Fluminense e Leste do Estado do Rio. Atendimento consultivo: explico tudo antes, durante e depois da assinatura.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#" class="btn btn-wpp btn-lg">💬 Falar com o Joel</a>
+        <a href="#" class="btn" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:15px;padding:14px 24px;border-radius:var(--r-lg)">Ver perfil completo</a>
+      </div>
+    </div>
+    <div class="author-card">
+      <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px">Por que confiar?</div>
+      <div class="trust-row">
+        <div class="trust-item">
+          <div class="trust-icon" style="background:rgba(255,138,48,.15);font-size:18px">🏆</div>
+          <div><div class="trust-val">24 anos</div><div class="trust-lbl">de experiência</div></div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon" style="background:rgba(100,223,255,.15);font-size:18px">✓</div>
+          <div><div class="trust-val">CRECI ativo</div><div class="trust-lbl">39.583F</div></div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:20px;margin-top:4px">
+        <p style="font-size:14px;color:rgba(255,255,255,.6);line-height:1.7;font-style:italic">"Atendimento sem pressão. Explico as condições reais, os riscos e os benefícios para que você tome a melhor decisão para a sua família."</p>
+        <p style="font-size:13px;color:var(--c-cyan);margin-top:12px;font-weight:600">— Joel Marcos, Corretor de Imóveis</p>
+      </div>
+      <div style="margin-top:24px;padding:16px;background:rgba(255,255,255,.05);border-radius:var(--r-md);font-size:13px;color:rgba(255,255,255,.5)">
+        📍 Atende Itaboraí, São Gonçalo, Niterói e Maricá<br>
+        🕐 Segunda a Sexta, 09h–17h · Plantão WhatsApp
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--c-surface)">
+  <div class="section-inner" style="max-width:800px">
+    <div class="section-kicker">❓ Dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas sobre o MCMV</h2>
+    <div style="margin-top:32px">
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Qual a renda máxima para participar do MCMV?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Para a Faixa 1, a renda familiar bruta deve ser de até R$ 2.640. Para a Faixa 2, até R$ 4.400. Para a Faixa 3, até R$ 8.000. Cada faixa tem subsídios e condições diferentes — entre em contato para simulação personalizada.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Posso usar o FGTS como entrada?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">Sim. O FGTS pode ser usado como entrada ou para reduzir as parcelas mensais do financiamento, desde que você tenha pelo menos 3 anos de trabalho com carteira assinada, não possua outro imóvel no nome e o imóvel seja para moradia própria.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">O atendimento é presencial ou pelo WhatsApp?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">O atendimento inicial é consultivo — feito por WhatsApp, vídeo ou telefone. Visitas presenciais ao empreendimento são agendadas após alinhamento das condições e interesse mútuo.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span class="faq-q-text">Existe taxa de corretagem para o comprador?</span><div class="faq-icon">+</div></button>
+        <div class="faq-a">No Minha Casa Minha Vida, a comissão de corretagem é paga pela incorporadora/construtora, não pelo comprador. Você não paga taxa de corretagem para adquirir os apartamentos disponíveis no portfólio.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-text">🏠 Quero Meu MCMV</div>
+        <div class="footer-tagline">Consultoria especializada em Minha Casa Minha Vida para famílias da Baixada Fluminense e Leste Fluminense.</div>
+        <span class="footer-creci">✓ CRECI 39.583F</span>
+      </div>
+      <div>
+        <div class="footer-heading">Cidades</div>
+        <div class="footer-links">
+          <a href="#" class="footer-link">Itaboraí</a>
+          <a href="#" class="footer-link">São Gonçalo</a>
+          <a href="#" class="footer-link">Niterói</a>
+          <a href="#" class="footer-link">Maricá</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Saiba mais</div>
+        <div class="footer-links">
+          <a href="#" class="footer-link">Como funciona o MCMV</a>
+          <a href="#" class="footer-link">Usar o FGTS</a>
+          <a href="#" class="footer-link">Subsídio MCMV</a>
+          <a href="#" class="footer-link">Documentação</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Institucional</div>
+        <div class="footer-links">
+          <a href="#" class="footer-link">Sobre o Joel Marcos</a>
+          <a href="#" class="footer-link">Captação de Imóveis</a>
+          <a href="#" class="footer-link">Política de Privacidade</a>
+          <a href="#" class="footer-link">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Joel Marcos — CRECI 39.583F. Todos os direitos reservados. Dados protegidos pela LGPD.</div>
+      <div class="footer-copy">*Condições sujeitas à aprovação de crédito pela CEF · Valores ilustrativos</div>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE CTA -->
+<div class="mobile-cta">
+  <button onclick="alert('[PROTÓTIPO] Abriria WhatsApp')">💬 Simular pelo WhatsApp — Grátis</button>
+</div>
+
+<script>
+  let activePeriod = 3;
+  function fmt(v){ return 'R$ '+v.toLocaleString('pt-BR') }
+  function updateSim(){
+    const r = parseInt(document.getElementById('rentSlider').value);
+    const t = r*activePeriod*12;
+    document.getElementById('rentVal').textContent = fmt(r)+'/mês';
+    document.getElementById('simResult').textContent = fmt(t);
+    document.getElementById('simDetail').textContent = activePeriod+' ano'+(activePeriod>1?'s':'')+' × '+fmt(r)+'/mês = '+fmt(t)+' que não voltam';
+  }
+  function setPeriod(p,el){
+    activePeriod=p;
+    document.querySelectorAll('.sim-period').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    updateSim();
+  }
+  updateSim();
+</script>
+</body>
+</html>
