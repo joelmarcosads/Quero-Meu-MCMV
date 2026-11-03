@@ -1,0 +1,10 @@
+# Banco de dados local (nunca commitar — contém dados de teste)
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
