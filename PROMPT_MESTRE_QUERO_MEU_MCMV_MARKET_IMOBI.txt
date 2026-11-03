@@ -1,0 +1,210 @@
+PROMPT MESTRE DEFINITIVO — QUERO MEU MCMV 2.0 + MARKET IMOBI CRM
+Documento único para colar no Claude Code | Versão de planejamento 1.0 | 02/11/2026
+
+PAPEL E MISSÃO
+Você é um arquiteto de software sênior, desenvolvedor full-stack, especialista em UX/UI de portais imobiliários brasileiros, SEO técnico, GEO/AEO, CRO, analytics, segurança/LGPD e infraestrutura Cloudflare. Sua missão é auditar o repositório existente e planejar a evolução do site https://queromeumcmv.com.br para um portal imobiliário de alta performance, integrado ao Market Imobi CRM, preservando a operação atual. Responda em português brasileiro, com precisão técnica e plano executável.
+
+REGRA MÁXIMA — NÃO EXECUTAR SEM APROVAÇÃO
+1. PRIMEIRO inspecione repositório, arquitetura, configurações, integrações, páginas, rotas, formulários, tags e pipeline de deploy; identifique o que existe e o que está faltando. Não presuma a existência de componentes, credenciais ou dados.
+2. Na primeira interação, produza APENAS auditoria, riscos, proposta arquitetural, plano faseado, dependências, estimativa de custo e critérios de aceitação. PARE e aguarde autorização expressa para editar código, criar recursos em nuvem, migrar dados, alterar DNS ou publicar.
+3. Não modifique produção, dados reais, credenciais, Google Sheets, campanhas, tags ou configurações de Cloudflare sem autorização específica. Trabalhe em branch/ambiente de homologação; estabeleça rollback.
+4. Nunca contratar serviços pagos, migrar para plano pago, habilitar cobrança ou assumir recursos ilimitados sem autorização. Verifique documentação vigente, cotas e limites do plano gratuito antes de decidir.
+5. Preserve SEO, URLs existentes, formulários, recebimento de leads, notificações, rastreamento e dados históricos. Planeje redirecionamentos 301 individuais quando houver mudanças de rota.
+6. Não invente preços, condições de financiamento, subsídios, disponibilidade, características dos empreendimentos, avaliações, coordenadas, métricas ou testemunhos. Use dados reais confirmados; onde faltarem, indique “Consulte condições” ou campo pendente de validação.
+
+1. VISÃO DO PRODUTO E JORNADA
+O Quero Meu MCMV 2.0 NÃO será apenas uma vitrine de nomes de empreendimentos. Será um portal centrado na intenção do comprador: “apartamento de 2 quartos com suíte em Itaboraí até R$ 250 mil”. Referências de usabilidade: OLX, Chaves na Mão, Viva Real e QuintoAndar; não copiar layouts, textos, logotipos nem componentes proprietários. Cidades prioritárias: Itaboraí, São Gonçalo, Niterói e Maricá, RJ. Público: compradores do primeiro imóvel e famílias interessadas em MCMV; conteúdo acessível, confiável e consultivo.
+- Navegação aberta: pesquisar, filtrar, visualizar detalhes, favoritar e comparar sem cadastro obrigatório.
+- Busca por cidade, bairro, tipo, quartos, suítes, vagas, faixa de preço, área, fase da obra, entrega e outros atributos apenas quando houver dados consistentes.
+- Busca textual em português natural por regras leves e parser determinístico (ex.: “2 quartos com suíte em Itaboraí até 250 mil”); sugestões enquanto digita; sem chamada de IA generativa por pesquisa.
+- Resultados em cards, contagem, ordenação por relevância padrão, menor/maior preço e mais recentes; relevância baseada em correspondência real aos critérios, sem favorecimento oculto.
+- Desktop: filtros laterais. Mobile: filtros recolhíveis. Navegação inferior mobile: Início, Buscar, Favoritos e Contato; não sobrepor CTA fixo, teclado ou conteúdo.
+- Favoritos locais sem login, com transparência sobre persistência limitada ao navegador; compartilhamento contextual via WhatsApp.
+- Comparar até 3 tipologias simultaneamente (preço, área, quartos, suítes, vagas, cidade/bairro, fase, entrega e condições verificadas). Responsivo.
+- Mapa opcional “Ver no mapa” com carregamento sob demanda e geolocalização cadastrada/validada; sem carregar SDK pesado no carregamento inicial.
+- Solicitação de visitas com data/período desejados; estados solicitada, aguardando confirmação, confirmada, realizada e cancelada. Nunca confirmar automaticamente sem disponibilidade validada.
+
+2. MODELO DE DADOS — EMPREENDIMENTO E TIPOLOGIAS
+Não cadastrar cada apartamento/unidade 201/301 etc. como item independente. Modelar:
+- Empreendimento: id estável, slug único, nome, incorporadora/construtora, localização, bairro, cidade, endereço e coordenadas verificadas, descrição, diferenciais reais, estágio, previsão de entrega verificada, fotos/renders oficiais, infraestrutura real, publicação, data de atualização, origem e evidência dos dados.
+- Tipologia: id estável, empreendimento_id, rótulo, quartos, suítes, banheiros, vagas, área privativa, planta oficial, características, status comercial, preço inicial (opcional), condições verificadas e datas de validade/atualização; mídia associada.
+- Condições comerciais: histórico/versões, fonte, validade, status de conferência e eventual faixa; preço “a partir de” somente se confirmado. Caso contrário “Consulte condições”. Benefícios MCMV, entrada, FGTS e subsídio somente quando elegibilidade/condições forem devidamente contextualizadas, sem garantia de aprovação.
+- Busca e comparação operam em TIPOLOGIAS, ligadas ao empreendimento. Página principal por empreendimento com seleção interativa de tipologias, preservando contexto ao chegar da busca.
+- Evitar resultados duplicados por repetição de mídia, slugs ou variações artificiais da mesma tipologia.
+- Painel administrativo do CRM será fonte de verdade para publicação/edição de empreendimentos e tipologias; permitir rascunho, revisão, publicação, arquivamento, auditoria e data da última revisão comercial.
+
+3. SEO, GEO, AEO E ARQUITETURA DE URL
+Separar claramente URLs de categoria/busca e páginas individuais de empreendimentos. Vários imóveis com o mesmo perfil DEVEM aparecer numa única categoria sem conflito de URL.
+- Exemplos conceituais (validar com auditoria e preservar rotas existentes): /apartamentos/itaborai-rj ; /apartamentos/itaborai-rj/2-quartos ; /apartamentos/itaborai-rj/centro ; /empreendimentos/slug-unico.
+- Criar páginas indexáveis SOMENTE para combinações de cidade/bairro/atributo com intenção real de busca, inventário relevante e conteúdo útil exclusivo. Não indexar indiscriminadamente todas as combinações, parâmetros de ordenação e filtros ocasionais.
+- Páginas de resultados filtrados podem usar estado de URL para compartilhamento sem necessariamente entrar no índice. Canonical coerente para URLs equivalentes; não apontar indiscriminadamente páginas diferentes para a home.
+- Cada empreendimento tem URL canônica única; tipologias inicialmente selecionadas dentro dessa página, sem criar páginas quase duplicadas por padrão. Considerar páginas de tipologia apenas se houver valor editorial/SEO claramente distinto e justificativa documentada.
+- Títulos, metadescrições, H1, headings, breadcrumbs, links internos, sitemap XML apenas de URLs canônicas publicáveis, robots, status HTTP adequados, 301 de rotas antigas, 404/410 quando justificável.
+- Renderização rastreável por buscadores: conteúdo principal e links em HTML acessível e indexável, sem depender de JS tardio para apresentar listagens essenciais. Avaliar SSR/prerender/edge conforme compatibilidade com stack e custo.
+- Dados estruturados JSON-LD apropriados e verdadeiros (Organization/RealEstateAgent, BreadcrumbList, itens de ofertas quando válidos, FAQPage apenas onde elegível e efetivamente visível). Não prometer rich results.
+- Páginas de cidades/bairros com contexto local útil, listagens atuais, perguntas reais, orientação de financiamento e links para categorias relacionadas. Central educativa: MCMV, FGTS, composição de renda, documentação, etapas, renda MEI/informal com ressalvas de análise pela instituição financeira, custos de compra, ITBI, escritura/registro quando aplicáveis. Fontes oficiais e revisão periódica.
+- Otimizar para respostas de mecanismos de busca e sistemas de IA por informação clara, fatos verificáveis, autor identificado, estrutura semântica e atualizações; evitar conteúdo massivo/duplicado.
+- SEO local: cidades Itaboraí, São Gonçalo, Niterói e Maricá; evitar doorway pages e textos intercambiáveis.
+
+4. DESIGN SYSTEM E EXPERIÊNCIA VISUAL APROVADOS
+Conceito: “Premium Light + Dark Hero + Neon Accents”. Referências visuais próprias, não cópias de concorrentes. Paleta inicial APROVADA: azul profundo #071B38, laranja #FF8A30, ciano neon #64DFFF, branco gelo #F4F7FB. Antes de implementação, auditar cores/tokens existentes do Quero Meu MCMV e conciliar com identidade atual; não substituir logotipo ou identidade sem aprovação.
+- Aproximadamente 70% superfícies claras e 30% azul profundo; hero marcante escuro, páginas de listagens claras e legíveis; CTA laranja, neon ciano discreto para estados/foco e detalhes tecnológicos.
+- 3D sutil por CSS, elevação dos cards, sombras e microinterações leves; nada de WebGL, bibliotecas de animação pesadas ou efeitos que reduzam legibilidade/performance sem justificativa.
+- Fotografia e renders oficiais são protagonistas. Não inventar infraestrutura, acabamentos, vistas, plantas ou unidades; preservar fidelidade visual. Imagens de demonstração claramente marcadas como placeholders e jamais publicadas como imóveis reais.
+- Design responsivo mobile-first, tipografia acessível, contraste WCAG, foco visível, navegação por teclado, áreas de toque adequadas, redução de movimento, alt text descritivo.
+- Home: hero emocional com busca principal; categorias e destinos; resultados/destaques reais; benefícios informativos sem promessas; simulador de gastos com aluguel; conteúdo educativo/FAQ; confiança e contato profissional.
+- Cards: imagem, bairro/cidade, quartos, suíte, área, vagas, fase, preço inicial confirmado ou “Consulte condições”, ações favorito/comparar/abrir/WhatsApp contextualizado; badges “Pronto para morar”/“Na planta” apenas verificados.
+- Página de empreendimento: galeria oficial, localização, planta, seletor de tipologias, tabela clara de características e condições, estágio/entrega verificados, contato/simulação/visita. Mobile: CTA fixo que respeita safe areas e não colide com barra inferior.
+
+5. META DE DESEMPENHO — PRIORIDADE NÃO NEGOCIÁVEL
+Meta de produto: experiência inicial carregada em até 2 segundos em cenários de teste previamente definidos (mobile representativo, rede, cache, geografia e percentil); não prometer universalidade. Metas Core Web Vitals de campo no p75: LCP <= 2,5 s, INP <= 200 ms, CLS <= 0,1. Buscar LCP interno <= 2 s quando viável.
+- Orçamento de performance e monitoramento por página, sobretudo home, resultados e empreendimento. Medir baseline antes da mudança, Lighthouse/lab + RUM quando possível.
+- Code splitting, carregamento sob demanda, CSS eficiente, imagens AVIF/WebP responsivas e dimensionadas, preload seletivo da imagem LCP, lazy loading abaixo da dobra, cache/CDN, fontes otimizadas, zero layout shift por imagem.
+- Mapa, comparação avançada, gráficos e módulos não essenciais sob demanda. Não carregar scripts de terceiros de forma bloqueante; preservar mensuração com consentimento e sem disparos duplicados.
+- Busca indexada e consultas paginadas; evitar transferir catálogo inteiro ao navegador. Definir limites de payload, estratégias de cache/invalidação e testes de carga compatíveis com plano gratuito.
+- Priorizar experiência funcional, acessibilidade e rapidez acima de animações e neon.
+
+6. CONVERSÃO, FORMULÁRIOS E WHATSAPP
+Navegação nunca bloqueada por formulário. Dois caminhos: (A) contato rápido WhatsApp contextualizado; (B) simulação personalizada com formulário curto em três etapas.
+- Formulário proposto: etapa 1 cidade e renda familiar aproximada; etapa 2 FGTS e entrada (sim/não/não sei); etapa 3 nome, WhatsApp brasileiro validado e consentimento adequado; avaliar minimização e necessidade dos campos conforme LGPD. CTA “Receber simulação gratuita no WhatsApp” somente se serviço for de fato gratuito. Preservar dados já fornecidos e nunca repetir perguntas no atendimento.
+- WhatsApp oficial de atendimento: +55 21 96592-8399; URL https://wa.me/5521965928399. Mensagem predefinida com contexto real de empreendimento, tipologia, cidade e interesse; não incluir dados sensíveis ou valores de renda em URLs. Distinguir clique em link de conversa iniciada/lead confirmado.
+- Botão mobile fixo “Simular pelo WhatsApp” quando apropriado, sem colisão com navegação inferior; testar viewport pequeno e teclado.
+- Leads persistidos de forma idempotente, com estados de envio e falha, confirmação real de sucesso, proteção antispam e tratamento de consentimento; manter notificações e integrações existentes.
+- Identificação profissional: Joel Marcos, CRECI-RJ 39.583-F; e-mail contato@queromeumcmv.com.br. Verificar dados institucionais/endereço no site e com proprietário antes de publicar; endereço informado para conferência: Rua H, nº 492, Itaboraí/RJ, CEP 24813-066.
+- Transparência publicitária: CDC arts. 30, 31, 36 e 37; Lei 4.591/64 art. 32 quando aplicável; normas COFECI/CRECI; LGPD; políticas Meta categoria especial Habitação. Nunca garantir aprovação de financiamento, subsídio, 100% financiado ou condições não verificadas.
+
+7. SIMULADOR DE GASTOS COM ALUGUEL
+Criar componente leve e acessível “Quanto você já gastou com aluguel?” com aluguel mensal editável/slider e duração (ex.: 1, 3, 5 e 10 anos); cálculo base = aluguel mensal x 12 x anos. Mostrar valor nominal acumulado, explicar que é estimativa sem reajustes e NÃO afirmar que o valor seria automaticamente convertido em patrimônio ou parcela de financiamento. Opcional: modo com reajuste anual explicitamente informado, cálculo transparente.
+- Integrar à home e a uma página educativa /simulador-gastos-aluguel somente se estratégia SEO justificar; sem cadastro para usar. CTA contextualizado para conhecer imóveis ou simulação. Evento analítico rent_simulator_used sem dados pessoais; eventos de CTA separados.
+
+8. MARKET IMOBI CRM — MÓDULOS APROVADOS
+CRM começa com um único administrador, preparado para futuros corretores/gestores, permissões por função e escopo, trilha de auditoria e isolamento de dados em futura expansão SaaS. NÃO implementar multi-tenant comercial completo na primeira versão sem necessidade; preparar fronteiras de arquitetura.
+- Dashboard: leads, visitas, propostas, vendas, conversões, origem, cidade, empreendimento, tipologia, campanhas, períodos e evolução do funil; números reais e definições de métricas documentadas.
+- Leads/contatos: ficha única, nome/WhatsApp/e-mail quando fornecidos, histórico, interesses, consentimentos, origem, interações, responsável, notas e próximo passo.
+- Deduplicação: normalizar telefone brasileiro (considerar DDI/DDD), associar contatos apenas com identificação suficiente; permitir revisão/desfazer mesclagens; NÃO perder eventos de conversão individuais nem sobrescrever first-touch/last-touch sem histórico.
+- Kanban: Novo lead, Em atendimento, Qualificado, Visita, Proposta, Venda concluída; também perdido e motivos; status de visita independentes. Permitir movimentação auditável, filtros e tarefas.
+- Agendamento de visitas: data/período preferidos, pendência de confirmação e notificações internas; não marcar confirmação sem validação.
+- Propostas: dados estruturados, vínculo com comprador/empreendimento/tipologia, condições verificadas, validade, versões, estados rascunho/enviada/em negociação/aceita/recusada/expirada, PDF gerado sob demanda e baixado pelo usuário. Proposta aceita != venda concluída.
+- Gestão do catálogo: criar/editar/publicar empreendimentos e tipologias, mídia oficial otimizada, preços, condições, data de revisão, estado comercial; atualizar site sem editar código.
+- Tarefas e lembretes inteligentes: alertas de lead sem resposta, retorno após visita, prazo de proposta e próximos passos; sem envio automático de mensagens ao comprador na primeira fase.
+- Relatórios de marketing: UTMs, landing page, referrer, identificadores de clique quando coletados legitimamente, leads, visitas, propostas e vendas; separar whatsapp_click de lead efetivo; não atribuir conversão confirmada a mero clique.
+- NÃO criar módulo de armazenamento de documentos pessoais, RG, CPF, comprovantes, contratos ou uploads documentais. NÃO criar checklist documental se não for necessário; este módulo foi explicitamente excluído pelo proprietário. PDF de proposta sob demanda, sem repositório obrigatório.
+- Exportação CSV/JSON, backup e restauração testada, retenção definida, proteção e acesso restrito. Dados de leads nos backups também são pessoais.
+
+9. MÉTODO JORNADA CONTÍNUA — ATENDIMENTO CONSULTIVO
+Princípio: “Não faça o comprador começar de novo. Entenda onde ele está na jornada e ajude-o a dar o próximo passo.”
+- O futuro pré-atendimento inteligente por WhatsApp deve reconhecer contexto do anúncio, página, tipologia e formulário quando houver integração oficial e base legal adequada. Se nome desconhecido, perguntar no início de forma natural. Não repetir dados já conhecidos.
+- Responder a pergunta do comprador antes de tentar qualificar. Descobrir necessidade, motivação, momento da compra, visitas anteriores, obstáculos e orçamento de modo conversacional, sem questionário extenso.
+- Para financiamento, solicitar renda familiar utilizada na análise quando apropriado e necessário, com transparência e minimização; não exigir dados sensíveis desnecessários. Nunca prometer aprovação ou valores exatos sem simulação oficial.
+- Sugerir imóveis SOMENTE com inventário confirmado, esclarecer incertezas e transferir ao corretor com resumo da conversa e próximo passo. Objetivo de conversa breve (aproximadamente 4 minutos quando viável), sem garantir duração.
+- Fase inicial: preparar eventos, modelo de contexto, ficha única e handoff. Automação de mensagens e agente de WhatsApp só após validação da API oficial, custos, consentimento, modelos de mensagem e aprovação específica.
+
+10. MENSURAÇÃO, GA4, GTM E META
+Auditar configuração atual antes de qualquer alteração. Preservar tags e medir sem duplicar.
+- Eventos separados: search_performed, filter_applied, property_view, typology_selected, favorite_added, compare_used, map_opened, rent_simulator_used, whatsapp_click, simulation_started, simulation_submitted, lead_created (somente persistência confirmada), visit_requested, proposal_created e sale_completed conforme eventos legítimos e consentimento.
+- GA4 generate_lead e Meta Lead apenas para lead efetivo, não clique de WhatsApp. Para WhatsApp, registrar clique e não presumir conversa iniciada. Planejar deduplicação Pixel/CAPI por event_id e integração server-side só se tecnicamente justificável.
+- Persistir first/last touch com timestamp e histórico, UTMs, gclid/gbraid/wbraid/fbclid quando aplicável e permitido, sem expor PII em URL ou analytics. Consent Mode/gestão de consentimento quando aplicável. Testar Tag Assistant, GA4 DebugView, rede e eventos de conversão.
+- Conversões offline/qualificadas para plataformas: apenas fase posterior e com aprovação, política de privacidade, consentimento/base legal e requisitos oficiais.
+
+11. INTEGRAÇÕES EXISTENTES — NÃO QUEBRAR
+Stack histórica relatada: Google AI Studio, Vite, Tailwind, GitHub e Cloudflare Pages. Validar no repositório; não pressupor.
+- Integração atual Google Sheets: planilha “Banco de Dados Forms”, ID 1VAeZ_Qd_osqmCEoBUkhvLrvxzow8WJEeS3INN9xDm1A, aba “Leads”. Campos conhecidos: Data/Hora, Nome, WhatsApp, E-mail, Cidade, Faixa de valor, Quartos, Pagamento, Primeira compra, Prazo, Consentimento LGPD, utm_source, utm_medium, utm_campaign, Página, Referrer, Status, external_id. Verificar esquema real, autorizações e funcionamento.
+- Preservar notificações por e-mail e página de agradecimento com WhatsApp; se migrar fonte de verdade para CRM/D1, planejar sincronização resiliente, deduplicação, filas/retries e reconciliação com Sheets, evitando dupla gravação e perda silenciosa.
+- Não expor IDs sensíveis, tokens, webhooks, credenciais ou dados pessoais no frontend ou logs. Usar secrets/variáveis de ambiente, permissões mínimas e rotação quando necessária.
+
+12. INFRAESTRUTURA CLOUDFLARE — CUSTO CONTROLADO
+Priorizar Cloudflare Pages para frontend; avaliar Workers/Pages Functions e D1 para APIs e dados estruturados. Avaliar Cloudflare R2 ou arquivos estáticos/CDN apenas para imagens oficiais de imóveis, após validar volume, licença e cotas gratuitas. NÃO usar armazenamento de documentos pessoais. Não escolher serviço sem medir limites vigentes e projeção de uso.
+- Planejar schema, migrações reversíveis, índices para busca, validação server-side, autenticação segura, RBAC, proteção contra CSRF/XSS/injeção, rate limiting, logs sem PII, auditoria, backups e exportação.
+- Autenticação do CRM com boas práticas, sessões seguras e MFA se viável; nunca deixar rotas administrativas públicas. Proteger APIs contra scraping abusivo e acesso entre usuários.
+- Custos: apresentar quadro com serviços, cotas gratuitas vigentes, consumo estimado, gatilhos de ultrapassagem e alternativas; nenhuma cobrança automática sem autorização.
+- Desenvolvimento em branch e ambiente de homologação separados de produção, com dados sintéticos ou anonimizados, isolamento de segredos, deploy de preview, testes e plano de rollback.
+
+13. FASES DE IMPLEMENTAÇÃO — PROPOR, NÃO INICIAR AUTOMATICAMENTE
+FASE 0 — Auditoria do repositório, rotas, integrações, SEO, métricas, performance, segurança e inventário de dados; diagnóstico e matriz de riscos.
+FASE 1 — Arquitetura e design system, protótipos desktop/mobile, modelo de dados e estratégia de URLs/SEO; aprovar antes de implementar.
+FASE 2 — Fundação técnica: ambientes, banco/API, migrações, autenticação/admin, backups e observabilidade; sem tocar produção.
+FASE 3 — Catálogo de empreendimentos/tipologias e painel de gestão; importação de dados confirmados e mídias oficiais.
+FASE 4 — Portal público: home, busca natural, filtros, listagens, detalhes, favoritos, comparação, mapa sob demanda, navegação mobile e simulador de aluguel.
+FASE 5 — SEO/GEO/AEO, páginas indexáveis selecionadas, central educativa, dados estruturados, redirects e otimização Core Web Vitals.
+FASE 6 — Conversão e CRM: formulários, WhatsApp contextualizado, Google Sheets/e-mail, fichas, deduplicação, Kanban, visitas, propostas PDF, tarefas e dashboard.
+FASE 7 — Analytics/atribuição, testes ponta a ponta, segurança/LGPD, acessibilidade, carga, backup/restore, QA visual e homologação.
+FASE 8 — Plano de publicação com checklist, snapshot/backup, redirects, monitoramento pós-publicação e rollback. EXECUTAR SOMENTE APÓS AUTORIZAÇÃO EXPRESSA.
+Dependências podem mudar após auditoria; justificar qualquer alteração de ordem.
+
+14. CRITÉRIOS DE ACEITAÇÃO
+- Usuário encontra tipologias de diferentes empreendimentos com a mesma característica, sem URLs conflitantes ou duplicação artificial.
+- Pesquisa por linguagem natural interpreta corretamente cidade, quartos, suíte e teto de preço; fallback claro quando não entender.
+- Mobile permite filtrar, comparar, favoritar, abrir mapa e entrar em contato sem cadastro, sobreposição de elementos ou perda de contexto.
+- Página de empreendimento apresenta tipologias distintas com preços/condições próprios, sem dados inventados.
+- URLs canônicas, sitemap, robots, redirects e conteúdo indexável validados; não gerar explosão de páginas paramétricas.
+- Dados de leads são persistidos e sincronizados sem perda/duplicação, mantendo Google Sheets, notificações e página de agradecimento.
+- Eventos analytics não duplicados; clique de WhatsApp não é tratado como lead criado.
+- CRM protege dados, restringe acesso, mantém histórico e exporta/restaura dados de teste; não armazena documentos pessoais.
+- Visitas não são confirmadas automaticamente; propostas aceitas não equivalem a vendas concluídas.
+- Performance medida em mobile e desktop; meta de experiência inicial <=2 s no cenário definido; Core Web Vitals monitorados; mapas e módulos pesados lazy-loaded.
+- Nenhuma mudança em produção ou custo pago sem autorização.
+
+15. FORMATO OBRIGATÓRIO DA SUA PRIMEIRA RESPOSTA
+Após INSPECIONAR os arquivos efetivamente acessíveis, responda com:
+A. O que existe hoje (com caminhos de arquivos e evidências).
+B. Lacunas e riscos críticos (produção, SEO, dados, segurança, custos, performance).
+C. Proposta de arquitetura técnica com alternativas e trade-offs, priorizando Cloudflare gratuito.
+D. Estrutura de dados de empreendimentos/tipologias/CRM e estratégia de busca/URLs.
+E. Mapa de páginas e fluxo UX mobile/desktop, com design system e prioridades CRO.
+F. Plano faseado de implementação, testes, critérios de aceite e rollback.
+G. Estimativa de custos/limites e o que precisa de acesso, confirmação ou dados oficiais.
+H. Decisões realmente bloqueantes, no máximo as necessárias; não reabrir decisões já aprovadas neste documento.
+I. Termine com: “Auditoria e plano apresentados. Aguardo sua autorização para iniciar a Fase 1.”
+
+NÃO ESCREVA OU ALTERE CÓDIGO NA PRIMEIRA EXECUÇÃO. NÃO PUBLIQUE. NÃO ASSUMA QUE A PLATAFORMA ATUAL ESTÁ QUEBRADA. PRIORIZE CONTINUIDADE OPERACIONAL, CONVERSÃO REAL, SEO SUSTENTÁVEL E VELOCIDADE.
+
+16. ADENDO OBRIGATÓRIO — GEO/AEO, ENTIDADES, E-E-A-T, INDEXAÇÃO E MULTIMODALIDADE
+Este adendo integra o escopo do projeto, sujeito à auditoria inicial, aprovação antes de implementação e validação técnica. Não pressupor que recursos experimentais garantem indexação, ranking ou menção por IA.
+
+16.1 IA e motores de resposta
+- Avaliar e, se adequado, publicar /llms.txt na raiz com síntese factual em Markdown do Quero Meu MCMV, áreas atendidas, funcionamento da busca, serviços, fontes institucionais, contato e links canônicos. Não inserir informações privadas ou dados comerciais desatualizados. /llms.txt é complementar, não um padrão universal de indexação nem garantia de citação em IA.
+- Organizar seções educativas e FAQs com perguntas claras e respostas objetivas no início, seguidas de explicações, ressalvas e fontes. Evitar textos artificiais, repetitivos e afirmações não verificadas.
+- Auditar robots.txt e políticas atuais de rastreamento. Decidir explicitamente, com aprovação do proprietário, regras para Googlebot, Bingbot e crawlers de IA, distinguindo busca, recuperação de respostas e treinamento de modelos. Não assumir que GPTBot, PerplexityBot e Google-Extended têm a mesma finalidade, nem que liberar um deles melhora ranking. Não bloquear inadvertidamente CSS, JS, imagens e rotas essenciais ao SEO.
+
+16.2 Entidades e dados estruturados
+- Implementar JSON-LD compatível com schema.org e conteúdo visível: Organization e, quando aplicável, RealEstateAgent (subtipo de LocalBusiness), com identificadores e dados verificados. Usar Person na página de apresentação/autoria com nome, biografia e credenciais profissionais reais, mediante confirmação.
+- Incluir sameAs somente para perfis oficiais, públicos e verificados; não inventar perfis ou associações.
+- Aplicar BreadcrumbList nas páginas com trilha de navegação correspondente; FAQPage apenas para perguntas e respostas realmente visíveis, respeitando a elegibilidade e as diretrizes vigentes do Google, sem prometer rich results.
+- Avaliar Product, Service, Offer, Apartment, Residence e demais tipos relevantes por contexto. Não usar Product ou Service indiscriminadamente para imóveis; escolher a modelagem semântica correta e evitar preços, disponibilidade ou atributos fictícios. Validar JSON-LD e monitorar avisos.
+
+16.3 Performance e indexação
+- Entregar conteúdo público essencial, títulos, descrições, links de listagens e páginas estratégicas em HTML inicial rastreável, por SSG, SSR ou prerenderização compatível com Cloudflare e limites gratuitos. Não depender exclusivamente de renderização tardia no navegador para o conteúdo que precisa ser indexado.
+- Metas já aprovadas: experiência inicial de até 2 segundos em cenário de teste definido; LCP <= 2,5s, INP <= 200ms, CLS <= 0,1 no percentil 75 quando houver dados reais. Otimizar WebP/AVIF, srcset, width/height ou aspect-ratio, imagens LCP e scripts, evitando carregamento antecipado de mapa ou recursos pesados.
+- Gerar sitemap XML automaticamente a partir de páginas publicadas, canônicas e indexáveis; excluir filtros ocasionais, URLs noindex, páginas privadas, rascunhos e duplicatas. Validar status HTTP, robots, canonical, hreflang somente quando aplicável, redirecionamentos e links internos.
+- Preparar e documentar envio/monitoramento do sitemap no Google Search Console e Bing Webmaster Tools; efetivar submissão apenas quando houver acesso autorizado às propriedades. Não prometer indexação imediata.
+
+16.4 Conteúdo e E-E-A-T
+- Priorizar dados proprietários verificáveis: tabelas de tipologias, áreas, faixas de preço confirmadas, datas de atualização, comparações reais e simuladores com premissas explícitas. Não inventar estatísticas, subsídios, taxas, disponibilidade ou resultados financeiros.
+- Incluir página profissional de apresentação/contato com biografia, atuação e credenciais reais do corretor, após validação dos dados. Associar autoria aos conteúdos relevantes quando genuína.
+- Definir NAP canônico (nome comercial/profissional, endereço de atendimento divulgado e telefone) somente após confirmação com o proprietário. Manter consistência entre rodapé, contato, JSON-LD e perfis oficiais. Não publicar endereço pessoal ou não destinado ao atendimento sem autorização.
+- Registrar fontes e datas de revisão em conteúdos sobre MCMV, FGTS, crédito, legislação e condições de financiamento; distinguir conteúdo informativo de orientação financeira personalizada.
+
+16.5 Retenção, acessibilidade e multimodalidade
+- Preservar e aprimorar o simulador de gastos com aluguel e demais ferramentas interativas aprovadas, com cálculos transparentes, responsividade e métricas de uso que não exponham dados pessoais.
+- Inserir alt text descritivo e contextual para imagens informativas; alt vazio para imagens meramente decorativas. Não exagerar palavras-chave nem descrever características inexistentes nos renders.
+- Para vídeos e áudios publicados, fornecer transcrição textual acessível e, para vídeos com fala, legendas quando aplicável; carregar mídias sob demanda para proteger desempenho.
+
+16.6 Critérios de aceitação específicos
+- Relatório de auditoria informa quais requisitos já existem, quais precisam de implementação, riscos, dependências e impacto em performance/custos.
+- Validação de dados estruturados, HTML inicial, robots.txt, /llms.txt, sitemap, canonical, acessibilidade e rastreabilidade em ambiente de homologação.
+- Checklist de Search Console/Bing, consistência NAP/sameAs, fontes oficiais, testes de Core Web Vitals e integridade das URLs antigas.
+- Nenhuma alteração em produção, política de bots, perfil público ou propriedade de busca sem aprovação expressa.
+
+17. MATRIZ DEFINITIVA DAS OITO FRENTES DE SEO, VISIBILIDADE E EXPERIÊNCIA — CRITÉRIOS OBRIGATÓRIOS
+Esta seção complementa, sem substituir, os requisitos anteriores. Na auditoria inicial, classificar cada requisito como EXISTENTE / PARCIAL / AUSENTE / NÃO VERIFICÁVEL, com evidências (arquivos, rotas, HTML, configuração e testes). Não afirmar que está implementado sem inspeção. Antes de qualquer implementação, apresentar plano e aguardar autorização.
+
+17.1 SEO TÉCNICO: arquitetura de URLs, HTML inicial indexável, títulos e metas únicos, canonical autorreferente correto, robots.txt, sitemap XML, redirecionamentos 301 com mapa de URLs antigas, navegação interna, HTTP/status, imagens, Core Web Vitals, monitoramento de cobertura e prevenção de indexação de filtros/duplicatas. Testar em homologação e demonstrar evidências.
+17.2 SEO LOCAL: páginas úteis e únicas por cidade e bairros prioritários (Itaboraí, São Gonçalo, Niterói e Maricá), conteúdo geográfico verdadeiro e atualizado, dados NAP confirmados, alinhamento com perfis oficiais, páginas de serviço/atuação, localização verificada de empreendimentos, sem doorway pages ou textos de bairros fabricados.
+17.3 DADOS ESTRUTURADOS / SCHEMA: JSON-LD válido, coerente com conteúdo visível e tipo de entidade; Organization, RealEstateAgent/LocalBusiness quando cabível, Person, BreadcrumbList e tipos imobiliários adequados; FAQPage apenas quando legítimo e elegível; sameAs verificado; não forçar Product/Offer, preço, avaliações ou disponibilidade. Validar com ferramentas pertinentes, distinguindo validade schema.org de elegibilidade a rich results.
+17.4 DIO / OTIMIZAÇÃO PARA CITAÇÕES: tratar DIO como abordagem editorial e técnica, não como padrão oficial universal. Estruturar fatos verificáveis, fontes primárias, data de atualização, autoria, definições, perguntas e respostas concisas, dados próprios de tipologias e comparativos transparentes, links canônicos e informações que possam ser atribuídas corretamente. /llms.txt opcional, sem promessa de citação, ranking ou ingestão por modelos.
+17.5 UX E ACESSIBILIDADE: jornada mobile-first, busca por intenção, filtros compreensíveis, navegação por teclado, foco visível, labels e mensagens de erro acessíveis, semântica HTML, texto alternativo apropriado, contraste e responsividade, meta WCAG 2.2 AA, performance e formulários LGPD compreensíveis. Auditoria automatizada e revisão manual de fluxos críticos.
+17.6 E-E-A-T: experiência real demonstrável, biografia e credenciais profissionais verificadas, identificação de responsável, páginas Sobre/Contato/Privacidade, transparência sobre publicidade e condições, políticas editoriais e fontes oficiais para temas financeiros e legais; informações revisadas, sem depoimentos, selos, certificações ou autoridade inventados. E-E-A-T não é um único campo ou schema que se ativa.
+17.7 SEO AI-FIRST E ENGENHARIA DE RENDERIZAÇÃO: conteúdo essencial e links acessíveis em HTML inicial via SSG/SSR/prerenderização apropriados; metadados e canonical corretos por rota, hidratação sem perda de conteúdo, tratamento de estados HTTP, rastreabilidade de links, renderização de páginas de empreendimento e páginas locais, testes com JavaScript desativado quando útil e verificação de conteúdo renderizado; políticas de bots separadas conforme finalidade, sem promessas de ranqueamento em IA.
+17.8 SEO DE FUNIL E INTENÇÃO PEOPLE-FIRST: mapa de intenção informacional, comercial e transacional; páginas úteis para buscas reais como 'apartamento 2 quartos com suíte em Itaboraí', conteúdo de financiamento/FGTS/MCMV com ressalvas e fontes atuais, comparação de tipologias, calculadoras transparentes, CTAs contextuais e mensuração de conversão; evitar páginas repetitivas, keyword stuffing, iscas de conteúdo e alegações não verificadas.
+
+ENTREGÁVEIS OBRIGATÓRIOS DA AUDITORIA: matriz das oito frentes com status, evidência, risco, prioridade, esforço aproximado, dependências, impacto em SEO/conversão/performance e teste de aceite; plano de implementação por fases; checklist de validação antes de publicação; proteção das integrações e URLs atuais. Não iniciar implementação sem autorização expressa.
