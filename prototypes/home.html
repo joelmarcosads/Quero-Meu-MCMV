@@ -187,6 +187,18 @@
     .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:800;padding:16px;background:linear-gradient(to top,rgba(7,27,56,.95),transparent)}
     .mobile-cta button{width:100%;padding:18px 24px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:17px;font-weight:700;cursor:pointer;font-family:var(--font-sans);box-shadow:0 8px 24px rgba(37,211,102,.5)}
 
+    /* FOCUS VISIBLE — acessibilidade por teclado */
+    :focus-visible{outline:3px solid var(--c-cyan);outline-offset:2px;border-radius:3px}
+    .btn:focus-visible,.nav-link:focus-visible,.nav-cta:focus-visible{outline:3px solid var(--c-cyan);outline-offset:3px}
+    .city-pill:focus-visible{outline:3px solid var(--c-cyan);outline-offset:3px}
+    .faq-q:focus-visible{outline:3px solid var(--c-cyan);outline-offset:2px;border-radius:var(--r-sm)}
+    .search-btn:focus-visible{outline:3px solid var(--c-cyan);outline-offset:2px}
+    .prop-fav:focus-visible,.nav-burger:focus-visible{outline:3px solid var(--c-cyan);outline-offset:3px;border-radius:50%}
+    .search-wrap input:focus-visible{outline:none} /* Pai .search-wrap:focus-within já aplica borda ciano */
+
+    /* VISUALLY HIDDEN — para títulos de página acessíveis */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
     /* RESPONSIVE */
     @media(max-width:960px){
       .hero-inner{grid-template-columns:1fr;gap:32px}
@@ -233,8 +245,10 @@
     <a href="#" class="nav-link">Como funciona</a>
     <a href="#" class="nav-cta">💬 WhatsApp</a>
   </nav>
-  <div class="nav-burger"><span></span><span></span><span></span></div>
+  <button class="nav-burger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="nav-mobile" type="button"><span></span><span></span><span></span></button>
 </header>
+
+<main id="conteudo-principal">
 
 <!-- HERO -->
 <section class="hero">
@@ -248,10 +262,10 @@
         <button class="search-btn" type="button">🔍 Buscar imóveis →</button>
       </div>
       <div class="city-pills">
-        <span class="city-pill">📍 Itaboraí</span>
-        <span class="city-pill">📍 São Gonçalo</span>
-        <span class="city-pill">📍 Niterói</span>
-        <span class="city-pill">📍 Maricá</span>
+        <button class="city-pill" type="button">📍 Itaboraí</button>
+        <button class="city-pill" type="button">📍 São Gonçalo</button>
+        <button class="city-pill" type="button">📍 Niterói</button>
+        <button class="city-pill" type="button">📍 Maricá</button>
       </div>
     </div>
 
@@ -324,7 +338,7 @@
         <div class="prop-img">
           <div class="prop-img-placeholder">📸 Foto/render oficial<br><small style="font-size:11px;display:block;margin-top:6px;opacity:.6">Prime Club Itaboraí</small></div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Prime Club Itaboraí">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-launch">Lançamento</span></div>
         </div>
         <div class="prop-body">
@@ -347,7 +361,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#0d2e4a,#1a4060)">
           <div class="prop-img-placeholder">📸 Foto/render oficial<br><small style="font-size:11px;display:block;margin-top:6px;opacity:.6">Flores de Maio</small></div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Flores de Maio">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span></div>
         </div>
         <div class="prop-body">
@@ -368,7 +382,7 @@
         <div class="prop-img" style="background:linear-gradient(135deg,#1a2a4a,#0e2040)">
           <div class="prop-img-placeholder">📸 Foto/render oficial<br><small style="font-size:11px;display:block;margin-top:6px;opacity:.6">Solar da Trindade</small></div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Solar da Trindade">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-few">Últimas unids.</span></div>
         </div>
         <div class="prop-body">
@@ -495,24 +509,26 @@
     <h2 class="section-title">Perguntas sobre o MCMV</h2>
     <div style="margin-top:32px">
       <div class="faq-item">
-        <button class="faq-q"><span class="faq-q-text">Qual a renda máxima para participar do MCMV?</span><div class="faq-icon">+</div></button>
-        <div class="faq-a">Para a Faixa 1, a renda familiar bruta deve ser de até R$ 2.640. Para a Faixa 2, até R$ 4.400. Para a Faixa 3, até R$ 8.000. Cada faixa tem subsídios e condições diferentes — entre em contato para simulação personalizada.</div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a1" id="faq-q1"><span class="faq-q-text">Qual a renda máxima para participar do MCMV?</span><div class="faq-icon" aria-hidden="true">+</div></button>
+        <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1">Para a Faixa 1, a renda familiar bruta deve ser de até R$ 2.640. Para a Faixa 2, até R$ 4.400. Para a Faixa 3, até R$ 8.000. Cada faixa tem subsídios e condições diferentes — entre em contato para simulação personalizada.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q"><span class="faq-q-text">Posso usar o FGTS como entrada?</span><div class="faq-icon">+</div></button>
-        <div class="faq-a">Sim. O FGTS pode ser usado como entrada ou para reduzir as parcelas mensais do financiamento, desde que você tenha pelo menos 3 anos de trabalho com carteira assinada, não possua outro imóvel no nome e o imóvel seja para moradia própria.</div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a2" id="faq-q2"><span class="faq-q-text">Posso usar o FGTS como entrada?</span><div class="faq-icon" aria-hidden="true">+</div></button>
+        <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2">Sim. O FGTS pode ser usado como entrada ou para reduzir as parcelas mensais do financiamento, desde que você tenha pelo menos 3 anos de trabalho com carteira assinada, não possua outro imóvel no nome e o imóvel seja para moradia própria.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q"><span class="faq-q-text">O atendimento é presencial ou pelo WhatsApp?</span><div class="faq-icon">+</div></button>
-        <div class="faq-a">O atendimento inicial é consultivo — feito por WhatsApp, vídeo ou telefone. Visitas presenciais ao empreendimento são agendadas após alinhamento das condições e interesse mútuo.</div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a3" id="faq-q3"><span class="faq-q-text">O atendimento é presencial ou pelo WhatsApp?</span><div class="faq-icon" aria-hidden="true">+</div></button>
+        <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3">O atendimento inicial é consultivo — feito por WhatsApp, vídeo ou telefone. Visitas presenciais ao empreendimento são agendadas após alinhamento das condições e interesse mútuo.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q"><span class="faq-q-text">Existe taxa de corretagem para o comprador?</span><div class="faq-icon">+</div></button>
-        <div class="faq-a">No Minha Casa Minha Vida, a comissão de corretagem é paga pela incorporadora/construtora, não pelo comprador. Você não paga taxa de corretagem para adquirir os apartamentos disponíveis no portfólio.</div>
+        <button class="faq-q" aria-expanded="false" aria-controls="faq-a4" id="faq-q4"><span class="faq-q-text">Existe taxa de corretagem para o comprador?</span><div class="faq-icon" aria-hidden="true">+</div></button>
+        <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4">No Minha Casa Minha Vida, a comissão de corretagem é paga pela incorporadora/construtora, não pelo comprador. Você não paga taxa de corretagem para adquirir os apartamentos disponíveis no portfólio.</div>
       </div>
     </div>
   </div>
 </section>
+
+</main><!-- /main -->
 
 <!-- FOOTER -->
 <footer class="footer">

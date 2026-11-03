@@ -77,7 +77,8 @@
 
     /* RESULTS AREA */
     .results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:gap;gap:12px}
-    .results-count{font-size:15px;color:var(--c-text-muted)}<br>    .results-count strong{color:var(--c-text-primary)}
+    .results-count{font-size:15px;color:var(--c-text-muted)}
+    .results-count strong{color:var(--c-text-primary)}
     .results-controls{display:flex;align-items:center;gap:10px}
     .sort-select{padding:9px 14px;border:1.5px solid var(--c-border);border-radius:var(--r-md);font-size:13px;font-family:var(--font-sans);outline:none;background:var(--c-surface);color:var(--c-text-primary);cursor:pointer}
     .view-toggle{display:flex;border:1.5px solid var(--c-border);border-radius:var(--r-md);overflow:hidden}
@@ -164,6 +165,21 @@
     .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;padding:12px 16px;background:linear-gradient(to top,rgba(7,27,56,.95) 80%,transparent)}
     .mobile-cta button{width:100%;padding:16px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font-sans)}
 
+    /* FOCUS VISIBLE — acessibilidade por teclado */
+    :focus-visible{outline:3px solid var(--c-cyan);outline-offset:2px;border-radius:3px}
+    .btn:focus-visible{outline:3px solid var(--c-cyan);outline-offset:3px}
+    .filter-chip:focus-visible,.page-btn:focus-visible,.view-btn:focus-visible{outline:3px solid var(--c-cyan);outline-offset:2px}
+    .apply-btn:focus-visible,.map-toggle-btn:focus-visible{outline:3px solid var(--c-cyan);outline-offset:3px}
+    .prop-fav:focus-visible,.filter-fab:focus-visible,.nav-burger:focus-visible{outline:3px solid var(--c-cyan);outline-offset:3px;border-radius:50%}
+    .range-input:focus-visible,.sort-select:focus-visible{outline:3px solid var(--c-accent);outline-offset:0;border-color:var(--c-accent)}
+    .checkbox-item input:focus-visible{outline:3px solid var(--c-accent);outline-offset:2px}
+
+    /* VISUALLY HIDDEN */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* H1 RESULTADO */
+    .results-h1{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--c-text-primary);margin-bottom:4px;line-height:1.2}
+
     /* RESPONSIVE */
     @media(max-width:960px){
       .header-search{display:none}
@@ -204,8 +220,10 @@
     <input type="text" value="2 quartos em Itaboraí" placeholder="Buscar imóveis…" aria-label="Buscar" />
   </div>
   <a href="#" class="nav-cta">💬 WhatsApp</a>
-  <div class="nav-burger"><span></span><span></span><span></span></div>
+  <button class="nav-burger" type="button" aria-label="Abrir menu de navegação" aria-expanded="false"><span></span><span></span><span></span></button>
 </header>
+
+<main id="conteudo-principal">
 
 <!-- ACTIVE FILTERS STRIP -->
 <div class="search-strip">
@@ -300,6 +318,7 @@
     <!-- RESULTS HEADER -->
     <div class="results-header">
       <div>
+        <h1 class="results-h1">Empreendimentos MCMV em Itaboraí</h1>
         <div class="results-count"><strong>15 empreendimentos</strong> encontrados</div>
         <div style="font-size:13px;color:var(--c-text-muted);margin-top:2px">Filtrado por: Itaboraí · MCMV · 2 quartos</div>
       </div>
@@ -312,9 +331,9 @@
           <option>Menor parcela</option>
           <option>Lançamento</option>
         </select>
-        <div class="view-toggle">
-          <button class="view-btn active" title="Grade">⊞</button>
-          <button class="view-btn" title="Lista">☰</button>
+        <div class="view-toggle" role="group" aria-label="Modo de visualização">
+          <button class="view-btn active" aria-label="Visualizar em grade" aria-pressed="true">⊞</button>
+          <button class="view-btn" aria-label="Visualizar em lista" aria-pressed="false">☰</button>
         </div>
       </div>
     </div>
@@ -355,7 +374,7 @@
         <div class="prop-img">
           <div class="prop-img-text">📸 Foto/render oficial<br>Prime Club Itaboraí</div>
           <div class="prop-img-overlay"></div>
-          <button class="prop-fav">♡</button>
+          <button class="prop-fav" aria-label="Favoritar Prime Club Itaboraí">♡</button>
           <div class="prop-badges"><span class="badge b-mcmv">MCMV</span><span class="badge b-launch">Lançamento</span></div>
         </div>
         <div class="prop-body">
@@ -496,6 +515,8 @@
     </div>
   </div>
 </div>
+
+</main><!-- /main -->
 
 <!-- MOBILE FILTER FAB -->
 <button class="filter-fab" onclick="openSheet()" aria-label="Abrir filtros">⚙️</button>
