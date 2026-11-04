@@ -42,7 +42,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="px-6 py-4 border-t border-white/10">
-        <p className="text-xs text-blue-200">© 2024 Market Imobi</p>
+        <p className="text-xs text-blue-200">© 2026 Market Imobi</p>
       </div>
     </aside>
   );
