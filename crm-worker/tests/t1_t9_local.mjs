@@ -497,8 +497,12 @@ describe('T8 — Isolamento de leads por corretor', () => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 describe('T9 — Progressão de estágio de oportunidade', () => {
-  // Estágios válidos conforme schema D1 (oportunidades.estagio CHECK)
-  const ESTAGIOS_VALIDOS = ['novo', 'em_contato', 'visita_agendada', 'proposta', 'contrato', 'ganho', 'perdido', 'arquivado'];
+  // Estágios válidos conforme CHECK constraint da tabela oportunidades no schema D1 (migration 0001)
+  const ESTAGIOS_VALIDOS = [
+    'novo_lead', 'em_contato', 'visita_solicitada', 'visita_agendada',
+    'visita_realizada', 'proposta_enviada', 'documentacao',
+    'fechado_ganho', 'fechado_perdido',
+  ];
 
   function isEstagioValido(estagio) {
     return ESTAGIOS_VALIDOS.includes(estagio);
@@ -514,8 +518,8 @@ describe('T9 — Progressão de estágio de oportunidade', () => {
     return { ...oportunidade, estagio: novoEstagio, updated_at: new Date().toISOString() };
   }
 
-  test('T9.1: novo → em_contato (válido)', () => {
-    const opo = { id: 1, estagio: 'novo', responsavel_id: 2 };
+  test('T9.1: novo_lead → em_contato (válido)', () => {
+    const opo = { id: 1, estagio: 'novo_lead', responsavel_id: 2 };
     const user = { id: 2, perfil: 'corretor' };
     const result = progressarEstagio(opo, 'em_contato', user);
     assert.equal(result.estagio, 'em_contato');
@@ -528,15 +532,15 @@ describe('T9 — Progressão de estágio de oportunidade', () => {
     assert.equal(result.estagio, 'visita_agendada');
   });
 
-  test('T9.3: proposta → ganho (válido)', () => {
-    const opo = { id: 1, estagio: 'proposta', responsavel_id: 2 };
+  test('T9.3: proposta_enviada → fechado_ganho (válido)', () => {
+    const opo = { id: 1, estagio: 'proposta_enviada', responsavel_id: 2 };
     const user = { id: 2, perfil: 'corretor' };
-    const result = progressarEstagio(opo, 'ganho', user);
-    assert.equal(result.estagio, 'ganho');
+    const result = progressarEstagio(opo, 'fechado_ganho', user);
+    assert.equal(result.estagio, 'fechado_ganho');
   });
 
   test('T9.4: Estágio inválido → erro', () => {
-    const opo = { id: 1, estagio: 'novo', responsavel_id: 2 };
+    const opo = { id: 1, estagio: 'novo_lead', responsavel_id: 2 };
     const user = { id: 2, perfil: 'corretor' };
     assert.throws(
       () => progressarEstagio(opo, 'estagio_inexistente', user),
@@ -545,7 +549,7 @@ describe('T9 — Progressão de estágio de oportunidade', () => {
   });
 
   test('T9.5: Corretor tenta mover oportunidade de outro → 403', () => {
-    const opo = { id: 1, estagio: 'novo', responsavel_id: 2 };
+    const opo = { id: 1, estagio: 'novo_lead', responsavel_id: 2 };
     const outroCorretor = { id: 3, perfil: 'corretor' };
     assert.throws(
       () => progressarEstagio(opo, 'em_contato', outroCorretor),
@@ -554,16 +558,17 @@ describe('T9 — Progressão de estágio de oportunidade', () => {
   });
 
   test('T9.6: Admin pode mover oportunidade de qualquer corretor', () => {
-    const opo = { id: 1, estagio: 'novo', responsavel_id: 2 };
+    const opo = { id: 1, estagio: 'novo_lead', responsavel_id: 2 };
     const admin = { id: 1, perfil: 'admin' };
-    const result = progressarEstagio(opo, 'perdido', admin);
-    assert.equal(result.estagio, 'perdido');
+    const result = progressarEstagio(opo, 'fechado_perdido', admin);
+    assert.equal(result.estagio, 'fechado_perdido');
   });
 
-  test('T9.7: Todos os estágios válidos são aceitos', () => {
+  test('T9.7: Todos os 9 estágios válidos (schema D1) são aceitos', () => {
     for (const estagio of ESTAGIOS_VALIDOS) {
       assert.ok(isEstagioValido(estagio), `Estágio ${estagio} deve ser válido`);
     }
+    assert.equal(ESTAGIOS_VALIDOS.length, 9, 'Schema D1 define 9 estágios');
   });
 });
 

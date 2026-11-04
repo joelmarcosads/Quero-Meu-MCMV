@@ -1,9 +1,17 @@
 /**
  * routes/empreendimentos.ts
  *
- * GET  /api/v1/empreendimentos          → listar (público via CF Access)
+ * GET  /api/v1/empreendimentos          → listar (todos autenticados)
  * GET  /api/v1/empreendimentos/:id      → detalhe com tipologias
  * POST /api/v1/empreendimentos          → criar (admin only)
+ *
+ * Corrigido B2: alinhado com schema D1 real
+ *   - faixa_programa → faixa_mcmv (INTEGER 1|2|3)
+ *   - descricao_curta → descricao
+ *   - endereco_completo → logradouro, numero, complemento
+ *   - area_privativa_m2 (tipologias) → area_m2
+ *   - adicionado slug obrigatório (UNIQUE no schema)
+ *   - tipologias não possuem deleted_at
  */
 
 import type { Env, AuthenticatedUser, CreateEmpreendimentoPayload } from '../types';
@@ -13,6 +21,17 @@ import {
   parseJsonBody, writeAudit, getClientIp,
 } from '../utils';
 
+/** Converte texto em slug URL-safe */
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '') // remove acentos
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80);
+}
+
 // ─── Listar empreendimentos ───────────────────────────────────────────────────
 async function listEmpreendimentos(
   _request: Request,
@@ -20,9 +39,11 @@ async function listEmpreendimentos(
   _user: AuthenticatedUser,
 ): Promise<Response> {
   const results = await env.DB.prepare(
-    `SELECT id, nome, cidade, uf, bairro, faixa_programa, status, descricao_curta, created_at
+    `SELECT id, slug, nome, cidade, uf, bairro, faixa_mcmv, status,
+            descricao, area_privativa_min, area_privativa_max,
+            valor_min, valor_max, created_at
      FROM empreendimentos
-     WHERE deleted_at IS NULL
+     WHERE deleted_at IS NULL AND ativo = 1
      ORDER BY nome ASC`,
   ).all();
 
@@ -36,21 +57,27 @@ async function getEmpreendimento(
   _user: AuthenticatedUser,
   id: string,
 ): Promise<Response> {
+  // Aceita busca por id numérico ou por slug
+  const isNumeric = /^\d+$/.test(id);
+  const whereClause = isNumeric ? 'id = ?' : 'slug = ?';
+
   const empr = await env.DB.prepare(
-    `SELECT * FROM empreendimentos WHERE id = ? AND deleted_at IS NULL`,
+    `SELECT * FROM empreendimentos WHERE ${whereClause} AND deleted_at IS NULL`,
   ).bind(id).first();
 
   if (!empr) {
     return jsonError('Empreendimento não encontrado', 404);
   }
 
+  // tipologias não possuem deleted_at no schema D1
   const tipologias = await env.DB.prepare(
     `SELECT id, nome, quartos, suites, banheiros, vagas,
-            area_privativa_m2, valor_base, situacao_comercial
+            area_m2, valor_base, valor_entrada_min, valor_parcela_estimada,
+            situacao_comercial, caracteristicas_json
      FROM tipologias
-     WHERE empreendimento_id = ? AND deleted_at IS NULL
+     WHERE empreendimento_id = ?
      ORDER BY quartos, valor_base`,
-  ).bind(id).all();
+  ).bind((empr as { id: number }).id).all();
 
   return jsonOk({ ...empr, tipologias: tipologias.results });
 }
@@ -70,28 +97,74 @@ async function createEmpreendimento(
     return jsonError((err as Error).message, 400);
   }
 
-  if (!body.nome?.trim() || !body.cidade?.trim() || !body.uf?.trim() || !body.faixa_programa?.trim()) {
-    return jsonError('Campos obrigatórios: nome, cidade, uf, faixa_programa', 400);
+  // Campos obrigatórios
+  if (!body.nome?.trim()) {
+    return jsonError('Campo obrigatório: nome', 400);
+  }
+  if (!body.cidade?.trim()) {
+    return jsonError('Campo obrigatório: cidade', 400);
+  }
+  if (!body.uf?.trim()) {
+    return jsonError('Campo obrigatório: uf', 400);
   }
 
-  const ufValida = /^[A-Z]{2}$/.test(body.uf.toUpperCase());
-  if (!ufValida) {
+  const uf = body.uf.trim().toUpperCase();
+  if (!/^[A-Z]{2}$/.test(uf)) {
     return jsonError('UF inválida (use 2 letras maiúsculas, ex: RJ)', 400);
   }
 
+  // faixa_mcmv é INTEGER 1, 2 ou 3
+  if (body.faixa_mcmv !== undefined && ![1, 2, 3].includes(body.faixa_mcmv)) {
+    return jsonError('faixa_mcmv deve ser 1, 2 ou 3', 400);
+  }
+
+  // status (default lancamento)
+  const statusValidos = ['em_breve', 'lancamento', 'em_obras', 'pronto', 'encerrado'];
+  const status = body.status ?? 'lancamento';
+  if (!statusValidos.includes(status)) {
+    return jsonError(`status inválido. Valores aceitos: ${statusValidos.join(', ')}`, 400);
+  }
+
+  // Gerar slug se não fornecido
+  const slugBase = body.slug?.trim() || slugify(`${body.nome.trim()} ${body.cidade.trim()}`);
+
+  // Garantir unicidade de slug
+  let slug = slugBase;
+  const existing = await env.DB.prepare(
+    `SELECT id FROM empreendimentos WHERE slug = ?`,
+  ).bind(slug).first();
+  if (existing) {
+    // Adicionar sufixo numérico para evitar colisão
+    slug = `${slugBase}-${Date.now()}`;
+  }
+
   const result = await env.DB.prepare(
-    `INSERT INTO empreendimentos (nome, cidade, uf, bairro, endereco_completo, faixa_programa, status, descricao_curta)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-     RETURNING id, nome, cidade, uf, faixa_programa, status, created_at`,
+    `INSERT INTO empreendimentos
+       (slug, nome, construtora, cidade, uf, bairro,
+        logradouro, numero, complemento, cep,
+        faixa_mcmv, status, descricao,
+        area_privativa_min, area_privativa_max,
+        valor_min, valor_max)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     RETURNING id, slug, nome, cidade, uf, faixa_mcmv, status, created_at`,
   ).bind(
+    slug,
     body.nome.trim(),
+    body.construtora?.trim() ?? null,
     body.cidade.trim(),
-    body.uf.toUpperCase(),
+    uf,
     body.bairro?.trim() ?? null,
-    body.endereco_completo?.trim() ?? null,
-    body.faixa_programa.trim(),
-    body.status ?? 'lancamento',
-    body.descricao_curta?.trim() ?? null,
+    body.logradouro?.trim() ?? null,
+    body.numero?.trim() ?? null,
+    body.complemento?.trim() ?? null,
+    body.cep?.replace(/\D/g, '').slice(0, 8) ?? null,
+    body.faixa_mcmv ?? null,
+    status,
+    body.descricao?.trim() ?? null,
+    body.area_privativa_min ?? null,
+    body.area_privativa_max ?? null,
+    body.valor_min ?? null,
+    body.valor_max ?? null,
   ).first();
 
   if (!result) {

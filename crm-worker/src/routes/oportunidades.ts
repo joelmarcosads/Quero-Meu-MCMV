@@ -2,17 +2,30 @@
  * routes/oportunidades.ts
  *
  * PATCH /api/v1/oportunidades/:id/estagio  → alterar estágio (corretor dono ou admin)
- * GET   /api/v1/oportunidades              → listar
+ * GET   /api/v1/oportunidades              → listar (abertas por default)
  * POST  /api/v1/oportunidades              → criar (admin ou corretor)
+ *
+ * Corrigido B3: alinhado com schema D1 real
+ *   - ESTAGIOS_VALIDOS sincronizado com CHECK constraint da tabela oportunidades
+ *   - deleted_at → fechada_at (oportunidades não possui deleted_at)
+ *   - motivo_perda: 'perdido' → 'fechado_perdido'
  */
 
 import type { Env, AuthenticatedUser } from '../types';
 import { AuthError, requireOwnershipOrAdmin } from '../auth';
-import { jsonOk, jsonError, parseJsonBody, writeAudit, getClientIp } from '../utils';
+import { jsonOk, jsonCreated, jsonError, parseJsonBody, writeAudit, getClientIp } from '../utils';
 
+// Estágios exatamente como definidos no CHECK constraint do schema D1
 const ESTAGIOS_VALIDOS = [
-  'novo', 'contato_realizado', 'visita_agendada', 'visita_realizada',
-  'proposta_enviada', 'negociando', 'ganho', 'perdido', 'descartado',
+  'novo_lead',
+  'em_contato',
+  'visita_solicitada',
+  'visita_agendada',
+  'visita_realizada',
+  'proposta_enviada',
+  'documentacao',
+  'fechado_ganho',
+  'fechado_perdido',
 ] as const;
 
 type Estagio = typeof ESTAGIOS_VALIDOS[number];
@@ -24,13 +37,13 @@ async function patchEstagio(
   user: AuthenticatedUser,
   id: string,
 ): Promise<Response> {
-  // Buscar oportunidade atual
+  // oportunidades usa fechada_at, não deleted_at
   const oport = await env.DB.prepare(
-    `SELECT id, responsavel_id, estagio FROM oportunidades WHERE id = ? AND deleted_at IS NULL`,
+    `SELECT id, responsavel_id, estagio FROM oportunidades WHERE id = ? AND fechada_at IS NULL`,
   ).bind(id).first<{ id: number; responsavel_id: number | null; estagio: string }>();
 
   if (!oport) {
-    return jsonError('Oportunidade não encontrada', 404);
+    return jsonError('Oportunidade não encontrada ou já encerrada', 404);
   }
 
   // Verificar ownership: corretor só altera a sua
@@ -56,18 +69,26 @@ async function patchEstagio(
 
   const dadosAnt = { id: oport.id, estagio: oport.estagio };
 
+  // Ao fechar a oportunidade, registrar fechada_at
+  const isFechamento = body.estagio === 'fechado_ganho' || body.estagio === 'fechado_perdido';
+
   await env.DB.prepare(
     `UPDATE oportunidades
-     SET estagio = ?, motivo_perda = ?, updated_at = datetime('now')
+     SET estagio = ?,
+         motivo_perda = ?,
+         fechada_at = CASE WHEN ? THEN datetime('now') ELSE fechada_at END,
+         updated_at = datetime('now')
      WHERE id = ?`,
   ).bind(
     body.estagio,
-    body.estagio === 'perdido' ? (body.motivo_perda ?? null) : null,
+    body.estagio === 'fechado_perdido' ? (body.motivo_perda ?? null) : null,
+    isFechamento ? 1 : 0,
     id,
   ).run();
 
   const atualizado = await env.DB.prepare(
-    `SELECT id, estagio, responsavel_id, updated_at FROM oportunidades WHERE id = ?`,
+    `SELECT id, estagio, responsavel_id, motivo_perda, updated_at, fechada_at
+     FROM oportunidades WHERE id = ?`,
   ).bind(id).first();
 
   await writeAudit({
@@ -84,6 +105,92 @@ async function patchEstagio(
   return jsonOk(atualizado);
 }
 
+// ─── Criar oportunidade ───────────────────────────────────────────────────────
+async function createOportunidade(
+  request: Request,
+  env: Env,
+  user: AuthenticatedUser,
+): Promise<Response> {
+  let body: {
+    contato_id: number;
+    lead_id?: number;
+    empreendimento_id?: number;
+    tipologia_id?: number;
+    responsavel_id?: number;
+    estagio?: string;
+    valor_negocio?: number;
+    data_previsao?: string;
+    observacoes?: string;
+    prioridade?: string;
+  };
+
+  try {
+    body = await parseJsonBody(request);
+  } catch (err) {
+    return jsonError((err as Error).message, 400);
+  }
+
+  if (!body.contato_id) {
+    return jsonError('Campo obrigatório: contato_id', 400);
+  }
+
+  const estagio = body.estagio ?? 'novo_lead';
+  if (!ESTAGIOS_VALIDOS.includes(estagio as Estagio)) {
+    return jsonError(
+      `Estágio inválido: '${estagio}'. Valores aceitos: ${ESTAGIOS_VALIDOS.join(', ')}`,
+      422,
+    );
+  }
+
+  const prioridadesValidas = ['baixa', 'media', 'alta', 'urgente'];
+  const prioridade = body.prioridade ?? 'media';
+  if (!prioridadesValidas.includes(prioridade)) {
+    return jsonError(`prioridade inválida. Valores aceitos: ${prioridadesValidas.join(', ')}`, 400);
+  }
+
+  // Corretor só pode atribuir a si mesmo; admin pode atribuir a qualquer um
+  const responsavelId = user.perfil === 'admin'
+    ? (body.responsavel_id ?? user.id)
+    : user.id;
+
+  const result = await env.DB.prepare(
+    `INSERT INTO oportunidades
+       (contato_id, lead_id, empreendimento_id, tipologia_id,
+        estagio, responsavel_id, valor_negocio,
+        data_previsao, observacoes, prioridade)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     RETURNING id, contato_id, lead_id, estagio, responsavel_id,
+               prioridade, created_at`,
+  ).bind(
+    body.contato_id,
+    body.lead_id ?? null,
+    body.empreendimento_id ?? null,
+    body.tipologia_id ?? null,
+    estagio,
+    responsavelId,
+    body.valor_negocio ?? null,
+    body.data_previsao ?? null,
+    body.observacoes?.trim() ?? null,
+    prioridade,
+  ).first();
+
+  if (!result) {
+    return jsonError('Erro ao criar oportunidade', 500);
+  }
+
+  await writeAudit({
+    db: env.DB,
+    usuarioId: user.id,
+    tabela: 'oportunidades',
+    registroId: (result as { id: number }).id,
+    acao: 'INSERT',
+    dadosNov: result as Record<string, unknown>,
+    ip: getClientIp(request),
+  });
+
+  return jsonCreated(result);
+}
+
 // ─── Listar oportunidades ─────────────────────────────────────────────────────
 async function listOportunidades(
   request: Request,
@@ -92,27 +199,39 @@ async function listOportunidades(
 ): Promise<Response> {
   const url = new URL(request.url);
   const estagio = url.searchParams.get('estagio');
+  const incluirFechadas = url.searchParams.get('incluir_fechadas') === '1';
   const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '50'), 100);
   const offset = parseInt(url.searchParams.get('offset') ?? '0');
 
-  const whereUser = user.perfil === 'admin' ? '' : 'AND o.responsavel_id = ?';
+  // RBAC: corretor vê apenas as suas; admin/assistente veem todas
+  const whereUser = user.perfil === 'admin' || user.perfil === 'assistente'
+    ? ''
+    : 'AND o.responsavel_id = ?';
+
+  // oportunidades usa fechada_at (não deleted_at)
+  const whereFechadas = incluirFechadas ? '' : 'AND o.fechada_at IS NULL';
   const whereEstagio = estagio ? 'AND o.estagio = ?' : '';
 
   const sql = `
-    SELECT o.id, o.estagio, o.created_at, o.updated_at,
+    SELECT o.id, o.estagio, o.prioridade, o.valor_negocio,
+           o.created_at, o.updated_at, o.fechada_at,
            c.nome AS contato_nome, c.telefone,
-           e.nome AS empreendimento_nome
+           e.nome AS empreendimento_nome,
+           u.nome AS responsavel_nome
     FROM oportunidades o
     JOIN contatos c ON c.id = o.contato_id
     LEFT JOIN empreendimentos e ON e.id = o.empreendimento_id
-    WHERE o.deleted_at IS NULL AND c.deleted_at IS NULL
-      ${whereUser} ${whereEstagio}
+    LEFT JOIN usuarios u ON u.id = o.responsavel_id
+    WHERE c.deleted_at IS NULL
+      ${whereFechadas}
+      ${whereUser}
+      ${whereEstagio}
     ORDER BY o.updated_at DESC
     LIMIT ? OFFSET ?
   `;
 
   const binds: (string | number)[] = [];
-  if (user.perfil !== 'admin') binds.push(user.id);
+  if (user.perfil !== 'admin' && user.perfil !== 'assistente') binds.push(user.id);
   if (estagio) binds.push(estagio);
   binds.push(limit, offset);
 
@@ -137,6 +256,9 @@ export async function handleOportunidades(
     }
     if (method === 'GET' && !resourceId) {
       return await listOportunidades(request, env, user);
+    }
+    if (method === 'POST' && !resourceId) {
+      return await createOportunidade(request, env, user);
     }
   } catch (err) {
     if (err instanceof AuthError) {

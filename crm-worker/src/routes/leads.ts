@@ -2,15 +2,22 @@
  * routes/leads.ts
  *
  * POST /api/v1/leads          → criar lead (dedup por telefone + idempotência)
- * GET  /api/v1/leads          → listar (admin: todos; corretor: apenas seus)
+ * GET  /api/v1/leads          → listar (admin: todos; corretor: apenas com oportunidade sua)
  * GET  /api/v1/leads/:id      → detalhe
+ *
+ * Corrigido B4: alinhado com schema D1 real
+ *   - Removidos responsavel_id e status (não existem na tabela leads)
+ *   - RBAC de corretor implementado via oportunidades.responsavel_id
+ *   - leads não possui deleted_at — filtro removido
+ *   - Idempotency check sem l.status
+ *   - UTMs e tracking preservados no INSERT
  */
 
 import type { Env, AuthenticatedUser, CreateLeadPayload } from '../types';
-import { AuthError, requirePerfil, requireOwnershipOrAdmin } from '../auth';
+import { AuthError } from '../auth';
 import {
   jsonOk, jsonCreated, jsonError, jsonIdempotent,
-  normalizePhone, parseJsonBody, writeAudit, getClientIp,
+  normalizePhone, parseJsonBody, writeAudit, getClientIp, sanitizeIp,
 } from '../utils';
 
 // ─── Criar lead com deduplicação e idempotência ───────────────────────────────
@@ -46,7 +53,7 @@ async function createLead(
   // ── Idempotência: verificar chave antes de qualquer INSERT ────────────────
   if (body.idempotency_key) {
     const existing = await env.DB.prepare(
-      `SELECT l.id, l.contato_id, l.status, l.created_at
+      `SELECT l.id, l.contato_id, l.origem, l.created_at
        FROM leads l
        WHERE l.idempotency_key = ?
        LIMIT 1`,
@@ -77,11 +84,10 @@ async function createLead(
     return jsonError('Erro ao localizar/criar contato', 500);
   }
 
-  // ── Inserir lead ──────────────────────────────────────────────────────────
+  // ── Validar empreendimento se informado ──────────────────────────────────
   const empreendimentoId = body.empreendimento_id ?? null;
   const tipologiaId = body.tipologia_id ?? null;
 
-  // Validar empreendimento se informado
   if (empreendimentoId !== null) {
     const empr = await env.DB.prepare(
       `SELECT id FROM empreendimentos WHERE id = ? AND deleted_at IS NULL`,
@@ -91,31 +97,58 @@ async function createLead(
     }
   }
 
+  // ── IP sanitizado (LGPD) ─────────────────────────────────────────────────
+  const rawIp = getClientIp(request);
+  const ipSanitizado = rawIp ? sanitizeIp(rawIp) : null;
+
+  // ── Inserir lead ──────────────────────────────────────────────────────────
+  // Schema leads: id, contato_id, empreendimento_id, tipologia_id,
+  //   idempotency_key, origem, canal,
+  //   utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+  //   gclid, fbclid, meta_fbc, meta_fbp, ip_address, user_agent, created_at
   const leadResult = await env.DB.prepare(
     `INSERT INTO leads
-       (contato_id, empreendimento_id, tipologia_id, responsavel_id,
-        origem, canal, status, idempotency_key, meta_fbc, meta_fbp)
-     VALUES (?, ?, ?, ?, ?, ?, 'novo', ?, ?, ?)
-     RETURNING id, contato_id, empreendimento_id, status, created_at`,
+       (contato_id, empreendimento_id, tipologia_id, idempotency_key,
+        origem, canal,
+        utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+        gclid, fbclid, meta_fbc, meta_fbp,
+        ip_address, user_agent)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     RETURNING id, contato_id, empreendimento_id, tipologia_id, origem, created_at`,
   ).bind(
     contato.id,
     empreendimentoId,
     tipologiaId,
-    null, // será atribuído pelo corretor responsável depois
+    body.idempotency_key ?? null,
     body.origem.trim(),
     body.canal?.trim() ?? null,
-    body.idempotency_key ?? null,
+    body.utm_source?.trim() ?? null,
+    body.utm_medium?.trim() ?? null,
+    body.utm_campaign?.trim() ?? null,
+    body.utm_content?.trim() ?? null,
+    body.utm_term?.trim() ?? null,
+    body.gclid?.trim() ?? null,
+    body.fbclid?.trim() ?? null,
     body.meta_fbc ?? null,
     body.meta_fbp ?? null,
+    ipSanitizado,
+    request.headers.get('user-agent')?.slice(0, 500) ?? null,
   ).first();
 
   if (!leadResult) {
     return jsonError('Erro ao criar lead', 500);
   }
 
-  const lead = leadResult as { id: number; contato_id: number; empreendimento_id: number | null; status: string; created_at: string };
+  const lead = leadResult as {
+    id: number;
+    contato_id: number;
+    empreendimento_id: number | null;
+    tipologia_id: number | null;
+    origem: string;
+    created_at: string;
+  };
 
-  // Audit log (contatos sanitizados automaticamente dentro do writeAudit)
+  // Audit log
   await writeAudit({
     db: env.DB,
     usuarioId: user.id,
@@ -123,7 +156,7 @@ async function createLead(
     registroId: lead.id,
     acao: 'INSERT',
     dadosNov: lead as unknown as Record<string, unknown>,
-    ip: getClientIp(request),
+    ip: rawIp,
   });
 
   return jsonCreated({ ...lead, telefone_normalizado: telefone });
@@ -136,36 +169,38 @@ async function listLeads(
   user: AuthenticatedUser,
 ): Promise<Response> {
   const url = new URL(request.url);
-  const status = url.searchParams.get('status');
   const emprId = url.searchParams.get('empreendimento_id');
   const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '50'), 100);
   const offset = parseInt(url.searchParams.get('offset') ?? '0');
 
-  // Corretor: apenas seus leads. Admin: todos.
-  const whereUser = user.perfil === 'admin' ? '' : 'AND l.responsavel_id = ?';
-  const whereStatus = status ? 'AND l.status = ?' : '';
   const whereEmpr = emprId ? 'AND l.empreendimento_id = ?' : '';
 
+  // RBAC: corretor vê apenas leads que têm uma oportunidade atribuída a ele
+  // Admin e assistente veem todos
+  const whereUser = user.perfil === 'admin' || user.perfil === 'assistente'
+    ? ''
+    : `AND EXISTS (
+         SELECT 1 FROM oportunidades o
+         WHERE o.lead_id = l.id AND o.responsavel_id = ?
+       )`;
+
   const sql = `
-    SELECT l.id, l.status, l.origem, l.canal, l.created_at,
+    SELECT l.id, l.origem, l.canal, l.created_at,
            c.telefone, c.nome AS contato_nome,
            e.nome AS empreendimento_nome
     FROM leads l
     JOIN contatos c ON c.id = l.contato_id
     LEFT JOIN empreendimentos e ON e.id = l.empreendimento_id
-    WHERE l.deleted_at IS NULL
-      AND c.deleted_at IS NULL
+    WHERE c.deleted_at IS NULL
       AND c.anonimizado_at IS NULL
       ${whereUser}
-      ${whereStatus}
       ${whereEmpr}
     ORDER BY l.created_at DESC
     LIMIT ? OFFSET ?
   `;
 
   const binds: (string | number)[] = [];
-  if (user.perfil !== 'admin') binds.push(user.id);
-  if (status) binds.push(status);
+  if (user.perfil !== 'admin' && user.perfil !== 'assistente') binds.push(user.id);
   if (emprId) binds.push(emprId);
   binds.push(limit, offset);
 
@@ -185,22 +220,42 @@ async function getLead(
   id: string,
 ): Promise<Response> {
   const lead = await env.DB.prepare(
-    `SELECT l.*, c.telefone, c.nome AS contato_nome, c.email AS contato_email
+    `SELECT l.id, l.contato_id, l.empreendimento_id, l.tipologia_id,
+            l.origem, l.canal, l.utm_source, l.utm_medium, l.utm_campaign,
+            l.gclid, l.fbclid, l.created_at,
+            c.telefone, c.nome AS contato_nome, c.email AS contato_email
      FROM leads l
      JOIN contatos c ON c.id = l.contato_id
-     WHERE l.id = ? AND l.deleted_at IS NULL`,
-  ).bind(id).first<{ responsavel_id: number | null; [key: string]: unknown }>();
+     WHERE l.id = ?`,
+  ).bind(id).first<Record<string, unknown>>();
 
   if (!lead) {
     return jsonError('Lead não encontrado', 404);
   }
 
-  // Corretor só pode ver seus leads ou não atribuídos (admin vê tudo)
-  if (user.perfil !== 'admin' && lead.responsavel_id !== null && lead.responsavel_id !== user.id) {
-    return jsonError('Acesso negado a este lead', 403);
+  // RBAC: corretor só vê lead se tiver oportunidade atribuída a ele
+  if (user.perfil !== 'admin' && user.perfil !== 'assistente') {
+    const hasOportunidade = await env.DB.prepare(
+      `SELECT 1 FROM oportunidades WHERE lead_id = ? AND responsavel_id = ? LIMIT 1`,
+    ).bind(id, user.id).first();
+
+    if (!hasOportunidade) {
+      return jsonError('Acesso negado a este lead', 403);
+    }
   }
 
-  return jsonOk(lead);
+  // Incluir oportunidades associadas
+  const oportunidades = await env.DB.prepare(
+    `SELECT o.id, o.estagio, o.responsavel_id, o.valor_negocio,
+            o.created_at, o.updated_at, o.fechada_at,
+            u.nome AS responsavel_nome
+     FROM oportunidades o
+     LEFT JOIN usuarios u ON u.id = o.responsavel_id
+     WHERE o.lead_id = ?
+     ORDER BY o.created_at DESC`,
+  ).bind(id).all();
+
+  return jsonOk({ ...lead, oportunidades: oportunidades.results });
 }
 
 // ─── Router de leads ──────────────────────────────────────────────────────────
