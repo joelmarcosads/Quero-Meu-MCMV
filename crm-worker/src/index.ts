@@ -37,13 +37,34 @@ export default {
     }
 
     // ── Admin Panel SPA (servido via Static Assets) ───────────────────────
-    // Rotas /admin/* são entregues pelo ASSETS binding (Vite build).
-    // CF Access protege o painel no nível de rota via policy — sem auth Worker aqui.
+    // O Vite build gera os arquivos na RAIZ de dist/ (index.html, assets/…).
+    // O ASSETS binding serve pelo path da URL — mas o browser pede /admin/…
+    // Precisamos reescrever /admin → / e /admin/leads → /leads antes de
+    // passar ao binding. Arquivos estáticos (*.js, *.css, *.ico, etc.) são
+    // servidos pelo path reescrito; qualquer rota SPA desconhecida recebe
+    // o index.html raiz para o BrowserRouter do React tratar.
     if (path === '/admin' || path.startsWith('/admin/')) {
-      if (env.ASSETS) {
-        return env.ASSETS.fetch(request);
+      if (!env.ASSETS) {
+        return new Response('Admin panel não disponível (assets não configurados)', { status: 503 });
       }
-      return new Response('Admin panel não disponível (assets não configurados)', { status: 503 });
+
+      // Strip do prefixo /admin; / quando caminho exato /admin ou /admin/
+      const stripped = path.replace(/^\/admin/, '') || '/';
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = stripped;
+
+      // Tenta servir o arquivo estático (JS/CSS/fontes/ícones)
+      const assetReq = new Request(assetUrl.toString(), request);
+      let resp = await env.ASSETS.fetch(assetReq);
+
+      // Se não encontrado (rota SPA como /leads, /contatos/5…) → serve index.html
+      if (resp.status === 404) {
+        const indexUrl = new URL(request.url);
+        indexUrl.pathname = '/';
+        resp = await env.ASSETS.fetch(new Request(indexUrl.toString(), request));
+      }
+
+      return resp;
     }
 
     // ── Health check (sem autenticação) ───────────────────────────────────
