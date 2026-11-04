@@ -81,7 +81,7 @@ export default {
     // POST /api/v1/public/leads — recebe leads do LeadForm.jsx
     // Protegida por honeypot, validação e idempotência (sem JWT)
     if (path === '/api/v1/public/leads') {
-      return await handlePublicLeads(request, env);
+      return await handlePublicLeads(request, env, _ctx);
     }
 
     // ── Todas as demais rotas exigem autenticação ─────────────────────────

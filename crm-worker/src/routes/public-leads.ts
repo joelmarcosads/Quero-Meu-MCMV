@@ -89,6 +89,7 @@ function inferirOrigem(payload: PublicLeadPayload): string {
 export async function handlePublicLeads(
   request: Request,
   env: Env,
+  ctx: ExecutionContext,
 ): Promise<Response> {
   const origin = request.headers.get('Origin');
   const cors = corsHeaders(origin);
@@ -237,15 +238,18 @@ export async function handlePublicLeads(
   }
 
   // ── 11. Registrar consentimento LGPD ──────────────────────────────────────
-  // Fire-and-forget — não bloqueia resposta, mas registra
-  env.DB.prepare(
-    `INSERT INTO consentimentos_lgpd
-       (contato_id, tipo, concedido, canal, texto_versao, base_legal, ip_address)
-     VALUES (?, 'contato_whatsapp', 1, 'portal_web', ?, 'consentimento', ?)`,
-  ).bind(contato.id, VERSAO_CONSENTIMENTO, ipSanitizado).run().catch((_err: unknown) => {
-    // Log sem dados pessoais
-    console.error('[public-leads] Falha ao registrar consentimento LGPD');
-  });
+  // waitUntil garante que o Worker não cancela a promise antes de concluir,
+  // sem bloquear a resposta 201 ao cliente.
+  ctx.waitUntil(
+    env.DB.prepare(
+      `INSERT INTO consentimentos_lgpd
+         (contato_id, tipo, concedido, canal, texto_versao, base_legal, ip_address)
+       VALUES (?, 'contato_whatsapp', 1, 'portal_web', ?, 'consentimento', ?)`,
+    ).bind(contato.id, VERSAO_CONSENTIMENTO, ipSanitizado).run().catch((_err: unknown) => {
+      // Log sem dados pessoais
+      console.error('[public-leads] Falha ao registrar consentimento LGPD');
+    }),
+  );
 
   return new Response(
     JSON.stringify({
