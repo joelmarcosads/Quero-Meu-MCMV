@@ -16,6 +16,7 @@ import { handleDashboard } from './routes/dashboard';
 import { handleContatos } from './routes/contatos';
 import { handleInteracoes } from './routes/interacoes';
 import { handleUsuarios, handleMe } from './routes/usuarios';
+import { handlePublicLeads } from './routes/public-leads';
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 export default {
@@ -74,6 +75,13 @@ export default {
         environment: env.ENVIRONMENT,
         timestamp: new Date().toISOString(),
       });
+    }
+
+    // ── Rota pública de ingestão de leads do portal (sem CF Access) ───────
+    // POST /api/v1/public/leads — recebe leads do LeadForm.jsx
+    // Protegida por honeypot, validação e idempotência (sem JWT)
+    if (path === '/api/v1/public/leads') {
+      return await handlePublicLeads(request, env);
     }
 
     // ── Todas as demais rotas exigem autenticação ─────────────────────────

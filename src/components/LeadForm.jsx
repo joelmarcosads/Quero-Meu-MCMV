@@ -5,6 +5,9 @@ const CONFIG = {
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzdjbC0ZWboJtR_9oGIdwvX7X7ERQ_O4n0Slvlnig2GtoQCyYuHDG1xmLhPIoBhvwvACQ/exec',
   WHATSAPP: '5521965928399', // DDI + DDD + número, só dígitos
   THANKS_PATH: '/obrigado',
+  // CRM público — rota de ingestão sem autenticação (Fase 3)
+  // Em staging aponta para api-staging; em produção será api.queromeumcmv.com.br
+  CRM_PUBLIC_URL: 'https://api-staging.queromeumcmv.com.br/api/v1/public/leads',
 };
 // ==========================
 
@@ -244,7 +247,48 @@ export default function LeadForm() {
 
     setSending(true);
     try {
-      await fetch(CONFIG.SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: data });
+      // ── Envio primário: GAS / Google Sheets (mantido como estava) ──────────
+      const gasPromise = fetch(CONFIG.SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: data });
+
+      // ── Envio secundário: CRM Worker (fire-and-forget, não-bloqueante) ─────
+      // Falhas silenciosas — nunca bloqueiam o redirect para /obrigado.
+      // O browser resolve utm_source, etc. do mesmo contexto que o GAS.
+      const crmPayload = {
+        external_id: externalId,
+        nome: v.nome.trim(),
+        whatsapp: fone,
+        email: email || undefined,
+        cidade: v.cidade || undefined,
+        utm_source: utmSource || undefined,
+        utm_medium: utmMedium || undefined,
+        utm_campaign: utmCampaign || undefined,
+        // fbclid / gclid capturados via UtmTracker se disponíveis
+        fbclid: (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('fbclid')) || undefined,
+        gclid: (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('gclid')) || undefined,
+        consentimento_lgpd: true,
+        website: v.website || '',  // honeypot — deve estar vazio
+        dados_extras: {
+          quartos: v.quartos || undefined,
+          faixa: v.faixa || undefined,
+          renda: v.renda || undefined,
+          regime_trabalho: v.regime_trabalho || undefined,
+          pagamento: v.pagamento || undefined,
+          primeira_compra: v.primeira_compra || undefined,
+          prazo: v.prazo || undefined,
+          pagina: window.location.href.split('?')[0],
+          referrer: document.referrer || undefined,
+        },
+      };
+      fetch(CONFIG.CRM_PUBLIC_URL, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(crmPayload),
+      }).catch(() => { /* CRM failure nunca deve interromper o fluxo do usuário */ });
+
+      // Aguarda apenas o GAS (no-cors não retorna corpo — apenas verifica que foi enviado)
+      await gasPromise;
 
       // Guarda dados para a página de obrigado (só no navegador, nada de dados pessoais na URL)
       const msg = `Olá! Sou ${v.nome.trim()}. Preenchi o formulário no site: busco imóvel em ${v.cidade}, ${v.quartos}, faixa ${v.faixa}. Renda familiar: ${v.renda} (${v.regime_trabalho}).`;

@@ -124,6 +124,47 @@ export interface CreateLeadPayload {
   fbclid?: string;
 }
 
+// ─── Payload público (portal Quero Meu MCMV → CRM) ──────────────────────────
+// Enviado pelo LeadForm.jsx via fetch sem CF Access JWT.
+// Campos MCMV extras (quartos, faixa, renda…) são armazenados em dados_extras_json.
+export interface PublicLeadPayload {
+  // Idempotência — external_id gerado pelo browser (UUID)
+  external_id: string;
+  // Contato
+  nome?: string;
+  whatsapp: string;              // DDD + número, formatado ou raw
+  email?: string;
+  cidade?: string;
+  // Empreendimento (opcional — slug da página que originou o lead)
+  empreendimento_slug?: string;
+  // UTMs / tracking
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  gclid?: string;
+  fbclid?: string;
+  meta_fbc?: string;
+  meta_fbp?: string;
+  // Anti-spam: honeypot — deve ser string vazia
+  website?: string;
+  // Consentimento LGPD
+  consentimento_lgpd: boolean;
+  // Campos MCMV extras (armazenados em dados_extras_json)
+  dados_extras?: {
+    quartos?: string;
+    faixa?: string;
+    renda?: string;
+    regime_trabalho?: string;
+    pagamento?: string;
+    primeira_compra?: string;
+    prazo?: string;
+    pagina?: string;
+    referrer?: string;
+  };
+}
+
 export interface CreateEmpreendimentoPayload {
   slug?: string;                  // gerado automaticamente se ausente
   nome: string;
