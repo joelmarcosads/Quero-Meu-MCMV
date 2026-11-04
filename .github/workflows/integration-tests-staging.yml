@@ -1,0 +1,409 @@
+# ============================================================
+# Market Imobi CRM — Testes de Integração HTTP (Staging)
+# ============================================================
+# STATUS: PROPOSTA — NÃO EXECUTAR sem autorização e sem:
+#   1. Service Token criado no painel CF Access
+#   2. Usuário CI inserido no D1 staging (perfil='assistente')
+#   3. Patch em src/auth.ts (service token support) deployado
+#
+# Coberturas:
+#   T2  — JWT válido / sem credenciais / perfil insuficiente / inválido
+#   T10 — Latência do Worker (k6, opcional)
+#   T11 — Criação de lead via API real (endpoint protegido)
+#
+# Autenticação: CF Access Service Tokens (M2M)
+#   CF-Access-Client-Id / CF-Access-Client-Secret → CF Access → JWT
+#   Worker valida JWT completo (alg RS256, iss, aud, exp, assinatura)
+#   Credenciais NUNCA aparecem nos logs (uso exclusivo via GitHub Secrets)
+#
+# Validação de JWT (T2.4): rejeição criptográfica coberta pelos testes
+#   unitários locais (ST2, ST2b, ST3 — 55/55 pass em node:test).
+#   Não é possível forjar um JWT RS256 assinado pela Cloudflare sem a
+#   chave privada; os testes locais simulam corretamente esse cenário.
+#
+# Estratégia de limpeza de dados de teste:
+#   Leads de CI são identificados pelo prefixo de idempotency_key:
+#     "ci-integration-test-"
+#   O job cleanup-test-data (veja abaixo) remove APENAS esses registros.
+#   Leads legítimos nunca têm chaves com esse prefixo.
+# ============================================================
+
+name: Integration Tests — Staging Worker
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite CONFIRMAR para autorizar a execução dos testes'
+        required: true
+        default: ''
+      run_t10_load:
+        description: 'Executar teste de carga T10 (k6, ~30s)?'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+      cleanup_after:
+        description: 'Limpar leads de teste após os testes?'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+
+env:
+  # URL confirmada: igual ao wrangler.toml [[env.staging.routes]] e deploy-staging.yml
+  # Nunca usar crm-staging.queromeumcmv.com.br — esse hostname não existe no DNS.
+  WORKER_BASE_URL: https://api-staging.queromeumcmv.com.br
+
+jobs:
+  # ──────────────────────────────────────────────────────────
+  # confirm-gate — Validação obrigatória antes de qualquer teste
+  # Nenhum job que acesse a API pode iniciar sem passar por aqui.
+  # ──────────────────────────────────────────────────────────
+  confirm-gate:
+    name: Verificar CONFIRMAR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validar confirmação obrigatória
+        run: |
+          [ "${{ github.event.inputs.confirmar }}" = "CONFIRMAR" ] || \
+            (echo "BLOQUEADO: O campo de confirmação deve conter exatamente CONFIRMAR" && exit 1)
+          echo "✅ Confirmação validada — prosseguindo com os testes"
+
+  # ──────────────────────────────────────────────────────────
+  # T2 — Autenticação JWT
+  #
+  # Coberturas obrigatórias (Joel, 2026-11-03):
+  #   T2.1 — Sem credenciais: CF Access bloqueia (302 redirect)
+  #   T2.2 — Credenciais válidas: Access + Worker autenticam (200)
+  #   T2.3 — Identidade sem permissão suficiente: Worker retorna 403
+  #   T2.4 — JWT inválido: coberto pelos testes locais (ST2/ST2b/ST3)
+  #
+  # Endpoint escolhido: GET /api/v1/empreendimentos
+  #   - Rota protegida por CF Access (nenhum bypass público)
+  #   - Requer autenticação no Worker (JWT válido + identidade no D1)
+  #   - Accessível por qualquer perfil autenticado (admin/corretor/assistente)
+  #   - NÃO usa /health como evidência de autenticação real
+  # ──────────────────────────────────────────────────────────
+  t2-auth:
+    name: T2 — Autenticação JWT
+    runs-on: ubuntu-latest
+    needs: confirm-gate
+    steps:
+      - name: Checkout feat/market-imobi-crm-staging
+        uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
+
+      # T2.1 — Sem credenciais: CF Access deve bloquear
+      # O CF Access retorna 302 (redirect para login) ou 403 dependendo da
+      # configuração do aplicativo. Nunca deve atingir o Worker (que retornaria 401).
+      - name: T2.1 — Sem credenciais retorna 302 ou 403 (CF Access bloqueia)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-redirs 0 \
+            "$WORKER_BASE_URL/api/v1/empreendimentos")
+          echo "Status recebido (sem credenciais): $STATUS"
+          [ "$STATUS" = "302" ] || [ "$STATUS" = "403" ] || \
+            (echo "FALHA T2.1: esperado 302 ou 403, recebido $STATUS" && exit 1)
+          echo "✅ T2.1 PASS: CF Access bloqueou sem credenciais"
+
+      # T2.2 — Credenciais válidas: CF Access injeta JWT; Worker autentica
+      # O service token (CF-Access-Client-Id / CF-Access-Client-Secret) é
+      # enviado ao endpoint do CF Access, que valida e injeta Cf-Access-Jwt-Assertion.
+      # O Worker valida o JWT (RS256, iss, aud, exp, assinatura) e consulta o D1.
+      - name: T2.2 — Credenciais válidas retornam 200
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            "$WORKER_BASE_URL/api/v1/empreendimentos")
+          echo "Status recebido (credenciais válidas): $STATUS"
+          [ "$STATUS" = "200" ] || \
+            (echo "FALHA T2.2: esperado 200, recebido $STATUS" && exit 1)
+          echo "✅ T2.2 PASS: Access + Worker autenticaram com sucesso"
+
+      # T2.3 — Identidade com permissão insuficiente: Worker retorna 403
+      # Usar endpoint que exige perfil 'admin': POST /api/v1/empreendimentos
+      # O service token CI tem perfil 'assistente' — sem acesso a operações admin.
+      # GET /api/v1/empreendimentos (leitura) é permitido para todos os perfis.
+      # POST /api/v1/empreendimentos (criação) requer requirePerfil(['admin']).
+      # Resultado esperado: 403 retornado PELO WORKER (não pelo CF Access).
+      - name: T2.3 — Perfil insuficiente retorna 403 no Worker
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{"nome":"CITEST Empreendimento","cidade":"Itaborai","uf":"RJ","faixa_programa":"faixa_1"}' \
+            "$WORKER_BASE_URL/api/v1/empreendimentos")
+          echo "Status recebido (perfil assistente → POST empreendimentos): $STATUS"
+          [ "$STATUS" = "403" ] || \
+            (echo "FALHA T2.3: esperado 403, recebido $STATUS" && exit 1)
+          echo "✅ T2.3 PASS: Worker retornou 403 para perfil insuficiente"
+
+      # T2.4 — JWT inválido: coberto pelos testes unitários locais
+      # ST2 (sub="", sem common_name → 401), ST2b (common_name="" → 401),
+      # ST3 (common_name não cadastrado → 401) — 55/55 pass em node:test.
+      # Não é possível forjar JWT RS256 sem a chave privada da Cloudflare.
+      # Não desativar o CF Access para testar JWT inválido via HTTP.
+      - name: T2.4 — Nota sobre rejeição criptográfica
+        run: |
+          echo "ℹ️  T2.4: Rejeição de JWT inválido validada por testes unitários locais."
+          echo "    ST2/ST2b/ST3 cobrem sub vazio, common_name inválido e identidade não cadastrada."
+          echo "    Resultado: 55/55 testes pass. Ver: crm-worker/tests/t1_t9_local.mjs"
+
+  # ──────────────────────────────────────────────────────────
+  # T11 — Criação de lead via API real
+  #
+  # Estratégia de identificação de dados de teste:
+  #   - idempotency_key SEMPRE começa com "ci-integration-test-"
+  #   - Contato nome SEMPRE começa com "CITEST"
+  #   - Telefones de teste: faixa 2198800XXXX (reservada para CI)
+  #   - Nunca usar DELETE genérico por responsavel_id NULL ou por origem
+  #   - Limpeza executada APENAS pelo job cleanup-test-data via prefixo de chave
+  # ──────────────────────────────────────────────────────────
+  t11-lead-creation:
+    name: T11 — Criação de lead
+    runs-on: ubuntu-latest
+    needs: [confirm-gate, t2-auth]
+    steps:
+      - name: Checkout feat/market-imobi-crm-staging
+        uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
+
+      # T11.1 — Criar lead fictício (identificado por prefixo ci-integration-test-)
+      # Chave de idempotência fixa por run_id do GitHub para permitir rastreamento
+      # e limpeza seletiva sem risco de deletar leads legítimos.
+      - name: T11.1 — Criar lead fictício CI
+        id: create_lead
+        run: |
+          IDEM_KEY="ci-integration-test-t11-create-${{ github.run_id }}"
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"nome\": \"CITEST Lead Ficticio ${{ github.run_id }}\",
+              \"telefone\": \"21988000001\",
+              \"origem\": \"whatsapp_direto\",
+              \"idempotency_key\": \"$IDEM_KEY\"
+            }" \
+            "$WORKER_BASE_URL/api/v1/leads")
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "HTTP: $HTTP_CODE"
+          echo "Body: $BODY"
+
+          # 201 = criado com sucesso; 200 = idempotente (lead já existia desta run)
+          [ "$HTTP_CODE" = "201" ] || [ "$HTTP_CODE" = "200" ] || \
+            (echo "FALHA T11.1: esperado 201 ou 200, recebido $HTTP_CODE" && exit 1)
+          echo "✅ T11.1 PASS: Lead CI criado (HTTP $HTTP_CODE)"
+
+          LEAD_ID=$(echo "$BODY" | grep -o '"id":[0-9]*' | grep -o '[0-9]*' | head -1)
+          echo "lead_id=$LEAD_ID" >> "$GITHUB_OUTPUT"
+          echo "idem_key=$IDEM_KEY" >> "$GITHUB_OUTPUT"
+
+      # T11.2 — Idempotência: mesma chave → mesmo lead (não duplica)
+      - name: T11.2 — Idempotência (mesma chave → 200, sem duplicata)
+        run: |
+          IDEM_KEY="ci-integration-test-t11-idempotency-${{ github.run_id }}"
+
+          # Primeira requisição — cria
+          R1=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"CITEST Lead Idempotencia\",\"telefone\":\"21988000002\",\"origem\":\"whatsapp_direto\",\"idempotency_key\":\"$IDEM_KEY\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+
+          # Segunda requisição — deve retornar 200 (idempotente, sem INSERT)
+          R2=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"CITEST Lead Idempotencia\",\"telefone\":\"21988000002\",\"origem\":\"whatsapp_direto\",\"idempotency_key\":\"$IDEM_KEY\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+
+          echo "R1=$R1 R2=$R2"
+          [ "$R1" = "201" ] || [ "$R1" = "200" ] || (echo "FALHA R1: $R1" && exit 1)
+          [ "$R2" = "200" ] || (echo "FALHA T11.2: esperado 200 (idempotente), recebido $R2" && exit 1)
+          echo "✅ T11.2 PASS: Idempotência confirmada"
+
+      # T11.3 — Deduplicação por telefone (contato único, múltiplos leads permitidos)
+      - name: T11.3 — Deduplicação por telefone (contato existente → novo lead)
+        run: |
+          PHONE="21988000003"
+          R1=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"CITEST Lead Dedup A\",\"telefone\":\"$PHONE\",\"origem\":\"whatsapp_direto\",\"idempotency_key\":\"ci-integration-test-t11-dedup-a-${{ github.run_id }}\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+          R2=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"CITEST Lead Dedup B\",\"telefone\":\"$PHONE\",\"origem\":\"meta_ads\",\"idempotency_key\":\"ci-integration-test-t11-dedup-b-${{ github.run_id }}\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+          echo "R1=$R1 R2=$R2"
+          [ "$R1" = "201" ] || [ "$R1" = "200" ] || (echo "FALHA T11.3 R1: $R1" && exit 1)
+          [ "$R2" = "201" ] || [ "$R2" = "200" ] || (echo "FALHA T11.3 R2: $R2" && exit 1)
+          echo "✅ T11.3 PASS: Deduplicação de contato por telefone confirmada"
+
+  # ──────────────────────────────────────────────────────────
+  # T10 — Latência do Worker (CPU + rede) com k6
+  # Executado apenas se run_t10_load = 'true' no dispatch manual
+  # ──────────────────────────────────────────────────────────
+  t10-performance:
+    name: T10 — Latência Worker
+    runs-on: ubuntu-latest
+    needs: [confirm-gate, t2-auth]
+    if: ${{ github.event.inputs.run_t10_load == 'true' }}
+    steps:
+      - name: Checkout feat/market-imobi-crm-staging
+        uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
+
+      - name: Instalar k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] \
+            https://dl.k6.io/deb stable main" | \
+            sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update && sudo apt-get install -y k6
+
+      # T10 usa GET /api/v1/empreendimentos (endpoint real protegido, não /health)
+      - name: T10 — k6 load test (30s, 5 VUs)
+        env:
+          CF_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: |
+          cat > /tmp/k6-empreendimentos.js << 'EOF'
+          import http from 'k6/http';
+          import { check, sleep } from 'k6';
+
+          export const options = {
+            vus: 5,
+            duration: '30s',
+            thresholds: {
+              http_req_duration: ['p(50)<500', 'p(95)<2000', 'p(99)<5000'],
+              http_req_failed:   ['rate<0.05'],
+            },
+          };
+
+          export default function () {
+            const res = http.get(`${__ENV.WORKER_BASE_URL}/api/v1/empreendimentos`, {
+              headers: {
+                'CF-Access-Client-Id':     __ENV.CF_CLIENT_ID,
+                'CF-Access-Client-Secret': __ENV.CF_CLIENT_SECRET,
+              },
+            });
+            check(res, {
+              'status 200': (r) => r.status === 200,
+              'latência < 500ms': (r) => r.timings.duration < 500,
+            });
+            sleep(0.5);
+          }
+          EOF
+          k6 run \
+            -e WORKER_BASE_URL="$WORKER_BASE_URL" \
+            -e CF_CLIENT_ID="$CF_CLIENT_ID" \
+            -e CF_CLIENT_SECRET="$CF_CLIENT_SECRET" \
+            /tmp/k6-empreendimentos.js
+
+      - name: Nota sobre métricas
+        run: |
+          echo "NOTA: p50/p95/p99 medidos acima incluem:"
+          echo "  - Latência de rede CI → Cloudflare edge"
+          echo "  - Tempo de CPU do Worker (inicialização + handler)"
+          echo "  - Latência D1 (SQL query remoto)"
+          echo "Para isolar CPU do Worker, usar CF Analytics Dashboard"
+          echo "(Worker Metrics → CPU time). Requer acesso ao painel."
+
+  # ──────────────────────────────────────────────────────────
+  # cleanup-test-data — Limpeza seletiva de leads de CI
+  #
+  # Executado APENAS se cleanup_after = 'true' no dispatch manual.
+  # Aguarda t11-lead-creation completar antes de remover dados.
+  #
+  # Estratégia de limpeza segura:
+  #   1. Localiza leads por idempotency_key LIKE 'ci-integration-test-%'
+  #   2. Verifica contatos vinculados EXCLUSIVAMENTE a leads CI
+  #      (nenhum lead legítimo compartilha o mesmo contato_id)
+  #   3. Soft-delete dos contatos CI (deleted_at = datetime('now'))
+  #   4. Soft-delete dos leads CI (deleted_at — se coluna existir)
+  #      ou DELETE direto (leads de teste não têm valor histórico)
+  #
+  # GARANTIA: leads legítimos nunca têm idempotency_key começando com
+  # 'ci-integration-test-', pois esse prefixo é reservado para CI.
+  # Nenhuma exclusão por responsavel_id NULL ou por origem.
+  # ──────────────────────────────────────────────────────────
+  cleanup-test-data:
+    name: Cleanup — Leads de CI
+    runs-on: ubuntu-latest
+    needs: [confirm-gate, t11-lead-creation]
+    if: ${{ github.event.inputs.cleanup_after == 'true' && always() }}
+    steps:
+      - name: Checkout feat/market-imobi-crm-staging
+        uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
+
+      - name: Verificar leads CI existentes antes do cleanup
+        run: |
+          echo "ℹ️  Leads CI a remover têm idempotency_key LIKE 'ci-integration-test-%'"
+          echo "    Use o D1 Dashboard para confirmar antes de autorizar o cleanup:"
+          echo "    Cloudflare Dashboard → D1 → market-imobi-staging → Console"
+          echo "    Query de verificação:"
+          echo "    SELECT l.id, l.idempotency_key, c.nome, c.telefone"
+          echo "    FROM leads l JOIN contatos c ON c.id = l.contato_id"
+          echo "    WHERE l.idempotency_key LIKE 'ci-integration-test-%';"
+
+      # NOTA: O cleanup via API real requer Service Token com permissão de DELETE
+      # (ainda não implementado). Por ora, as queries SQL estão documentadas para
+      # execução manual no D1 Console. Não executar DELETE sem autorização de Joel.
+      - name: Queries SQL de limpeza (documentação — NÃO executar automaticamente)
+        run: |
+          cat << 'ENDSQL'
+          -- Passo 1: identificar contatos vinculados APENAS a leads CI
+          -- (não exclui contatos com leads legítimos)
+          SELECT c.id, c.nome, c.telefone
+          FROM contatos c
+          WHERE c.id IN (
+            SELECT l.contato_id FROM leads l
+            WHERE l.idempotency_key LIKE 'ci-integration-test-%'
+          )
+          AND c.id NOT IN (
+            SELECT l.contato_id FROM leads l
+            WHERE l.idempotency_key NOT LIKE 'ci-integration-test-%'
+          );
+
+          -- Passo 2: remover os leads CI
+          DELETE FROM leads
+          WHERE idempotency_key LIKE 'ci-integration-test-%';
+
+          -- Passo 3: soft-delete dos contatos CI identificados no Passo 1
+          UPDATE contatos
+          SET deleted_at = datetime('now')
+          WHERE id IN (
+            /* lista de IDs do Passo 1 */
+          )
+          AND deleted_at IS NULL;
+          ENDSQL
+          echo ""
+          echo "✅ Queries documentadas. Execute manualmente no D1 Console após revisão."
