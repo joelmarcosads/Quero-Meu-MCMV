@@ -60,7 +60,7 @@ zone_name = "queromeumcmv.com.br"
 [env.production.vars]
 ENVIRONMENT = "production"
 CF_ACCESS_TEAM_DOMAIN = "hidden-block-61bc.cloudflareaccess.com"
-CF_ACCESS_AUD = "PROD_CF_ACCESS_AUD_PENDENTE"   # AUD do novo CF Access Application de produção
+CF_ACCESS_AUD = "789baaad3a00c66c97cdaaa0ac0c66b46ad776e28dbebbb9a5c84eda34984b4d"
 
 # Admin Panel SPA (servido como Static Assets pelo Worker)
 [env.production.assets]
