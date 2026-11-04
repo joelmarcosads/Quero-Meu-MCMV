@@ -1,40 +1,28 @@
 interface PaginationProps {
-  offset: number;
-  limit: number;
-  count: number;
-  onPageChange: (offset: number) => void;
+  page: number;
+  totalPages: number;
+  onPage: (p: number) => void;
+  className?: string;
 }
 
-export function Pagination({ offset, limit, count, onPageChange }: PaginationProps) {
-  const page = Math.floor(offset / limit) + 1;
-  const hasPrev = offset > 0;
-  const hasNext = count === limit; // se veio cheio, pode ter mais
-
-  if (!hasPrev && !hasNext) return null;
+export function Pagination({ page, totalPages, onPage, className = '' }: PaginationProps) {
+  if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-      <p className="text-sm text-gray-500">
-        Página {page}
-      </p>
-      <div className="flex gap-2">
-        <button
-          onClick={() => onPageChange(Math.max(0, offset - limit))}
-          disabled={!hasPrev}
-          className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg disabled:opacity-40
-                     hover:bg-gray-50 transition-colors"
-        >
-          ← Anterior
-        </button>
-        <button
-          onClick={() => onPageChange(offset + limit)}
-          disabled={!hasNext}
-          className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg disabled:opacity-40
-                     hover:bg-gray-50 transition-colors"
-        >
-          Próxima →
-        </button>
-      </div>
+    <div className={`flex items-center justify-end gap-2 ${className}`}>
+      <span className="text-xs text-slate-500 mr-2">
+        Página <span className="text-slate-300">{page}</span> de <span className="text-slate-300">{totalPages}</span>
+      </span>
+      <button
+        onClick={() => onPage(page - 1)}
+        disabled={page <= 1}
+        className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 border border-white/10 bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs"
+      >‹</button>
+      <button
+        onClick={() => onPage(page + 1)}
+        disabled={page >= totalPages}
+        className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 border border-white/10 bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-xs"
+      >›</button>
     </div>
   );
 }

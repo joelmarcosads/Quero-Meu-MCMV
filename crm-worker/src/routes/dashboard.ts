@@ -8,7 +8,7 @@ import type { Env, AuthenticatedUser } from '../types';
 import { jsonOk } from '../utils';
 
 export async function handleDashboard(
-  _request: Request,
+  request: Request,
   env: Env,
   _user: AuthenticatedUser,
   pathParts: string[],
@@ -17,6 +17,12 @@ export async function handleDashboard(
 
   if (sub === 'stats') {
     return await getDashboardStats(env);
+  }
+
+  if (sub === 'analytics') {
+    const url = new URL(request.url);
+    const period = url.searchParams.get('period') ?? '30';
+    return await getDashboardAnalytics(env, period);
   }
 
   return jsonOk({ message: 'Dashboard OK' });
@@ -64,6 +70,11 @@ async function getDashboardStats(env: Env): Promise<Response> {
   const ganhas = oportunidadesFechadas.results.find(r => r.estagio === 'fechado_ganho')?.total ?? 0;
   const perdidas = oportunidadesFechadas.results.find(r => r.estagio === 'fechado_perdido')?.total ?? 0;
 
+  // Oportunidades ganhas total (todos os tempos)
+  const totalGanhas = await env.DB.prepare(
+    `SELECT COUNT(*) AS total FROM oportunidades WHERE estagio = 'fechado_ganho'`,
+  ).first<{ total: number }>();
+
   return jsonOk({
     leads: {
       total: totalLeads?.total ?? 0,
@@ -78,5 +89,24 @@ async function getDashboardStats(env: Env): Promise<Response> {
     },
     leads_por_origem_30d: leadsPorOrigem.results,
     pipeline: leadsPorEstagio.results,
+    oportunidades_ganhas_total: totalGanhas?.total ?? 0,
+  });
+}
+
+async function getDashboardAnalytics(env: Env, period: string): Promise<Response> {
+  const days = period === '7' ? 7 : period === '90' ? 90 : 30;
+
+  // Leads por dia nos últimos N dias
+  const leadsEvolution = await env.DB.prepare(
+    `SELECT date(created_at) AS dia, COUNT(*) AS total
+     FROM leads
+     WHERE created_at >= date('now', '-' || ? || ' days')
+     GROUP BY date(created_at)
+     ORDER BY dia ASC`,
+  ).bind(String(days)).all<{ dia: string; total: number }>();
+
+  return jsonOk({
+    period: days,
+    leads_evolution: leadsEvolution.results,
   });
 }

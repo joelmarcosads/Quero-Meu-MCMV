@@ -13,15 +13,15 @@ export const ESTAGIOS_LABELS: Record<EstagioOportunidade, string> = {
 };
 
 export const ESTAGIOS_CORES: Record<EstagioOportunidade, string> = {
-  novo_lead:        'bg-blue-100 text-blue-800',
-  em_contato:       'bg-indigo-100 text-indigo-800',
-  visita_solicitada:'bg-yellow-100 text-yellow-800',
-  visita_agendada:  'bg-orange-100 text-orange-800',
-  visita_realizada: 'bg-purple-100 text-purple-800',
-  proposta_enviada: 'bg-pink-100 text-pink-800',
-  documentacao:     'bg-teal-100 text-teal-800',
-  fechado_ganho:    'bg-green-100 text-green-800',
-  fechado_perdido:  'bg-red-100 text-red-800',
+  novo_lead:        'bg-blue-500/15 text-blue-300 border border-blue-500/20',
+  em_contato:       'bg-indigo-500/15 text-indigo-300 border border-indigo-500/20',
+  visita_solicitada:'bg-yellow-500/15 text-yellow-300 border border-yellow-500/20',
+  visita_agendada:  'bg-orange-500/15 text-orange-300 border border-orange-500/20',
+  visita_realizada: 'bg-purple-500/15 text-purple-300 border border-purple-500/20',
+  proposta_enviada: 'bg-pink-500/15 text-pink-300 border border-pink-500/20',
+  documentacao:     'bg-teal-500/15 text-teal-300 border border-teal-500/20',
+  fechado_ganho:    'bg-emerald-500/15 text-emerald-300 border border-emerald-500/20',
+  fechado_perdido:  'bg-red-500/15 text-red-300 border border-red-500/20',
 };
 
 export const ESTAGIOS_ORDEM: EstagioOportunidade[] = [
@@ -44,10 +44,10 @@ export const PRIORIDADE_LABELS: Record<string, string> = {
 };
 
 export const PRIORIDADE_CORES: Record<string, string> = {
-  baixa:   'bg-gray-100 text-gray-700',
-  media:   'bg-blue-100 text-blue-700',
-  alta:    'bg-orange-100 text-orange-700',
-  urgente: 'bg-red-100 text-red-700',
+  baixa:   'bg-slate-500/15 text-slate-300 border border-slate-500/20',
+  media:   'bg-blue-500/15 text-blue-300 border border-blue-500/20',
+  alta:    'bg-orange-500/15 text-orange-300 border border-orange-500/20',
+  urgente: 'bg-red-500/15 text-red-300 border border-red-500/20',
 };
 
 export const TIPO_INTERACAO_LABELS: Record<string, string> = {

@@ -102,8 +102,14 @@ export interface DashboardStats {
     abertas: number;
     fechadas_30d: { ganhas: number; perdidas: number };
   };
+  oportunidades_ganhas_total: number;
   leads_por_origem_30d: Array<{ origem: string; total: number }>;
   pipeline: Array<{ estagio: EstagioOportunidade; total: number }>;
+}
+
+export interface DashboardAnalytics {
+  period: number;
+  leads_evolution: Array<{ dia: string; total: number }>;
 }
 
 // ─── Paginação ────────────────────────────────────────────────────────────────

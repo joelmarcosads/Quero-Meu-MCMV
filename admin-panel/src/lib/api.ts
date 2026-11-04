@@ -45,6 +45,8 @@ export const api = {
   // Dashboard
   dashboard: {
     stats: () => request('/dashboard/stats'),
+    analytics: (period: '7' | '30' | '90' = '30') =>
+      request(`/dashboard/analytics?period=${period}`),
   },
 
   // Leads

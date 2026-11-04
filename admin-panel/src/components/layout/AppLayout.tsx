@@ -15,11 +15,11 @@ export function AppLayout() {
   const title = PAGE_TITLES[basePath] ?? 'Market Imobi CRM';
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen" style={{ background: '#071426' }}>
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <Header title={title} />
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-5 lg:p-6">
           <Outlet />
         </main>
       </div>

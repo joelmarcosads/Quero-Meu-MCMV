@@ -2,9 +2,9 @@ import type { ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import { useApi } from '../hooks/useApi';
-import {
-  Card, LoadingSpinner, ErrorBanner, Badge,
-} from '../components/ui';
+import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { ErrorBanner }    from '../components/ui/ErrorBanner';
+import { Badge }          from '../components/ui/Badge';
 import type { Lead, Oportunidade } from '../types';
 import { ESTAGIOS_LABELS, ESTAGIOS_CORES, PRIORIDADE_LABELS, PRIORIDADE_CORES } from '../lib/constants';
 
@@ -21,64 +21,69 @@ interface LeadDetalhe extends Lead {
 }
 
 export function LeadDetailPage() {
-  const { id } = useParams<{ id: string }>();
-  const numId = Number(id);
+  const { id }   = useParams<{ id: string }>();
+  const numId    = Number(id);
 
   const { data: lead, loading, error, refetch } = useApi<LeadDetalhe>(
     () => api.leads.get(numId) as Promise<LeadDetalhe>,
     [numId],
   );
 
-  if (loading) return <LoadingSpinner />;
-  if (error)   return <ErrorBanner message={error} onRetry={refetch} />;
+  if (loading) return <LoadingSpinner fullPage label="Carregando lead…"/>;
+  if (error)   return <div className="p-5"><ErrorBanner message={error} onRetry={refetch}/></div>;
   if (!lead)   return null;
 
   const utms = [
-    lead.utm_source && `source: ${lead.utm_source}`,
-    lead.utm_medium && `medium: ${lead.utm_medium}`,
+    lead.utm_source   && `source: ${lead.utm_source}`,
+    lead.utm_medium   && `medium: ${lead.utm_medium}`,
     lead.utm_campaign && `campaign: ${lead.utm_campaign}`,
-  ].filter(Boolean);
+  ].filter(Boolean) as string[];
 
   return (
     <div className="space-y-5 max-w-3xl">
+
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-500">
-        <Link to="/leads" className="hover:text-[#1e3a5f]">Leads</Link>
-        <span className="mx-2">/</span>
-        <span className="text-gray-800 font-medium">Lead #{lead.id}</span>
+      <nav className="text-xs text-slate-500 flex items-center gap-1.5">
+        <Link to="/leads" className="hover:text-cyan-400 transition-colors">Leads</Link>
+        <span>/</span>
+        <span className="text-slate-300 font-medium">Lead #{lead.id}</span>
       </nav>
 
-      {/* Cabeçalho */}
-      <div className="flex items-start justify-between gap-4 flex-wrap">
+      {/* Header */}
+      <div className="glass-card p-5 flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-xl font-bold text-[#1e3a5f]">
+          <h1 className="text-xl font-bold text-white leading-tight">
             {lead.contato_nome ?? 'Sem nome'}
           </h1>
-          <p className="text-gray-500 text-sm mt-0.5">{lead.telefone}</p>
+          <p className="text-slate-400 text-sm mt-1">{lead.telefone}</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Badge variant="default" className="capitalize">{lead.origem}</Badge>
-          {lead.canal && <Badge variant="default">{lead.canal}</Badge>}
+          <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium capitalize bg-cyan-500/15 text-cyan-300 border border-cyan-500/20">
+            {lead.origem}
+          </span>
+          {lead.canal && (
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-white/8 text-slate-300 border border-white/10">
+              {lead.canal}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Dados principais */}
+      {/* Grid de cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card className="p-5 space-y-4">
-          <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-            Informações do Lead
-          </h2>
-          <dl className="space-y-3 text-sm">
-            <Row label="Contato ID">
-              <Link to={`/contatos/${lead.contato_id}`} className="text-[#1e3a5f] hover:underline font-medium">
+
+        <div className="glass-card p-5 space-y-4">
+          <h2 className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Informações do Lead</h2>
+          <dl className="space-y-3">
+            <Row label="Contato">
+              <Link to={`/contatos/${lead.contato_id}`}
+                    className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium text-sm">
                 #{lead.contato_id} — ver contato →
               </Link>
             </Row>
-            <Row label="Empreendimento">
-              {lead.empreendimento_nome ?? <span className="text-gray-400">—</span>}
-            </Row>
+            <Row label="Empreendimento">{lead.empreendimento_nome ?? <Dash/>}</Row>
             <Row label="Origem">{lead.origem}</Row>
-            <Row label="Canal">{lead.canal ?? <span className="text-gray-400">—</span>}</Row>
+            <Row label="Canal">{lead.canal ?? <Dash/>}</Row>
             <Row label="Data">
               {new Date(lead.created_at).toLocaleString('pt-BR', {
                 day: '2-digit', month: '2-digit', year: 'numeric',
@@ -86,81 +91,68 @@ export function LeadDetailPage() {
               })}
             </Row>
           </dl>
-        </Card>
+        </div>
 
-        {/* UTMs / Tracking */}
         {utms.length > 0 && (
-          <Card className="p-5 space-y-4">
-            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-              Rastreamento UTM
-            </h2>
-            <ul className="space-y-2 text-sm text-gray-600">
+          <div className="glass-card p-5 space-y-4">
+            <h2 className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Rastreamento UTM</h2>
+            <ul className="space-y-2">
               {utms.map(u => (
-                <li key={u} className="flex gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span className="font-mono text-xs bg-gray-50 px-2 py-1 rounded">{u}</span>
+                <li key={u} className="flex gap-2 items-start">
+                  <span className="text-cyan-500/50 mt-0.5">•</span>
+                  <code className="text-xs font-mono px-2 py-1 rounded text-slate-300"
+                        style={{ background: 'rgba(0,229,255,0.07)', border: '1px solid rgba(0,229,255,0.12)' }}>
+                    {u}
+                  </code>
                 </li>
               ))}
             </ul>
-          </Card>
+          </div>
         )}
       </div>
 
       {/* Mensagem */}
       {lead.mensagem && (
-        <Card className="p-5 space-y-3">
-          <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-            Mensagem do Lead
-          </h2>
-          <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed bg-gray-50 rounded-lg p-4">
+        <div className="glass-card p-5 space-y-3">
+          <h2 className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Mensagem do Lead</h2>
+          <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed rounded-xl p-4"
+             style={{ background: 'rgba(0,229,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
             {lead.mensagem}
           </p>
-        </Card>
+        </div>
       )}
 
-      {/* Oportunidades associadas */}
-      <Card className="p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-          Oportunidades Vinculadas
-        </h2>
+      {/* Oportunidades */}
+      <div className="glass-card p-5 space-y-4">
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">Oportunidades Vinculadas</h2>
 
         {!lead.oportunidades || lead.oportunidades.length === 0 ? (
-          <p className="text-sm text-gray-400">Nenhuma oportunidade gerada deste lead.</p>
+          <p className="text-sm text-slate-500">Nenhuma oportunidade gerada deste lead.</p>
         ) : (
-          <div className="space-y-3">
+          <div className="divide-y divide-white/[0.04]">
             {lead.oportunidades.map(op => (
-              <div
-                key={op.id}
-                className="flex items-center justify-between gap-3 py-3 border-b border-gray-50 last:border-0"
-              >
-                <div className="flex items-center gap-3 flex-wrap">
-                  <Badge className={ESTAGIOS_CORES[op.estagio]}>
-                    {ESTAGIOS_LABELS[op.estagio]}
-                  </Badge>
-                  <Badge className={PRIORIDADE_CORES[op.prioridade]}>
-                    {PRIORIDADE_LABELS[op.prioridade]}
-                  </Badge>
+              <div key={op.id} className="flex items-center justify-between gap-3 py-3 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Badge className={ESTAGIOS_CORES[op.estagio]}>{ESTAGIOS_LABELS[op.estagio]}</Badge>
+                  <Badge className={PRIORIDADE_CORES[op.prioridade]}>{PRIORIDADE_LABELS[op.prioridade]}</Badge>
                   {op.valor_negocio && (
-                    <span className="text-sm text-gray-600 font-medium">
+                    <span className="text-sm text-slate-300 font-medium">
                       {op.valor_negocio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </span>
                   )}
                 </div>
-                <Link
-                  to={`/oportunidades/${op.id}`}
-                  className="text-xs font-medium text-[#1e3a5f] hover:underline shrink-0"
-                >
+                <Link to={`/oportunidades/${op.id}`}
+                      className="text-xs font-medium text-slate-500 hover:text-cyan-400 transition-colors shrink-0">
                   Ver →
                 </Link>
               </div>
             ))}
           </div>
         )}
-      </Card>
+      </div>
 
-      {/* Ação */}
-      <div className="flex justify-end">
-        <Link to="/leads" className="text-sm text-gray-500 hover:text-[#1e3a5f]">
+      <div className="flex">
+        <Link to="/leads" className="text-xs text-slate-500 hover:text-cyan-400 transition-colors">
           ← Voltar para Leads
         </Link>
       </div>
@@ -170,9 +162,13 @@ export function LeadDetailPage() {
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex gap-2">
-      <dt className="text-gray-500 w-32 shrink-0">{label}</dt>
-      <dd className="text-gray-800">{children}</dd>
+    <div className="flex gap-3 text-sm">
+      <dt className="text-slate-500 w-32 shrink-0 leading-relaxed">{label}</dt>
+      <dd className="text-slate-200 leading-relaxed">{children}</dd>
     </div>
   );
+}
+
+function Dash() {
+  return <span className="text-slate-600">—</span>;
 }
