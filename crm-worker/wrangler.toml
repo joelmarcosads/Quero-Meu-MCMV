@@ -34,10 +34,7 @@ directory = "../admin-panel/dist"
 binding = "ASSETS"
 
 # ─── Ambiente de produção ────────────────────────────────────────────────────
-# ⚠️  IDs marcados como PENDENTE devem ser preenchidos após criação remota autorizada
-# Criar com: wrangler d1 create market-imobi-prod
-#            wrangler kv namespace create JWKS_CACHE --env production
-# Em seguida preencher database_id e kv_namespaces.id abaixo.
+# IDs de produção preenchidos — D1 market-imobi-prod e KV JWKS_CACHE criados e verificados.
 [env.production]
 name = "market-imobi-crm"
 account_id = "5f8abdde2df34998f0454821d8be59da"
