@@ -33,6 +33,10 @@ name: Integration Tests — Staging Worker
 on:
   workflow_dispatch:
     inputs:
+      confirmar:
+        description: 'Digite CONFIRMAR para autorizar a execução dos testes'
+        required: true
+        default: ''
       run_t10_load:
         description: 'Executar teste de carga T10 (k6, ~30s)?'
         required: false
@@ -53,6 +57,20 @@ env:
 
 jobs:
   # ──────────────────────────────────────────────────────────
+  # confirm-gate — Validação obrigatória antes de qualquer teste
+  # Nenhum job que acesse a API pode iniciar sem passar por aqui.
+  # ──────────────────────────────────────────────────────────
+  confirm-gate:
+    name: Verificar CONFIRMAR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validar confirmação obrigatória
+        run: |
+          [ "${{ github.event.inputs.confirmar }}" = "CONFIRMAR" ] || \
+            (echo "BLOQUEADO: O campo de confirmação deve conter exatamente CONFIRMAR" && exit 1)
+          echo "✅ Confirmação validada — prosseguindo com os testes"
+
+  # ──────────────────────────────────────────────────────────
   # T2 — Autenticação JWT
   #
   # Coberturas obrigatórias (Joel, 2026-11-03):
@@ -70,9 +88,12 @@ jobs:
   t2-auth:
     name: T2 — Autenticação JWT
     runs-on: ubuntu-latest
+    needs: confirm-gate
     steps:
-      - name: Checkout
+      - name: Checkout feat/market-imobi-crm-staging
         uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
 
       # T2.1 — Sem credenciais: CF Access deve bloquear
       # O CF Access retorna 302 (redirect para login) ou 403 dependendo da
@@ -146,10 +167,12 @@ jobs:
   t11-lead-creation:
     name: T11 — Criação de lead
     runs-on: ubuntu-latest
-    needs: t2-auth
+    needs: [confirm-gate, t2-auth]
     steps:
-      - name: Checkout
+      - name: Checkout feat/market-imobi-crm-staging
         uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
 
       # T11.1 — Criar lead fictício (identificado por prefixo ci-integration-test-)
       # Chave de idempotência fixa por run_id do GitHub para permitir rastreamento
@@ -244,11 +267,13 @@ jobs:
   t10-performance:
     name: T10 — Latência Worker
     runs-on: ubuntu-latest
-    needs: t2-auth
+    needs: [confirm-gate, t2-auth]
     if: ${{ github.event.inputs.run_t10_load == 'true' }}
     steps:
-      - name: Checkout
+      - name: Checkout feat/market-imobi-crm-staging
         uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
 
       - name: Instalar k6
         run: |
@@ -331,11 +356,13 @@ jobs:
   cleanup-test-data:
     name: Cleanup — Leads de CI
     runs-on: ubuntu-latest
-    needs: [t11-lead-creation]
+    needs: [confirm-gate, t11-lead-creation]
     if: ${{ github.event.inputs.cleanup_after == 'true' && always() }}
     steps:
-      - name: Checkout
+      - name: Checkout feat/market-imobi-crm-staging
         uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
 
       - name: Verificar leads CI existentes antes do cleanup
         run: |
