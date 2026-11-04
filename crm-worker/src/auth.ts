@@ -1,12 +1,24 @@
 /**
  * auth.ts — Validação criptográfica real de JWT RS256 (Cloudflare Access)
  *
- * Fluxo:
+ * Fluxo (usuário humano):
  * 1. Extrair header `Cf-Access-Jwt-Assertion` (injetado pelo CF Access)
  * 2. Decodificar header JWT → obter `kid`
  * 3. Buscar JWKS do endpoint CF Access (com cache KV TTL 3600s)
  * 4. Verificar: assinatura RS256, issuer, audience, expiração
- * 5. Extrair `sub` claim → buscar usuário no D1
+ * 5. Extrair `sub` claim → buscar usuário no D1 por cf_access_id
+ *
+ * Fluxo (service token / M2M):
+ * 1–4. Idêntico ao fluxo de usuário humano
+ * 5. Detectar service token: sub === "" e common_name presente
+ * 6. Usar common_name (= Client ID) como chave de lookup no D1
+ *    — requer registro em usuarios com cf_access_id = common_name
+ *
+ * Rejeições:
+ * - JWT ausente → 401
+ * - Assinatura/iss/aud/exp inválidos → 401
+ * - sub vazio sem common_name → 401 (service token malformado)
+ * - Identity não cadastrada no D1 → 401
  *
  * ⚠️  X-Test-Cf-Sub é REMOVIDO — não existe nesta implementação.
  */
@@ -34,13 +46,14 @@ interface JwtHeader {
 }
 
 interface JwtPayload {
-  sub: string;       // cf_access_id do usuário
-  iss: string;       // https://<team>.cloudflareaccess.com
-  aud: string[];     // audience do aplicativo
-  exp: number;       // unix timestamp
+  sub: string;          // cf_access_id do usuário humano; "" (vazio) em service tokens
+  iss: string;          // https://<team>.cloudflareaccess.com
+  aud: string[];        // audience do aplicativo
+  exp: number;          // unix timestamp
   iat: number;
-  jti?: string;      // JWT ID (para revogação de sessão)
-  email?: string;
+  jti?: string;         // JWT ID (para revogação de sessão)
+  email?: string;       // presente apenas em tokens de usuário humano
+  common_name?: string; // presente apenas em service tokens; contém o Client ID
 }
 
 // ─── Helpers base64url ────────────────────────────────────────────────────────
@@ -191,16 +204,39 @@ export async function authenticate(
     throw new AuthError(`JWT inválido: ${msg}`, 401);
   }
 
-  // Buscar usuário no D1 pelo cf_access_id (= sub do JWT)
+  // Detectar tipo de identidade com base nos claims
+  // Service token CF Access: sub é string vazia; common_name = Client ID (UUID do token)
+  // Usuário humano CF Access: sub é UUID único e não-vazio
+  //
+  // Nota de segurança: common_name vem do payload JWT RS256 assinado pela Cloudflare.
+  // A assinatura já foi validada (alg, iss, aud, exp) por verifyJwt() acima;
+  // portanto common_name não pode ser forjado por uma requisição externa.
+  const isServiceToken = payload.sub === '';
+
+  if (isServiceToken) {
+    // sub vazio: deve ser service token com common_name não-vazio
+    if (typeof payload.common_name !== 'string' || payload.common_name.trim() === '') {
+      throw new AuthError(
+        'JWT inválido: sub vazio sem common_name válido (service token malformado)',
+        401,
+      );
+    }
+  }
+
+  // Chave de lookup: common_name para service tokens, sub para usuários humanos
+  const lookupKey = isServiceToken ? payload.common_name!.trim() : payload.sub;
+
+  // Buscar identidade no D1 (mesma query para ambos os tipos)
   const result = await env.DB.prepare(
     `SELECT id, cf_access_id, nome, perfil, email
      FROM usuarios
      WHERE cf_access_id = ? AND deleted_at IS NULL
      LIMIT 1`,
-  ).bind(payload.sub).first<AuthenticatedUser>();
+  ).bind(lookupKey).first<AuthenticatedUser>();
 
   if (!result) {
-    throw new AuthError(`Usuário não encontrado para cf_access_id=${payload.sub}`, 401);
+    const identityType = isServiceToken ? `service_token common_name=${lookupKey}` : `user sub=${lookupKey}`;
+    throw new AuthError(`Identidade não cadastrada: ${identityType}`, 401);
   }
 
   return result;
