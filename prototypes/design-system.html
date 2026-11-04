@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System — Quero Meu MCMV 2.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap">
+  <style>
+    /* ─── DESIGN TOKENS ─────────────────────────────────────────── */
+    :root {
+      /* Paleta aprovada */
+      --c-primary:      #071B38;
+      --c-accent:       #FF8A30;
+      --c-cyan:         #64DFFF;
+      --c-base:         #F4F7FB;
+
+      /* Superfícies */
+      --c-surface:      #FFFFFF;
+      --c-surface-alt:  #F1F5F9;
+      --c-border:       #E2E8F0;
+
+      /* Texto */
+      --c-text-primary: #0F172A;
+      --c-text-body:    #334155;
+      --c-text-muted:   #64748B;
+      --c-text-inverse: #F4F7FB;
+
+      /* Semânticas */
+      --c-success:      #16A34A;
+      --c-warning:      #F59E0B;
+      --c-error:        #DC2626;
+      --c-whatsapp:     #25D366;
+
+      /* Sombras */
+      --shadow-sm:  0 1px 3px rgba(7,27,56,.08);
+      --shadow-md:  0 4px 16px rgba(7,27,56,.10);
+      --shadow-lg:  0 8px 32px rgba(7,27,56,.14);
+      --shadow-cyan: 0 0 0 3px rgba(100,223,255,.35);
+
+      /* Tipografia */
+      --font-sans: 'Figtree', system-ui, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+
+      /* Radii */
+      --r-sm:  6px;
+      --r-md:  12px;
+      --r-lg:  16px;
+      --r-xl:  24px;
+      --r-full: 999px;
+
+      /* Transitions */
+      --t-fast: 150ms ease;
+      --t-base: 250ms ease;
+      --t-slow: 400ms ease;
+    }
+
+    /* ─── RESET ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--c-base);
+      color: var(--c-text-body);
+      line-height: 1.6;
+    }
+
+    /* ─── DS LAYOUT ─────────────────────────────────────────────── */
+    .ds-header {
+      background: var(--c-primary);
+      padding: 48px 40px 40px;
+      color: var(--c-text-inverse);
+    }
+    .ds-header h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .ds-header p { color: #94A3B8; font-size: 18px; }
+    .ds-header .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(100,223,255,.15);
+      border: 1px solid rgba(100,223,255,.3);
+      color: var(--c-cyan);
+      font-size: 13px; font-weight: 600;
+      padding: 4px 12px; border-radius: var(--r-full);
+      margin-top: 16px;
+    }
+    .ds-nav {
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      padding: 0 40px;
+      display: flex; gap: 0; overflow-x: auto;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .ds-nav a {
+      display: block; padding: 16px 20px;
+      color: var(--c-text-muted); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color var(--t-fast), border-color var(--t-fast);
+    }
+    .ds-nav a:hover { color: var(--c-accent); border-color: var(--c-accent); }
+
+    .ds-main { max-width: 1200px; margin: 0 auto; padding: 48px 40px 80px; }
+    .ds-section { margin-bottom: 72px; }
+    .ds-section-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--c-text-muted);
+      margin-bottom: 24px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .ds-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+    .ds-col { flex: 1; min-width: 200px; }
+    .ds-label {
+      font-size: 12px; color: var(--c-text-muted);
+      margin-top: 8px; font-weight: 500;
+    }
+    .ds-value {
+      font-family: 'Courier New', monospace;
+      font-size: 11px; color: var(--c-text-muted);
+    }
+
+    /* ─── CORES ─────────────────────────────────────────────────── */
+    .color-swatch {
+      width: 100%; height: 80px; border-radius: var(--r-md);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .color-meta { margin-top: 8px; }
+    .color-name { font-weight: 600; font-size: 14px; color: var(--c-text-primary); }
+    .color-token { font-size: 11px; font-family: monospace; color: var(--c-text-muted); }
+    .color-hex { font-size: 12px; color: var(--c-text-muted); font-family: monospace; }
+
+    /* ─── TIPOGRAFIA ─────────────────────────────────────────────── */
+    .type-specimen { margin-bottom: 24px; }
+    .type-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--c-text-muted); margin-bottom: 4px; font-weight: 600;
+    }
+    .type-sample { font-family: var(--font-sans); color: var(--c-text-primary); }
+    .type-serif-sample { font-family: var(--font-serif); color: var(--c-text-primary); }
+
+    /* ─── BOTÕES ─────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; font-family: var(--font-sans); font-weight: 700;
+      border-radius: var(--r-md); cursor: pointer; border: 2px solid transparent;
+      transition: all var(--t-base); text-decoration: none;
+      white-space: nowrap; line-height: 1;
+    }
+    .btn-sm  { padding: 8px 16px;  font-size: 13px; border-radius: var(--r-sm); }
+    .btn-md  { padding: 12px 24px; font-size: 15px; }
+    .btn-lg  { padding: 16px 32px; font-size: 17px; border-radius: var(--r-lg); }
+    .btn-xl  { padding: 20px 40px; font-size: 18px; border-radius: var(--r-lg); }
+
+    /* Variantes */
+    .btn-primary {
+      background: var(--c-accent); color: #fff; border-color: var(--c-accent);
+    }
+    .btn-primary:hover {
+      background: #e87520; border-color: #e87520;
+      transform: translateY(-1px); box-shadow: var(--shadow-md);
+    }
+    .btn-secondary {
+      background: transparent; color: var(--c-primary); border-color: var(--c-primary);
+    }
+    .btn-secondary:hover {
+      background: var(--c-primary); color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--c-text-body); border-color: var(--c-border);
+    }
+    .btn-ghost:hover { border-color: var(--c-accent); color: var(--c-accent); }
+    .btn-dark {
+      background: var(--c-primary); color: #fff; border-color: var(--c-primary);
+    }
+    .btn-dark:hover {
+      background: #0a2548; transform: translateY(-1px); box-shadow: var(--shadow-md);
+    }
+    .btn-whatsapp {
+      background: var(--c-whatsapp); color: #fff; border-color: var(--c-whatsapp);
+    }
+    .btn-whatsapp:hover {
+      background: #1db954; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,211,102,.3);
+    }
+    .btn-cyan {
+      background: rgba(100,223,255,.15); color: #0284C7; border-color: rgba(100,223,255,.4);
+    }
+    .btn-cyan:hover {
+      background: rgba(100,223,255,.25); box-shadow: var(--shadow-cyan);
+    }
+
+    /* ─── BADGES ─────────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 700; padding: 4px 10px;
+      border-radius: var(--r-full); text-transform: uppercase; letter-spacing: .05em;
+    }
+    .badge-mcmv   { background: rgba(255,138,48,.12); color: #C25F10; border: 1px solid rgba(255,138,48,.25); }
+    .badge-launch { background: rgba(100,223,255,.12); color: #0369A1; border: 1px solid rgba(100,223,255,.25); }
+    .badge-ready  { background: rgba(22,163,74,.12);  color: #15803D; border: 1px solid rgba(22,163,74,.25); }
+    .badge-few    { background: rgba(245,158,11,.12); color: #B45309; border: 1px solid rgba(245,158,11,.25); }
+    .badge-sold   { background: rgba(220,38,38,.08);  color: #B91C1C; border: 1px solid rgba(220,38,38,.2); }
+
+    /* ─── CARDS ─────────────────────────────────────────────────── */
+    .property-card {
+      background: var(--c-surface);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform var(--t-base), box-shadow var(--t-base);
+    }
+    .property-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .card-img {
+      width: 100%; height: 200px; object-fit: cover;
+      background: linear-gradient(135deg, #0F2D5E 0%, #1e3a5f 50%, #071B38 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .card-img-placeholder {
+      font-size: 13px; color: rgba(255,255,255,.5);
+      text-align: center; padding: 20px;
+    }
+    .card-img-label {
+      position: absolute; bottom: 10px; left: 10px; right: 10px;
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .card-fav {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.9); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all var(--t-fast);
+      backdrop-filter: blur(4px);
+    }
+    .card-fav:hover { background: #fff; transform: scale(1.1); }
+    .card-body { padding: 20px; }
+    .card-location {
+      font-size: 12px; color: var(--c-text-muted); font-weight: 600;
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px;
+    }
+    .card-title {
+      font-size: 17px; font-weight: 700; color: var(--c-text-primary);
+      margin-bottom: 12px; line-height: 1.3;
+    }
+    .card-specs {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      font-size: 13px; color: var(--c-text-muted); margin-bottom: 14px;
+    }
+    .card-spec { display: flex; align-items: center; gap: 4px; }
+    .card-spec-icon { font-size: 14px; }
+    .card-price-label { font-size: 11px; color: var(--c-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+    .card-price { font-size: 18px; font-weight: 800; color: var(--c-accent); margin: 2px 0 4px; }
+    .card-price-disclaimer { font-size: 11px; color: var(--c-text-muted); }
+    .card-actions { display: flex; gap: 8px; margin-top: 16px; }
+    .card-actions .btn { flex: 1; }
+
+    /* ─── FORM INPUTS ──────────────────────────────────────────── */
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block; font-size: 14px; font-weight: 600;
+      color: var(--c-text-primary); margin-bottom: 6px;
+    }
+    .field-hint { font-size: 12px; color: var(--c-text-muted); margin-top: 4px; }
+    .input {
+      width: 100%; padding: 12px 16px;
+      background: var(--c-surface); border: 1.5px solid var(--c-border);
+      border-radius: var(--r-md); font-family: var(--font-sans);
+      font-size: 15px; color: var(--c-text-primary);
+      transition: border-color var(--t-fast), box-shadow var(--t-fast);
+      outline: none;
+    }
+    .input:focus {
+      border-color: var(--c-cyan);
+      box-shadow: var(--shadow-cyan);
+    }
+    .input::placeholder { color: var(--c-text-muted); }
+    .input.error { border-color: var(--c-error); }
+    .input.success { border-color: var(--c-success); }
+    .select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .field-error { font-size: 12px; color: var(--c-error); margin-top: 4px; font-weight: 500; }
+
+    /* ─── HERO DARK ──────────────────────────────────────────── */
+    .hero-dark {
+      background: linear-gradient(135deg, #071B38 0%, #0A2548 60%, #071B38 100%);
+      padding: 64px 40px;
+      position: relative; overflow: hidden;
+    }
+    .hero-dark::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(100,223,255,.08) 0%, transparent 60%);
+    }
+    .hero-dark h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 52px);
+      color: var(--c-text-inverse); line-height: 1.15; font-weight: 700;
+      margin-bottom: 16px; position: relative;
+    }
+    .hero-dark h1 span { color: var(--c-accent); }
+    .hero-dark p { color: #94A3B8; font-size: 18px; margin-bottom: 32px; position: relative; }
+    .search-bar {
+      display: flex; gap: 0; border-radius: var(--r-lg); overflow: hidden;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      max-width: 640px; transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    }
+    .search-bar:focus-within {
+      border-color: var(--c-cyan);
+      box-shadow: var(--shadow-cyan);
+      background: rgba(255,255,255,.12);
+    }
+    .search-bar input {
+      flex: 1; padding: 18px 24px; background: transparent; border: none;
+      color: #fff; font-size: 16px; font-family: var(--font-sans); outline: none;
+    }
+    .search-bar input::placeholder { color: rgba(255,255,255,.45); }
+    .search-bar button {
+      padding: 0 28px; background: var(--c-accent); border: none;
+      color: #fff; font-weight: 700; font-size: 15px; cursor: pointer;
+      transition: background var(--t-fast); white-space: nowrap;
+    }
+    .search-bar button:hover { background: #e87520; }
+    .city-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; position: relative; }
+    .city-chip {
+      padding: 8px 16px; border-radius: var(--r-full);
+      background: rgba(255,138,48,.12); border: 1px solid rgba(255,138,48,.3);
+      color: var(--c-accent); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all var(--t-fast);
+    }
+    .city-chip:hover { background: var(--c-accent); color: #fff; }
+
+    /* ─── TABS ───────────────────────────────────────────────── */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--c-border); }
+    .tab {
+      padding: 12px 24px; font-size: 14px; font-weight: 600;
+      color: var(--c-text-muted); cursor: pointer; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: color var(--t-fast), border-color var(--t-fast);
+      background: none; border-top: none; border-left: none; border-right: none;
+    }
+    .tab:hover { color: var(--c-accent); }
+    .tab.active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
+
+    /* ─── TRUST STRIP ────────────────────────────────────────── */
+    .trust-item { display: flex; align-items: center; gap: 10px; }
+    .trust-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .trust-icon.orange { background: rgba(255,138,48,.1); }
+    .trust-icon.cyan   { background: rgba(100,223,255,.1); }
+    .trust-icon.green  { background: rgba(22,163,74,.1); }
+    .trust-label { font-size: 12px; color: var(--c-text-muted); }
+    .trust-value { font-size: 16px; font-weight: 800; color: var(--c-text-primary); }
+
+    /* ─── SPACING SYSTEM ─────────────────────────────────────── */
+    .spacing-demo {
+      background: linear-gradient(90deg, rgba(255,138,48,.15), rgba(255,138,48,.3));
+      height: 100%; display: flex; align-items: center; justify-content: center;
+      border-radius: 4px;
+    }
+
+    /* ─── MOBILE FIXED CTA ───────────────────────────────────── */
+    .mobile-cta {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 100; width: calc(100% - 48px); max-width: 420px;
+    }
+    .mobile-cta button {
+      width: 100%; padding: 18px 24px;
+      background: var(--c-whatsapp); color: #fff;
+      border: none; border-radius: var(--r-full);
+      font-size: 17px; font-weight: 700; font-family: var(--font-sans);
+      cursor: pointer; box-shadow: 0 8px 24px rgba(37,211,102,.4);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .mobile-cta button:hover { transform: scale(1.02); box-shadow: 0 12px 32px rgba(37,211,102,.5); }
+
+    /* ─── UTILITY ────────────────────────────────────────────── */
+    .divider { border: none; border-top: 1px solid var(--c-border); margin: 40px 0; }
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-chip {
+      padding: 8px 16px; border-radius: var(--r-full);
+      background: var(--c-surface); border: 1.5px solid var(--c-border);
+      color: var(--c-text-body); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all var(--t-fast);
+    }
+    .filter-chip:hover, .filter-chip.active {
+      background: var(--c-primary); border-color: var(--c-primary); color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .ds-header { padding: 32px 20px; }
+      .ds-nav { padding: 0 12px; }
+      .ds-main { padding: 32px 20px 120px; }
+      .hero-dark { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ──────────────────────────────────────────────── -->
+<header class="ds-header">
+  <div style="max-width:1200px;margin:0 auto">
+    <p style="font-size:12px;color:#64DFFF;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">PROTÓTIPO — NÃO PRODUÇÃO</p>
+    <h1>Design System<br>Quero Meu MCMV 2.0</h1>
+    <p>Tokens, componentes e padrões visuais aprovados para a nova plataforma.</p>
+    <span class="badge">✦ Premium Light + Dark Hero + Neon Accents</span>
+  </div>
+</header>
+
+<!-- ─── NAV ────────────────────────────────────────────────── -->
+<nav class="ds-nav">
+  <a href="#cores">Cores</a>
+  <a href="#tipografia">Tipografia</a>
+  <a href="#botoes">Botões</a>
+  <a href="#badges">Badges</a>
+  <a href="#cards">Cards</a>
+  <a href="#forms">Formulários</a>
+  <a href="#hero">Hero</a>
+  <a href="#espacamento">Espaçamento</a>
+  <a href="#mobile">Mobile</a>
+</nav>
+
+<main class="ds-main">
+
+  <!-- ─── 1. CORES ──────────────────────────────────────────── -->
+  <section id="cores" class="ds-section">
+    <p class="ds-section-title">1 — Paleta de Cores</p>
+
+    <p style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">CORES PRIMÁRIAS</p>
+    <div class="ds-row" style="margin-bottom:32px">
+      <div class="ds-col" style="max-width:200px">
+        <div class="color-swatch" style="background:#071B38"></div>
+        <div class="color-meta">
+          <div class="color-name">Azul Profundo</div>
+          <div class="color-token">--c-primary</div>
+          <div class="color-hex">#071B38</div>
+        </div>
+      </div>
+      <div class="ds-col" style="max-width:200px">
+        <div class="color-swatch" style="background:#FF8A30"></div>
+        <div class="color-meta">
+          <div class="color-name">Laranja</div>
+          <div class="color-token">--c-accent</div>
+          <div class="color-hex">#FF8A30</div>
+        </div>
+      </div>
+      <div class="ds-col" style="max-width:200px">
+        <div class="color-swatch" style="background:#64DFFF"></div>
+        <div class="color-meta">
+          <div class="color-name">Ciano Neon</div>
+          <div class="color-token">--c-cyan</div>
+          <div class="color-hex">#64DFFF</div>
+        </div>
+      </div>
+      <div class="ds-col" style="max-width:200px">
+        <div class="color-swatch" style="background:#F4F7FB;border:1px solid #E2E8F0"></div>
+        <div class="color-meta">
+          <div class="color-name">Branco Gelo</div>
+          <div class="color-token">--c-base</div>
+          <div class="color-hex">#F4F7FB</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">SUPERFÍCIES E TEXTO</p>
+    <div class="ds-row">
+      <div class="ds-col" style="max-width:140px">
+        <div class="color-swatch" style="background:#FFFFFF;border:1px solid #E2E8F0"></div>
+        <div class="color-meta"><div class="color-name" style="font-size:13px">Surface</div><div class="color-hex">#FFFFFF</div></div>
+      </div>
+      <div class="ds-col" style="max-width:140px">
+        <div class="color-swatch" style="background:#F1F5F9;border:1px solid #E2E8F0"></div>
+        <div class="color-meta"><div class="color-name" style="font-size:13px">Surface Alt</div><div class="color-hex">#F1F5F9</div></div>
+      </div>
+      <div class="ds-col" style="max-width:140px">
+        <div class="color-swatch" style="background:#0F172A"></div>
+        <div class="color-meta"><div class="color-name" style="font-size:13px">Text Primary</div><div class="color-hex">#0F172A</div></div>
+      </div>
+      <div class="ds-col" style="max-width:140px">
+        <div class="color-swatch" style="background:#334155"></div>
+        <div class="color-meta"><div class="color-name" style="font-size:13px">Text Body</div><div class="color-hex">#334155</div></div>
+      </div>
+      <div class="ds-col" style="max-width:140px">
+        <div class="color-swatch" style="background:#64748B"></div>
+        <div class="color-meta"><div class="color-name" style="font-size:13px">Text Muted</div><div class="color-hex">#64748B</div></div>
+      </div>
+      <div class="ds-col" style="max-width:140px">
+        <div class="color-swatch" style="background:#16A34A"></div>
+        <div class="color-meta"><div class="color-name" style="font-size:13px">Success</div><div class="color-hex">#16A34A</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;padding:20px;background:var(--c-surface);border-radius:var(--r-md);border:1px solid var(--c-border)">
+      <p style="font-size:13px;font-weight:600;color:var(--c-text-primary);margin-bottom:8px">📐 Regra de Uso — Proporção Aprovada</p>
+      <p style="font-size:13px;color:var(--c-text-muted);line-height:1.6">
+        <strong>70%</strong> superfícies claras (#FFFFFF, #F4F7FB, #F1F5F9) ·
+        <strong>30%</strong> azul profundo (#071B38, hero, header, footer) ·
+        O laranja e o ciano são <strong>acento</strong> — nunca fundo de página inteira.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 2. TIPOGRAFIA ─────────────────────────────────────── -->
+  <section id="tipografia" class="ds-section">
+    <p class="ds-section-title">2 — Tipografia</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:32px">
+      <div>
+        <div class="type-label">FIGTREE — Interface & Corpo</div>
+        <p class="type-sample" style="font-size:13px;color:var(--c-text-muted)">400 · 500 · 600 · 700 · 800</p>
+        <p class="type-sample" style="font-size:28px;font-weight:800;margin-top:8px;color:var(--c-text-primary)">Saia do aluguel hoje</p>
+        <p class="type-sample" style="font-size:18px;font-weight:400;margin-top:4px">Atendimento consultivo com CRECI 39.583F</p>
+        <p class="type-sample" style="font-size:14px;font-weight:400;color:var(--c-text-muted);margin-top:4px">Parcelas a partir de R$ 650 — sujeito à aprovação de crédito*</p>
+      </div>
+      <div>
+        <div class="type-label">PLAYFAIR DISPLAY — Hero & Editorial</div>
+        <p class="type-sample" style="font-size:13px;color:var(--c-text-muted)">600 · 700 · Itálico</p>
+        <p class="type-serif-sample" style="font-size:32px;font-weight:700;margin-top:8px;color:var(--c-primary)">Seu apartamento<br>está aqui.</p>
+        <p class="type-serif-sample" style="font-size:20px;font-weight:600;font-style:italic;margin-top:4px;color:var(--c-text-muted)">Minha Casa Minha Vida em Itaboraí</p>
+      </div>
+    </div>
+
+    <p style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">ESCALA COMPLETA — FIGTREE</p>
+    <div style="background:var(--c-surface);border-radius:var(--r-lg);border:1px solid var(--c-border);overflow:hidden">
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="background:var(--c-base)">
+            <th style="padding:12px 20px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted)">Token</th>
+            <th style="padding:12px 20px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted)">px / rem</th>
+            <th style="padding:12px 20px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted)">Uso</th>
+            <th style="padding:12px 20px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--c-text-muted)">Amostra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">xs</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">12px / 0.75rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">Disclaimers, asteriscos</td><td style="padding:12px 20px"><span style="font-size:12px">*Sujeito à aprovação CEF</span></td></tr>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">sm</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">14px / 0.875rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">Labels, metadados, badges</td><td style="padding:12px 20px"><span style="font-size:14px">Itaboraí · São Gonçalo</span></td></tr>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">base</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">16px / 1rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">Corpo padrão</td><td style="padding:12px 20px"><span style="font-size:16px">Financiamento com subsídio de até R$ 55.000</span></td></tr>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">lg</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">18px / 1.125rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">Lead text, subheading</td><td style="padding:12px 20px"><span style="font-size:18px;font-weight:500">Corretor credenciado CRECI 39.583F</span></td></tr>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">2xl</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">24px / 1.5rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">H3 de seções</td><td style="padding:12px 20px"><span style="font-size:24px;font-weight:700">Empreendimentos disponíveis</span></td></tr>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">3xl</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">30px / 1.875rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">H2 principais</td><td style="padding:12px 20px"><span style="font-size:30px;font-weight:700">Encontre seu lar</span></td></tr>
+          <tr style="border-top:1px solid var(--c-border)"><td style="padding:12px 20px;font-family:monospace;font-size:12px;color:var(--c-text-muted)">5xl</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">48px / 3rem</td><td style="padding:12px 20px;color:var(--c-text-muted);font-size:13px">H1 hero desktop</td><td style="padding:12px 20px"><span style="font-size:36px;font-weight:800">Saia do aluguel</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── 3. BOTÕES ─────────────────────────────────────────── -->
+  <section id="botoes" class="ds-section">
+    <p class="ds-section-title">3 — Botões</p>
+    <div class="ds-row" style="align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px">
+      <a href="#" class="btn btn-primary btn-lg">Ver apartamentos</a>
+      <a href="#" class="btn btn-dark btn-lg">Saiba mais</a>
+      <a href="#" class="btn btn-secondary btn-md">Ver detalhes</a>
+      <a href="#" class="btn btn-ghost btn-md">Comparar</a>
+      <a href="#" class="btn btn-whatsapp btn-lg">💬 Simular pelo WhatsApp</a>
+      <a href="#" class="btn btn-cyan btn-md">★ 4,9 — Ver avaliações</a>
+    </div>
+    <div class="ds-row" style="align-items:center;gap:12px;flex-wrap:wrap">
+      <a href="#" class="btn btn-primary btn-sm">Ver mais</a>
+      <a href="#" class="btn btn-primary btn-md">Simular agora</a>
+      <a href="#" class="btn btn-primary btn-lg">Quero conhecer</a>
+      <a href="#" class="btn btn-primary btn-xl">Sair do aluguel hoje</a>
+    </div>
+    <div style="margin-top:20px;padding:16px;background:var(--c-surface);border-radius:var(--r-md);border:1px solid var(--c-border)">
+      <p style="font-size:13px;color:var(--c-text-muted)">
+        🚦 <strong>Hierarquia:</strong> Laranja (primário) → Verde WhatsApp (ação principal mobile) → Azul escuro (secundário) → Ghost (terciário) · Nunca dois botões primários no mesmo bloco.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 4. BADGES ─────────────────────────────────────────── -->
+  <section id="badges" class="ds-section">
+    <p class="ds-section-title">4 — Badges e Status</p>
+    <div class="chip-row" style="margin-bottom:20px">
+      <span class="badge badge-mcmv">🏠 MCMV Caixa</span>
+      <span class="badge badge-launch">✨ Lançamento</span>
+      <span class="badge badge-ready">✓ Pronto para morar</span>
+      <span class="badge badge-few">⚡ Últimas unidades</span>
+      <span class="badge badge-sold">Esgotado</span>
+    </div>
+    <div class="chip-row">
+      <span class="filter-chip active">2 Quartos</span>
+      <span class="filter-chip">3 Quartos</span>
+      <span class="filter-chip">Com suíte</span>
+      <span class="filter-chip">Na planta</span>
+      <span class="filter-chip">Itaboraí</span>
+      <span class="filter-chip">São Gonçalo</span>
+    </div>
+  </section>
+
+  <!-- ─── 5. CARDS ──────────────────────────────────────────── -->
+  <section id="cards" class="ds-section">
+    <p class="ds-section-title">5 — Card de Empreendimento</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px">
+
+      <div class="property-card">
+        <div class="card-img">
+          <div class="card-img-placeholder">📸 Foto oficial do empreendimento<br><small style="font-size:11px;margin-top:6px;display:block">[Render ou fachada real]</small></div>
+          <button class="card-fav">♡</button>
+          <div class="card-img-label">
+            <span class="badge badge-mcmv">MCMV Caixa</span>
+            <span class="badge badge-launch">Lançamento</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-location">📍 Itaboraí · Santo Expedito</div>
+          <div class="card-title">Prime Club Itaboraí</div>
+          <div class="card-specs">
+            <span class="card-spec"><span class="card-spec-icon">🛏</span> 2 quartos</span>
+            <span class="card-spec"><span class="card-spec-icon">✦</span> 1 suíte</span>
+            <span class="card-spec"><span class="card-spec-icon">⬛</span> 45m²</span>
+            <span class="card-spec"><span class="card-spec-icon">🚗</span> 1 vaga</span>
+          </div>
+          <div class="card-price-label">Parcelas a partir de</div>
+          <div class="card-price">R$ 650/mês*</div>
+          <div class="card-price-disclaimer">*Sujeito à aprovação de crédito · Sinal R$ 1.000</div>
+          <div class="card-actions">
+            <a href="#" class="btn btn-primary btn-sm">Saiba mais</a>
+            <a href="#" class="btn btn-ghost btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="property-card">
+        <div class="card-img" style="background:linear-gradient(135deg,#0d2e4a,#1a4060,#0a2035)">
+          <div class="card-img-placeholder">📸 Foto oficial do empreendimento<br><small style="font-size:11px;margin-top:6px;display:block">[Render ou fachada real]</small></div>
+          <button class="card-fav">♡</button>
+          <div class="card-img-label">
+            <span class="badge badge-mcmv">MCMV Caixa</span>
+            <span class="badge badge-few">Últimas unidades</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-location">📍 São Gonçalo · Trindade</div>
+          <div class="card-title">Solar da Trindade</div>
+          <div class="card-specs">
+            <span class="card-spec"><span class="card-spec-icon">🛏</span> 2 quartos</span>
+            <span class="card-spec"><span class="card-spec-icon">⬛</span> 48m²</span>
+            <span class="card-spec"><span class="card-spec-icon">🚗</span> 1 vaga</span>
+          </div>
+          <div class="card-price-label">Condição comercial</div>
+          <div class="card-price" style="font-size:15px;color:var(--c-text-primary)">Consulte condições atuais</div>
+          <div class="card-price-disclaimer">Dados verificados em [data de referência]</div>
+          <div class="card-actions">
+            <a href="#" class="btn btn-primary btn-sm">Saiba mais</a>
+            <a href="#" class="btn btn-ghost btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="property-card">
+        <div class="card-img" style="background:linear-gradient(135deg,#082a1a,#0f3d28,#05200f)">
+          <div class="card-img-placeholder">📸 Foto oficial do empreendimento<br><small style="font-size:11px;margin-top:6px;display:block">[Render ou fachada real]</small></div>
+          <button class="card-fav">❤</button>
+          <div class="card-img-label">
+            <span class="badge badge-ready">Pronto para morar</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-location">📍 Maricá · Centro</div>
+          <div class="card-title">Conquista Oceânica</div>
+          <div class="card-specs">
+            <span class="card-spec"><span class="card-spec-icon">🛏</span> 2 quartos</span>
+            <span class="card-spec"><span class="card-spec-icon">⬛</span> 52m²</span>
+            <span class="card-spec"><span class="card-spec-icon">🚗</span> 1 vaga</span>
+          </div>
+          <div class="card-price-label">Condição comercial</div>
+          <div class="card-price" style="font-size:15px;color:var(--c-text-primary)">Consulte condições atuais</div>
+          <div class="card-price-disclaimer">Dados verificados em [data de referência]</div>
+          <div class="card-actions">
+            <a href="#" class="btn btn-primary btn-sm">Saiba mais</a>
+            <a href="#" class="btn btn-ghost btn-sm">💬 Simular</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── 6. FORMULÁRIOS ────────────────────────────────────── -->
+  <section id="forms" class="ds-section">
+    <p class="ds-section-title">6 — Formulários e Inputs</p>
+    <div style="max-width:520px;background:var(--c-surface);padding:32px;border-radius:var(--r-xl);border:1px solid var(--c-border)">
+      <div class="field">
+        <label>Nome completo <span style="color:var(--c-error)">*</span></label>
+        <input class="input" type="text" placeholder="João da Silva" />
+      </div>
+      <div class="field">
+        <label>WhatsApp <span style="color:var(--c-error)">*</span></label>
+        <input class="input" type="tel" placeholder="(21) 99999-0000" />
+        <div class="field-hint">Usaremos para enviar sua simulação.</div>
+      </div>
+      <div class="field">
+        <label>Cidade de interesse</label>
+        <select class="input select">
+          <option value="">Selecione uma cidade</option>
+          <option>Itaboraí</option>
+          <option>São Gonçalo</option>
+          <option>Niterói</option>
+          <option>Maricá</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>E-mail <span style="color:var(--c-error)">*</span></label>
+        <input class="input error" type="email" value="email-invalido" />
+        <div class="field-error">Digite um e-mail válido.</div>
+      </div>
+      <div class="field">
+        <label>Nome (preenchido corretamente)</label>
+        <input class="input success" type="text" value="João da Silva" />
+      </div>
+      <button class="btn btn-primary btn-lg" style="width:100%">Quero minha simulação grátis →</button>
+      <p style="font-size:11px;color:var(--c-text-muted);margin-top:12px;text-align:center">
+        Seus dados são protegidos pela LGPD · Sem spam, prometemos.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── 7. HERO DARK ──────────────────────────────────────── -->
+  <section id="hero" class="ds-section">
+    <p class="ds-section-title">7 — Hero Dark</p>
+    <div class="hero-dark" style="border-radius:var(--r-xl)">
+      <div style="position:relative;max-width:680px">
+        <h1>Saia do aluguel.<br>Encontre seu apartamento<br><span>MCMV em <em style="font-style:italic">Itaboraí</em>.</span></h1>
+        <p>Atendimento consultivo com corretor especialista. CRECI 39.583F. Simulação grátis e sem compromisso.</p>
+        <div class="search-bar">
+          <input type="text" placeholder="Ex: 2 quartos com suíte em Itaboraí" />
+          <button>Buscar →</button>
+        </div>
+        <div class="city-chips">
+          <span class="city-chip">Itaboraí</span>
+          <span class="city-chip">São Gonçalo</span>
+          <span class="city-chip">Niterói</span>
+          <span class="city-chip">Maricá</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 8. ESPAÇAMENTO ────────────────────────────────────── -->
+  <section id="espacamento" class="ds-section">
+    <p class="ds-section-title">8 — Espaçamento e Raios</p>
+    <div class="ds-row" style="gap:16px;margin-bottom:32px">
+      <div style="flex:1;min-width:200px">
+        <p style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">BORDER RADIUS</p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:32px;height:32px;background:var(--c-accent);border-radius:6px"></div>
+            <span style="font-size:13px;color:var(--c-text-muted)">6px — Badges, botões SM</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:48px;height:48px;background:var(--c-accent);border-radius:12px"></div>
+            <span style="font-size:13px;color:var(--c-text-muted)">12px — Inputs, botões MD</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:64px;height:48px;background:var(--c-accent);border-radius:16px"></div>
+            <span style="font-size:13px;color:var(--c-text-muted)">16px — Cards de imóveis</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:80px;height:48px;background:var(--c-accent);border-radius:24px"></div>
+            <span style="font-size:13px;color:var(--c-text-muted)">24px — Hero, modais</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:120px;height:48px;background:var(--c-accent);border-radius:999px"></div>
+            <span style="font-size:13px;color:var(--c-text-muted)">999px — Chips, CTA mobile</span>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <p style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">SOMBRAS</p>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="background:var(--c-surface);padding:16px 20px;border-radius:var(--r-md);box-shadow:0 1px 3px rgba(7,27,56,.08)">
+            <p style="font-size:13px;font-weight:600">shadow-sm</p>
+            <p style="font-size:12px;color:var(--c-text-muted)">Cards em repouso</p>
+          </div>
+          <div style="background:var(--c-surface);padding:16px 20px;border-radius:var(--r-md);box-shadow:0 4px 16px rgba(7,27,56,.10)">
+            <p style="font-size:13px;font-weight:600">shadow-md</p>
+            <p style="font-size:12px;color:var(--c-text-muted)">Dropdown, botões hover</p>
+          </div>
+          <div style="background:var(--c-surface);padding:16px 20px;border-radius:var(--r-md);box-shadow:0 8px 32px rgba(7,27,56,.14)">
+            <p style="font-size:13px;font-weight:600">shadow-lg</p>
+            <p style="font-size:12px;color:var(--c-text-muted)">Cards em hover</p>
+          </div>
+          <div style="background:var(--c-surface);padding:16px 20px;border-radius:var(--r-md);box-shadow:0 0 0 3px rgba(100,223,255,.35)">
+            <p style="font-size:13px;font-weight:600">shadow-cyan</p>
+            <p style="font-size:12px;color:var(--c-text-muted)">Focus state — inputs e botões</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <p style="font-size:11px;font-weight:700;color:var(--c-text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px">TABS DE TIPOLOGIA</p>
+    <div style="background:var(--c-surface);border-radius:var(--r-lg);border:1px solid var(--c-border);padding:24px">
+      <div class="tabs">
+        <button class="tab active">2 Quartos sem suíte</button>
+        <button class="tab">2 Quartos com suíte</button>
+        <button class="tab">3 Quartos</button>
+      </div>
+      <div style="padding:20px 0">
+        <div class="ds-row">
+          <div><span style="font-size:12px;color:var(--c-text-muted)">Área</span><div style="font-size:18px;font-weight:700">45 m²</div></div>
+          <div><span style="font-size:12px;color:var(--c-text-muted)">Suíte</span><div style="font-size:18px;font-weight:700">Sim</div></div>
+          <div><span style="font-size:12px;color:var(--c-text-muted)">Vagas</span><div style="font-size:18px;font-weight:700">1</div></div>
+          <div><span style="font-size:12px;color:var(--c-text-muted)">Parcela a partir de</span><div style="font-size:18px;font-weight:800;color:var(--c-accent)">R$ 650/mês*</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 9. MOBILE ──────────────────────────────────────────── -->
+  <section id="mobile" class="ds-section">
+    <p class="ds-section-title">9 — Componentes Mobile</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px">
+
+      <!-- Bottom CTA -->
+      <div>
+        <p style="font-size:13px;font-weight:600;color:var(--c-text-primary);margin-bottom:12px">CTA WhatsApp Fixo (bottom)</p>
+        <div style="background:#F1F5F9;border-radius:var(--r-xl);padding:24px;position:relative;min-height:120px">
+          <p style="font-size:12px;color:var(--c-text-muted);margin-bottom:8px">Conteúdo da página...</p>
+          <div style="margin-top:16px">
+            <button style="width:100%;padding:18px 24px;background:var(--c-whatsapp);color:#fff;border:none;border-radius:var(--r-full);font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(37,211,102,.4)">
+              💬 Simular pelo WhatsApp
+            </button>
+            <p style="font-size:11px;color:var(--c-text-muted);text-align:center;margin-top:8px">safe-area-inset-bottom: env(..., 16px)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust strip -->
+      <div>
+        <p style="font-size:13px;font-weight:600;color:var(--c-text-primary);margin-bottom:12px">Trust Strip</p>
+        <div style="background:var(--c-surface);border-radius:var(--r-lg);padding:20px;border:1px solid var(--c-border);display:flex;flex-direction:column;gap:14px">
+          <div class="trust-item">
+            <div class="trust-icon orange">🏆</div>
+            <div><div class="trust-value">24 anos</div><div class="trust-label">de experiência no mercado</div></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon cyan">✓</div>
+            <div><div class="trust-value">CRECI 39.583F</div><div class="trust-label">Corretor credenciado</div></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon green">★</div>
+            <div><div class="trust-value">4,9/5</div><div class="trust-label">Avaliação no Google</div></div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--c-text-muted);margin-top:6px">*Dados verificados e reais — não inverter</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div style="padding:32px;background:var(--c-primary);border-radius:var(--r-xl);text-align:center">
+    <p style="color:#64DFFF;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">PROTÓTIPO — FASE 1 PLANEJAMENTO</p>
+    <p style="color:rgba(255,255,255,.6);font-size:13px">Branch: feat/fase1-planning · Sem deploy · Sem alteração em main · Dados fictícios para ilustração visual</p>
+  </div>
+
+</main>
+</body>
+</html>
