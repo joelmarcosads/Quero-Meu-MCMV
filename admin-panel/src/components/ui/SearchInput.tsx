@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useRef } from 'react';
+import { InputHTMLAttributes, useRef, type ChangeEvent } from 'react';
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onSearch: (value: string) => void;
@@ -8,7 +8,7 @@ interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
 export function SearchInput({ onSearch, debounceMs = 400, ...props }: SearchInputProps) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => onSearch(e.target.value), debounceMs);
   };
