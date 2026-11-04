@@ -189,9 +189,13 @@ describe('T3 — Rejeição criptográfica: JWT inválido', () => {
       header: { alg: 'RS256', kid: 'test-kid', typ: 'JWT' },
       payload: { sub: 'test-sub', iss: 'https://test.cloudflareaccess.com', aud: ['test-aud'], exp: now + 3600, iat: now },
     });
-    // Adulterar: trocar último caractere da assinatura
+    // Adulterar: trocar o PRIMEIRO caractere da assinatura.
+    // Nota: o último char de um payload RS256 de 256 bytes codifica 4 bits de
+    // padding (sempre zero em base64url) — trocá-lo por um char adjacente não
+    // altera os bytes decodificados, então a verificação passa erroneamente.
+    // O primeiro char sempre codifica 6 bits de dados reais.
     const parts = token.split('.');
-    const tamperedSig = parts[2].slice(0, -1) + (parts[2].slice(-1) === 'A' ? 'B' : 'A');
+    const tamperedSig = (parts[2][0] === 'A' ? 'B' : 'A') + parts[2].slice(1);
     const tamperedToken = `${parts[0]}.${parts[1]}.${tamperedSig}`;
     await assert.rejects(
       async () => verifyJwtSignature(tamperedToken, publicKey),

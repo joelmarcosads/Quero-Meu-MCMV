@@ -1,5 +1,30 @@
 name: Deploy Worker — Staging
 
+# ─── Deploy e Rollback ───────────────────────────────────────────────────────
+#
+# DEPLOY (via GitHub Actions — sem terminal local):
+#   1. GitHub → Actions → "Deploy Worker — Staging" → Run workflow
+#   2. Selecionar branch: feat/market-imobi-crm-staging
+#   3. Digitar CONFIRMAR no campo de confirmação
+#   4. Aguardar o job concluir (~60s)
+#   5. Verificar: https://api-staging.queromeumcmv.com.br/health (browser com sessão CF Access)
+#
+# ROLLBACK (via GitHub Actions — sem terminal local):
+#   Opção A — Reverter para versão anterior do Worker (Cloudflare Dashboard):
+#     1. Cloudflare Dashboard → Workers & Pages → market-imobi-crm-staging
+#     2. Aba "Deployments" → localizar a versão anterior pelo timestamp
+#     3. Clicar nos três pontos "..." → "Rollback to this deployment"
+#     4. Confirmar no modal — o Worker volta instantaneamente
+#
+#   Opção B — Reverter código e redesployar (GitHub Actions):
+#     1. No repositório: git revert <hash-do-commit-com-problema>
+#     2. Push para feat/market-imobi-crm-staging
+#     3. Executar este workflow normalmente (Run workflow → CONFIRMAR)
+#
+#   Opção C — Desativar temporariamente (emergência):
+#     Cloudflare Dashboard → Workers & Pages → market-imobi-crm-staging
+#     → Settings → "Disable" (bloqueia todo tráfego ao Worker)
+#
 # ─── Disparo manual pelo browser ────────────────────────────────────────────
 # GitHub → Actions → "Deploy Worker — Staging" → Run workflow
 on:
