@@ -61,17 +61,29 @@ jobs:
         with:
           node-version: '22'
 
-      # 3. Instalar dependências (inclui wrangler ^3.87.0)
-      #    npm install usado pois não há package-lock.json no repo
-      - name: Install dependencies
+      # 3a. Instalar dependências do Worker (inclui wrangler)
+      - name: Install Worker dependencies
         working-directory: crm-worker
         run: npm install
 
-      # 4. Compilar TypeScript → dist/worker.js (esbuild via wrangler)
-      #    O wrangler compila internamente ao fazer deploy
-      #    Não é necessário rodar esbuild separado
+      # 3b. Instalar dependências do Admin Panel
+      - name: Install Admin Panel dependencies
+        working-directory: admin-panel
+        run: npm install
+
+      # 4. Build do Admin Panel (React + Vite → dist/)
+      #    O dist/ é referenciado pelo wrangler.toml como [assets] binding
+      - name: Build Admin Panel
+        working-directory: admin-panel
+        env:
+          VITE_API_BASE_URL: /api/v1
+        run: |
+          echo "🏗️  Building Admin Panel..."
+          npm run build
+          echo "✅ Admin Panel built ($(du -sh dist | cut -f1))"
 
       # 5. Deploy → ambiente staging (rota api-staging.queromeumcmv.com.br)
+      #    Inclui o Worker + Admin Panel Static Assets
       - name: Deploy Worker to staging
         working-directory: crm-worker
         env:

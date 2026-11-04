@@ -5,6 +5,8 @@ export interface Env {
   ENVIRONMENT: string;
   CF_ACCESS_TEAM_DOMAIN: string;
   CF_ACCESS_AUD: string;
+  // Static Assets binding para o Admin Panel SPA (opcional: pode não existir em dev)
+  ASSETS?: { fetch(request: Request): Promise<Response> };
 }
 
 // ─── Usuário autenticado (extraído do JWT) ────────────────────────────────────

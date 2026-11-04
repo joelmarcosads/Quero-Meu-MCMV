@@ -12,6 +12,10 @@ import { jsonError } from './utils';
 import { handleEmpreendimentos } from './routes/empreendimentos';
 import { handleLeads } from './routes/leads';
 import { handleOportunidades } from './routes/oportunidades';
+import { handleDashboard } from './routes/dashboard';
+import { handleContatos } from './routes/contatos';
+import { handleInteracoes } from './routes/interacoes';
+import { handleUsuarios, handleMe } from './routes/usuarios';
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 export default {
@@ -30,6 +34,16 @@ export default {
           'Access-Control-Max-Age': '86400',
         },
       });
+    }
+
+    // ── Admin Panel SPA (servido via Static Assets) ───────────────────────
+    // Rotas /admin/* são entregues pelo ASSETS binding (Vite build).
+    // CF Access protege o painel no nível de rota via policy — sem auth Worker aqui.
+    if (path === '/admin' || path.startsWith('/admin/')) {
+      if (env.ASSETS) {
+        return env.ASSETS.fetch(request);
+      }
+      return new Response('Admin panel não disponível (assets não configurados)', { status: 503 });
     }
 
     // ── Health check (sem autenticação) ───────────────────────────────────
@@ -63,6 +77,9 @@ export default {
 
     try {
       switch (resource) {
+        case 'me':
+          return await handleMe(request, env, user);
+
         case 'empreendimentos':
           return await handleEmpreendimentos(request, env, user, pathParts);
 
@@ -71,6 +88,18 @@ export default {
 
         case 'oportunidades':
           return await handleOportunidades(request, env, user, pathParts);
+
+        case 'dashboard':
+          return await handleDashboard(request, env, user, pathParts);
+
+        case 'contatos':
+          return await handleContatos(request, env, user, pathParts);
+
+        case 'interacoes':
+          return await handleInteracoes(request, env, user);
+
+        case 'usuarios':
+          return await handleUsuarios(request, env, user);
 
         default:
           return jsonError(`Recurso '${resource}' não encontrado`, 404);

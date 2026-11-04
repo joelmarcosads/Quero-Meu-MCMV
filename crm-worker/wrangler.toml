@@ -28,6 +28,11 @@ ENVIRONMENT = "staging"
 CF_ACCESS_TEAM_DOMAIN = "hidden-block-61bc.cloudflareaccess.com"
 CF_ACCESS_AUD = "4e8722c354df3e583fb04ceb1c1c3da7bdac50aaabccb867764cce151e59327d"
 
+# Admin Panel SPA (servido como Static Assets pelo Worker)
+[env.staging.assets]
+directory = "../admin-panel/dist"
+binding = "ASSETS"
+
 # ─── Desenvolvimento local (wrangler dev) ─────────────────────────────────────
 [[d1_databases]]
 binding = "DB"

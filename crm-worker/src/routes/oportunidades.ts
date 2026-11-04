@@ -239,6 +239,130 @@ async function listOportunidades(
   return jsonOk({ oportunidades: results.results, meta: { limit, offset } });
 }
 
+// ─── Detalhe de oportunidade ──────────────────────────────────────────────────
+async function getOportunidade(
+  _request: Request,
+  env: Env,
+  user: AuthenticatedUser,
+  id: string,
+): Promise<Response> {
+  const oport = await env.DB.prepare(
+    `SELECT o.id, o.estagio, o.prioridade, o.valor_negocio, o.data_previsao,
+            o.observacoes, o.motivo_perda, o.created_at, o.updated_at, o.fechada_at,
+            o.contato_id, o.lead_id, o.empreendimento_id, o.tipologia_id,
+            c.nome AS contato_nome, c.telefone AS contato_telefone, c.email AS contato_email,
+            e.nome AS empreendimento_nome,
+            u.id AS responsavel_id, u.nome AS responsavel_nome
+     FROM oportunidades o
+     JOIN contatos c ON c.id = o.contato_id
+     LEFT JOIN empreendimentos e ON e.id = o.empreendimento_id
+     LEFT JOIN usuarios u ON u.id = o.responsavel_id
+     WHERE o.id = ?`,
+  ).bind(id).first<Record<string, unknown>>();
+
+  if (!oport) return jsonError('Oportunidade não encontrada', 404);
+
+  // RBAC
+  if (user.perfil !== 'admin' && user.perfil !== 'assistente') {
+    if (oport['responsavel_id'] !== user.id) {
+      return jsonError('Acesso negado', 403);
+    }
+  }
+
+  // Interações
+  const interacoes = await env.DB.prepare(
+    `SELECT i.id, i.tipo, i.direcao, i.conteudo, i.duracao_seg, i.created_at,
+            u.nome AS usuario_nome
+     FROM interacoes i
+     LEFT JOIN usuarios u ON u.id = i.usuario_id
+     WHERE i.oportunidade_id = ?
+     ORDER BY i.created_at DESC
+     LIMIT 20`,
+  ).bind(id).all();
+
+  return jsonOk({ ...oport, interacoes: interacoes.results });
+}
+
+// ─── Atualizar oportunidade (responsavel, valor, observacoes, prioridade) ─────
+async function patchOportunidade(
+  request: Request,
+  env: Env,
+  user: AuthenticatedUser,
+  id: string,
+): Promise<Response> {
+  const oport = await env.DB.prepare(
+    `SELECT id, responsavel_id, estagio, valor_negocio, observacoes, prioridade FROM oportunidades WHERE id = ?`,
+  ).bind(id).first<{ id: number; responsavel_id: number | null; estagio: string; valor_negocio: number | null; observacoes: string | null; prioridade: string }>();
+
+  if (!oport) return jsonError('Oportunidade não encontrada', 404);
+
+  // Apenas admin pode reatribuir responsável; corretor só edita a sua
+  if (user.perfil !== 'admin' && user.perfil !== 'assistente') {
+    if (oport.responsavel_id !== user.id) return jsonError('Acesso negado', 403);
+  }
+
+  let body: Partial<{
+    responsavel_id: number;
+    valor_negocio: number;
+    data_previsao: string;
+    observacoes: string;
+    prioridade: string;
+  }>;
+
+  try {
+    body = await parseJsonBody(request);
+  } catch (err) {
+    return jsonError((err as Error).message, 400);
+  }
+
+  const campos: Record<string, unknown> = {};
+
+  if (body.responsavel_id !== undefined) {
+    if (user.perfil !== 'admin') return jsonError('Apenas admin pode reatribuir responsável', 403);
+    campos['responsavel_id'] = body.responsavel_id;
+  }
+  if (body.valor_negocio !== undefined) campos['valor_negocio'] = body.valor_negocio;
+  if (body.data_previsao !== undefined) campos['data_previsao'] = body.data_previsao;
+  if (body.observacoes !== undefined) campos['observacoes'] = body.observacoes?.trim() ?? null;
+  if (body.prioridade !== undefined) {
+    const validas = ['baixa', 'media', 'alta', 'urgente'];
+    if (!validas.includes(body.prioridade)) {
+      return jsonError(`prioridade inválida. Aceitos: ${validas.join(', ')}`, 422);
+    }
+    campos['prioridade'] = body.prioridade;
+  }
+
+  if (Object.keys(campos).length === 0) {
+    return jsonError('Nenhum campo para atualizar', 400);
+  }
+
+  const setClauses = Object.keys(campos).map(k => `${k} = ?`).join(', ');
+  const values = [...Object.values(campos), id];
+
+  await env.DB.prepare(
+    `UPDATE oportunidades SET ${setClauses}, updated_at = datetime('now') WHERE id = ?`,
+  ).bind(...values).run();
+
+  const atualizado = await env.DB.prepare(
+    `SELECT id, estagio, prioridade, valor_negocio, data_previsao, observacoes,
+            responsavel_id, updated_at
+     FROM oportunidades WHERE id = ?`,
+  ).bind(id).first();
+
+  await writeAudit({
+    db: env.DB,
+    usuarioId: user.id,
+    tabela: 'oportunidades',
+    registroId: oport.id,
+    acao: 'UPDATE',
+    dadosAnt: oport as Record<string, unknown>,
+    dadosNov: atualizado as Record<string, unknown>,
+    ip: getClientIp(request),
+  });
+
+  return jsonOk(atualizado);
+}
+
 // ─── Router ───────────────────────────────────────────────────────────────────
 export async function handleOportunidades(
   request: Request,
@@ -253,6 +377,12 @@ export async function handleOportunidades(
   try {
     if (method === 'PATCH' && resourceId && subResource === 'estagio') {
       return await patchEstagio(request, env, user, resourceId);
+    }
+    if (method === 'GET' && resourceId && !subResource) {
+      return await getOportunidade(request, env, user, resourceId);
+    }
+    if (method === 'PATCH' && resourceId && !subResource) {
+      return await patchOportunidade(request, env, user, resourceId);
     }
     if (method === 'GET' && !resourceId) {
       return await listOportunidades(request, env, user);
