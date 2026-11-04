@@ -33,6 +33,40 @@ CF_ACCESS_AUD = "4e8722c354df3e583fb04ceb1c1c3da7bdac50aaabccb867764cce151e59327
 directory = "../admin-panel/dist"
 binding = "ASSETS"
 
+# ─── Ambiente de produção ────────────────────────────────────────────────────
+# ⚠️  IDs marcados como PENDENTE devem ser preenchidos após criação remota autorizada
+# Criar com: wrangler d1 create market-imobi-prod
+#            wrangler kv namespace create JWKS_CACHE --env production
+# Em seguida preencher database_id e kv_namespaces.id abaixo.
+[env.production]
+name = "market-imobi-crm"
+account_id = "5f8abdde2df34998f0454821d8be59da"
+workers_dev = false   # acesso exclusivo via CF Access + rota customizada
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "market-imobi-prod"
+database_id = "PROD_D1_DATABASE_ID_PENDENTE"
+
+[[env.production.kv_namespaces]]
+binding = "JWKS_CACHE"
+id = "PROD_KV_NAMESPACE_ID_PENDENTE"
+
+# Hostname de produção (DNS AAAA 100:: proxied no Cloudflare — igual ao staging)
+[[env.production.routes]]
+pattern = "api.queromeumcmv.com.br/*"
+zone_name = "queromeumcmv.com.br"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+CF_ACCESS_TEAM_DOMAIN = "hidden-block-61bc.cloudflareaccess.com"
+CF_ACCESS_AUD = "PROD_CF_ACCESS_AUD_PENDENTE"   # AUD do novo CF Access Application de produção
+
+# Admin Panel SPA (servido como Static Assets pelo Worker)
+[env.production.assets]
+directory = "../admin-panel/dist"
+binding = "ASSETS"
+
 # ─── Desenvolvimento local (wrangler dev) ─────────────────────────────────────
 [[d1_databases]]
 binding = "DB"
