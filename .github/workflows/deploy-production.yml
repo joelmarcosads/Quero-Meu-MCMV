@@ -1,0 +1,136 @@
+name: Deploy Worker — Production
+
+# ─── ATENÇÃO: AMBIENTE DE PRODUÇÃO ───────────────────────────────────────────
+#
+# Este workflow realiza deploy direto no Worker market-imobi-crm, rota
+# api.queromeumcmv.com.br. Exige confirmação dupla obrigatória.
+#
+# PRÉ-REQUISITOS antes do primeiro deploy:
+#   □ D1 database "market-imobi-prod" criado (ID no wrangler.toml)
+#   □ KV namespace JWKS_CACHE de produção criado (ID no wrangler.toml)
+#   □ CF Access Application de produção criado (AUD no wrangler.toml)
+#   □ CF Access Bypass policy para api.queromeumcmv.com.br/api/v1/public/leads
+#   □ Migrations aplicadas: 0001_initial_schema.sql + 0002_add_leads_dados_extras.sql
+#   □ Secrets configurados: CF_API_TOKEN no repositório GitHub
+#   □ PROD_D1_DATABASE_ID_PENDENTE, PROD_KV_NAMESPACE_ID_PENDENTE, PROD_CF_ACCESS_AUD_PENDENTE
+#     substituídos pelos IDs reais no wrangler.toml
+#
+# DEPLOY:
+#   1. GitHub → Actions → "Deploy Worker — Production" → Run workflow
+#   2. Branch: main (a branch de staging deve ter sido mergeada à main antes)
+#   3. Campo confirmar_producao: digitar exatamente CONFIRMAR_PRODUCAO
+#   4. Aguardar (~90s) e validar: https://api.queromeumcmv.com.br/health
+#
+# ROLLBACK:
+#   Opção A — Cloudflare Dashboard (imediato, sem código):
+#     Workers & Pages → market-imobi-crm → Deployments → "..." → Rollback
+#
+#   Opção B — Reverter código e redesployar:
+#     git revert <hash> → push main → Run workflow → CONFIRMAR_PRODUCAO
+#
+#   Opção C — Emergência (desativa o Worker):
+#     Workers & Pages → market-imobi-crm → Settings → Disable
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar_producao:
+        description: 'Digite CONFIRMAR_PRODUCAO para autorizar o deploy em produção'
+        required: true
+        default: ''
+      branch:
+        description: 'Branch de origem (padrão: main)'
+        required: false
+        default: 'main'
+
+# ─── Permissões mínimas ──────────────────────────────────────────────────────
+permissions:
+  contents: read
+
+jobs:
+  deploy-production:
+    name: Build & Deploy → api.queromeumcmv.com.br
+    runs-on: ubuntu-latest
+    environment: production          # Adicione proteção de ambiente no GitHub para aprovação humana
+
+    # Bloqueia qualquer run sem confirmação explícita dupla
+    if: ${{ github.event.inputs.confirmar_producao == 'CONFIRMAR_PRODUCAO' }}
+
+    steps:
+      # 1. Checkout da branch especificada (padrão: main)
+      - name: Checkout ${{ github.event.inputs.branch || 'main' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'main' }}
+
+      # 2. Verificar que IDs placeholder não foram esquecidos no wrangler.toml
+      - name: Verificar IDs de producao no wrangler.toml
+        run: |
+          if grep -q "PENDENTE" crm-worker/wrangler.toml; then
+            echo "❌ ERRO: wrangler.toml ainda contém IDs placeholder (PENDENTE)."
+            echo "Preencha PROD_D1_DATABASE_ID_PENDENTE, PROD_KV_NAMESPACE_ID_PENDENTE"
+            echo "e PROD_CF_ACCESS_AUD_PENDENTE antes de fazer deploy."
+            grep "PENDENTE" crm-worker/wrangler.toml
+            exit 1
+          fi
+          echo "✅ IDs de produção verificados"
+
+      # 3. Node 22 LTS
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 4a. Instalar dependências do Worker
+      - name: Install Worker dependencies
+        working-directory: crm-worker
+        run: npm install
+
+      # 4b. Instalar dependências do Admin Panel
+      - name: Install Admin Panel dependencies
+        working-directory: admin-panel
+        run: npm install
+
+      # 5. Build do Admin Panel
+      - name: Build Admin Panel
+        working-directory: admin-panel
+        env:
+          VITE_API_BASE_URL: /api/v1
+        run: |
+          echo "🏗️  Building Admin Panel para produção..."
+          npm run build
+          echo "✅ Admin Panel built ($(du -sh dist | cut -f1))"
+
+      # 6. Deploy → ambiente production
+      - name: Deploy Worker para producao
+        working-directory: crm-worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          echo "🚀 Deploy PRODUÇÃO iniciado em $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          echo "   Branch: ${{ github.event.inputs.branch || 'main' }}"
+          echo "   Run por: ${{ github.actor }}"
+          npx wrangler deploy --env production
+          echo "✅ Deploy PRODUÇÃO concluído"
+
+      # 7. Instruções pós-deploy
+      - name: Instrucoes pos-deploy
+        run: |
+          echo "════════════════════════════════════════════"
+          echo "✅ Deploy em PRODUÇÃO concluído com sucesso."
+          echo "════════════════════════════════════════════"
+          echo ""
+          echo "Próximos passos de validação:"
+          echo "  1. Abrir no browser (com sessão CF Access):"
+          echo "     https://api.queromeumcmv.com.br/health"
+          echo ""
+          echo "  2. Testar rota pública (curl sem autenticação):"
+          echo "     curl -s https://api.queromeumcmv.com.br/api/v1/public/leads"
+          echo "     Esperado: 405 (GET não permitido) ou 400 (body vazio)"
+          echo ""
+          echo "  3. Verificar logs: Cloudflare → Workers → market-imobi-crm → Logs"
+          echo ""
+          echo "  4. Validar portal: enviar lead real via queromeumcmv.com.br"
+          echo "     Verificar D1 market-imobi-prod → tabela leads"
