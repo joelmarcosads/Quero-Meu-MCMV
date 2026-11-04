@@ -1,7 +1,7 @@
 -- ================================================================
 -- Market Imobi CRM — Migração 0001: Schema inicial V1.1
--- Banco: D1 local (SQLite) — AMBIENTE DE DESENVOLVIMENTO
--- ⚠️  DADOS FICTÍCIOS — NÃO USAR EM PRODUÇÃO
+-- ✅ APLICAR EM PRODUÇÃO: contém apenas DDL + configurações LGPD
+-- (Dados fictícios estão em migrations/staging-only/ — NÃO aplicar)
 -- ================================================================
 
 PRAGMA journal_mode = WAL;

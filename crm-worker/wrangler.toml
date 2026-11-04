@@ -46,11 +46,11 @@ workers_dev = false   # acesso exclusivo via CF Access + rota customizada
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "market-imobi-prod"
-database_id = "PROD_D1_DATABASE_ID_PENDENTE"
+database_id = "00f11ba4-e27d-41ff-b7af-4e15a29d6ad6"
 
 [[env.production.kv_namespaces]]
 binding = "JWKS_CACHE"
-id = "PROD_KV_NAMESPACE_ID_PENDENTE"
+id = "d6916da67602494dbc5c81e28827b1d0"
 
 # Hostname de produção (DNS AAAA 100:: proxied no Cloudflare — igual ao staging)
 [[env.production.routes]]
