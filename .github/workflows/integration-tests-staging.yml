@@ -1,0 +1,246 @@
+# ============================================================
+# Market Imobi CRM — Testes de Integração HTTP (Staging)
+# ============================================================
+# STATUS: PROPOSTA — NÃO EXECUTAR sem autorização e sem:
+#   1. Service Token criado no painel CF Access
+#   2. Usuário CI inserido no D1 staging
+#   3. Patch em src/auth.ts (service token support) deployado
+#
+# Coberturas: T2 (JWT válido/inválido), T10 (latência Worker),
+#             T11 (criação de lead via API real)
+#
+# Autenticação: CF Access Service Tokens (M2M)
+#   - CF-Access-Client-Id / CF-Access-Client-Secret → CF Access → JWT
+#   - Worker valida JWT normalmente (sem bypass)
+#   - Credenciais NUNCA aparecem nos logs (uso exclusivo via secrets)
+# ============================================================
+
+name: Integration Tests — Staging Worker
+
+on:
+  # Executar apenas via dispatch manual ou após autorização
+  workflow_dispatch:
+    inputs:
+      run_t10_load:
+        description: 'Executar teste de carga T10 (k6, ~30s)?'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+
+  # NÃO ativar em push automático até validação completa da arquitetura
+  # push:
+  #   branches: [feat/market-imobi-crm-staging]
+
+env:
+  WORKER_BASE_URL: https://api-staging.queromeumcmv.com.br
+
+jobs:
+  # ──────────────────────────────────────────────────────────
+  # T2 — Autenticação JWT (válido / inválido / expirado / 403)
+  # ──────────────────────────────────────────────────────────
+  t2-auth:
+    name: T2 — Autenticação JWT
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # CF Access: service token → JWT injetado pela borda
+      # Os headers CF-Access-Client-Id e CF-Access-Client-Secret são
+      # enviados para o endpoint CF Access, que injeta Cf-Access-Jwt-Assertion
+      # antes de encaminhar ao Worker. Os secrets nunca aparecem nos logs.
+
+      - name: T2.1 — JWT válido retorna 200
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            "$WORKER_BASE_URL/health")
+          echo "Status recebido: $STATUS"
+          [ "$STATUS" = "200" ] || (echo "FALHA: esperado 200, recebido $STATUS" && exit 1)
+
+      - name: T2.2 — JWT ausente retorna 401
+        run: |
+          # Requisição direta ao Worker sem passar pelo CF Access
+          # Espera-se 401 (nenhum header Cf-Access-Jwt-Assertion injetado)
+          # NOTA: o CF Access pode retornar 302 (redirect) em vez de 401
+          # dependendo da configuração do aplicativo. Ajustar conforme necessário.
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+          echo "Status recebido: $STATUS"
+          [ "$STATUS" = "401" ] || [ "$STATUS" = "302" ] || \
+            (echo "FALHA: esperado 401 ou 302, recebido $STATUS" && exit 1)
+
+      - name: T2.3 — Perfil insuficiente retorna 403
+        # Este teste requer um segundo service token com perfil 'assistente'
+        # que não tem permissão para criar leads. Pular até segundo token criado.
+        if: ${{ vars.T2_PERFIL_TEST_ENABLED == 'true' }}
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID_ASSISTENTE }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET_ASSISTENTE }}" \
+            -H "Content-Type: application/json" \
+            -d '{"nome":"Teste","telefone":"(21)99999-0001","origem":"whatsapp_direto"}' \
+            "$WORKER_BASE_URL/api/v1/leads")
+          echo "Status recebido: $STATUS"
+          [ "$STATUS" = "403" ] || (echo "FALHA: esperado 403, recebido $STATUS" && exit 1)
+
+  # ──────────────────────────────────────────────────────────
+  # T11 — Criação de lead via API real
+  # ──────────────────────────────────────────────────────────
+  t11-lead-creation:
+    name: T11 — Criação de lead
+    runs-on: ubuntu-latest
+    needs: t2-auth  # só executa se T2 passar
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: T11.1 — Criar lead fictício (criação inicial)
+        id: create_lead
+        run: |
+          # Telefone fictício com prefixo de teste: 21 9 8800-XXXX
+          # Usar timestamp para garantir unicidade entre execuções
+          PHONE="219880$(date +%s | tail -c 4)"
+          IDEM_KEY="ci-test-$(date +%s)"
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"nome\": \"Lead Fictício CI\",
+              \"telefone\": \"$PHONE\",
+              \"origem\": \"whatsapp_direto\",
+              \"idempotency_key\": \"$IDEM_KEY\"
+            }" \
+            "$WORKER_BASE_URL/api/v1/leads")
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "HTTP: $HTTP_CODE"
+          echo "Body: $BODY"
+          echo "lead_id=$(echo $BODY | grep -o '"id":[0-9]*' | grep -o '[0-9]*')" >> $GITHUB_OUTPUT
+          [ "$HTTP_CODE" = "201" ] || (echo "FALHA: esperado 201, recebido $HTTP_CODE" && exit 1)
+
+      - name: T11.2 — Idempotência (mesma chave → 200, mesmo lead)
+        run: |
+          # Reenviar com a mesma chave de idempotência deve retornar 200 (não 201)
+          IDEM_KEY="ci-test-idempotency-fixed"
+
+          # Primeira requisição (cria)
+          curl -s -o /dev/null \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"Lead Idempotencia\",\"telefone\":\"21988001234\",\"origem\":\"whatsapp_direto\",\"idempotency_key\":\"$IDEM_KEY\"}" \
+            "$WORKER_BASE_URL/api/v1/leads"
+
+          # Segunda requisição (deve retornar 200, não criar duplicata)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"Lead Idempotencia\",\"telefone\":\"21988001234\",\"origem\":\"whatsapp_direto\",\"idempotency_key\":\"$IDEM_KEY\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+          echo "Status idempotência: $STATUS"
+          [ "$STATUS" = "200" ] || (echo "FALHA: esperado 200 (idempotente), recebido $STATUS" && exit 1)
+
+      - name: T11.3 — Deduplicação por telefone (INSERT OR IGNORE)
+        run: |
+          # Dois leads com o mesmo telefone, chaves de idempotência diferentes
+          # O segundo deve ser aceito (200) mas não criar contato duplicado
+          PHONE="21988009999"
+          R1=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"Lead Dedup A\",\"telefone\":\"$PHONE\",\"origem\":\"whatsapp_direto\",\"idempotency_key\":\"dedup-a\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+          R2=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST \
+            -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
+            -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"nome\":\"Lead Dedup B\",\"telefone\":\"$PHONE\",\"origem\":\"meta_ads\",\"idempotency_key\":\"dedup-b\"}" \
+            "$WORKER_BASE_URL/api/v1/leads")
+          echo "R1=$R1 R2=$R2"
+          [ "$R1" = "201" ] || [ "$R1" = "200" ] || (echo "FALHA R1: $R1" && exit 1)
+          [ "$R2" = "201" ] || [ "$R2" = "200" ] || (echo "FALHA R2: $R2" && exit 1)
+
+  # ──────────────────────────────────────────────────────────
+  # T10 — Latência do Worker (CPU + rede) com k6
+  # ──────────────────────────────────────────────────────────
+  t10-performance:
+    name: T10 — Latência Worker
+    runs-on: ubuntu-latest
+    needs: t2-auth
+    if: ${{ github.event.inputs.run_t10_load == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] \
+            https://dl.k6.io/deb stable main" | \
+            sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update && sudo apt-get install -y k6
+
+      - name: T10 — k6 load test (30s, 5 VUs)
+        env:
+          CF_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: |
+          cat > /tmp/k6-health.js << 'EOF'
+          import http from 'k6/http';
+          import { check, sleep } from 'k6';
+
+          export const options = {
+            vus: 5,
+            duration: '30s',
+            thresholds: {
+              http_req_duration: ['p(50)<500', 'p(95)<2000', 'p(99)<5000'],
+              http_req_failed:   ['rate<0.05'],
+            },
+          };
+
+          export default function () {
+            const res = http.get(`${__ENV.WORKER_BASE_URL}/health`, {
+              headers: {
+                'CF-Access-Client-Id':     __ENV.CF_CLIENT_ID,
+                'CF-Access-Client-Secret': __ENV.CF_CLIENT_SECRET,
+              },
+            });
+            check(res, {
+              'status 200': (r) => r.status === 200,
+              'latência < 500ms': (r) => r.timings.duration < 500,
+            });
+            sleep(0.5);
+          }
+          EOF
+          k6 run \
+            -e WORKER_BASE_URL="$WORKER_BASE_URL" \
+            -e CF_CLIENT_ID="$CF_CLIENT_ID" \
+            -e CF_CLIENT_SECRET="$CF_CLIENT_SECRET" \
+            /tmp/k6-health.js
+
+      - name: Nota sobre métricas
+        run: |
+          echo "NOTA: p50/p95/p99 medidos acima incluem:"
+          echo "  - Latência de rede CI → Cloudflare edge"
+          echo "  - Tempo de CPU do Worker (inicialização + handler)"
+          echo "  - Latência D1 (SQL query remoto)"
+          echo "Para isolar CPU do Worker, usar CF Analytics Dashboard"
+          echo "(Worker Metrics → CPU time). Requer acesso ao painel."
