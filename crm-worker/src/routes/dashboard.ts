@@ -40,7 +40,7 @@ async function getDashboardStats(env: Env): Promise<Response> {
   ] = await Promise.all([
     env.DB.prepare(`SELECT COUNT(*) AS total FROM leads`).first<{ total: number }>(),
     env.DB.prepare(
-      `SELECT COUNT(*) AS total FROM leads WHERE date(created_at) = date('now')`,
+      `SELECT COUNT(*) AS total FROM leads WHERE date(datetime(created_at,'-3 hours')) = date(datetime('now','-3 hours'))`,
     ).first<{ total: number }>(),
     env.DB.prepare(
       `SELECT COUNT(*) AS total FROM contatos WHERE deleted_at IS NULL AND anonimizado_at IS NULL`,
@@ -96,12 +96,12 @@ async function getDashboardStats(env: Env): Promise<Response> {
 async function getDashboardAnalytics(env: Env, period: string): Promise<Response> {
   const days = period === '7' ? 7 : period === '90' ? 90 : 30;
 
-  // Leads por dia nos últimos N dias
+  // Leads por dia nos últimos N dias — agrupados por data em horário Brasília (UTC-3)
   const leadsEvolution = await env.DB.prepare(
-    `SELECT date(created_at) AS dia, COUNT(*) AS total
+    `SELECT date(datetime(created_at,'-3 hours')) AS dia, COUNT(*) AS total
      FROM leads
-     WHERE created_at >= date('now', '-' || ? || ' days')
-     GROUP BY date(created_at)
+     WHERE created_at >= datetime('now', '-' || ? || ' days')
+     GROUP BY date(datetime(created_at,'-3 hours'))
      ORDER BY dia ASC`,
   ).bind(String(days)).all<{ dia: string; total: number }>();
 
