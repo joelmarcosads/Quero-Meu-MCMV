@@ -112,15 +112,113 @@ jobs:
       # O service token (CF-Access-Client-Id / CF-Access-Client-Secret) é
       # enviado ao endpoint do CF Access, que valida e injeta Cf-Access-Jwt-Assertion.
       # O Worker valida o JWT (RS256, iss, aud, exp, assinatura) e consulta o D1.
-      - name: T2.2 — Credenciais válidas retornam 200
+      - name: T2.2 — Credenciais válidas retornam 200 [DIAGNÓSTICO]
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+          # Garantia de limpeza do arquivo temporário em qualquer saída
+          TMPFILE=$(mktemp)
+          trap 'rm -f "$TMPFILE"' EXIT
+
+          # ── D0: verificar alcançabilidade do JWKS endpoint (sem credenciais) ───
+          # CF_ACCESS_TEAM_DOMAIN configurado: hidden-block-6fbc.cloudflareaccess.com
+          # HTTP 200 → domínio atingível; outro valor → verifyJwt() pode falhar antes do D1
+          JWKS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 10 --connect-timeout 5 \
+            "https://hidden-block-6fbc.cloudflareaccess.com/cdn-cgi/access/certs") \
+            || JWKS_STATUS="CURL_ERR"
+          echo "DIAG D0 | JWKS=$JWKS_STATUS"
+
+          # ── D1: única requisição autenticada — body + status + content-type ─────
+          # Nenhuma credencial aparece nos logs (uso exclusivo via GitHub Secrets)
+          CURL_EXIT=0
+          HTTP_INFO=$(curl -s \
+            --max-time 30 --connect-timeout 10 \
             -H "CF-Access-Client-Id: ${{ secrets.CF_ACCESS_CLIENT_ID }}" \
             -H "CF-Access-Client-Secret: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}" \
-            "$WORKER_BASE_URL/api/v1/empreendimentos")
-          echo "Status recebido (credenciais válidas): $STATUS"
+            -o "$TMPFILE" \
+            -w "HTTPCODE=%{http_code}|CTYPE=%{content_type}" \
+            "$WORKER_BASE_URL/api/v1/empreendimentos") || CURL_EXIT=$?
+
+          if [ "$CURL_EXIT" -ne 0 ]; then
+            STATUS="CURL_ERR_${CURL_EXIT}"
+            CTYPE=""
+            echo "DIAG D1 | ERRO: curl exit=$CURL_EXIT (timeout ou falha de conexão)"
+          else
+            STATUS=$(echo "$HTTP_INFO" | sed 's/HTTPCODE=\([^|]*\).*/\1/')
+            CTYPE=$(echo  "$HTTP_INFO" | sed 's/.*CTYPE=\(.*\)/\1/')
+            echo "DIAG D1 | HTTP=$STATUS | Content-Type=$CTYPE"
+          fi
+
+          # ── D2 + D3: classificação de origem e categoria via Python ─────────────
+          # Emite exclusivamente labels fixos — sem conteúdo bruto da resposta
+          ANALYSIS=$(DIAG_CTYPE="$CTYPE" DIAG_TMPFILE="$TMPFILE" DIAG_STATUS="$STATUS" python3 << 'PYEOF'
+          import json, sys, os
+
+          CATEGORIES = [
+              ("Token de autenticação ausente", "JWT_AUSENTE"),
+              ("JWT issuer",                    "JWT_ISSUER"),
+              ("JWT audience",                  "JWT_AUDIENCE"),
+              ("Assinatura JWT",                "JWT_ASSINATURA"),
+              ("Chave JWK",                     "JWT_KID"),
+              ("sub vazio",                     "JWT_MALFORMADO"),
+              ("Identidade não cadastrada",     "D1_LOOKUP"),
+              ("JWT inválido",                  "JWT_OUTRO"),
+          ]
+
+          ctype  = os.environ.get("DIAG_CTYPE",   "")
+          path   = os.environ.get("DIAG_TMPFILE", "")
+          status = os.environ.get("DIAG_STATUS",  "")
+
+          # D2: origin — WORKER_COMPATIVEL exige application/json + campos code e error
+          d = None
+          origin = "INDETERMINADO"
+          if "text/html" in ctype:
+              origin = "CF_ACCESS_EDGE"
+          elif "application/json" in ctype:
+              try:
+                  with open(path) as f:
+                      d = json.load(f)
+                  origin = "WORKER_COMPATIVEL" if ("code" in d and "error" in d) else "JSON_INDETERMINADO"
+              except (json.JSONDecodeError, ValueError):
+                  origin = "JSON_PARSE_ERROR"
+              except Exception:
+                  origin = "READ_ERROR"
+
+          # D3: category — prefixos fixos; nenhum conteúdo bruto emitido
+          category = "N/A"
+          if status != "200":
+              if origin == "CF_ACCESS_EDGE":
+                  category = "CF_ACCESS_BLOQUEIO"
+              elif origin == "WORKER_COMPATIVEL":
+                  if d is None:
+                      try:
+                          with open(path) as f:
+                              d = json.load(f)
+                      except Exception:
+                          d = {}
+                  msg = d.get("error", "") if isinstance(d, dict) else ""
+                  matched = next((lbl for frag, lbl in CATEGORIES if frag in msg), None)
+                  category = matched if matched else ("WORKER_OUTRO" if msg else "WORKER_SEM_MSG")
+              elif origin in ("JSON_INDETERMINADO", "JSON_PARSE_ERROR", "READ_ERROR"):
+                  category = "INDETERMINADO_JSON"
+              else:
+                  category = "INDETERMINADO"
+
+          print(f"ORIGIN={origin}")
+          print(f"CATEGORY={category}")
+          PYEOF
+          )
+
+          ORIGIN=$(echo   "$ANALYSIS" | grep "^ORIGIN="   | cut -d= -f2-)
+          CATEGORY=$(echo "$ANALYSIS" | grep "^CATEGORY=" | cut -d= -f2-)
+          ORIGIN="${ORIGIN:-ANALISE_FALHOU}"
+          CATEGORY="${CATEGORY:-ANALISE_FALHOU}"
+          echo "DIAG D2 | ORIGEM=$ORIGIN"
+          echo "DIAG D3 | CATEGORIA=$CATEGORY"
+
+          # ── Resumo e resultado final ──────────────────────────────────────────
+          echo "DIAG RESUMO | HTTP=$STATUS | ORIGEM=$ORIGIN | CATEGORIA=$CATEGORY | JWKS=$JWKS_STATUS"
           [ "$STATUS" = "200" ] || \
-            (echo "FALHA T2.2: esperado 200, recebido $STATUS" && exit 1)
+            (echo "FALHA T2.2: esperado 200, recebido $STATUS — ver DIAG acima para causa raiz" && exit 1)
           echo "✅ T2.2 PASS: Access + Worker autenticaram com sucesso"
 
       # T2.3 — Identidade com permissão insuficiente: Worker retorna 403
