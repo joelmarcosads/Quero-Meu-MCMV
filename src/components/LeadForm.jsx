@@ -5,9 +5,9 @@ const CONFIG = {
   SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzdjbC0ZWboJtR_9oGIdwvX7X7ERQ_O4n0Slvlnig2GtoQCyYuHDG1xmLhPIoBhvwvACQ/exec',
   WHATSAPP: '5521965928399', // DDI + DDD + número, só dígitos
   THANKS_PATH: '/obrigado',
-  // CRM público — rota de ingestão sem autenticação (Fase 3)
-  // Em staging aponta para api-staging; em produção será api.queromeumcmv.com.br
-  CRM_PUBLIC_URL: 'https://api-staging.queromeumcmv.com.br/api/v1/public/leads',
+  // CRM público — rota de ingestão sem autenticação
+  // Produção: api.queromeumcmv.com.br (bypass CF Access configurado em ETAPA D1)
+  CRM_PUBLIC_URL: 'https://api.queromeumcmv.com.br/api/v1/public/leads',
 };
 // ==========================
 
