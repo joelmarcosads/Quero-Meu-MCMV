@@ -168,7 +168,7 @@ jobs:
           path   = os.environ.get("DIAG_TMPFILE", "")
           status = os.environ.get("DIAG_STATUS",  "")
 
-          # D2: origin — WORKER_COMPATIVEL exige application/json + campos code e error
+          # D2: origin — WORKER_COMPATIVEL exige application/json + success=false (bool) + error (str)
           d = None
           origin = "INDETERMINADO"
           if "text/html" in ctype:
@@ -177,7 +177,7 @@ jobs:
               try:
                   with open(path) as f:
                       d = json.load(f)
-                  origin = "WORKER_COMPATIVEL" if ("code" in d and "error" in d) else "JSON_INDETERMINADO"
+                  origin = "WORKER_COMPATIVEL" if (isinstance(d.get("success"), bool) and d.get("success") is False and isinstance(d.get("error"), str)) else "JSON_INDETERMINADO"
               except (json.JSONDecodeError, ValueError):
                   origin = "JSON_PARSE_ERROR"
               except Exception:
