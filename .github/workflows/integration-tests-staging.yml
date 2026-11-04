@@ -43,6 +43,12 @@ on:
         default: 'false'
         type: choice
         options: ['true', 'false']
+      run_t11:
+        description: 'Executar T11 — criação de leads no D1? (false = somente T2)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
       cleanup_after:
         description: 'Limpar leads de teste após os testes?'
         required: false
@@ -266,6 +272,7 @@ jobs:
     name: T11 — Criação de lead
     runs-on: ubuntu-latest
     needs: [confirm-gate, t2-auth]
+    if: ${{ github.event.inputs.run_t11 == 'true' }}
     steps:
       - name: Checkout feat/market-imobi-crm-staging
         uses: actions/checkout@v4
