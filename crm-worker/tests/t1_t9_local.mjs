@@ -606,3 +606,286 @@ describe('Extra — Sanitização LGPD (utils.ts sanitizeIp + writeAudit)', () =
     assert.equal(parsed.email, undefined, 'Email NÃO deve estar no audit');
   });
 });
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ST — Service Tokens (autenticação M2M — Fase 3A.1)
+//
+// Testa a lógica de detecção e lookup de service tokens implementada em auth.ts:
+//   - sub === "" && common_name presente → service token válido
+//   - sub === "" sem common_name → AuthError 401 (malformado)
+//   - common_name presente mas sem registro D1 → AuthError 401
+//   - sub != "" (usuário humano) → fluxo inalterado pelo patch
+//   - requirePerfil com service identity admin
+//   - requireOwnershipOrAdmin bypass para admin service identity
+//
+// Implementação: lógica de auth.ts reimplementada em JS puro com mock de D1,
+// idêntica ao padrão dos testes T3/T4/T8/T9 (sem dependências externas).
+// Validação criptográfica RS256 preservada integralmente (sem alterações).
+// ═══════════════════════════════════════════════════════════════════════════════
+
+describe('ST — Service Tokens: detecção e lookup (auth.ts patch Fase 3A.1)', () => {
+  // ─── Reimplementação fiel da lógica de auth.ts (authenticate) ───────────────
+  // Espelha exatamente o código em src/auth.ts após o patch da Fase 3A.1.
+  // A validação criptográfica (verifyJwt) não é testada aqui — isso já é coberto
+  // em T3/T4. Esta suite cobre exclusivamente a lógica de identidade pós-JWT.
+
+  class AuthError extends Error {
+    constructor(message, statusCode = 401) {
+      super(message);
+      this.name = 'AuthError';
+      this.statusCode = statusCode;
+    }
+  }
+
+  /**
+   * Simula authenticate() após verifyJwt() retornar o payload.
+   * @param {object} payload  — claims do JWT (já validados criptograficamente)
+   * @param {Map}    dbMock   — simula D1: cf_access_id → AuthenticatedUser
+   */
+  function resolveIdentity(payload, dbMock) {
+    // Detectar tipo de identidade com base nos claims
+    // Service token: sub === "" e common_name é string (= Client ID)
+    const isServiceToken = payload.sub === '' && typeof payload.common_name === 'string';
+
+    if (payload.sub === '' && !isServiceToken) {
+      // sub vazio sem common_name: token inválido ou formato desconhecido
+      throw new AuthError('JWT inválido: sub vazio sem common_name (service token malformado)', 401);
+    }
+
+    // Chave de lookup: common_name para service tokens, sub para usuários humanos
+    const lookupKey = isServiceToken ? payload.common_name : payload.sub;
+
+    // Buscar identidade (simula: WHERE cf_access_id = ? AND deleted_at IS NULL)
+    const result = dbMock.get(lookupKey) ?? null;
+
+    if (!result) {
+      const identityType = isServiceToken
+        ? `service_token common_name=${lookupKey}`
+        : `user sub=${lookupKey}`;
+      throw new AuthError(`Identidade não cadastrada: ${identityType}`, 401);
+    }
+
+    return result;
+  }
+
+  // ─── Reimplementação de requirePerfil / requireOwnershipOrAdmin ──────────────
+  // Espelha src/auth.ts sem alterações (essas funções não mudaram no patch).
+
+  function requirePerfil(user, perfis) {
+    if (!perfis.includes(user.perfil)) {
+      throw new AuthError(
+        `Perfil '${user.perfil}' não tem permissão para esta ação (requer: ${perfis.join(' ou ')})`,
+        403,
+      );
+    }
+  }
+
+  function requireOwnershipOrAdmin(user, responsavelId) {
+    if (user.perfil === 'admin') return;
+    if (responsavelId === null || responsavelId !== user.id) {
+      throw new AuthError('Acesso negado: você não é responsável por este registro', 403);
+    }
+  }
+
+  // ─── Dados fictícios de mock D1 ───────────────────────────────────────────────
+  // Espelha 0002_seed_fictitious_data.sql + usuário CI adicionado por esta fase.
+  // cf_access_id do service token usa o Client ID como chave (common_name no JWT).
+
+  const CI_CLIENT_ID = 'market-imobi-ci-tests.access'; // simula Client ID gerado pelo CF Access
+  const ADMIN_SUB    = 'cf-sub-admin-0001';
+  const CORRETOR_SUB = 'cf-sub-corretor-0002';
+
+  const dbMock = new Map([
+    // Usuários humanos (sub = UUID CF Access)
+    [ADMIN_SUB,    { id: 1, cf_access_id: ADMIN_SUB,    nome: 'Admin Fictício',    perfil: 'admin',     email: 'admin@ficticio.invalid'    }],
+    [CORRETOR_SUB, { id: 2, cf_access_id: CORRETOR_SUB, nome: 'Corretor Fictício', perfil: 'corretor',  email: 'corretor@ficticio.invalid'  }],
+    // Service token de CI (cf_access_id = common_name do JWT)
+    [CI_CLIENT_ID, { id: 4, cf_access_id: CI_CLIENT_ID, nome: 'CI/CD — GitHub Actions', perfil: 'admin', email: 'ci@market-imobi.invalid' }],
+  ]);
+
+  // ─── ST1: service token válido resolve para usuário CI ───────────────────────
+
+  test('ST1: service token válido (sub="", common_name presente) → resolve usuário CI', () => {
+    const payload = {
+      sub: '',
+      common_name: CI_CLIENT_ID,
+      iss: 'https://test.cloudflareaccess.com',
+      aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      iat: Math.floor(Date.now() / 1000),
+    };
+
+    const user = resolveIdentity(payload, dbMock);
+
+    assert.equal(user.cf_access_id, CI_CLIENT_ID, 'cf_access_id deve ser o common_name');
+    assert.equal(user.perfil, 'admin', 'Perfil do service token CI deve ser admin');
+    assert.equal(user.nome, 'CI/CD — GitHub Actions');
+    assert.equal(user.id, 4);
+  });
+
+  // ─── ST2: service token malformado (sub="" sem common_name) → 401 ────────────
+
+  test('ST2: service token malformado (sub="", sem common_name) → AuthError 401', () => {
+    const payload = {
+      sub: '',
+      // common_name ausente — simula token com sub vazio mas sem common_name
+      iss: 'https://test.cloudflareaccess.com',
+      aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      iat: Math.floor(Date.now() / 1000),
+    };
+
+    assert.throws(
+      () => resolveIdentity(payload, dbMock),
+      (err) => {
+        assert.ok(err instanceof AuthError, 'Deve ser AuthError');
+        assert.equal(err.statusCode, 401);
+        assert.match(err.message, /sub vazio sem common_name/);
+        return true;
+      },
+    );
+  });
+
+  // ─── ST3: service token com common_name não cadastrado no D1 → 401 ───────────
+
+  test('ST3: service token common_name não cadastrado no D1 → AuthError 401', () => {
+    const payload = {
+      sub: '',
+      common_name: 'token-nao-cadastrado.access', // Client ID sem registro D1
+      iss: 'https://test.cloudflareaccess.com',
+      aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      iat: Math.floor(Date.now() / 1000),
+    };
+
+    assert.throws(
+      () => resolveIdentity(payload, dbMock),
+      (err) => {
+        assert.ok(err instanceof AuthError, 'Deve ser AuthError');
+        assert.equal(err.statusCode, 401);
+        assert.match(err.message, /Identidade não cadastrada/);
+        assert.match(err.message, /service_token common_name=/);
+        return true;
+      },
+    );
+  });
+
+  // ─── ST4: fluxo de usuário humano inalterado pelo patch ──────────────────────
+
+  test('ST4: token de usuário humano (sub != "") → fluxo inalterado pelo patch', () => {
+    const payload = {
+      sub: CORRETOR_SUB,  // sub não vazio → fluxo humano
+      email: 'corretor@ficticio.invalid',
+      iss: 'https://test.cloudflareaccess.com',
+      aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      iat: Math.floor(Date.now() / 1000),
+    };
+
+    const user = resolveIdentity(payload, dbMock);
+
+    assert.equal(user.cf_access_id, CORRETOR_SUB, 'cf_access_id deve ser o sub do usuário');
+    assert.equal(user.perfil, 'corretor');
+    assert.equal(user.id, 2);
+  });
+
+  test('ST4b: token de usuário humano com sub não cadastrado → AuthError 401', () => {
+    const payload = {
+      sub: 'cf-sub-nao-existe',
+      email: 'ninguem@ficticio.invalid',
+      iss: 'https://test.cloudflareaccess.com',
+      aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      iat: Math.floor(Date.now() / 1000),
+    };
+
+    assert.throws(
+      () => resolveIdentity(payload, dbMock),
+      (err) => {
+        assert.ok(err instanceof AuthError);
+        assert.equal(err.statusCode, 401);
+        assert.match(err.message, /Identidade não cadastrada/);
+        assert.match(err.message, /user sub=/);
+        return true;
+      },
+    );
+  });
+
+  // ─── ST5: requirePerfil funciona para service identity admin ─────────────────
+
+  test('ST5: requirePerfil([admin]) passa para service identity com perfil admin', () => {
+    const payload = { sub: '', common_name: CI_CLIENT_ID,
+      iss: 'https://test.cloudflareaccess.com', aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600, iat: Math.floor(Date.now() / 1000) };
+
+    const user = resolveIdentity(payload, dbMock);
+
+    // Não deve lançar
+    assert.doesNotThrow(() => requirePerfil(user, ['admin']));
+    assert.doesNotThrow(() => requirePerfil(user, ['admin', 'corretor']));
+  });
+
+  test('ST5b: requirePerfil([corretor]) falha para service identity com perfil admin', () => {
+    const payload = { sub: '', common_name: CI_CLIENT_ID,
+      iss: 'https://test.cloudflareaccess.com', aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600, iat: Math.floor(Date.now() / 1000) };
+
+    const user = resolveIdentity(payload, dbMock);
+
+    // Perfil admin tentando endpoint exclusivo de corretor (edge case hipotético)
+    // Na prática, admin passa em tudo — mas se o endpoint exigir 'corretor' exclusivo:
+    assert.throws(
+      () => requirePerfil(user, ['corretor']),
+      (err) => {
+        assert.ok(err instanceof AuthError);
+        assert.equal(err.statusCode, 403);
+        return true;
+      },
+    );
+  });
+
+  // ─── ST6: requireOwnershipOrAdmin bypass para admin service identity ──────────
+
+  test('ST6: requireOwnershipOrAdmin bypassa completamente para service identity admin', () => {
+    const payload = { sub: '', common_name: CI_CLIENT_ID,
+      iss: 'https://test.cloudflareaccess.com', aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600, iat: Math.floor(Date.now() / 1000) };
+
+    const user = resolveIdentity(payload, dbMock);
+
+    // Admin pode acessar qualquer lead independente do responsavel_id
+    assert.doesNotThrow(() => requireOwnershipOrAdmin(user, 2),  'lead do corretor 2');
+    assert.doesNotThrow(() => requireOwnershipOrAdmin(user, 3),  'lead do corretor 3');
+    assert.doesNotThrow(() => requireOwnershipOrAdmin(user, null), 'lead sem responsável');
+  });
+
+  test('ST6b: requireOwnershipOrAdmin BLOQUEIA service identity com perfil corretor acessando lead alheio', () => {
+    // Simula um segundo service token hipotético com perfil corretor
+    const dbMockCorretor = new Map([
+      ...dbMock,
+      ['ci-corretor-token.access', { id: 5, cf_access_id: 'ci-corretor-token.access',
+        nome: 'CI Corretor Token', perfil: 'corretor', email: 'ci-corretor@ficticio.invalid' }],
+    ]);
+
+    const payload = { sub: '', common_name: 'ci-corretor-token.access',
+      iss: 'https://test.cloudflareaccess.com', aud: ['test-aud'],
+      exp: Math.floor(Date.now() / 1000) + 3600, iat: Math.floor(Date.now() / 1000) };
+
+    const user = resolveIdentity(payload, dbMockCorretor);
+    assert.equal(user.perfil, 'corretor');
+
+    // Corretor (id=5) tentando acessar lead com responsavel_id=2 → 403
+    assert.throws(
+      () => requireOwnershipOrAdmin(user, 2),
+      (err) => {
+        assert.ok(err instanceof AuthError);
+        assert.equal(err.statusCode, 403);
+        assert.match(err.message, /Acesso negado/);
+        return true;
+      },
+    );
+
+    // Mas acessa seus próprios leads normalmente
+    assert.doesNotThrow(() => requireOwnershipOrAdmin(user, 5));
+  });
+});

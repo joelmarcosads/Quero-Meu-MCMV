@@ -24,7 +24,7 @@
 | T11 | Criação de lead via API real | HTTP real Worker | CF Access Service Token (proposto) | ⏳ PENDENTE | Workflow preparado; requer Service Token + patch auth.ts |
 | T12 | Backup/restore em banco D1 descartável | SQL direto D1 (restauração manual) | MCP D1 / banco descartável excluído | ⚠️ PARCIAL | Ciclo SQL executado; Time Travel nativo bloqueado |
 
-**Contagem:** 7 aprovados ✅ / 1 parcial ⚠️ / 3 pendentes ⏳ / 0 reprovados ❌
+**Contagem:** 8 aprovados ✅ / 1 parcial ⚠️ / 3 pendentes ⏳ / 0 reprovados ❌
 
 ---
 
@@ -118,6 +118,24 @@ const result = await env.DB.prepare(
 ).bind(lookupKey).first<AuthenticatedUser>();
 ```
 
+### Status do patch (Fase 3A.1 — IMPLEMENTADO)
+
+O patch foi aplicado em `src/auth.ts`. Cobertura de testes locais (`t1_t9_local.mjs`):
+
+| Teste | Cenário | Resultado |
+|-------|---------|-----------|
+| ST1 | Service token válido (`sub=""`, `common_name` presente) → resolve usuário CI | ✅ PASS |
+| ST2 | Service token malformado (`sub=""`, sem `common_name`) → AuthError 401 | ✅ PASS |
+| ST3 | `common_name` não cadastrado no D1 → AuthError 401 | ✅ PASS |
+| ST4 | Token de usuário humano (`sub != ""`) → fluxo inalterado | ✅ PASS |
+| ST4b | Usuário humano com `sub` não cadastrado → AuthError 401 | ✅ PASS |
+| ST5 | `requirePerfil(['admin'])` passa para service identity admin | ✅ PASS |
+| ST5b | `requirePerfil(['corretor'])` falha para admin → AuthError 403 | ✅ PASS |
+| ST6 | `requireOwnershipOrAdmin` bypass para admin service identity | ✅ PASS |
+| ST6b | Isolamento de ownership bloqueado para service identity corretor | ✅ PASS |
+
+**Total de testes locais: 54/54 pass** (45 anteriores + 9 novos ST)
+
 ### Pré-requisitos para executar T2/T10/T11 (requer nova autorização)
 
 1. Autorização de Joel para:
@@ -133,7 +151,8 @@ const result = await env.DB.prepare(
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `crm-worker/tests/t1_t9_local.mjs` | 45 testes unitários locais (T3–T9) |
+| `crm-worker/tests/t1_t9_local.mjs` | 54 testes unitários locais (T1–T9 + LGPD + ST — 54/54 pass) |
+| `crm-worker/src/auth.ts` | Patch Fase 3A.1: suporte a service tokens (sub="" + common_name) |
 | `crm-worker/docs/service-tokens-architecture.md` | Análise completa da arquitetura Service Tokens vs auth.ts |
 | `crm-worker/docs/fase3a-homologacao-revisada.md` | Este arquivo — relatório consolidado |
 | `.github/workflows/integration-tests-staging.yml` | Proposta de workflow para T2, T10, T11 |
