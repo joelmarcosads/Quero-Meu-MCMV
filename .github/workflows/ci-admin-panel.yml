@@ -1,0 +1,75 @@
+name: CI — Admin Panel (build + TypeScript)
+
+# ─── Disparo automático na branch de feature ────────────────────────────────
+on:
+  push:
+    branches:
+      - feat/webhook-meta-lead-ads
+    paths:
+      - 'admin-panel/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'admin-panel/**'
+
+# ─── Permissões mínimas ─────────────────────────────────────────────────────
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: TypeScript + Vite Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Node.js 22 LTS
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: admin-panel/package.json
+
+      # 3. Instalar dependências
+      #    Sem package-lock.json, usa npm install
+      - name: Install dependencies
+        working-directory: admin-panel
+        run: npm install
+
+      # 4. Verificação TypeScript (sem emitir arquivos)
+      - name: TypeScript check
+        working-directory: admin-panel
+        run: npx tsc --noEmit
+
+      # 5. Build de produção com Vite
+      - name: Vite build
+        working-directory: admin-panel
+        run: npm run build
+
+      # 6. Verificar artefato de build
+      - name: Verify build output
+        working-directory: admin-panel
+        run: |
+          if [ -d dist ]; then
+            echo "✅ dist/ gerado com sucesso"
+            echo "Tamanho:"
+            du -sh dist/
+            echo "Arquivos principais:"
+            ls dist/assets/*.js 2>/dev/null | head -5
+          else
+            echo "❌ dist/ não encontrado — build falhou"
+            exit 1
+          fi
+
+      # 7. Upload do artefato de build (retido por 7 dias)
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-panel-dist
+          path: admin-panel/dist/
+          retention-days: 7
