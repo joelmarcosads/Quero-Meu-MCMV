@@ -23,29 +23,76 @@ jobs:
     if: ${{ github.event.inputs.confirmar == 'CONFIRMAR' }}
 
     steps:
-      # 1. Checkout da branch de staging (nunca toca em main)
+      # 1. Checkout da branch de staging (nunca toca em main nem em produção)
       - name: Checkout feat/market-imobi-crm-staging
         uses: actions/checkout@v4
         with:
           ref: feat/market-imobi-crm-staging
 
-      # 2. Node 22 LTS (20 depreciado nos runners GitHub em 2026)
+      # 2. Node 22 LTS (Node 20 depreciado nos runners GitHub em 2026)
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # 3. Instalar dependências (inclui wrangler ^3.87.0)
-      #    npm install usado pois não há package-lock.json no repo
-      - name: Install dependencies
+      # ── Build do admin-panel ──────────────────────────────────────────────
+      # O wrangler.toml exige assets.directory = "../admin-panel/dist".
+      # O dist/ não é versionado (.gitignore), portanto deve ser gerado aqui.
+      # Se o build falhar, o deploy é interrompido automaticamente (set -e implícito).
+
+      # 3. Instalar dependências do admin-panel
+      #    npm ci requer package-lock.json — usa npm install como fallback seguro
+      - name: Install admin-panel dependencies
+        working-directory: admin-panel
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "📦 package-lock.json encontrado — usando npm ci"
+            npm ci
+          else
+            echo "📦 Sem package-lock.json — usando npm install"
+            npm install
+          fi
+
+      # 4. Validação TypeScript do admin-panel (interrompe o deploy se houver erros)
+      - name: TypeScript check — admin-panel
+        working-directory: admin-panel
+        run: npx tsc --noEmit
+
+      # 5. Build de produção do admin-panel → gera admin-panel/dist/
+      - name: Build admin-panel
+        working-directory: admin-panel
+        run: npm run build
+
+      # 6. Verificar que admin-panel/dist/ foi gerado (falha interrompe o deploy)
+      - name: Verify admin-panel/dist
+        working-directory: admin-panel
+        run: |
+          if [ -d dist ]; then
+            echo "✅ admin-panel/dist gerado com sucesso"
+            du -sh dist/
+          else
+            echo "❌ admin-panel/dist não encontrado — abortando deploy"
+            exit 1
+          fi
+
+      # ── Deploy do Worker ──────────────────────────────────────────────────
+
+      # 7. Instalar dependências do crm-worker (inclui wrangler)
+      #    npm ci requer package-lock.json — usa npm install como fallback seguro
+      - name: Install crm-worker dependencies
         working-directory: crm-worker
-        run: npm install
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "📦 package-lock.json encontrado — usando npm ci"
+            npm ci
+          else
+            echo "📦 Sem package-lock.json — usando npm install"
+            npm install
+          fi
 
-      # 4. Compilar TypeScript → dist/worker.js (esbuild via wrangler)
-      #    O wrangler compila internamente ao fazer deploy
-      #    Não é necessário rodar esbuild separado
-
-      # 5. Deploy → ambiente staging (rota api-staging.queromeumcmv.com.br)
+      # 8. Deploy → ambiente staging exclusivamente
+      #    Recursos de staging: Worker=market-imobi-crm-staging, D1=market-imobi-staging
+      #    Recursos de produção NÃO são tocados.
       - name: Deploy Worker to staging
         working-directory: crm-worker
         env:
@@ -55,15 +102,15 @@ jobs:
           npx wrangler deploy --env staging
           echo "✅ Deploy concluído"
 
-      # 6. Instrução pós-deploy
-      #    O health check automático foi removido porque o hostname está protegido
-      #    pelo Cloudflare Access — curl sem sessão recebe 302/403 mesmo com o
-      #    Worker funcionando. Teste manualmente após o deploy:
+      # 9. Instrução pós-deploy
+      #    Health check automático removido: hostname protegido pelo Cloudflare Access
+      #    (curl sem sessão recebe 302/403 mesmo com o Worker funcionando).
+      #    Verificação manual após o deploy:
       #
-      #    Opção A (browser com sessão CF Access):
+      #    Opção A — browser com sessão CF Access ativa:
       #      https://api-staging.queromeumcmv.com.br/health
       #
-      #    Opção B (curl com bypass configurado no Dashboard):
+      #    Opção B — curl com bypass configurado no Dashboard:
       #      Zero Trust → Access → Applications → Market Imobi CRM - Staging
       #      → adicionar regra Bypass para Path = /health
       #
