@@ -7,6 +7,11 @@ export interface Env {
   CF_ACCESS_AUD: string;
   // Static Assets binding para o Admin Panel SPA (opcional: pode não existir em dev)
   ASSETS?: { fetch(request: Request): Promise<Response> };
+  // ─── Secrets Meta Lead Ads (configurados via `wrangler secret put`) ────────
+  // Nunca definidos como vars — apenas como secrets criptografados no Cloudflare
+  META_VERIFY_TOKEN: string;      // Token de verificação do webhook (compartilhado com Meta)
+  META_APP_SECRET: string;        // App Secret do Meta App (valida X-Hub-Signature-256)
+  META_PAGE_ACCESS_TOKEN: string; // Page Access Token para buscar dados via Graph API
 }
 
 // ─── Usuário autenticado (extraído do JWT) ────────────────────────────────────
