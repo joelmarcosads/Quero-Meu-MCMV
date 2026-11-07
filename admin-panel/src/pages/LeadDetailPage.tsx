@@ -50,23 +50,46 @@ export function LeadDetailPage() {
       </nav>
 
       {/* Header */}
-      <div className="glass-card p-5 flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-xl font-bold text-white leading-tight">
-            {lead.contato_nome ?? 'Sem nome'}
-          </h1>
-          <p className="text-slate-400 text-sm mt-1">{lead.telefone}</p>
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium capitalize bg-cyan-500/15 text-cyan-300 border border-cyan-500/20">
-            {lead.origem}
-          </span>
-          {lead.canal && (
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-white/8 text-slate-300 border border-white/10">
-              {lead.canal}
+      <div className="glass-card p-5 space-y-4">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-xl font-bold text-white leading-tight">
+              {lead.contato_nome ?? 'Sem nome'}
+            </h1>
+            <p className="text-slate-400 text-sm mt-1 font-mono">{lead.telefone}</p>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium capitalize bg-cyan-500/15 text-cyan-300 border border-cyan-500/20">
+              {lead.origem}
             </span>
-          )}
+            {lead.canal && (
+              <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-white/8 text-slate-300 border border-white/10">
+                {lead.canal}
+              </span>
+            )}
+          </div>
         </div>
+        {/* Botões de contato rápido — um toque no mobile */}
+        {lead.telefone && (
+          <div className="flex gap-2 flex-wrap">
+            <a
+              href={`tel:${lead.telefone.replace(/\D/g, '')}`}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
+              style={{ background: 'linear-gradient(135deg, #0077FF, #005bcc)', boxShadow: '0 2px 12px rgba(0,119,255,0.30)' }}
+            >
+              📞 Ligar
+            </a>
+            <a
+              href={`https://wa.me/55${lead.telefone.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
+              style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)', boxShadow: '0 2px 12px rgba(37,211,102,0.30)' }}
+            >
+              💬 WhatsApp
+            </a>
+          </div>
+        )}
       </div>
 
       {/* Grid de cards */}

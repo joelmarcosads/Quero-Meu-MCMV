@@ -182,21 +182,44 @@ export function ContatoDetailPage() {
       </nav>
 
       {/* Header */}
-      <div className="glass-card p-5 flex items-start justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-full flex items-center justify-center text-lg font-bold text-white shrink-0"
-               style={{ background: 'linear-gradient(135deg, #00E5FF, #0077FF)', boxShadow: '0 0 14px rgba(0,229,255,0.30)' }}>
-            {contato.nome?.[0]?.toUpperCase() ?? '?'}
+      <div className="glass-card p-5 space-y-4">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-full flex items-center justify-center text-lg font-bold text-white shrink-0"
+                 style={{ background: 'linear-gradient(135deg, #00E5FF, #0077FF)', boxShadow: '0 0 14px rgba(0,229,255,0.30)' }}>
+              {contato.nome?.[0]?.toUpperCase() ?? '?'}
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-white leading-tight">{contato.nome ?? 'Sem nome'}</h1>
+              <p className="text-slate-400 text-sm mt-0.5 font-mono">{contato.telefone}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-white leading-tight">{contato.nome ?? 'Sem nome'}</h1>
-            <p className="text-slate-400 text-sm mt-0.5 font-mono">{contato.telefone}</p>
-          </div>
+          {!editing && (
+            <Button variant="secondary" onClick={() => setEditing(true)} size="sm">
+              ✏️ Editar
+            </Button>
+          )}
         </div>
-        {!editing && (
-          <Button variant="secondary" onClick={() => setEditing(true)} size="sm">
-            ✏️ Editar
-          </Button>
+        {/* Botões de contato rápido — um toque no mobile */}
+        {contato.telefone && (
+          <div className="flex gap-2 flex-wrap">
+            <a
+              href={`tel:${contato.telefone.replace(/\D/g, '')}`}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
+              style={{ background: 'linear-gradient(135deg, #0077FF, #005bcc)', boxShadow: '0 2px 12px rgba(0,119,255,0.30)' }}
+            >
+              📞 Ligar
+            </a>
+            <a
+              href={`https://wa.me/55${contato.telefone.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all active:scale-95 hover:brightness-110"
+              style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)', boxShadow: '0 2px 12px rgba(37,211,102,0.30)' }}
+            >
+              💬 WhatsApp
+            </a>
+          </div>
         )}
       </div>
 
