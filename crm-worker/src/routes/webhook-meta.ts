@@ -5,29 +5,47 @@
  *
  * GET  /api/v1/webhook/meta  — verificação do token (Meta Developer Platform)
  * POST /api/v1/webhook/meta  — recebe eventos `leadgen`, busca dados via Graph API,
- *                              insere contato + lead + consentimento LGPD no D1
+ *                              insere contato + lead + base legal LGPD no D1
  *
  * ─── Segurança ───────────────────────────────────────────────────────────────
  *   - GET:  hub.verify_token comparado com secret META_VERIFY_TOKEN
  *   - POST: X-Hub-Signature-256 validado via HMAC-SHA256 (META_APP_SECRET)
- *   - Esta rota NÃO exige Cloudflare Access JWT — deve ter "Bypass" na CF Access policy
+ *   - POST: page_id validado contra META_PAGE_ID (se configurado)
+ *   - Page Access Token enviado via Authorization header (nunca exposto na URL)
+ *   - Esta rota NÃO exige Cloudflare Access JWT
+ *   - IMPORTANTE: adicionar regra "Bypass" no CF Access para /api/v1/webhook/meta
+ *     (igual a /api/v1/public/leads) — sem isso o CF Access bloqueia a nível de rede
  *
  * ─── Rastreabilidade ─────────────────────────────────────────────────────────
- *   - leadgen_id usado como idempotency_key → deduplicação nativa
+ *   - leadgen_id usado como idempotency_key → deduplicação garantida por UNIQUE no D1
  *   - page_id, form_id, ad_id, campaign_id gravados em dados_extras_json
  *   - utm_source='meta', utm_medium='social', utm_campaign=nome da campanha
  *
  * ─── LGPD ────────────────────────────────────────────────────────────────────
- *   - Consentimento registrado em consentimentos_lgpd (canal='portal_web')
- *   - base_legal='consentimento' — lead preencheu formulário Meta voluntariamente
+ *   - Base legal: 'legitimo_interesse' (Art. 7°, IX LGPD)
+ *     Fundamento: o lead preencheu voluntariamente um formulário Meta Lead Ads
+ *     expressando interesse no produto anunciado. O tratamento para fins de
+ *     prospecção e contato está dentro da expectativa razoável do titular e é
+ *     compatível com o propósito para o qual os dados foram fornecidos.
+ *   - NÃO se usa 'consentimento' (Art. 7°, I): não há evidência verificável do
+ *     texto exato que o usuário visualizou antes de enviar o formulário Meta.
  *   - Nenhum dado de IP gravado (request do Meta não carrega IP do lead)
+ *
+ * ─── Recuperação de falhas ───────────────────────────────────────────────────
+ *   - Eventos são processados SINCRONAMENTE antes do 200 OK (sem waitUntil)
+ *   - Falhas temporárias na Graph API (5xx, timeout, 429) → 503 → Meta retenta
+ *   - Erros permanentes (4xx Graph API, dados ausentes) → 200 (descartar)
+ *   - Duplicados por leadgen_id → 200 (idempotência garantida por UNIQUE no D1)
+ *   - Em caso de 503: idempotência via INSERT OR IGNORE garante que eventos
+ *     já processados não são duplicados quando o Meta reenvia o batch
  */
 
 import type { Env } from '../types';
 import { normalizePhone } from '../utils';
 
-// ─── Versão do texto de consentimento LGPD em vigor ───────────────────────────
-const VERSAO_CONSENTIMENTO = 'v2026-11';
+// ─── Versão interna da política de legítimo interesse para Meta Lead Ads ──────
+// Atualizar se mudar o propósito do tratamento ou o aviso de privacidade Meta
+const VERSAO_LI_META = 'meta-lead-form-li-v1';
 
 // ─── Tipos do payload Meta ─────────────────────────────────────────────────────
 
@@ -86,18 +104,16 @@ async function verifySignature(
   if (!sigHeader || !sigHeader.startsWith('sha256=')) return false;
   const receivedHex = sigHeader.slice(7);
 
-  // Cast necessário: SubtleCrypto com 'raw' + HMAC/sign não está tipado no lib ES2022
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const subtle = crypto.subtle as unknown as any;
+  // SubtleCrypto com HMAC/sign — declarado em cf-types.d.ts
   const keyBytes = new TextEncoder().encode(appSecret);
-  const key = await subtle.importKey(
+  const key = await crypto.subtle.importKey(
     'raw',
     keyBytes.buffer as ArrayBuffer,
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign'],
-  ) as CryptoKey;
-  const sigBytes = await subtle.sign('HMAC', key, body) as ArrayBuffer;
+  );
+  const sigBytes = await crypto.subtle.sign('HMAC', key, body);
   const computedHex = Array.from(new Uint8Array(sigBytes))
     .map((b: number) => b.toString(16).padStart(2, '0'))
     .join('');
@@ -112,42 +128,62 @@ async function verifySignature(
 }
 
 // ─── Buscar dados do lead via Graph API ──────────────────────────────────────
+//
+// Comportamento por tipo de erro:
+//   - Rede/timeout:  LANÇA (falha recuperável → caller retorna 503 → Meta retenta)
+//   - 429 (rate-limit): LANÇA (falha recuperável → idem)
+//   - 5xx (servidor Meta): LANÇA (falha recuperável → idem)
+//   - 4xx (exceto 429): retorna null (falha permanente → caller descarta)
+//   - JSON inválido:  retorna null (falha permanente → caller descarta)
+//
+// Token enviado via Authorization header (nunca na URL — evita exposição em logs).
 
 async function fetchLeadData(
   leadgenId: string,
   pageAccessToken: string,
+  graphApiBase?: string,
 ): Promise<MetaLeadData | null> {
+  const base = graphApiBase ?? 'https://graph.facebook.com';
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
-  const url = `https://graph.facebook.com/v21.0/${encodeURIComponent(leadgenId)}` +
-              `?fields=${fields}&access_token=${pageAccessToken}`;
+  const url = `${base}/v21.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
 
   let resp: Response;
   try {
-    resp = await fetch(url);
+    resp = await fetch(url, {
+      headers: {
+        // Token via Authorization header — não exposto na URL do log
+        'Authorization': `Bearer ${pageAccessToken}`,
+      },
+    });
   } catch (err) {
-    console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}:`, err);
-    return null;
+    // Falha de rede — temporária; lança para forçar retentativa do Meta
+    throw new Error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)}`);
   }
 
   if (resp.status === 429) {
-    // Rate limit da Graph API — log sem lançar (Meta vai retentar)
-    console.warn(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId}`);
-    return null;
+    // Rate limit — temporário; lança para forçar retentativa
+    throw new Error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId}`);
+  }
+
+  if (resp.status >= 500) {
+    // Erro de servidor Meta — temporário; lança para forçar retentativa
+    throw new Error(`[webhook-meta] Graph API erro de servidor ${resp.status} para leadgen ${leadgenId}`);
   }
 
   if (!resp.ok) {
+    // Erro permanente (4xx exceto 429): leadgen inválido, token inválido, permissão ausente
     const body = await resp.text().catch(() => '');
     console.error(
-      `[webhook-meta] Graph API erro ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`,
+      `[webhook-meta] Graph API erro permanente ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`,
     );
-    return null;
+    return null; // descartar sem retry
   }
 
   try {
     return await resp.json() as MetaLeadData;
   } catch {
     console.error(`[webhook-meta] Resposta não-JSON para leadgen ${leadgenId}`);
-    return null;
+    return null; // permanente — sem retry
   }
 }
 
@@ -158,35 +194,51 @@ function extractField(fields: MetaLeadFieldData[], name: string): string | null 
 }
 
 // ─── Processar um evento leadgen ─────────────────────────────────────────────
+//
+// Retorna:
+//   'processed'  — lead inserido com sucesso
+//   'duplicate'  — leadgen_id já existe (idempotência — sem erro)
+//   'discarded'  — erro permanente ou dados ausentes (sem retry necessário)
+//
+// Lança: somente para falhas recuperáveis (Graph API 5xx/timeout/429)
+//        → caller retorna 503 → Meta reenvia → idempotência via UNIQUE garante dedup
 
 async function processLeadgenEvent(
   value: MetaLeadgenValue,
   env: Env,
-): Promise<void> {
+): Promise<'processed' | 'duplicate' | 'discarded'> {
   const { leadgen_id, page_id, form_id, ad_id, campaign_id, ad_name, campaign_name } = value;
 
-  // ── Idempotência por leadgen_id ───────────────────────────────────────────
+  // ── Validação básica do payload ───────────────────────────────────────────
+  if (!leadgen_id || typeof leadgen_id !== 'string' || leadgen_id.trim() === '') {
+    console.error('[webhook-meta] Evento leadgen sem leadgen_id válido — descartado');
+    return 'discarded';
+  }
+
+  // ── Idempotência por leadgen_id (otimização: evita chamada à Graph API) ──
+  // A UNIQUE constraint no D1 é a garantia atômica real (INSERT OR IGNORE abaixo).
+  // Este SELECT é apenas um fast-path para não desperdiçar uma chamada à Graph API.
   const existing = await env.DB.prepare(
     'SELECT id FROM leads WHERE idempotency_key = ? LIMIT 1',
   ).bind(leadgen_id).first<{ id: number }>();
 
   if (existing) {
     console.log(`[webhook-meta] Duplicado ignorado — leadgen_id: ${leadgen_id}, lead_id: ${existing.id}`);
-    return;
+    return 'duplicate';
   }
 
   // ── Buscar dados do lead na Graph API ─────────────────────────────────────
+  // Lança em falhas recuperáveis; retorna null em falhas permanentes
   const pageAccessToken = env.META_PAGE_ACCESS_TOKEN;
   if (!pageAccessToken) {
-    console.error('[webhook-meta] META_PAGE_ACCESS_TOKEN não configurado');
-    return;
+    console.error('[webhook-meta] META_PAGE_ACCESS_TOKEN não configurado — descartado');
+    return 'discarded'; // erro de configuração — não adianta retentar
   }
 
-  const leadData = await fetchLeadData(leadgen_id, pageAccessToken);
+  // fetchLeadData lança em falhas recuperáveis (5xx, timeout, 429)
+  const leadData = await fetchLeadData(leadgen_id, pageAccessToken, env.GRAPH_API_BASE_URL);
   if (!leadData) {
-    // Falha na Graph API — log registrado em fetchLeadData, não relançar
-    // (impediria o Meta de receber 200 e causaria retentativas excessivas)
-    return;
+    return 'discarded'; // erro permanente (4xx) já logado em fetchLeadData
   }
 
   const fields = leadData.field_data ?? [];
@@ -205,13 +257,13 @@ async function processLeadgenEvent(
   // ── Validar telefone (obrigatório) ────────────────────────────────────────
   if (!telefoneRaw) {
     console.error(`[webhook-meta] leadgen ${leadgen_id} sem campo phone_number — descartado`);
-    return;
+    return 'discarded';
   }
 
   const telefone = normalizePhone(telefoneRaw);
   if (!telefone) {
     console.error(`[webhook-meta] Telefone inválido no leadgen ${leadgen_id}: '${telefoneRaw}'`);
-    return;
+    return 'discarded';
   }
 
   // ── Upsert de contato (dedup por telefone) ────────────────────────────────
@@ -225,29 +277,33 @@ async function processLeadgenEvent(
 
   if (!contato) {
     console.error(`[webhook-meta] Falha ao obter/criar contato para leadgen ${leadgen_id}`);
-    return;
+    return 'discarded';
   }
 
   // ── Metadados Meta (rastreabilidade) ─────────────────────────────────────
-  // Armazenados em dados_extras_json para auditoria e análise de campanhas
   const dadosExtras = JSON.stringify({
-    meta_leadgen_id:   leadgen_id,
-    meta_page_id:      page_id,
-    meta_form_id:      form_id,
-    meta_ad_id:        ad_id ?? leadData.ad_id ?? null,
-    meta_campaign_id:  campaign_id ?? leadData.campaign_id ?? null,
-    meta_ad_name:      ad_name ?? leadData.ad_name ?? null,
+    meta_leadgen_id:    leadgen_id,
+    meta_page_id:       page_id,
+    meta_form_id:       form_id,
+    meta_ad_id:         ad_id ?? leadData.ad_id ?? null,
+    meta_campaign_id:   campaign_id ?? leadData.campaign_id ?? null,
+    meta_ad_name:       ad_name ?? leadData.ad_name ?? null,
     meta_campaign_name: campaign_name ?? leadData.campaign_name ?? null,
-    meta_adset_name:   leadData.adset_name ?? null,
+    meta_adset_name:    leadData.adset_name ?? null,
   });
 
-  // ── Inserir lead ─────────────────────────────────────────────────────────
-  // origem = 'meta_ads' (CHECK constraint OK)
+  // ── Inserir lead (INSERT OR IGNORE — garantia atômica de idempotência) ────
+  //
+  // "OR IGNORE" torna a idempotência atômica no nível do banco de dados:
+  //   - Se dois requests chegarem simultaneamente com o mesmo leadgen_id (race condition),
+  //     ambos tentam INSERT; o segundo é silenciosamente ignorado pela UNIQUE constraint
+  //     e RETURNING não retorna linhas → leadResult = null = 'duplicate'
+  //   - Nenhum erro é lançado, nenhuma exceção escapa — comportamento totalmente previsível
+  //
+  // origem = 'meta_ads' (OK no CHECK constraint da tabela leads)
   // canal  = 'formulario_meta' (campo TEXT sem CHECK — identifica fonte exata)
-  // utm_source/medium = valores padrão para analytics
-  // utm_campaign = nome da campanha Meta para relatórios de desempenho
   const leadResult = await env.DB.prepare(
-    `INSERT INTO leads
+    `INSERT OR IGNORE INTO leads
        (contato_id, empreendimento_id, tipologia_id, idempotency_key,
         origem, canal,
         utm_source, utm_medium, utm_campaign, utm_content, utm_term,
@@ -267,20 +323,39 @@ async function processLeadgenEvent(
   ).first<{ id: number; contato_id: number; origem: string; created_at: string }>();
 
   if (!leadResult) {
-    console.error(`[webhook-meta] Falha ao inserir lead para leadgen ${leadgen_id}`);
-    return;
+    // UNIQUE constraint silenciou o INSERT — duplicado capturado pelo banco
+    console.log(`[webhook-meta] Duplicado capturado por UNIQUE no DB — leadgen_id: ${leadgen_id}`);
+    return 'duplicate';
   }
 
-  // ── Registrar consentimento LGPD ─────────────────────────────────────────
-  // tipo: 'contato_whatsapp' — consentimento para contato via WhatsApp
-  // canal: 'portal_web' — único valor do CHECK constraint que cobre formulários online
-  // base_legal: 'consentimento' — lead preencheu formulário Meta voluntariamente
+  // ── Registrar base legal LGPD (legítimo interesse) ───────────────────────
+  //
+  // Base legal: Art. 7°, IX LGPD — Legítimo Interesse
+  //
+  // Fundamento: o titular preencheu voluntariamente um formulário Meta Lead Ads
+  // expressando interesse explícito no produto anunciado (imóvel / MCMV).
+  // O tratamento para fins de prospecção imobiliária e contato via WhatsApp é
+  // compatível com o propósito para o qual os dados foram fornecidos e está dentro
+  // da expectativa razoável do titular ao preencher um formulário de captação.
+  //
+  // O Meta Lead Ads exibe um aviso de privacidade personalizado do anunciante
+  // (URL configurada no formulário) antes do envio, indicando o uso dos dados.
+  //
+  // NÃO se usa 'consentimento' (Art. 7°, I): não temos evidência verificável do
+  // texto exato do aviso que o usuário visualizou; o texto_versao seria divergente
+  // da realidade se usássemos a versão do portal (v2026-11).
+  //
+  // canal='portal_web': único valor do CHECK constraint que cobre formulários online.
+  // texto_versao='meta-lead-form-li-v1': identifica esta política de legítimo
+  //   interesse, desacoplada do versionamento do consentimento do portal.
   await env.DB.prepare(
     `INSERT INTO consentimentos_lgpd
        (contato_id, tipo, concedido, canal, texto_versao, base_legal, ip_address)
-     VALUES (?, 'contato_whatsapp', 1, 'portal_web', ?, 'consentimento', NULL)`,
-  ).bind(contato.id, VERSAO_CONSENTIMENTO).run().catch(() => {
-    console.error(`[webhook-meta] Falha ao registrar consentimento LGPD — contato_id: ${contato.id}`);
+     VALUES (?, 'contato_whatsapp', 1, 'portal_web', ?, 'legitimo_interesse', NULL)`,
+  ).bind(contato.id, VERSAO_LI_META).run().catch(() => {
+    // Falha no LGPD não cancela o lead — já inserido com sucesso
+    // Lead recuperável via reconciliação por contato_id sem registro LGPD
+    console.error(`[webhook-meta] Falha ao registrar base legal LGPD — contato_id: ${contato.id}`);
   });
 
   console.log(
@@ -289,6 +364,8 @@ async function processLeadgenEvent(
     ` | contato_id: ${contato.id}` +
     ` | origem: meta_ads`,
   );
+
+  return 'processed';
 }
 
 // ─── Handler principal ─────────────────────────────────────────────────────────
@@ -296,7 +373,7 @@ async function processLeadgenEvent(
 export async function handleMetaWebhook(
   request: Request,
   env: Env,
-  ctx: ExecutionContext,
+  _ctx: ExecutionContext,
 ): Promise<Response> {
   const url = new URL(request.url);
 
@@ -335,7 +412,7 @@ export async function handleMetaWebhook(
     // Ler body como ArrayBuffer antes de qualquer leitura (necessário para HMAC)
     const rawBody = await request.arrayBuffer();
 
-    // Verificar assinatura X-Hub-Signature-256
+    // Verificar assinatura X-Hub-Signature-256 sobre o corpo bruto
     const valid = await verifySignature(request, rawBody, appSecret);
     if (!valid) {
       console.warn('[webhook-meta] Assinatura inválida — requisição rejeitada');
@@ -347,34 +424,66 @@ export async function handleMetaWebhook(
     try {
       payload = JSON.parse(new TextDecoder().decode(rawBody)) as MetaWebhookPayload;
     } catch {
-      console.error('[webhook-meta] Payload inválido (não é JSON)');
+      console.error('[webhook-meta] Payload inválido (não é JSON válido)');
       return new Response('Bad Request', { status: 400 });
     }
 
-    // Responder 200 ao Meta imediatamente — processamento assíncrono via waitUntil
-    // O Meta exige resposta em < 20 segundos; processamento real ocorre em background
-    if (payload.object === 'page') {
-      ctx.waitUntil(
-        (async () => {
-          for (const entry of payload.entry ?? []) {
-            for (const change of entry.changes ?? []) {
-              if (change.field === 'leadgen') {
-                try {
-                  await processLeadgenEvent(change.value, env);
-                } catch (err) {
-                  // Capturar erros inesperados para não abortar processamento dos demais eventos
-                  console.error('[webhook-meta] Erro inesperado em processLeadgenEvent:', err);
-                }
-              }
-            }
-          }
-        })(),
-      );
-    } else {
-      console.warn(`[webhook-meta] Tipo de objeto não suportado: ${payload.object}`);
+    // Validar page_id contra a Página autorizada (se META_PAGE_ID configurado)
+    // Previne processamento de eventos de outras Páginas gerenciadas pelo mesmo App Meta.
+    // Retorna 200 (não 403) para o Meta não retentar — apenas ignoramos o evento.
+    if (env.META_PAGE_ID) {
+      for (const entry of payload.entry ?? []) {
+        if (entry.id !== env.META_PAGE_ID) {
+          console.warn(
+            `[webhook-meta] page_id não autorizado: '${entry.id}' (esperado: '${env.META_PAGE_ID}') — ignorado`,
+          );
+          return new Response(
+            JSON.stringify({ success: true, skipped: 'unauthorized_page_id' }),
+            { status: 200, headers: { 'Content-Type': 'application/json' } },
+          );
+        }
+      }
     }
 
-    // 200 OK — Meta não retentará este evento
+    if (payload.object !== 'page') {
+      console.warn(`[webhook-meta] Tipo de objeto não suportado: '${payload.object}' — ignorado`);
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // ── Processamento SÍNCRONO (não waitUntil) ────────────────────────────
+    //
+    // Motivo: processamento assíncrono (waitUntil) impede retentativas automáticas
+    // em caso de falha temporária na Graph API — já respondemos 200 e o Meta não
+    // reenvia o evento. Processando antes do 200:
+    //   - Falhas recuperáveis → 503 → Meta reenvia (retenta por até 24h)
+    //   - Duplicatas no reenvio → capturadas por INSERT OR IGNORE (idempotência)
+    //   - Falhas permanentes → descartadas; respondemos 200 (sem loops de retry)
+    //
+    // O Meta aguarda até 20s; uma chamada à Graph API + 2-3 queries D1 ≈ 2-5s.
+    // Para batches maiores, o timeout de 25s do Workers oferece margem suficiente.
+
+    for (const entry of payload.entry ?? []) {
+      for (const change of entry.changes ?? []) {
+        if (change.field !== 'leadgen') continue;
+
+        try {
+          await processLeadgenEvent(change.value, env);
+        } catch (err) {
+          // Falha recuperável (Graph API 5xx, timeout, rate-limit)
+          // Retornar 503 para o Meta retentar o batch inteiro.
+          // Eventos já processados neste batch serão tratados como duplicados na retentativa.
+          console.error('[webhook-meta] Falha recuperável — retornando 503 para o Meta retentar:', err);
+          return new Response('Service Unavailable', {
+            status: 503,
+            headers: { 'Retry-After': '30' },
+          });
+        }
+      }
+    }
+
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

@@ -9,9 +9,15 @@ export interface Env {
   ASSETS?: { fetch(request: Request): Promise<Response> };
   // ─── Secrets Meta Lead Ads (configurados via `wrangler secret put`) ────────
   // Nunca definidos como vars — apenas como secrets criptografados no Cloudflare
-  META_VERIFY_TOKEN: string;      // Token de verificação do webhook (compartilhado com Meta)
-  META_APP_SECRET: string;        // App Secret do Meta App (valida X-Hub-Signature-256)
-  META_PAGE_ACCESS_TOKEN: string; // Page Access Token para buscar dados via Graph API
+  META_VERIFY_TOKEN: string;       // Token de verificação do webhook (compartilhado com Meta)
+  META_APP_SECRET: string;         // App Secret do Meta App (valida X-Hub-Signature-256)
+  META_PAGE_ACCESS_TOKEN: string;  // Page Access Token para buscar dados via Graph API
+  // ─── Configurações opcionais Meta ──────────────────────────────────────────
+  META_PAGE_ID?: string;           // ID da Página Meta autorizada — se definido, eventos de
+                                   // outras páginas são ignorados (prevenção de cross-page events)
+  // ─── Override para testes locais ───────────────────────────────────────────
+  // Nunca definir em produção; usar somente em .dev.vars para testes automatizados
+  GRAPH_API_BASE_URL?: string;     // Ex: http://localhost:3099 — mock da Graph API em testes
 }
 
 // ─── Usuário autenticado (extraído do JWT) ────────────────────────────────────

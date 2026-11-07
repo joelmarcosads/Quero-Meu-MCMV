@@ -73,6 +73,11 @@ declare interface SubtleCrypto {
     extractable: boolean,
     keyUsages: KeyUsage[],
   ): Promise<CryptoKey>;
+  sign(
+    algorithm: AlgorithmIdentifier | Algorithm,
+    key: CryptoKey,
+    data: BufferSource,
+  ): Promise<ArrayBuffer>;
   verify(
     algorithm: AlgorithmIdentifier | RsaPssParams | EcdsaParams,
     key: CryptoKey,
