@@ -2,16 +2,32 @@ import { useAuth } from '../../hooks/useAuth';
 
 interface HeaderProps {
   title: string;
+  onMenuOpen?: () => void;
 }
 
-export function Header({ title }: HeaderProps) {
+export function Header({ title, onMenuOpen }: HeaderProps) {
   const { user } = useAuth();
 
   return (
-    <header className="h-14 flex items-center justify-between px-6 shrink-0 border-b border-white/[0.06]"
+    <header className="h-14 flex items-center justify-between px-4 sm:px-6 shrink-0 border-b border-white/[0.06]"
             style={{ background: 'rgba(10, 20, 40, 0.90)', backdropFilter: 'blur(12px)' }}>
 
-      <h2 className="text-sm font-semibold text-white/80 tracking-wide">{title}</h2>
+      <div className="flex items-center gap-3">
+        {/* Botão hamburger — só visível no mobile (< lg) */}
+        <button
+          onClick={onMenuOpen}
+          className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors active:scale-95 shrink-0"
+          aria-label="Abrir menu"
+        >
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true">
+            <rect y="0"  width="18" height="2" rx="1"/>
+            <rect y="6"  width="13" height="2" rx="1"/>
+            <rect y="12" width="18" height="2" rx="1"/>
+          </svg>
+        </button>
+
+        <h2 className="text-sm font-semibold text-white/80 tracking-wide">{title}</h2>
+      </div>
 
       <div className="flex items-center gap-3">
         <div className="text-right hidden sm:block">
