@@ -160,6 +160,11 @@ export async function resolveContact(
   }
 
   // ── 4. Nenhum encontrado → criar ─────────────────────────────────────────
+  // contatos.nome é NOT NULL no schema D1 — usar fallback para evitar
+  // falha no INSERT quando nome não é fornecido (ex: portal público).
+  // 'Visitante' é um placeholder editável pelo corretor no painel.
+  const nomeFinal = nome?.trim() || 'Visitante';
+
   // INSERT OR IGNORE: se houtra requisição concorrente ganhar a corrida com
   // o mesmo telefone, esta instrução ignora silenciosamente (UNIQUE parcial).
   await db
@@ -167,7 +172,7 @@ export async function resolveContact(
       `INSERT OR IGNORE INTO contatos (telefone, nome, email, cidade)
        VALUES (?, ?, ?, ?)`,
     )
-    .bind(telefone, nome?.trim() ?? null, emailNorm, cidade?.trim() ?? null)
+    .bind(telefone, nomeFinal, emailNorm, cidade?.trim() ?? null)
     .run();
 
   // SELECT garante que obtemos o id correto mesmo em caso de corrida

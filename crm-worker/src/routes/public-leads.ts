@@ -169,41 +169,34 @@ export async function handlePublicLeads(
   });
 
   // Conflito: telefone e email pertencem a contatos diferentes.
-  // Rota pública: retorna 200 genérico — não revelar detalhe ao caller externo.
+  // NÃO vincular automaticamente a nenhum contato.
+  // Rota pública: retorna 200 genérico (não expõe detalhe ao visitante).
+  // Registrar em captacoes_conflito para revisão humana pelo corretor.
   if (resolved.kind === 'conflict') {
-    console.log('[public-leads] conflict detectado — retornando 200 genérico');
-    // Registrar o lead vinculado ao contato do TELEFONE (first-touch principal)
-    // O conflito fica registrado nos dados_extras para revisão manual.
-    const conflictExtras = body.dados_extras
-      ? JSON.stringify({ ...body.dados_extras, _dedup_conflict: true })
-      : JSON.stringify({ _dedup_conflict: true });
+    console.log('[public-leads] conflict detectado — registrando em captacoes_conflito');
 
-    // Inserir lead com contato do telefone; email conflitante não é sobrescrito
-    const rawIp = getClientIp(request);
-    const ipSanitizado = rawIp ? sanitizeIp(rawIp) : null;
+    const rawIpConflict = getClientIp(request);
+    const ipConflict = rawIpConflict ? sanitizeIp(rawIpConflict) : null;
     const origem = inferirOrigem(body);
 
-    let empreendimentoId: number | null = null;
-    if (body.empreendimento_slug?.trim()) {
-      const empr = await env.DB.prepare(
-        `SELECT id FROM empreendimentos WHERE slug = ? AND deleted_at IS NULL LIMIT 1`,
-      ).bind(body.empreendimento_slug.trim()).first<{ id: number }>();
-      if (empr) empreendimentoId = empr.id;
-    }
+    // Payload auditável sem PII de texto livre
+    const payloadAudit = JSON.stringify({
+      origem,
+      empreendimento_slug: body.empreendimento_slug ?? null,
+      dados_extras: body.dados_extras ?? null,
+    });
 
     await env.DB.prepare(
-      `INSERT INTO leads
-         (contato_id, empreendimento_id, tipologia_id, idempotency_key,
+      `INSERT OR IGNORE INTO captacoes_conflito
+         (tel_contato_id, email_contato_id,
           origem, canal,
           utm_source, utm_medium, utm_campaign, utm_content, utm_term,
           gclid, fbclid, meta_fbc, meta_fbp,
-          ip_address, user_agent, dados_extras_json)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          idempotency_key, ip_address, user_agent, payload_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(
       resolved.tel_id,
-      empreendimentoId,
-      null,
-      idempotencyKey,
+      resolved.email_id,
       origem,
       'portal_web',
       body.utm_source?.trim() ?? null,
@@ -215,9 +208,10 @@ export async function handlePublicLeads(
       body.fbclid?.trim() ?? null,
       body.meta_fbc ?? null,
       body.meta_fbp ?? null,
-      ipSanitizado,
+      idempotencyKey,
+      ipConflict,
       request.headers.get('user-agent')?.slice(0, 500) ?? null,
-      conflictExtras,
+      payloadAudit,
     ).run();
 
     return new Response(

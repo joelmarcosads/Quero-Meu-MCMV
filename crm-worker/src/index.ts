@@ -17,6 +17,7 @@ import { handleContatos } from './routes/contatos';
 import { handleInteracoes } from './routes/interacoes';
 import { handleUsuarios, handleMe } from './routes/usuarios';
 import { handlePublicLeads } from './routes/public-leads';
+import { handleConflitos } from './routes/conflitos';
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 export default {
@@ -125,6 +126,9 @@ export default {
 
         case 'usuarios':
           return await handleUsuarios(request, env, user);
+
+        case 'conflitos':
+          return await handleConflitos(request, env, user, pathParts);
 
         default:
           return jsonError(`Recurso '${resource}' não encontrado`, 404);

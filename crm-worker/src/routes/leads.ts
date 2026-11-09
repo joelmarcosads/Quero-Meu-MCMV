@@ -71,32 +71,32 @@ async function createLead(
 
   // ── Conflito detectado na rota autenticada ───────────────────────────────
   // Telefone pertence ao contato A, e-mail ao contato B.
-  // NÃO descartar: registrar lead vinculado ao contato do TELEFONE (first-touch)
-  // com flag _dedup_conflict em dados_extras_json para revisão manual.
-  // Retorna 409 com lead_id para o frontend poder exibir aviso e link.
+  // NÃO vincular automaticamente a nenhum contato.
+  // Registrar em captacoes_conflito para revisão humana.
+  // Retorna 409 com conflito_id para o corretor resolver no painel.
   if (resolved.kind === 'conflict') {
     const rawIpConflict = getClientIp(request);
     const ipConflict = rawIpConflict ? sanitizeIp(rawIpConflict) : null;
-    const conflictExtras = JSON.stringify({
-      _dedup_conflict: true,
-      _conflict_tel_contato_id: resolved.tel_id,
-      _conflict_email_contato_id: resolved.email_id,
+
+    // Payload auditável sem PII de texto livre (telefone/email já omitidos)
+    const payloadAudit = JSON.stringify({
+      origem: body.origem,
+      canal: body.canal ?? null,
+      empreendimento_id: body.empreendimento_id ?? null,
     });
 
-    const conflictLead = await env.DB.prepare(
-      `INSERT INTO leads
-         (contato_id, empreendimento_id, tipologia_id, idempotency_key,
+    const conflito = await env.DB.prepare(
+      `INSERT INTO captacoes_conflito
+         (tel_contato_id, email_contato_id,
           origem, canal,
           utm_source, utm_medium, utm_campaign, utm_content, utm_term,
           gclid, fbclid, meta_fbc, meta_fbp,
-          ip_address, user_agent, dados_extras_json)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       RETURNING id, contato_id, origem, created_at`,
+          idempotency_key, ip_address, user_agent, payload_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       RETURNING id, created_at`,
     ).bind(
       resolved.tel_id,
-      body.empreendimento_id ?? null,
-      body.tipologia_id ?? null,
-      body.idempotency_key ?? uuidv4(),
+      resolved.email_id,
       body.origem.trim(),
       body.canal?.trim() ?? null,
       body.utm_source?.trim() ?? null,
@@ -108,21 +108,22 @@ async function createLead(
       body.fbclid?.trim() ?? null,
       body.meta_fbc ?? null,
       body.meta_fbp ?? null,
+      body.idempotency_key ?? uuidv4(),
       ipConflict,
       request.headers.get('user-agent')?.slice(0, 500) ?? null,
-      conflictExtras,
-    ).first<{ id: number; contato_id: number; origem: string; created_at: string }>();
+      payloadAudit,
+    ).first<{ id: number; created_at: string }>();
 
     return new Response(
       JSON.stringify({
         success: false,
         error:
-          `Conflito de duplicidade: o telefone pertence ao contato #${resolved.tel_id} ` +
+          `Conflito de identidade: o telefone pertence ao contato #${resolved.tel_id} ` +
           `e o e-mail pertence ao contato #${resolved.email_id}. ` +
-          `Verifique e unifique manualmente.`,
+          `A captação foi preservada em conflito #${conflito?.id ?? '?'} aguardando revisão.`,
         data: {
-          lead_id: conflictLead?.id ?? null,
-          status: 'conflito_pendente',
+          conflito_id:    conflito?.id ?? null,
+          status:         'conflito_pendente',
           tel_contato_id: resolved.tel_id,
           email_contato_id: resolved.email_id,
         },

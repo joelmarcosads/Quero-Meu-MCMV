@@ -165,6 +165,27 @@ export interface PublicLeadPayload {
   };
 }
 
+// ─── Captação de conflito (telefone e e-mail de contatos diferentes) ──────────
+export interface CaptacaoConflito {
+  id: number;
+  tel_contato_id: number;
+  email_contato_id: number;
+  origem: string;
+  canal: string | null;
+  idempotency_key: string | null;
+  status: 'pendente' | 'resolvido_tel' | 'resolvido_email' | 'descartado';
+  resolvido_por: number | null;
+  resolvido_at: string | null;
+  lead_id_gerado: number | null;
+  created_at: string;
+}
+
+export interface ResolverConflitoPayload {
+  escolha: 'tel' | 'email';  // qual contato é o correto
+  empreendimento_id?: number;
+  tipologia_id?: number;
+}
+
 export interface CreateEmpreendimentoPayload {
   slug?: string;                  // gerado automaticamente se ausente
   nome: string;
