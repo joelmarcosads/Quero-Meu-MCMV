@@ -2,7 +2,7 @@
 # =============================================================================
 # MARKET IMOBI CRM — MISSION 5: TESTES DE INTEGRAÇÃO HTTP
 # Alvo exclusivo: api-staging.queromeumcmv.com.br
-# Versão: 2.0.0 — 2026-11-09 (revisão pós-auditoria)
+# Versão: 2.2.0 — 2026-11-09 (fix HT1: jf // empty suprime boolean false)
 # =============================================================================
 # USO:
 #   export CF_TOKEN="$(cat ~/.cf-staging-token)"
@@ -227,7 +227,9 @@ HT1_LEAD_ID=$(jf "$body" ".data.id")
 HT1_IDEMPOTENT=$(jf "$body" ".idempotent")
 log "  data.id=$HT1_LEAD_ID  idempotent=$HT1_IDEMPOTENT"
 
-if [[ "$code" == "201" ]] && [[ -n "$HT1_LEAD_ID" ]] && [[ "$HT1_IDEMPOTENT" == "false" ]]; then
+# Nota: jf usa "// empty" que suprime boolean false → idempotent=false chega como ''.
+# Para novo lead: idempotent != true  (false ou ausente são ambos corretos)
+if [[ "$code" == "201" ]] && [[ -n "$HT1_LEAD_ID" ]] && [[ "$HT1_IDEMPOTENT" != "true" ]]; then
   pass "HT1-novo-lead"
 else
   fail "HT1-novo-lead" "HTTP $code, data.id='$HT1_LEAD_ID', idempotent='$HT1_IDEMPOTENT'"
