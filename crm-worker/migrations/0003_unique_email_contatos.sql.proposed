@@ -1,0 +1,91 @@
+-- =============================================================================
+-- PROPOSTA DE MIGRATION — NÃO APLICAR SEM AUTORIZAÇÃO EXPLÍCITA
+-- =============================================================================
+-- Arquivo: 0003_unique_email_contatos.sql.proposed
+-- Objetivo: Adicionar índice UNIQUE parcial em contatos(email) para garantir
+--           deduplicação por email no nível do banco de dados (D1/SQLite).
+--
+-- STATUS: PROPOSTA — requer:
+--   1. Pre-check de duplicidades existentes (ver query abaixo)
+--   2. Resolução manual de todos os conflitos encontrados
+--   3. Autorização explícita do responsável técnico antes de aplicar
+--   4. Aplicar APENAS no ambiente de staging (market-imobi-staging)
+--      após homologação completa da Mission 5
+--   5. Produção (market-imobi-prod) NÃO deve receber esta migration
+--      até validação integral no staging
+--
+-- =============================================================================
+
+-- ── PRE-CHECK OBRIGATÓRIO ────────────────────────────────────────────────────
+-- Executar ANTES de aplicar a migration.
+-- Se retornar linhas, resolver os conflitos antes de prosseguir.
+--
+-- Query de diagnóstico (rodar via: wrangler d1 execute market-imobi-staging --remote):
+--
+--   SELECT
+--     lower(trim(email))                    AS email_normalizado,
+--     COUNT(*)                              AS total,
+--     GROUP_CONCAT(id, ', ')                AS contato_ids,
+--     GROUP_CONCAT(telefone, ', ')          AS telefones
+--   FROM contatos
+--   WHERE email IS NOT NULL
+--     AND trim(email) != ''
+--     AND deleted_at IS NULL
+--     AND anonimizado_at IS NULL
+--   GROUP BY lower(trim(email))
+--   HAVING COUNT(*) > 1
+--   ORDER BY total DESC;
+--
+-- Se retornar zero linhas → seguro aplicar a migration.
+-- Se retornar linhas → fazer merge/exclusão manual antes.
+--
+-- ── RISCO ────────────────────────────────────────────────────────────────────
+-- SQLite (D1) não suporta CREATE INDEX IF NOT EXISTS com cláusula WHERE em uma
+-- transação explícita via API — mas suporta a sintaxe abaixo.
+-- A instrução falhará silenciosamente se já existir um índice com o mesmo nome.
+-- Usar wrangler d1 migrations apply para garantir idempotência via tabela
+-- d1_migrations interna.
+--
+-- ── ROLLBACK ─────────────────────────────────────────────────────────────────
+-- DROP INDEX IF EXISTS idx_con_email_unique;
+--
+-- =============================================================================
+
+-- Índice UNIQUE parcial: apenas contatos ativos (não deletados, não anonimizados)
+-- e com email preenchido. Contatos com email NULL são excluídos do índice
+-- (SQLite trata NULLs como distintos em índices UNIQUE — sem conflito entre NULLs).
+--
+-- IMPORTANTE: o índice cobre o valor RAW do email (não normalizado).
+-- A normalização (lowercase + trim) deve ser feita ANTES do INSERT/SELECT
+-- na aplicação (contact-resolver.ts já faz isso). Uma alternativa mais robusta
+-- seria uma generated column lower_email, mas D1 ainda não suporta
+-- generated columns via wrangler migrations (nov/2026).
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_con_email_unique
+  ON contatos (lower(trim(email)))
+  WHERE deleted_at IS NULL
+    AND anonimizado_at IS NULL
+    AND email IS NOT NULL
+    AND trim(email) != '';
+
+-- =============================================================================
+-- NOTAS PÓS-APLICAÇÃO
+-- =============================================================================
+-- Após aplicar, testar os seguintes cenários no staging:
+--
+--   1. POST /api/v1/public/leads com email já existente em outro contato
+--      → deve retornar 'conflict' (não 200 duplicado)
+--
+--   2. POST /api/v1/leads com email duplicado
+--      → deve retornar 409 com mensagem de conflito detalhada
+--
+--   3. INSERT direto via wrangler com email duplicado
+--      → D1 deve rejeitar com UNIQUE constraint failed
+--
+--   4. INSERT com email NULL (dois contatos)
+--      → D1 deve aceitar (NULLs não violam UNIQUE no SQLite)
+--
+--   5. INSERT com contato anonimizado e mesmo email
+--      → D1 deve aceitar (cláusula WHERE exclui do índice)
+--
+-- =============================================================================

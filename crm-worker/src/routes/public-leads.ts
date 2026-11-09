@@ -25,6 +25,9 @@ import type { Env, PublicLeadPayload } from '../types';
 import {
   normalizePhone, parseJsonBody, getClientIp, sanitizeIp,
 } from '../utils';
+import {
+  resolveContact, findLeadByIdempotencyKey, normalizeEmail,
+} from '../services/contact-resolver';
 
 /** jsonError local que inclui CORS headers */
 function publicJsonError(message: string, status: number, cors: HeadersInit): Response {
@@ -148,12 +151,7 @@ export async function handlePublicLeads(
 
   // ── 4. Idempotência por external_id ───────────────────────────────────────
   const idempotencyKey = body.external_id.trim();
-  const existing = await env.DB.prepare(
-    `SELECT l.id, l.contato_id, l.origem, l.created_at
-     FROM leads l
-     WHERE l.idempotency_key = ?
-     LIMIT 1`,
-  ).bind(idempotencyKey).first();
+  const existing = await findLeadByIdempotencyKey(env.DB, idempotencyKey);
 
   if (existing) {
     return new Response(
@@ -162,24 +160,73 @@ export async function handlePublicLeads(
     );
   }
 
-  // ── 5. Upsert de contato (dedup por telefone) ──────────────────────────────
-  await env.DB.prepare(
-    `INSERT OR IGNORE INTO contatos (telefone, nome, email, cidade)
-     VALUES (?, ?, ?, ?)`,
-  ).bind(
+  // ── 5. Resolver contato (dedup por telefone + email via ContactResolver) ───
+  const resolved = await resolveContact(env.DB, {
     telefone,
-    body.nome?.trim() ?? null,
-    body.email?.trim() ?? null,
-    body.cidade?.trim() ?? null,
-  ).run();
+    email: normalizeEmail(body.email),
+    nome: body.nome?.trim() ?? null,
+    cidade: body.cidade?.trim() ?? null,
+  });
 
-  const contato = await env.DB.prepare(
-    `SELECT id FROM contatos WHERE telefone = ? AND deleted_at IS NULL AND anonimizado_at IS NULL`,
-  ).bind(telefone).first<{ id: number }>();
+  // Conflito: telefone e email pertencem a contatos diferentes.
+  // Rota pública: retorna 200 genérico — não revelar detalhe ao caller externo.
+  if (resolved.kind === 'conflict') {
+    console.log('[public-leads] conflict detectado — retornando 200 genérico');
+    // Registrar o lead vinculado ao contato do TELEFONE (first-touch principal)
+    // O conflito fica registrado nos dados_extras para revisão manual.
+    const conflictExtras = body.dados_extras
+      ? JSON.stringify({ ...body.dados_extras, _dedup_conflict: true })
+      : JSON.stringify({ _dedup_conflict: true });
 
-  if (!contato) {
-    return publicJsonError('Erro ao processar contato', 500, cors);
+    // Inserir lead com contato do telefone; email conflitante não é sobrescrito
+    const rawIp = getClientIp(request);
+    const ipSanitizado = rawIp ? sanitizeIp(rawIp) : null;
+    const origem = inferirOrigem(body);
+
+    let empreendimentoId: number | null = null;
+    if (body.empreendimento_slug?.trim()) {
+      const empr = await env.DB.prepare(
+        `SELECT id FROM empreendimentos WHERE slug = ? AND deleted_at IS NULL LIMIT 1`,
+      ).bind(body.empreendimento_slug.trim()).first<{ id: number }>();
+      if (empr) empreendimentoId = empr.id;
+    }
+
+    await env.DB.prepare(
+      `INSERT INTO leads
+         (contato_id, empreendimento_id, tipologia_id, idempotency_key,
+          origem, canal,
+          utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+          gclid, fbclid, meta_fbc, meta_fbp,
+          ip_address, user_agent, dados_extras_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      resolved.tel_id,
+      empreendimentoId,
+      null,
+      idempotencyKey,
+      origem,
+      'portal_web',
+      body.utm_source?.trim() ?? null,
+      body.utm_medium?.trim() ?? null,
+      body.utm_campaign?.trim() ?? null,
+      body.utm_content?.trim() ?? null,
+      body.utm_term?.trim() ?? null,
+      body.gclid?.trim() ?? null,
+      body.fbclid?.trim() ?? null,
+      body.meta_fbc ?? null,
+      body.meta_fbp ?? null,
+      ipSanitizado,
+      request.headers.get('user-agent')?.slice(0, 500) ?? null,
+      conflictExtras,
+    ).run();
+
+    return new Response(
+      JSON.stringify({ success: true }),
+      { status: 200, headers: { 'Content-Type': 'application/json', ...cors } },
+    );
   }
+
+  const contato = { id: resolved.contato_id };
 
   // ── 6. Resolver empreendimento por slug (opcional) ─────────────────────────
   let empreendimentoId: number | null = null;
@@ -194,8 +241,8 @@ export async function handlePublicLeads(
   const origem = inferirOrigem(body);
 
   // ── 8. IP sanitizado (LGPD) ───────────────────────────────────────────────
-  const rawIp = getClientIp(request);
-  const ipSanitizado = rawIp ? sanitizeIp(rawIp) : null;
+  const rawIp2 = getClientIp(request);
+  const ipSanitizado = rawIp2 ? sanitizeIp(rawIp2) : null;
 
   // ── 9. Dados extras MCMV → JSON ───────────────────────────────────────────
   const dadosExtras = body.dados_extras
@@ -232,6 +279,7 @@ export async function handlePublicLeads(
     request.headers.get('user-agent')?.slice(0, 500) ?? null,
     dadosExtras,
   ).first<{ id: number; contato_id: number; empreendimento_id: number | null; origem: string; created_at: string }>();
+  // Note: rawIp2 declared above in step 8
 
   if (!leadResult) {
     return publicJsonError('Erro ao registrar lead', 500, cors);

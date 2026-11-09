@@ -98,7 +98,7 @@ export async function writeAudit(params: AuditParams): Promise<void> {
   const sanitizedIp = sanitizeIp(ip ?? null);
 
   await db.prepare(
-    `INSERT INTO audit_log (usuario_id, tabela, registro_id, acao, dados_anteriores, dados_novos, ip_anonimizado)
+    `INSERT INTO audit_log (usuario_id, tabela, registro_id, acao, dados_anteriores, dados_novos, ip_address)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
   ).bind(
     usuarioId,

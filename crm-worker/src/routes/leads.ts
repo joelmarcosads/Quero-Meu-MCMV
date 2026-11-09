@@ -19,6 +19,9 @@ import {
   jsonOk, jsonCreated, jsonError, jsonIdempotent,
   normalizePhone, parseJsonBody, writeAudit, getClientIp, sanitizeIp,
 } from '../utils';
+import {
+  resolveContact, findLeadByIdempotencyKey, normalizeEmail,
+} from '../services/contact-resolver';
 
 // ─── Criar lead com deduplicação e idempotência ───────────────────────────────
 async function createLead(
@@ -52,37 +55,31 @@ async function createLead(
 
   // ── Idempotência: verificar chave antes de qualquer INSERT ────────────────
   if (body.idempotency_key) {
-    const existing = await env.DB.prepare(
-      `SELECT l.id, l.contato_id, l.origem, l.created_at
-       FROM leads l
-       WHERE l.idempotency_key = ?
-       LIMIT 1`,
-    ).bind(body.idempotency_key).first();
-
+    const existing = await findLeadByIdempotencyKey(env.DB, body.idempotency_key);
     if (existing) {
       return jsonIdempotent(existing);
     }
   }
 
-  // ── Deduplicação race-safe de contato por telefone ────────────────────────
-  // INSERT OR IGNORE: se telefone já existe (UNIQUE parcial), ignora silenciosamente
-  await env.DB.prepare(
-    `INSERT OR IGNORE INTO contatos (telefone, nome, email)
-     VALUES (?, ?, ?)`,
-  ).bind(
+  // ── Resolver contato via ContactResolver (dedup por telefone + email) ─────
+  const resolved = await resolveContact(env.DB, {
     telefone,
-    body.nome?.trim() ?? null,
-    body.email?.trim() ?? null,
-  ).run();
+    email: normalizeEmail(body.email),
+    nome: body.nome?.trim() ?? null,
+  });
 
-  // SELECT garante o id correto independente de quem ganhou a corrida
-  const contato = await env.DB.prepare(
-    `SELECT id FROM contatos WHERE telefone = ? AND deleted_at IS NULL AND anonimizado_at IS NULL`,
-  ).bind(telefone).first<{ id: number }>();
-
-  if (!contato) {
-    return jsonError('Erro ao localizar/criar contato', 500);
+  // Conflito detectado na rota autenticada: retornar 409 com detalhe
+  // O corretor pode então abrir a ficha do contato existente para decidir.
+  if (resolved.kind === 'conflict') {
+    return jsonError(
+      `Conflito de duplicidade: o telefone pertence ao contato #${resolved.tel_id} ` +
+      `e o e-mail pertence ao contato #${resolved.email_id}. ` +
+      `Verifique e unifique manualmente antes de criar este lead.`,
+      409,
+    );
   }
+
+  const contato = { id: resolved.contato_id };
 
   // ── Validar empreendimento se informado ──────────────────────────────────
   const empreendimentoId = body.empreendimento_id ?? null;

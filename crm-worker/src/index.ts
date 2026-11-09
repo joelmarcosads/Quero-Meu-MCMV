@@ -51,18 +51,14 @@ export default {
 
       // Strip do prefixo /admin; / quando caminho exato /admin ou /admin/
       const stripped = path.replace(/^\/admin/, '') || '/';
-      const assetUrl = new URL(request.url);
-      assetUrl.pathname = stripped;
-
       // Tenta servir o arquivo estático (JS/CSS/fontes/ícones)
-      const assetReq = new Request(assetUrl.toString(), request);
+      // Usa new URL(path, base) para evitar mutação de pathname (readonly no TS strict)
+      const assetReq = new Request(new URL(stripped, request.url).toString(), request);
       let resp = await env.ASSETS.fetch(assetReq);
 
       // Se não encontrado (rota SPA como /leads, /contatos/5…) → serve index.html
       if (resp.status === 404) {
-        const indexUrl = new URL(request.url);
-        indexUrl.pathname = '/';
-        resp = await env.ASSETS.fetch(new Request(indexUrl.toString(), request));
+        resp = await env.ASSETS.fetch(new Request(new URL('/', request.url).toString(), request));
       }
 
       return resp;
