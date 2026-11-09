@@ -245,9 +245,16 @@ export async function handlePublicLeads(
   const ipSanitizado = rawIp2 ? sanitizeIp(rawIp2) : null;
 
   // ── 9. Dados extras MCMV → JSON ───────────────────────────────────────────
-  const dadosExtras = body.dados_extras
-    ? JSON.stringify(body.dados_extras)
-    : null;
+  // Se phone_divergence detectado: sinalizar internamente sem expor o telefone (LGPD).
+  // O caller público recebe 201 normal — a divergência é visível apenas no painel admin.
+  const phoneDivergence = resolved.kind === 'found' && resolved.phone_divergence === true;
+  if (phoneDivergence) {
+    console.log('[public-leads] phone_divergence detectado — sinalizado em dados_extras');
+  }
+  const baseExtras = body.dados_extras ?? {};
+  const dadosExtras = phoneDivergence
+    ? JSON.stringify({ ...baseExtras, _phone_divergence_incoming: true })
+    : (body.dados_extras ? JSON.stringify(body.dados_extras) : null);
 
   // ── 10. Inserir lead ───────────────────────────────────────────────────────
   const leadResult = await env.DB.prepare(

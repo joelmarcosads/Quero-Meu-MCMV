@@ -18,6 +18,7 @@ import { AuthError } from '../auth';
 import {
   jsonOk, jsonCreated, jsonError, jsonIdempotent,
   normalizePhone, parseJsonBody, writeAudit, getClientIp, sanitizeIp,
+  uuidv4,
 } from '../utils';
 import {
   resolveContact, findLeadByIdempotencyKey, normalizeEmail,
@@ -68,18 +69,78 @@ async function createLead(
     nome: body.nome?.trim() ?? null,
   });
 
-  // Conflito detectado na rota autenticada: retornar 409 com detalhe
-  // O corretor pode então abrir a ficha do contato existente para decidir.
+  // ── Conflito detectado na rota autenticada ───────────────────────────────
+  // Telefone pertence ao contato A, e-mail ao contato B.
+  // NÃO descartar: registrar lead vinculado ao contato do TELEFONE (first-touch)
+  // com flag _dedup_conflict em dados_extras_json para revisão manual.
+  // Retorna 409 com lead_id para o frontend poder exibir aviso e link.
   if (resolved.kind === 'conflict') {
-    return jsonError(
-      `Conflito de duplicidade: o telefone pertence ao contato #${resolved.tel_id} ` +
-      `e o e-mail pertence ao contato #${resolved.email_id}. ` +
-      `Verifique e unifique manualmente antes de criar este lead.`,
-      409,
+    const rawIpConflict = getClientIp(request);
+    const ipConflict = rawIpConflict ? sanitizeIp(rawIpConflict) : null;
+    const conflictExtras = JSON.stringify({
+      _dedup_conflict: true,
+      _conflict_tel_contato_id: resolved.tel_id,
+      _conflict_email_contato_id: resolved.email_id,
+    });
+
+    const conflictLead = await env.DB.prepare(
+      `INSERT INTO leads
+         (contato_id, empreendimento_id, tipologia_id, idempotency_key,
+          origem, canal,
+          utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+          gclid, fbclid, meta_fbc, meta_fbp,
+          ip_address, user_agent, dados_extras_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       RETURNING id, contato_id, origem, created_at`,
+    ).bind(
+      resolved.tel_id,
+      body.empreendimento_id ?? null,
+      body.tipologia_id ?? null,
+      body.idempotency_key ?? uuidv4(),
+      body.origem.trim(),
+      body.canal?.trim() ?? null,
+      body.utm_source?.trim() ?? null,
+      body.utm_medium?.trim() ?? null,
+      body.utm_campaign?.trim() ?? null,
+      body.utm_content?.trim() ?? null,
+      body.utm_term?.trim() ?? null,
+      body.gclid?.trim() ?? null,
+      body.fbclid?.trim() ?? null,
+      body.meta_fbc ?? null,
+      body.meta_fbp ?? null,
+      ipConflict,
+      request.headers.get('user-agent')?.slice(0, 500) ?? null,
+      conflictExtras,
+    ).first<{ id: number; contato_id: number; origem: string; created_at: string }>();
+
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error:
+          `Conflito de duplicidade: o telefone pertence ao contato #${resolved.tel_id} ` +
+          `e o e-mail pertence ao contato #${resolved.email_id}. ` +
+          `Verifique e unifique manualmente.`,
+        data: {
+          lead_id: conflictLead?.id ?? null,
+          status: 'conflito_pendente',
+          tel_contato_id: resolved.tel_id,
+          email_contato_id: resolved.email_id,
+        },
+      }),
+      { status: 409, headers: { 'Content-Type': 'application/json' } },
     );
   }
 
   const contato = { id: resolved.contato_id };
+
+  // ── phone_divergence: contato encontrado por email com telefone diferente ─
+  // NÃO sobrescrever o telefone existente. Registrar o novo telefone em
+  // dados_extras_json como _phone_divergence_incoming: true (sem expor o número
+  // em texto livre) para sinalizar revisão manual no painel admin.
+  const phoneDivergence = resolved.kind === 'found' && resolved.phone_divergence === true;
+  const dadosExtrasJson = phoneDivergence
+    ? JSON.stringify({ _phone_divergence_incoming: true })
+    : null;
 
   // ── Validar empreendimento se informado ──────────────────────────────────
   const empreendimentoId = body.empreendimento_id ?? null;
@@ -99,18 +160,15 @@ async function createLead(
   const ipSanitizado = rawIp ? sanitizeIp(rawIp) : null;
 
   // ── Inserir lead ──────────────────────────────────────────────────────────
-  // Schema leads: id, contato_id, empreendimento_id, tipologia_id,
-  //   idempotency_key, origem, canal,
-  //   utm_source, utm_medium, utm_campaign, utm_content, utm_term,
-  //   gclid, fbclid, meta_fbc, meta_fbp, ip_address, user_agent, created_at
+  // Inclui dados_extras_json quando há phone_divergence (flag para revisão admin).
   const leadResult = await env.DB.prepare(
     `INSERT INTO leads
        (contato_id, empreendimento_id, tipologia_id, idempotency_key,
         origem, canal,
         utm_source, utm_medium, utm_campaign, utm_content, utm_term,
         gclid, fbclid, meta_fbc, meta_fbp,
-        ip_address, user_agent)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ip_address, user_agent, dados_extras_json)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      RETURNING id, contato_id, empreendimento_id, tipologia_id, origem, created_at`,
   ).bind(
     contato.id,
@@ -130,6 +188,7 @@ async function createLead(
     body.meta_fbp ?? null,
     ipSanitizado,
     request.headers.get('user-agent')?.slice(0, 500) ?? null,
+    dadosExtrasJson,
   ).first();
 
   if (!leadResult) {
@@ -156,7 +215,11 @@ async function createLead(
     ip: rawIp,
   });
 
-  return jsonCreated({ ...lead, telefone_normalizado: telefone });
+  return jsonCreated({
+    ...lead,
+    telefone_normalizado: telefone,
+    ...(phoneDivergence ? { phone_divergence: true } : {}),
+  });
 }
 
 // ─── Listar leads ─────────────────────────────────────────────────────────────

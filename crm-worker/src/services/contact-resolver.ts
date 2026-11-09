@@ -32,7 +32,18 @@
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
 export type ContactResolveResult =
-  | { kind: 'found';    contato_id: number; is_new: false }
+  | {
+      kind: 'found';
+      contato_id: number;
+      is_new: false;
+      /**
+       * true quando o contato foi localizado PELO EMAIL e o telefone
+       * recebido difere do telefone cadastrado no contato.
+       * O novo telefone NÃO é sobrescrito automaticamente — cabe ao caller
+       * sinalizar a divergência no painel ou armazená-la em dados_extras_json.
+       */
+      phone_divergence?: boolean;
+    }
   | { kind: 'created';  contato_id: number; is_new: true  }
   | { kind: 'conflict'; message: string;    tel_id: number; email_id: number };
 
@@ -125,9 +136,27 @@ export async function resolveContact(
     return { kind: 'found', contato_id: byPhone.id, is_new: false };
   }
 
-  // Encontrado apenas pelo email (telefone ainda não cadastrado)
+  // Encontrado apenas pelo email (telefone ainda não cadastrado).
+  // Verifica se o telefone que chegou difere do telefone registrado no contato.
+  // NÃO sobrescreve o telefone existente — apenas sinaliza divergência.
   if (byEmail) {
-    return { kind: 'found', contato_id: byEmail.id, is_new: false };
+    const existingContact = await db
+      .prepare(
+        `SELECT telefone FROM contatos WHERE id = ? LIMIT 1`,
+      )
+      .bind(byEmail.id)
+      .first<{ telefone: string }>();
+
+    const phoneDivergence =
+      !!existingContact && existingContact.telefone !== telefone;
+
+    return {
+      kind: 'found',
+      contato_id: byEmail.id,
+      is_new: false,
+      // exactOptionalPropertyTypes: usar spread para omitir a chave quando false
+      ...(phoneDivergence ? { phone_divergence: true as const } : {}),
+    };
   }
 
   // ── 4. Nenhum encontrado → criar ─────────────────────────────────────────

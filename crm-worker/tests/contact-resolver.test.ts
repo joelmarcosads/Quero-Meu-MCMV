@@ -17,6 +17,10 @@
  *  T09  — resolveContact: idempotente em corridas simultâneas (INSERT OR IGNORE)
  *  T10  — findLeadByIdempotencyKey: retorna null para chave inexistente
  *  T11  — findLeadByIdempotencyKey: retorna lead para chave existente
+ *  T12  — Histórico: mesmo contato pode ter múltiplos leads distintos
+ *  T13  — resolveContact: phone_divergence quando email encontrado com telefone diferente
+ *  T13b — resolveContact: phone_divergence undefined quando email+telefone coincidem
+ *  T14  — writeAudit: falha no D1 não interrompe operação principal
  */
 
 import { normalizePhone } from '../src/utils';
@@ -133,6 +137,13 @@ class MockD1 {
                   !c.anonimizado_at,
               );
               return (row ? { id: row.id } : null) as T | null;
+            }
+
+            // SELECT telefone FROM contatos WHERE id = ? LIMIT 1  (phone_divergence check)
+            if (q.includes('SELECT TELEFONE FROM CONTATOS WHERE ID = ?')) {
+              const id = args[0] as number;
+              const row = db.contatos.find(c => c.id === id);
+              return (row ? { telefone: row.telefone } : null) as T | null;
             }
 
             // SELECT id,contato_id,... FROM leads WHERE idempotency_key = ?
@@ -354,6 +365,71 @@ async function main(): Promise<void> {
     });
     assertEquals(r.kind, 'found', 'kind = found (não recriou)');
     assertEquals(db.contatos.length, 1, 'ainda 1 único contato');
+  });
+
+  // ── T13 — phone_divergence ────────────────────────────────────────────────
+  await test('T13 — resolveContact: phone_divergence quando email encontrado com telefone diferente', async () => {
+    db.reset();
+    // Contato C1 tem email joe@g.com e telefone +5511888880001
+    const c1 = db.addContato({ telefone: '+5511888880001', email: 'joe@g.com', nome: 'Joe', cidade: null });
+
+    // Nova requisição chega com mesmo email mas telefone DIFERENTE
+    const r = await resolveContact(db as unknown as Parameters<typeof resolveContact>[0], {
+      telefone: '+5521999990002',  // telefone diferente
+      email: 'joe@g.com',          // email igual
+    }) as Extract<ContactResolveResult, { kind: 'found' }>;
+
+    assertEquals(r.kind,       'found', 'kind = found (contato já existe)');
+    assertEquals(r.contato_id, c1.id,  'contato_id = C1 (localizado pelo email)');
+    assertEquals(r.is_new,     false,  'is_new = false');
+    assertEquals(r.phone_divergence, true, 'phone_divergence = true (telefone diverge)');
+    assertEquals(db.contatos.length, 1, 'nenhum novo contato criado');
+  });
+
+  // ── T13b — phone_divergence ausente quando telefone coincide ──────────────
+  await test('T13b — resolveContact: phone_divergence undefined quando email+telefone coincidem', async () => {
+    db.reset();
+    db.addContato({ telefone: '+5511888880001', email: 'joe@g.com', nome: 'Joe', cidade: null });
+
+    // Mesmo email E mesmo telefone → sem divergência
+    const r = await resolveContact(db as unknown as Parameters<typeof resolveContact>[0], {
+      telefone: '+5511888880001',
+      email: 'joe@g.com',
+    }) as Extract<ContactResolveResult, { kind: 'found' }>;
+
+    assertEquals(r.kind, 'found', 'kind = found');
+    assert(!r.phone_divergence, 'phone_divergence ausente (telefones iguais)');
+  });
+
+  // ── T14 — writeAudit: falha não propaga ───────────────────────────────────
+  await test('T14 — writeAudit: falha no D1 não interrompe operação principal', async () => {
+    // Mock D1 que rejeita toda operação de write
+    const brokenDb = {
+      prepare: (_sql: string) => ({
+        bind: (..._args: unknown[]) => ({
+          run: async () => { throw new Error('D1 write failure simulada'); },
+          first: async () => null,
+        }),
+      }),
+    };
+
+    // writeAudit não deve lançar — a falha é absorvida internamente
+    const { writeAudit } = await import('../src/utils');
+    let threw = false;
+    try {
+      await writeAudit({
+        db: brokenDb as unknown as Parameters<typeof writeAudit>[0]['db'],
+        usuarioId: 1,
+        tabela: 'leads',
+        registroId: 42,
+        acao: 'INSERT',
+        dadosNov: { id: 42 },
+        ip: '10.0.0.1',
+      });
+    } catch {
+      threw = true;
+    }
+    assert(!threw, 'writeAudit NÃO deve lançar exceção em falha de D1');
   });
 
   // ── Sumário ───────────────────────────────────────────────────────────────
