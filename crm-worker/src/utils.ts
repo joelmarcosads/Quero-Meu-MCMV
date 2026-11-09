@@ -77,12 +77,23 @@ interface AuditParams {
   usuarioId: number;
   tabela: string;
   registroId: number;
-  acao: 'INSERT' | 'UPDATE' | 'DELETE' | 'SELECT' | 'ANONIMIZAR';
+  /**
+   * Deve corresponder ao CHECK constraint do schema D1:
+   *   CHECK(acao IN ('INSERT','UPDATE','DELETE'))
+   * Não usar 'SELECT' ou 'ANONIMIZAR' — não estão no schema e causariam
+   * falha silenciosa no D1.
+   */
+  acao: 'INSERT' | 'UPDATE' | 'DELETE';
   dadosAnt?: Record<string, unknown> | null;
   dadosNov?: Record<string, unknown> | null;
   ip?: string | null;
 }
 
+/**
+ * Registra auditoria no audit_log.
+ * Falhas de auditoria são logadas mas NÃO propagadas — a operação principal
+ * não deve ser interrompida por uma falha de log.
+ */
 export async function writeAudit(params: AuditParams): Promise<void> {
   const { db, usuarioId, tabela, registroId, acao, dadosAnt, dadosNov, ip } = params;
 
@@ -97,18 +108,24 @@ export async function writeAudit(params: AuditParams): Promise<void> {
 
   const sanitizedIp = sanitizeIp(ip ?? null);
 
-  await db.prepare(
-    `INSERT INTO audit_log (usuario_id, tabela, registro_id, acao, dados_anteriores, dados_novos, ip_address)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-  ).bind(
-    usuarioId,
-    tabela,
-    registroId,
-    acao,
-    sanitize(dadosAnt),
-    sanitize(dadosNov),
-    sanitizedIp,
-  ).run();
+  try {
+    await db.prepare(
+      `INSERT INTO audit_log (usuario_id, tabela, registro_id, acao, dados_anteriores, dados_novos, ip_address)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    ).bind(
+      usuarioId,
+      tabela,
+      registroId,
+      acao,
+      sanitize(dadosAnt),
+      sanitize(dadosNov),
+      sanitizedIp,
+    ).run();
+  } catch (err) {
+    // Falha de auditoria não deve interromper a operação principal.
+    // Log mínimo sem dados pessoais.
+    console.error('[writeAudit] falha ao gravar audit_log:', tabela, registroId, acao);
+  }
 }
 
 // ─── Extrair IP do request ────────────────────────────────────────────────────
