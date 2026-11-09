@@ -101,4 +101,14 @@ export const api = {
       return request(`/usuarios${qs}`);
     },
   },
+
+  // Conflitos de identidade
+  conflitos: {
+    list: (params?: Record<string, string>) => {
+      const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+      return request(`/conflitos${qs}`);
+    },
+    resolver: (id: number, body: { escolha: 'tel' | 'email'; empreendimento_id?: number; tipologia_id?: number }) =>
+      request(`/conflitos/${id}/resolver`, { method: 'POST', body: JSON.stringify(body) }),
+  },
 };

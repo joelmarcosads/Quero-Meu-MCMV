@@ -5,6 +5,7 @@ const NAV_ITEMS = [
   { to: '/leads',         label: 'Leads',     icon: '⬡' },
   { to: '/contatos',      label: 'Contatos',  icon: '◎' },
   { to: '/oportunidades', label: 'Pipeline',  icon: '◇' },
+  { to: '/conflitos',     label: 'Conflitos', icon: '⚡' },
 ];
 
 export function BottomNav() {

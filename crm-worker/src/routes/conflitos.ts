@@ -188,15 +188,21 @@ async function resolverConflito(
 
   const rawIp = getClientIp(request);
 
-  const leadResult = await env.DB.prepare(
-    `INSERT INTO leads
+  // ── Inserção atômica com proteção de concorrência ──────────────────────────
+  // Dois operadores podem chegar aqui simultaneamente: ambos passaram no SELECT
+  // acima porque status ainda era 'pendente'. Usamos INSERT OR IGNORE para que
+  // o segundo INSERT seja silenciosamente ignorado em vez de lançar IntegrityError.
+  // Em seguida verificamos rows_written:
+  //   - 1 → este operador "ganhou" a corrida → prossegue normalmente
+  //   - 0 → outro operador já inseriu com o mesmo idempotency_key → retorna 409
+  const insertMeta = await env.DB.prepare(
+    `INSERT OR IGNORE INTO leads
        (contato_id, empreendimento_id, tipologia_id, idempotency_key,
         origem, canal,
         utm_source, utm_medium, utm_campaign, utm_content, utm_term,
         gclid, fbclid, meta_fbc, meta_fbp,
         ip_address, user_agent, dados_extras_json)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-     RETURNING id, contato_id, empreendimento_id, tipologia_id, origem, created_at`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   ).bind(
     contatoId,
     empreendimentoId,
@@ -216,7 +222,30 @@ async function resolverConflito(
     rawIp,
     request.headers.get('user-agent')?.slice(0, 500) ?? null,
     JSON.stringify({ _resolvido_de_conflito: conflito.id, escolha: body.escolha }),
-  ).first<{
+  ).run();
+
+  if (insertMeta.meta.rows_written === 0) {
+    // Outro operador ganhou a corrida — o lead já existe com este idempotency_key.
+    // Buscar o lead existente para retornar resposta consistente (não erro 500).
+    const existingLead = await env.DB.prepare(
+      `SELECT id FROM leads WHERE idempotency_key = ? LIMIT 1`,
+    ).bind(idempotencyKey).first<{ id: number }>();
+
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: `Conflito #${conflitoId} já foi resolvido por outro operador simultaneamente.`,
+        data: { conflito_id: conflito.id, lead_id: existingLead?.id ?? null },
+      }),
+      { status: 409, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
+
+  // Recuperar o lead recém-inserido (RETURNING não suportado com INSERT OR IGNORE no D1)
+  const leadResult = await env.DB.prepare(
+    `SELECT id, contato_id, empreendimento_id, tipologia_id, origem, created_at
+     FROM leads WHERE idempotency_key = ? LIMIT 1`,
+  ).bind(idempotencyKey).first<{
     id: number;
     contato_id: number;
     empreendimento_id: number | null;
@@ -226,7 +255,7 @@ async function resolverConflito(
   }>();
 
   if (!leadResult) {
-    return jsonError('Erro ao criar lead a partir do conflito', 500);
+    return jsonError('Erro ao recuperar lead criado a partir do conflito', 500);
   }
 
   // Atualizar captacoes_conflito
