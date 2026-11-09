@@ -89,6 +89,15 @@ declare interface SubtleCrypto {
     signature: BufferSource,
     data: BufferSource,
   ): Promise<boolean>;
+  sign(
+    algorithm: AlgorithmIdentifier | RsaPssParams | EcdsaParams,
+    key: CryptoKey,
+    data: BufferSource,
+  ): Promise<ArrayBuffer>;
+  digest(
+    algorithm: AlgorithmIdentifier,
+    data: BufferSource,
+  ): Promise<ArrayBuffer>;
 }
 
 declare type KeyUsage = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'deriveKey' | 'deriveBits' | 'wrapKey' | 'unwrapKey';

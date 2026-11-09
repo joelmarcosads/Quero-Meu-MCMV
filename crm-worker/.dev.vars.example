@@ -1,0 +1,26 @@
+# .dev.vars — Variáveis de ambiente para desenvolvimento local (wrangler dev)
+# Copie para .dev.vars e ajuste os valores. NÃO committar .dev.vars.
+#
+# Para criar: cp .dev.vars.example .dev.vars
+
+# ─── Cloudflare Access (staging) ──────────────────────────────────────────────
+CF_ACCESS_TEAM_DOMAIN=hidden-block-61bc.cloudflareaccess.com
+CF_ACCESS_AUD=<aud_do_app_staging>
+ENVIRONMENT=development
+
+# ─── Meta Lead Ads Webhook (Mission 6) ────────────────────────────────────────
+# Valores de TESTE — nunca usar credenciais de produção aqui
+# Em staging/produção: usar `wrangler secret put META_VERIFY_TOKEN` etc.
+META_VERIFY_TOKEN=test-verify-token-123
+META_APP_SECRET=test-app-secret-abc
+META_PAGE_ACCESS_TOKEN=qualquer-valor-para-dev-local
+
+# Opcional: ID da Página Meta autorizada (filtra page_id nos eventos)
+# META_PAGE_ID=<sua_page_id>
+
+# ─── Mock da Graph API para testes automatizados ──────────────────────────────
+# Aponta para o mock HTTP iniciado pelo arquivo de testes (t30_webhook_meta.mjs).
+# O mock responde em http://localhost:3099 e simula a Graph API do Meta.
+# SEM esta variável, o Worker tentará chamar api.facebook.com e os testes T4/T6/T13/T14
+# retornarão 503 (falha de rede ou token inválido).
+GRAPH_API_BASE_URL=http://localhost:3099

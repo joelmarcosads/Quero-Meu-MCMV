@@ -7,6 +7,14 @@ export interface Env {
   CF_ACCESS_AUD: string;
   // Static Assets binding para o Admin Panel SPA (opcional: pode não existir em dev)
   ASSETS?: { fetch(request: Request): Promise<Response> };
+  // ─── Meta Lead Ads (Mission 6) ───────────────────────────────────────────────
+  // Secrets configurados via `wrangler secret put` — NUNCA em código ou logs
+  META_VERIFY_TOKEN: string;        // Token de verificação do webhook (GET hub.verify_token)
+  META_APP_SECRET: string;          // App Secret do Meta App — validação HMAC-SHA256
+  META_PAGE_ACCESS_TOKEN: string;   // Page Access Token — Graph API v21.0
+  META_PAGE_ID?: string;            // ID da Página Meta autorizada (opcional, filtra eventos)
+  // Sobrescreve a base URL da Graph API (usado em testes locais com mock HTTP)
+  GRAPH_API_BASE_URL?: string;
 }
 
 // ─── Usuário autenticado (extraído do JWT) ────────────────────────────────────

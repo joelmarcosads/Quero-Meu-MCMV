@@ -18,6 +18,7 @@ import { handleInteracoes } from './routes/interacoes';
 import { handleUsuarios, handleMe } from './routes/usuarios';
 import { handlePublicLeads } from './routes/public-leads';
 import { handleConflitos } from './routes/conflitos';
+import { handleMetaWebhook } from './routes/webhook-meta';
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 export default {
@@ -79,6 +80,15 @@ export default {
     // Protegida por honeypot, validação e idempotência (sem JWT)
     if (path === '/api/v1/public/leads') {
       return await handlePublicLeads(request, env, _ctx);
+    }
+
+    // ── Webhook Meta Lead Ads (sem CF Access) ─────────────────────────────
+    // GET  /api/v1/webhook/meta — verificação do token (Meta Developer Platform)
+    // POST /api/v1/webhook/meta — recebe eventos leadgen do Facebook/Instagram
+    // IMPORTANTE: adicionar regra "Bypass" no CF Access para esta rota
+    // (igual a /api/v1/public/leads) — sem isso o CF Access bloqueia
+    if (path === '/api/v1/webhook/meta') {
+      return await handleMetaWebhook(request, env, _ctx);
     }
 
     // ── Todas as demais rotas exigem autenticação ─────────────────────────
