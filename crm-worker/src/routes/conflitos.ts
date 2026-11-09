@@ -187,64 +187,51 @@ async function resolverConflito(
 
   const rawIp = getClientIp(request);
 
-  // ── PASSO 1: UPDATE atômico como mutex ─────────────────────────────────────
-  // Dois operadores podem chegar aqui simultaneamente: ambos passaram no SELECT
-  // acima porque status ainda era 'pendente'.
-  // O UPDATE condicional (WHERE status = 'pendente') age como mutex atômico:
-  // apenas um operador encontrará a linha com status='pendente' e escreverá.
-  // O segundo receberá rows_written = 0 e será redirecionado para 409.
+  // ── TRANSAÇÃO ATÔMICA via db.batch() ──────────────────────────────────────
   //
-  // NÃO usamos INSERT OR IGNORE porque ele suprime silenciosamente QUALQUER
-  // IntegrityError, incluindo FK violations (contato_id inválido), schema errors
+  // D1 executa todos os statements do batch dentro de uma transação implícita:
+  // se qualquer statement falhar (FK violation, schema error, etc.), o batch
+  // inteiro é revertido automaticamente — sem rollback compensatório manual.
+  //
+  // Statement 0 — Mutex UPDATE:
+  //   Adquire o lock via UPDATE WHERE status = 'pendente'.
+  //   Dois Workers simultâneos: apenas um altera a linha; o outro recebe
+  //   rows_written = 0 e é redirecionado para 409. Atômico por design do SQLite.
+  //
+  // Statement 1 — INSERT condicional:
+  //   Usa (SELECT changes()) > 0 para só inserir o lead se o Statement 0
+  //   realmente alterou uma linha (ou seja, se o mutex foi adquirido).
+  //   O padrão INSERT INTO ... SELECT ... é necessário porque VALUES(...)
+  //   não aceita a subconsulta de guarda. changes() é connection-local e
+  //   válido dentro do mesmo batch/transação.
+  //
+  // Statement 2 — Link lead_id_gerado:
+  //   Usa last_insert_rowid() (válido dentro do mesmo batch) para vincular
+  //   o lead recém-criado ao conflito. A condição AND last_insert_rowid() > 0
+  //   é defensiva: evita SET lead_id_gerado = 0 se o INSERT foi pulado.
+  //
+  // NÃO usamos INSERT OR IGNORE: ele suprimiria silenciosamente FK violations
   // e outros erros reais que devem resultar em 500.
-  const claimResult = await env.DB.prepare(
-    `UPDATE captacoes_conflito
-     SET status = ?,
-         resolvido_por = ?,
-         resolvido_at = datetime('now')
-     WHERE id = ? AND status = 'pendente'`,
-  ).bind(novoStatus, user.id, conflito.id).run();
+  const [claimResult, insertResult] = await env.DB.batch([
+    // Statement 0: mutex — adquire o lock via UPDATE condicional
+    env.DB.prepare(
+      `UPDATE captacoes_conflito
+       SET status = ?,
+           resolvido_por = ?,
+           resolvido_at = datetime('now')
+       WHERE id = ? AND status = 'pendente'`,
+    ).bind(novoStatus, user.id, conflito.id),
 
-  if (claimResult.meta.rows_written === 0) {
-    // Outro operador ganhou a corrida — buscar estado atual para resposta consistente
-    const current = await env.DB.prepare(
-      `SELECT status, lead_id_gerado FROM captacoes_conflito WHERE id = ? LIMIT 1`,
-    ).bind(conflito.id).first<{ status: string; lead_id_gerado: number | null }>();
-
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: `Conflito #${conflitoId} já foi resolvido (status: ${current?.status ?? 'desconhecido'}).`,
-        data: { conflito_id: conflito.id, lead_id: current?.lead_id_gerado ?? null },
-      }),
-      { status: 409, headers: { 'Content-Type': 'application/json' } },
-    );
-  }
-
-  // ── PASSO 2: INSERT normal — erros reais surgem como exceção (sem OR IGNORE) ─
-  // Agora que o mutex foi adquirido via UPDATE, inserimos o lead.
-  // Erros reais (FK violation, schema error) NÃO são suprimidos:
-  // o catch externo os captura e retorna 500, e o rollback compensatório
-  // devolve o conflito para 'pendente' para que outro operador possa tentar.
-  let leadResult: {
-    id: number;
-    contato_id: number;
-    empreendimento_id: number | null;
-    tipologia_id: number | null;
-    origem: string;
-    created_at: string;
-  } | null = null;
-
-  try {
-    leadResult = await env.DB.prepare(
+    // Statement 1: INSERT condicional (só executa se Statement 0 alterou 1 linha)
+    env.DB.prepare(
       `INSERT INTO leads
          (contato_id, empreendimento_id, tipologia_id, idempotency_key,
           origem, canal,
           utm_source, utm_medium, utm_campaign, utm_content, utm_term,
           gclid, fbclid, meta_fbc, meta_fbp,
           ip_address, user_agent, dados_extras_json)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       RETURNING id, contato_id, empreendimento_id, tipologia_id, origem, created_at`,
+       SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+       WHERE (SELECT changes()) > 0`,
     ).bind(
       contatoId,
       empreendimentoId,
@@ -264,68 +251,79 @@ async function resolverConflito(
       rawIp,
       request.headers.get('user-agent')?.slice(0, 500) ?? null,
       JSON.stringify({ _resolvido_de_conflito: conflito.id, escolha: body.escolha }),
-    ).first<{
-      id: number;
-      contato_id: number;
-      empreendimento_id: number | null;
-      tipologia_id: number | null;
-      origem: string;
-      created_at: string;
-    }>();
-  } catch (insertErr) {
-    // Rollback compensatório: devolver status para 'pendente' para que outro
-    // operador (ou uma nova tentativa) possa resolver o conflito
-    await env.DB.prepare(
+    ),
+
+    // Statement 2: vincular lead ao conflito (last_insert_rowid() válido no batch)
+    env.DB.prepare(
       `UPDATE captacoes_conflito
-       SET status = 'pendente', resolvido_por = NULL, resolvido_at = NULL
-       WHERE id = ?`,
-    ).bind(conflito.id).run();
-    console.error('[conflitos] Erro ao inserir lead (rollback executado):', insertErr);
-    return jsonError('Erro ao criar lead a partir do conflito', 500);
+       SET lead_id_gerado = last_insert_rowid()
+       WHERE id = ? AND last_insert_rowid() > 0`,
+    ).bind(conflito.id),
+  ]);
+
+  // Verificar se o mutex foi adquirido (rows_written = 0 → corrida perdida)
+  if (claimResult.meta.rows_written === 0) {
+    // Outro Worker ganhou a corrida — buscar estado atual para resposta consistente
+    const current = await env.DB.prepare(
+      `SELECT status, lead_id_gerado FROM captacoes_conflito WHERE id = ? LIMIT 1`,
+    ).bind(conflito.id).first<{ status: string; lead_id_gerado: number | null }>();
+
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: `Conflito #${conflitoId} já foi resolvido (status: ${current?.status ?? 'desconhecido'}).`,
+        data: { conflito_id: conflito.id, lead_id: current?.lead_id_gerado ?? null },
+      }),
+      { status: 409, headers: { 'Content-Type': 'application/json' } },
+    );
   }
 
-  if (!leadResult) {
-    // INSERT executou mas não retornou linha — situação inesperada
-    // Rollback compensatório para consistência
-    await env.DB.prepare(
-      `UPDATE captacoes_conflito
-       SET status = 'pendente', resolvido_por = NULL, resolvido_at = NULL
-       WHERE id = ?`,
-    ).bind(conflito.id).run();
-    return jsonError('Erro ao criar lead a partir do conflito: nenhuma linha retornada', 500);
+  // Obter o ID do lead criado pelo batch (last_insert_rowid dentro da transação)
+  const newLeadId = insertResult.meta.last_row_id;
+
+  if (!newLeadId) {
+    // Não deveria acontecer se rows_written === 1, mas guardamos defensivamente.
+    // O batch já foi confirmado pelo D1 — se chegamos aqui, o estado é consistente
+    // (mutex adquirido, insert executado, link atualizado), mas o ID não foi retornado.
+    console.error('[conflitos] batch confirmado mas last_row_id = 0 — situação inesperada');
+    return jsonError('Erro ao criar lead a partir do conflito: ID não retornado pelo banco', 500);
   }
 
-  // ── PASSO 3: Atualizar lead_id_gerado na captacao_conflito ────────────────
-  await env.DB.prepare(
-    `UPDATE captacoes_conflito SET lead_id_gerado = ? WHERE id = ?`,
-  ).bind(leadResult.id, conflito.id).run();
+  // Audit log (fora do batch — não crítico; falha não desfaz o lead criado)
+  try {
+    await writeAudit({
+      db: env.DB,
+      usuarioId: user.id,
+      tabela: 'captacoes_conflito',
+      registroId: conflito.id,
+      acao: 'UPDATE',
+      dadosAnt: { status: 'pendente' },
+      dadosNov: { status: novoStatus, lead_id_gerado: newLeadId },
+      ip: rawIp,
+    });
 
-  // Audit log
-  await writeAudit({
-    db: env.DB,
-    usuarioId: user.id,
-    tabela: 'captacoes_conflito',
-    registroId: conflito.id,
-    acao: 'UPDATE',
-    dadosAnt: { status: 'pendente' },
-    dadosNov: { status: novoStatus, lead_id_gerado: leadResult.id },
-    ip: rawIp,
-  });
-
-  await writeAudit({
-    db: env.DB,
-    usuarioId: user.id,
-    tabela: 'leads',
-    registroId: leadResult.id,
-    acao: 'INSERT',
-    dadosNov: leadResult as unknown as Record<string, unknown>,
-    ip: rawIp,
-  });
+    await writeAudit({
+      db: env.DB,
+      usuarioId: user.id,
+      tabela: 'leads',
+      registroId: newLeadId,
+      acao: 'INSERT',
+      dadosNov: {
+        contato_id: contatoId,
+        empreendimento_id: empreendimentoId,
+        tipologia_id: tipologiaId,
+        origem: conflito.origem,
+      },
+      ip: rawIp,
+    });
+  } catch (auditErr) {
+    console.warn('[conflitos] Audit log falhou (não crítico, lead já criado):', auditErr);
+  }
 
   return jsonCreated({
     conflito_id: conflito.id,
     status: novoStatus,
-    lead_id: leadResult.id,
+    lead_id: newLeadId,
     contato_id: contatoId,
     escolha: body.escolha,
   });

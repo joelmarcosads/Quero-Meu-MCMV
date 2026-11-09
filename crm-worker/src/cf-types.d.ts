@@ -12,10 +12,20 @@ declare interface D1PreparedStatement {
   raw<T = unknown[]>(): Promise<T[]>;
 }
 
+declare interface D1ResultMeta {
+  duration: number;
+  size_after: number;
+  rows_read: number;
+  rows_written: number;
+  last_row_id: number;
+  changed_db: boolean;
+  changes: number;
+}
+
 declare interface D1Result<T = Record<string, unknown>> {
   results: T[];
   success: boolean;
-  meta: Record<string, unknown>;
+  meta: D1ResultMeta;
 }
 
 declare interface D1Database {

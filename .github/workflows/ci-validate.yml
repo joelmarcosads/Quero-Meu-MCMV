@@ -49,8 +49,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: crm-worker/package-lock.json
+          # cache: 'npm' desabilitado — repositório não possui package-lock.json.
+          # Adicionar lockfiles e reabilitar quando npm ci for adotado.
 
       - name: Setup Python 3
         uses: actions/setup-python@v5
@@ -59,7 +59,7 @@ jobs:
 
       - name: Instalar dependências do Worker
         working-directory: crm-worker
-        run: npm ci
+        run: npm install
 
       - name: TypeScript — verificar tipos (zero erros)
         working-directory: crm-worker
@@ -102,12 +102,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: admin-panel/package-lock.json
+          # cache: 'npm' desabilitado — repositório não possui package-lock.json.
+          # Adicionar lockfiles e reabilitar quando npm ci for adotado.
 
       - name: Instalar dependências do Admin Panel
         working-directory: admin-panel
-        run: npm ci
+        run: npm install
 
       - name: TypeScript — verificar tipos (zero erros)
         working-directory: admin-panel
