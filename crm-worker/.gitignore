@@ -6,3 +6,4 @@ backup/
 *.db-shm
 *.db-wal
 .dev.vars
+dist-mission6c/
