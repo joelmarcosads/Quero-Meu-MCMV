@@ -2,7 +2,7 @@
 # =============================================================================
 # MARKET IMOBI CRM — MISSION 5: TESTES DE INTEGRAÇÃO HTTP
 # Alvo exclusivo: api-staging.queromeumcmv.com.br
-# Versão: 2.2.0 — 2026-11-09 (fix HT1: jf // empty suprime boolean false)
+# Versão: 2.3.0 — 2026-11-09 (fix HT3c/HT7: telefones fixos → únicos por run)
 # =============================================================================
 # USO:
 #   export CF_TOKEN="$(cat ~/.cf-staging-token)"
@@ -56,6 +56,13 @@ readonly TIMEOUT=30
 
 # Prefixo único por execução — evita colisão entre runs
 RUN_PREFIX="m5h-${RUN_ID}"
+
+# Seed de 9 dígitos para compor telefones únicos por execução.
+# Usa os últimos 9 dígitos do RUN_ID (sem hifens): inclui SSSS-PID.
+# DDDs distintos (21/22/24/27) garantem 4 números diferentes entre si.
+# Formato: +55 + DDD(2) + 9 dígitos = 14 chars (padrão celular BR).
+_PHONE_SEED9=$(printf '%s' "${RUN_ID//-/}" | rev | cut -c1-9 | rev)
+while [[ ${#_PHONE_SEED9} -lt 9 ]]; do _PHONE_SEED9="0${_PHONE_SEED9}"; done
 
 # ── Pré-requisitos ────────────────────────────────────────────────────────────
 
@@ -269,7 +276,7 @@ fi
 #   HT3d: GET /conflitos (admin) → localiza conflito pelo idempotency_key
 
 section "HT3a — Cria contato A (phoneA + emailA)"
-HT3_PHONE_A="+5521966660202"
+HT3_PHONE_A="+5521${_PHONE_SEED9}"   # DDD 21 — único por execução
 HT3_EMAIL_A="${RUN_PREFIX}-contatoA@teste.invalid"
 HT3A_EXT_ID="${RUN_PREFIX}-ht3a"
 HT3A_PAYLOAD=$(jq -n \
@@ -293,7 +300,7 @@ else
 fi
 
 section "HT3b — Cria contato B (phoneB + emailB)"
-HT3_PHONE_B="+5521966660303"
+HT3_PHONE_B="+5522${_PHONE_SEED9}"   # DDD 22 — único por execução
 HT3_EMAIL_B="${RUN_PREFIX}-contatoB@teste.invalid"
 HT3B_EXT_ID="${RUN_PREFIX}-ht3b"
 HT3B_PAYLOAD=$(jq -n \
@@ -452,9 +459,9 @@ section "HT7 — Resoluções simultâneas"
 # Cria conflito dedicado para o teste de concorrência
 log "  Criando contato C e D para conflito de concorrência…"
 
-HT7_PHONE_C="+5521966660404"
+HT7_PHONE_C="+5524${_PHONE_SEED9}"   # DDD 24 — único por execução
 HT7_EMAIL_C="${RUN_PREFIX}-contatoC@teste.invalid"
-HT7_PHONE_D="+5521966660505"
+HT7_PHONE_D="+5527${_PHONE_SEED9}"   # DDD 27 — único por execução
 HT7_EMAIL_D="${RUN_PREFIX}-contatoD@teste.invalid"
 
 # Contato C
