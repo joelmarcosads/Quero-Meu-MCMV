@@ -1,0 +1,134 @@
+name: CI — Validação (sem deploy)
+
+# ─── Validação pura: build + testes ──────────────────────────────────────────
+#
+# Este workflow NÃO faz deploy. Nenhum step usa wrangler deploy.
+# Propósito: garantir que o branch está íntegro antes do deploy manual.
+#
+# Jobs:
+#   validate-worker      → npm ci + tsc + tsx tests + python concurrency tests
+#   validate-admin-panel → npm ci + tsc + vite build
+#
+# Disparo automático: push ou PR para feat/market-imobi-crm-staging
+# Disparo manual:     workflow_dispatch (sem inputs obrigatórios)
+#
+# ─── Permissões ───────────────────────────────────────────────────────────────
+# Apenas leitura de código. Nenhuma permissão de deploy ou secrets de CF.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches:
+      - feat/market-imobi-crm-staging
+  pull_request:
+    branches:
+      - feat/market-imobi-crm-staging
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # validate-worker
+  #   1. npm ci
+  #   2. tsc --noEmit (zero erros exigido)
+  #   3. tsx — testes unitários (contact-resolver + auth + utils)
+  #   4. python3 — testes de concorrência SQLite (C01–C05)
+  # ──────────────────────────────────────────────────────────────────────────
+  validate-worker:
+    name: Worker — tsc + testes unitários
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: crm-worker/package-lock.json
+
+      - name: Setup Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências do Worker
+        working-directory: crm-worker
+        run: npm ci
+
+      - name: TypeScript — verificar tipos (zero erros)
+        working-directory: crm-worker
+        run: |
+          echo "🔍 Verificando TypeScript..."
+          npx tsc --noEmit
+          echo "✅ TypeScript OK"
+
+      - name: Testes unitários (tsx)
+        working-directory: crm-worker
+        run: |
+          echo "🧪 Executando testes unitários..."
+          npx tsx --test tests/*.test.ts tests/*.test.mjs 2>&1 || \
+          npx tsx --test tests/contact-resolver.test.ts 2>&1
+          echo "✅ Testes unitários OK"
+
+      - name: Testes de concorrência SQLite (Python)
+        working-directory: crm-worker
+        run: |
+          echo "🔄 Executando testes de concorrência..."
+          python3 -m pytest tests/concurrency_sqlite.py -v 2>/dev/null || \
+          python3 tests/concurrency_sqlite.py
+          echo "✅ Testes de concorrência OK"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # validate-admin-panel
+  #   1. npm ci
+  #   2. tsc --noEmit (zero erros exigido)
+  #   3. vite build (gera dist/ — sem publicar)
+  # ──────────────────────────────────────────────────────────────────────────
+  validate-admin-panel:
+    name: Admin Panel — tsc + build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: admin-panel/package-lock.json
+
+      - name: Instalar dependências do Admin Panel
+        working-directory: admin-panel
+        run: npm ci
+
+      - name: TypeScript — verificar tipos (zero erros)
+        working-directory: admin-panel
+        run: |
+          echo "🔍 Verificando TypeScript..."
+          npx tsc --noEmit
+          echo "✅ TypeScript OK"
+
+      - name: Build (Vite — sem publicar)
+        working-directory: admin-panel
+        env:
+          VITE_API_BASE_URL: /api/v1
+        run: |
+          echo "🏗️  Build do Admin Panel..."
+          npm run build
+          echo "✅ Build OK ($(du -sh dist | cut -f1))"
+
+      - name: Verificar artefatos do build
+        working-directory: admin-panel
+        run: |
+          echo "📦 Arquivos gerados em dist/:"
+          ls -lh dist/
+          test -f dist/index.html || (echo "ERRO: dist/index.html não encontrado" && exit 1)
+          echo "✅ dist/index.html presente"

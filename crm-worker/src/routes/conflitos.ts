@@ -182,91 +182,123 @@ async function resolverConflito(
 
   const tipologiaId = body.tipologia_id ?? null;
 
-  // Criar lead vinculado ao contato escolhido
-  // Usar idempotency_key do conflito (ou gerar novo) para evitar duplicidade
+  // Usar idempotency_key do conflito (ou gerar novo) para identificar o lead
   const idempotencyKey = conflito.idempotency_key ?? uuidv4();
 
   const rawIp = getClientIp(request);
 
-  // ── Inserção atômica com proteção de concorrência ──────────────────────────
+  // ── PASSO 1: UPDATE atômico como mutex ─────────────────────────────────────
   // Dois operadores podem chegar aqui simultaneamente: ambos passaram no SELECT
-  // acima porque status ainda era 'pendente'. Usamos INSERT OR IGNORE para que
-  // o segundo INSERT seja silenciosamente ignorado em vez de lançar IntegrityError.
-  // Em seguida verificamos rows_written:
-  //   - 1 → este operador "ganhou" a corrida → prossegue normalmente
-  //   - 0 → outro operador já inseriu com o mesmo idempotency_key → retorna 409
-  const insertMeta = await env.DB.prepare(
-    `INSERT OR IGNORE INTO leads
-       (contato_id, empreendimento_id, tipologia_id, idempotency_key,
-        origem, canal,
-        utm_source, utm_medium, utm_campaign, utm_content, utm_term,
-        gclid, fbclid, meta_fbc, meta_fbp,
-        ip_address, user_agent, dados_extras_json)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  ).bind(
-    contatoId,
-    empreendimentoId,
-    tipologiaId,
-    idempotencyKey,
-    conflito.origem,
-    conflito.canal,
-    conflito.utm_source,
-    conflito.utm_medium,
-    conflito.utm_campaign,
-    conflito.utm_content,
-    conflito.utm_term,
-    conflito.gclid,
-    conflito.fbclid,
-    conflito.meta_fbc,
-    conflito.meta_fbp,
-    rawIp,
-    request.headers.get('user-agent')?.slice(0, 500) ?? null,
-    JSON.stringify({ _resolvido_de_conflito: conflito.id, escolha: body.escolha }),
-  ).run();
+  // acima porque status ainda era 'pendente'.
+  // O UPDATE condicional (WHERE status = 'pendente') age como mutex atômico:
+  // apenas um operador encontrará a linha com status='pendente' e escreverá.
+  // O segundo receberá rows_written = 0 e será redirecionado para 409.
+  //
+  // NÃO usamos INSERT OR IGNORE porque ele suprime silenciosamente QUALQUER
+  // IntegrityError, incluindo FK violations (contato_id inválido), schema errors
+  // e outros erros reais que devem resultar em 500.
+  const claimResult = await env.DB.prepare(
+    `UPDATE captacoes_conflito
+     SET status = ?,
+         resolvido_por = ?,
+         resolvido_at = datetime('now')
+     WHERE id = ? AND status = 'pendente'`,
+  ).bind(novoStatus, user.id, conflito.id).run();
 
-  if (insertMeta.meta.rows_written === 0) {
-    // Outro operador ganhou a corrida — o lead já existe com este idempotency_key.
-    // Buscar o lead existente para retornar resposta consistente (não erro 500).
-    const existingLead = await env.DB.prepare(
-      `SELECT id FROM leads WHERE idempotency_key = ? LIMIT 1`,
-    ).bind(idempotencyKey).first<{ id: number }>();
+  if (claimResult.meta.rows_written === 0) {
+    // Outro operador ganhou a corrida — buscar estado atual para resposta consistente
+    const current = await env.DB.prepare(
+      `SELECT status, lead_id_gerado FROM captacoes_conflito WHERE id = ? LIMIT 1`,
+    ).bind(conflito.id).first<{ status: string; lead_id_gerado: number | null }>();
 
     return new Response(
       JSON.stringify({
         success: false,
-        error: `Conflito #${conflitoId} já foi resolvido por outro operador simultaneamente.`,
-        data: { conflito_id: conflito.id, lead_id: existingLead?.id ?? null },
+        error: `Conflito #${conflitoId} já foi resolvido (status: ${current?.status ?? 'desconhecido'}).`,
+        data: { conflito_id: conflito.id, lead_id: current?.lead_id_gerado ?? null },
       }),
       { status: 409, headers: { 'Content-Type': 'application/json' } },
     );
   }
 
-  // Recuperar o lead recém-inserido (RETURNING não suportado com INSERT OR IGNORE no D1)
-  const leadResult = await env.DB.prepare(
-    `SELECT id, contato_id, empreendimento_id, tipologia_id, origem, created_at
-     FROM leads WHERE idempotency_key = ? LIMIT 1`,
-  ).bind(idempotencyKey).first<{
+  // ── PASSO 2: INSERT normal — erros reais surgem como exceção (sem OR IGNORE) ─
+  // Agora que o mutex foi adquirido via UPDATE, inserimos o lead.
+  // Erros reais (FK violation, schema error) NÃO são suprimidos:
+  // o catch externo os captura e retorna 500, e o rollback compensatório
+  // devolve o conflito para 'pendente' para que outro operador possa tentar.
+  let leadResult: {
     id: number;
     contato_id: number;
     empreendimento_id: number | null;
     tipologia_id: number | null;
     origem: string;
     created_at: string;
-  }>();
+  } | null = null;
 
-  if (!leadResult) {
-    return jsonError('Erro ao recuperar lead criado a partir do conflito', 500);
+  try {
+    leadResult = await env.DB.prepare(
+      `INSERT INTO leads
+         (contato_id, empreendimento_id, tipologia_id, idempotency_key,
+          origem, canal,
+          utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+          gclid, fbclid, meta_fbc, meta_fbp,
+          ip_address, user_agent, dados_extras_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       RETURNING id, contato_id, empreendimento_id, tipologia_id, origem, created_at`,
+    ).bind(
+      contatoId,
+      empreendimentoId,
+      tipologiaId,
+      idempotencyKey,
+      conflito.origem,
+      conflito.canal,
+      conflito.utm_source,
+      conflito.utm_medium,
+      conflito.utm_campaign,
+      conflito.utm_content,
+      conflito.utm_term,
+      conflito.gclid,
+      conflito.fbclid,
+      conflito.meta_fbc,
+      conflito.meta_fbp,
+      rawIp,
+      request.headers.get('user-agent')?.slice(0, 500) ?? null,
+      JSON.stringify({ _resolvido_de_conflito: conflito.id, escolha: body.escolha }),
+    ).first<{
+      id: number;
+      contato_id: number;
+      empreendimento_id: number | null;
+      tipologia_id: number | null;
+      origem: string;
+      created_at: string;
+    }>();
+  } catch (insertErr) {
+    // Rollback compensatório: devolver status para 'pendente' para que outro
+    // operador (ou uma nova tentativa) possa resolver o conflito
+    await env.DB.prepare(
+      `UPDATE captacoes_conflito
+       SET status = 'pendente', resolvido_por = NULL, resolvido_at = NULL
+       WHERE id = ?`,
+    ).bind(conflito.id).run();
+    console.error('[conflitos] Erro ao inserir lead (rollback executado):', insertErr);
+    return jsonError('Erro ao criar lead a partir do conflito', 500);
   }
 
-  // Atualizar captacoes_conflito
+  if (!leadResult) {
+    // INSERT executou mas não retornou linha — situação inesperada
+    // Rollback compensatório para consistência
+    await env.DB.prepare(
+      `UPDATE captacoes_conflito
+       SET status = 'pendente', resolvido_por = NULL, resolvido_at = NULL
+       WHERE id = ?`,
+    ).bind(conflito.id).run();
+    return jsonError('Erro ao criar lead a partir do conflito: nenhuma linha retornada', 500);
+  }
+
+  // ── PASSO 3: Atualizar lead_id_gerado na captacao_conflito ────────────────
   await env.DB.prepare(
-    `UPDATE captacoes_conflito
-     SET status = ?,
-         resolvido_por = ?,
-         resolvido_at = datetime('now'),
-         lead_id_gerado = ?
-     WHERE id = ?`,
-  ).bind(novoStatus, user.id, leadResult.id, conflito.id).run();
+    `UPDATE captacoes_conflito SET lead_id_gerado = ? WHERE id = ?`,
+  ).bind(leadResult.id, conflito.id).run();
 
   // Audit log
   await writeAudit({
