@@ -155,7 +155,7 @@ async function fetchLeadData(
 ): Promise<MetaLeadData | null> {
   const base = graphApiBase ?? 'https://graph.facebook.com';
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
-  const url = `${base}/v21.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
+  const url = `${base}/v25.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
 
   let resp: Response;
   try {
