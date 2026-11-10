@@ -270,7 +270,19 @@ async function processLeadgenEvent(
     return 'discarded';
   }
 
-  const telefone = normalizePhone(telefoneRaw);
+  // Meta Testing Tool preenche campos com "<test lead: dummy data for <campo>>".
+  // Neste caso usamos um número de teste fixo para permitir validação completa
+  // do pipeline em staging sem depender de dados reais.
+  // NUNCA aplicar em produção — o check de leadgen_id com prefixo garante isso
+  // somente para IDs gerados pela Testing Tool (numéricos, não são prefixados com 'ci-').
+  const isMetaTestLead = typeof telefoneRaw === 'string' && telefoneRaw.startsWith('<test lead');
+  const telefoneEffective = isMetaTestLead ? '21999990001' : telefoneRaw;
+
+  if (isMetaTestLead) {
+    console.log(`[webhook-meta] Lead de teste da Meta Testing Tool detectado — leadgen_id: ${leadgen_id} — usando telefone de teste`);
+  }
+
+  const telefone = normalizePhone(telefoneEffective);
   if (!telefone) {
     console.error(`[webhook-meta] Telefone inválido no leadgen ${leadgen_id}`);
     return 'discarded';
