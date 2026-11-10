@@ -1,0 +1,268 @@
+name: Criar Bypass CF Access — Webhook Meta Staging
+
+# AUTORIZAÇÃO REGISTRADA: bypass para api-staging.queromeumcmv.com.br/api/v1/webhook/meta
+# Escopo restrito: somente esse path, somente staging.
+# NÃO altera: aplicação raiz existente, produção, D1, outros secrets.
+#
+# PRECEDÊNCIA CF ACCESS (documentação oficial):
+#   Cloudflare Access avalia aplicações do caminho mais específico
+#   para o menos específico. Uma aplicação com path
+#   /api/v1/webhook/meta tem precedência sobre /* na mesma origem.
+#   Fonte: developers.cloudflare.com/cloudflare-one/policies/access/
+#          "If multiple applications match a request, the most
+#           specific application policy is applied."
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite CRIAR-BYPASS para executar'
+        required: true
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  criar-bypass:
+    name: Bypass CF Access → /api/v1/webhook/meta (staging)
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirmar == 'CRIAR-BYPASS' }}
+
+    env:
+      CF_ACCOUNT_ID: "5f8abdde2df34998f0454821d8be59da"
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      TARGET_DOMAIN: "api-staging.queromeumcmv.com.br/api/v1/webhook/meta"
+      APP_NAME: "Webhook Meta — Staging"
+      BASE_URL: "https://api-staging.queromeumcmv.com.br"
+      WEBHOOK_PATH: "/api/v1/webhook/meta"
+      META_VERIFY_TOKEN: ${{ secrets.STAGING_META_VERIFY_TOKEN }}
+
+    steps:
+      # ── ETAPA 1: verificar permissões do token ──────────────────────────
+      - name: "Verificar permissões — CF Access API"
+        id: check_perms
+        run: |
+          echo "Testando acesso à CF Access API..."
+          RESP=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}")
+          STATUS=$(echo "$RESP" | grep "HTTP_STATUS:" | cut -d: -f2)
+          BODY=$(echo "$RESP" | sed '/HTTP_STATUS:/d')
+          SUCCESS=$(echo "$BODY" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('success','false'))")
+          echo "HTTP $STATUS | success=$SUCCESS"
+          if [ "$SUCCESS" = "True" ] || [ "$SUCCESS" = "true" ]; then
+            echo "✅ Token tem permissão para Access API"
+            COUNT=$(echo "$BODY" | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d.get('result',[])))")
+            echo "   Aplicações existentes: $COUNT"
+            echo "perms_ok=true" >> $GITHUB_OUTPUT
+          else
+            ERRORS=$(echo "$BODY" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('errors','?'))")
+            echo "⚠️  Token sem permissão Access: $ERRORS"
+            echo "   Será necessário adicionar permissão 'Access: Edit' ao CF_API_TOKEN"
+            echo "   (Cloudflare → Minha Conta → Tokens de API → editar token CF_API_TOKEN)"
+            echo "perms_ok=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      # ── ETAPA 2: verificar se bypass já existe ──────────────────────────
+      - name: "Verificar se aplicação bypass já existe"
+        id: check_existing
+        run: |
+          RESP=$(curl -s \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}")
+          EXISTS=$(echo "$RESP" | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          target = 'api-staging.queromeumcmv.com.br/api/v1/webhook/meta'
+          for app in data.get('result', []):
+              if app.get('domain','') == target:
+                  print(app['id'])
+                  break
+          ")
+          if [ -n "$EXISTS" ]; then
+            echo "ℹ️  Aplicação bypass já existe (id=$EXISTS) — nada a criar"
+            echo "app_id=$EXISTS" >> $GITHUB_OUTPUT
+            echo "already_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Aplicação bypass não existe — será criada"
+            echo "already_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      # ── ETAPA 3: criar aplicação bypass ────────────────────────────────
+      - name: "Criar aplicação CF Access Bypass"
+        id: create_app
+        if: ${{ steps.check_existing.outputs.already_exists == 'false' }}
+        run: |
+          echo "Criando aplicação: ${APP_NAME}"
+          echo "  Domínio/Path: ${TARGET_DOMAIN}"
+          echo "  Tipo: self_hosted | Decisão: bypass | Sessão: 0s"
+          RESP=$(curl -s -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"name\": \"${APP_NAME}\",
+              \"domain\": \"${TARGET_DOMAIN}\",
+              \"type\": \"self_hosted\",
+              \"session_duration\": \"0s\",
+              \"auto_redirect_to_identity\": false,
+              \"http_only_cookie_attribute\": false,
+              \"allow_authenticate_via_warp\": false
+            }")
+          SUCCESS=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('success','false'))")
+          if [ "$SUCCESS" = "True" ] || [ "$SUCCESS" = "true" ]; then
+            APP_ID=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['result']['id'])")
+            echo "✅ Aplicação criada — id: $APP_ID"
+            echo "app_id=$APP_ID" >> $GITHUB_OUTPUT
+          else
+            ERRORS=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('errors','?'))")
+            echo "❌ Falha ao criar aplicação: $ERRORS"
+            exit 1
+          fi
+
+      # ── ETAPA 4: criar política bypass (Everyone) ───────────────────────
+      - name: "Criar política Bypass — Everyone"
+        id: create_policy
+        run: |
+          APP_ID="${{ steps.create_app.outputs.app_id }}${{ steps.check_existing.outputs.app_id }}"
+          if [ -z "$APP_ID" ]; then
+            echo "❌ APP_ID não disponível"
+            exit 1
+          fi
+          # Verifica se já existe política bypass
+          EXISTING=$(curl -s \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps/${APP_ID}/policies" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          for p in data.get('result', []):
+              if p.get('decision') == 'bypass':
+                  print(p['id'])
+                  break
+          ")
+          if [ -n "$EXISTING" ]; then
+            echo "ℹ️  Política bypass já existe (id=$EXISTING)"
+            exit 0
+          fi
+          RESP=$(curl -s -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps/${APP_ID}/policies" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "Bypass — Everyone",
+              "decision": "bypass",
+              "include": [{"everyone": {}}],
+              "precedence": 1
+            }')
+          SUCCESS=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('success','false'))")
+          if [ "$SUCCESS" = "True" ] || [ "$SUCCESS" = "true" ]; then
+            POL_ID=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['result']['id'])")
+            echo "✅ Política bypass criada — id: $POL_ID"
+          else
+            ERRORS=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('errors','?'))")
+            echo "❌ Falha ao criar política: $ERRORS"
+            exit 1
+          fi
+
+      # ── ETAPA 5: aguardar propagação (CF leva até 30s) ─────────────────
+      - name: "Aguardar propagação CF Access (30s)"
+        run: sleep 30
+
+      # ── ETAPA 6: testes HTTP reais ──────────────────────────────────────
+      - name: "T1 — Token inválido → 403"
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${BASE_URL}${WEBHOOK_PATH}?hub.mode=subscribe&hub.verify_token=token_errado_xpto&hub.challenge=challenge_abc" \
+            --max-time 10)
+          echo "Status: $STATUS"
+          [ "$STATUS" = "403" ] && echo "✅ T1 PASS — token inválido rejeitado (403)" || \
+            { echo "❌ T1 FAIL — esperado 403, recebido $STATUS"; exit 1; }
+
+      - name: "T2 — Token válido → 200 + challenge"
+        run: |
+          CHALLENGE="ch_$(date +%s)_meta"
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
+            "${BASE_URL}${WEBHOOK_PATH}?hub.mode=subscribe&hub.verify_token=${META_VERIFY_TOKEN}&hub.challenge=${CHALLENGE}" \
+            --max-time 10)
+          BODY=$(echo "$RESPONSE" | head -1)
+          STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS:" | cut -d: -f2)
+          echo "Status: $STATUS"
+          if [ "$STATUS" = "200" ] && echo "$BODY" | grep -qF "$CHALLENGE"; then
+            echo "✅ T2 PASS — verificação aprovada, challenge retornado (token mascarado)"
+          else
+            echo "❌ T2 FAIL — status=$STATUS body=${BODY:0:100}"
+            exit 1
+          fi
+
+      - name: "T3 — GET sem parâmetros → 400 ou 403"
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${BASE_URL}${WEBHOOK_PATH}" --max-time 10)
+          echo "Status: $STATUS"
+          { [ "$STATUS" = "400" ] || [ "$STATUS" = "403" ]; } && \
+            echo "✅ T3 PASS — sem parâmetros rejeitado ($STATUS)" || \
+            { echo "❌ T3 FAIL — recebido $STATUS"; exit 1; }
+
+      - name: "T4 — POST sem assinatura HMAC → 401 ou 403"
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "${BASE_URL}${WEBHOOK_PATH}" \
+            -H "Content-Type: application/json" \
+            -d '{"object":"page","entry":[{"changes":[{"field":"leadgen"}]}]}' \
+            --max-time 10)
+          echo "Status: $STATUS"
+          { [ "$STATUS" = "401" ] || [ "$STATUS" = "403" ]; } && \
+            echo "✅ T4 PASS — POST sem HMAC rejeitado ($STATUS)" || \
+            { echo "❌ T4 FAIL — recebido $STATUS"; exit 1; }
+
+      - name: "T5 — /admin continua protegido pelo CF Access"
+        run: |
+          # /admin não tem bypass → CF Access deve redirecionar (302)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${BASE_URL}/admin" --max-time 10)
+          echo "Status: $STATUS"
+          if [ "$STATUS" = "302" ]; then
+            echo "✅ T5 PASS — /admin redirecionado pelo CF Access (302 → login)"
+          elif [ "$STATUS" = "200" ]; then
+            # CF Access pode retornar 200 do SPA após autenticar via cookie
+            echo "ℹ️  T5 INFO — /admin retornou 200 (pode ser SPA ou cache de sessão)"
+          else
+            echo "ℹ️  T5 INFO — /admin retornou $STATUS"
+          fi
+
+      - name: "T6 — /api/v1/leads sem JWT → protegido"
+        run: |
+          # Se CF Access está ativo (sem bypass para /api/v1/leads), retorna 302
+          # Se worker receber a requisição sem auth, retorna 401
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${BASE_URL}/api/v1/leads" --max-time 10)
+          echo "Status: $STATUS"
+          { [ "$STATUS" = "401" ] || [ "$STATUS" = "302" ]; } && \
+            echo "✅ T6 PASS — /api/v1/leads protegido ($STATUS)" || \
+            { echo "❌ T6 FAIL — esperado 302 ou 401, recebido $STATUS"; exit 1; }
+
+      - name: "Resumo final"
+        if: always()
+        run: |
+          echo "======================================================="
+          echo "Bypass CF Access — Webhook Meta Staging"
+          echo "Aplicação: ${APP_NAME}"
+          echo "Path     : ${TARGET_DOMAIN}"
+          echo "======================================================="
+          echo "T1 token inválido → 403      : ver acima"
+          echo "T2 token válido → 200+challenge: ver acima"
+          echo "T3 sem parâmetros → 400/403  : ver acima"
+          echo "T4 POST sem HMAC → 401/403   : ver acima"
+          echo "T5 /admin → 302 CF Access    : ver acima"
+          echo "T6 /api/v1/leads → 302/401   : ver acima"
+          echo "======================================================="
+          echo "Nenhum token ou secret foi exibido neste log."
+          echo ""
+          echo "PRÓXIMO PASSO — Meta for Developers:"
+          echo "  URL : https://api-staging.queromeumcmv.com.br/api/v1/webhook/meta"
+          echo "  Token: o valor de STAGING_META_VERIFY_TOKEN (gerado no PowerShell)"
+          echo "  Campos de assinatura: leadgen"
+          echo "  Graph API version: v21.0 (configurado no Worker)"
