@@ -31,7 +31,9 @@ jobs:
 
     env:
       CF_ACCOUNT_ID: "5f8abdde2df34998f0454821d8be59da"
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      # CF_ACCESS_API_TOKEN: token separado com permissão "Access: Apps and Policies — Edit"
+      # CF_API_TOKEN NÃO é usado aqui — apenas o token mínimo para Access API
+      CF_API_TOKEN: ${{ secrets.CF_ACCESS_API_TOKEN }}
       TARGET_DOMAIN: "api-staging.queromeumcmv.com.br/api/v1/webhook/meta"
       APP_NAME: "Webhook Meta — Staging"
       BASE_URL: "https://api-staging.queromeumcmv.com.br"
