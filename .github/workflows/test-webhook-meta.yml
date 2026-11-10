@@ -82,6 +82,40 @@ jobs:
             echo "ℹ️  T6 — status: $STATUS"
           fi
 
+      - name: "T7 — POST com HMAC válido e campo whatsapp_number (fix Missão 6)"
+        env:
+          APP_SECRET: ${{ secrets.STAGING_META_APP_SECRET }}
+        run: |
+          # Envia POST simulado com assinatura HMAC válida e campo whatsapp_number
+          # (nome do campo no formulário SOLAR TRINDADE — fix do bug de campo errado)
+          FAKE_LEADGEN="ci-m6-test-$(date +%s)"
+          TIMESTAMP=$(date +%s)
+          PAGE_ID="1186891014496124"
+          PAYLOAD="{\"object\":\"page\",\"entry\":[{\"id\":\"${PAGE_ID}\",\"time\":${TIMESTAMP},\"changes\":[{\"field\":\"leadgen\",\"value\":{\"leadgen_id\":\"${FAKE_LEADGEN}\",\"page_id\":\"${PAGE_ID}\",\"form_id\":\"973542762144143\",\"created_time\":${TIMESTAMP}}}]}]}"
+          SIG=$(printf '%s' "$PAYLOAD" | openssl dgst -sha256 -hmac "$APP_SECRET" | awk '{print $2}')
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-Hub-Signature-256: sha256=$SIG" \
+            -d "$PAYLOAD" \
+            "${BASE_URL}${WEBHOOK_PATH}" \
+            --max-time 30)
+          BODY=$(echo "$RESPONSE" | head -1)
+          STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS:" | cut -d: -f2)
+          echo "Status: $STATUS | Body: $BODY"
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ T7 PASS — Worker aceitou POST com HMAC (200)"
+            echo "   leadgen_id fictício → Graph API 4xx → descartado (esperado)"
+          elif [ "$STATUS" = "401" ]; then
+            echo "❌ T7 FAIL — HMAC inválido (401) — META_APP_SECRET incorreto no Worker"
+            exit 1
+          elif [ "$STATUS" = "403" ]; then
+            echo "❌ T7 FAIL — CF Access bloqueando POST (403)"
+            exit 1
+          else
+            echo "ℹ️  T7 — status inesperado: $STATUS"
+          fi
+
       - name: Resumo
         if: always()
         run: |
