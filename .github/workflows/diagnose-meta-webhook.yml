@@ -1,0 +1,130 @@
+name: Diagnosticar Webhook Meta — Staging
+
+# Workflow SOMENTE LEITURA — não altera produção, D1 nem Worker.
+# Verifica: assinatura do app na Página, URL do webhook, permissões do token.
+# Disparo manual único; pode ser deletado após diagnóstico.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite DIAGNOSTICAR para executar'
+        required: true
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    name: Diagnóstico — Webhook Meta Staging
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirmar == 'DIAGNOSTICAR' }}
+
+    env:
+      PAGE_TOKEN: ${{ secrets.STAGING_META_PAGE_ACCESS_TOKEN }}
+      APP_SECRET: ${{ secrets.STAGING_META_APP_SECRET }}
+      PAGE_ID: "1186891014496124"
+      APP_ID: "1162269752824300"
+
+    steps:
+      - name: "1 — Verificar permissões do Page Access Token"
+        run: |
+          echo "=== Permissões do META_PAGE_ACCESS_TOKEN ==="
+          curl -s "https://graph.facebook.com/v25.0/me/permissions?access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          perms = d.get('data', [])
+          granted = [p['permission'] for p in perms if p.get('status')=='granted']
+          declined = [p['permission'] for p in perms if p.get('status')!='granted']
+          print('Concedidas:', ', '.join(sorted(granted)) or 'nenhuma')
+          if declined:
+              print('Negadas/pendentes:', ', '.join(sorted(declined)))
+          "
+          echo "============================================"
+
+      - name: "2 — Verificar identidade do token (a qual página pertence)"
+        run: |
+          echo "=== Identidade do token ==="
+          curl -s "https://graph.facebook.com/v25.0/me?fields=id,name&access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+          else:
+              print('ID:', d.get('id','?'))
+              print('Nome:', d.get('name','?'))
+          "
+          echo "==========================="
+
+      - name: "3 — Verificar apps inscritos na Página (subscribed_apps)"
+        run: |
+          echo "=== Apps inscritos na Página ${PAGE_ID} ==="
+          curl -s "https://graph.facebook.com/v25.0/${PAGE_ID}/subscribed_apps?access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          apps = d.get('data', [])
+          if not apps:
+              print('NENHUM app inscrito nesta Página!')
+          for app in apps:
+              print('App ID  :', app.get('id','?'))
+              print('App nome:', app.get('name','?'))
+              sub_fields = app.get('subscribed_fields', [])
+              print('Campos  :', ', '.join(sub_fields) if sub_fields else 'nenhum')
+              print()
+          "
+          echo "============================================="
+
+      - name: "4 — Obter token de app e verificar assinaturas de webhook"
+        run: |
+          echo "=== Assinaturas de webhook do App ${APP_ID} ==="
+          # Gerar app access token (APP_ID|APP_SECRET — não expõe dados sensíveis)
+          APP_TOKEN="${APP_ID}|${APP_SECRET}"
+          curl -s "https://graph.facebook.com/v25.0/${APP_ID}/subscriptions?access_token=${APP_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          subs = d.get('data', [])
+          if not subs:
+              print('NENHUMA assinatura configurada!')
+          for s in subs:
+              print('Objeto  :', s.get('object','?'))
+              print('Callback:', s.get('callback_url','?'))
+              print('Ativo   :', s.get('active','?'))
+              fields = s.get('fields', [])
+              fnames = [f.get('name','?') if isinstance(f,dict) else f for f in fields]
+              print('Campos  :', ', '.join(fnames) if fnames else 'nenhum')
+              print()
+          "
+          echo "================================================"
+
+      - name: "5 — Testar busca de lead pelo Testing Tool (leadgen mais recente)"
+        run: |
+          echo "=== Leads recentes no formulário (via Page Token) ==="
+          # Buscar formulários da página
+          curl -s "https://graph.facebook.com/v25.0/${PAGE_ID}/leadgen_forms?fields=id,name,leads_count&access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          forms = d.get('data', [])
+          if not forms:
+              print('Nenhum formulário encontrado na Página.')
+          for f in forms:
+              print(f'Form {f[\"id\"]}: {f.get(\"name\",\"?\")} | leads: {f.get(\"leads_count\",\"?\")}')
+          " 2>/dev/null || echo "(sem formulários ou permissão insuficiente)"
+          echo "====================================================="
