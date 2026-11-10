@@ -1,0 +1,222 @@
+name: Corrigir — Subscrever App na Página Meta (Staging)
+
+# ─── PROPÓSITO ────────────────────────────────────────────────────────────────
+# Verifica e corrige a assinatura do app nos eventos leadgen da Página Meta.
+#
+# PROBLEMA IDENTIFICADO:
+#   Para que o Meta entregue webhooks ao nosso Worker, o App precisa estar
+#   subscrito na Página para o campo 'leadgen'. Isso é feito via:
+#     POST /{page_id}/subscribed_apps?subscribed_fields=leadgen
+#   com o Page Access Token.
+#
+#   Essa assinatura é SEPARADA da configuração do webhook no App (callback URL).
+#   O webhook pode estar "Ativo" no painel do App sem a Página estar subscrita.
+#
+# SOMENTE LEITURA no passo de verificação.
+# O passo de correção só executa se confirmar=CORRIGIR.
+# Não toca em: D1, Worker secrets, CF Access, produção.
+# ─────────────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'VERIFICAR (só checar) ou CORRIGIR (checar + subscrever se necessário)'
+        required: true
+        default: 'VERIFICAR'
+        type: choice
+        options:
+          - VERIFICAR
+          - CORRIGIR
+
+permissions:
+  contents: read
+
+jobs:
+  fix-subscription:
+    name: Verificar/Corrigir subscrição App→Página Meta
+    runs-on: ubuntu-latest
+
+    env:
+      PAGE_TOKEN: ${{ secrets.STAGING_META_PAGE_ACCESS_TOKEN }}
+      APP_ID: "1162269752824300"
+      PAGE_ID: "1186891014496124"
+
+    steps:
+      - name: "1 — Verificar identidade do token"
+        run: |
+          echo "=== Token pertence a qual entidade? ==="
+          curl -s "https://graph.facebook.com/v25.0/me?fields=id,name&access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              print('Código:', d['error'].get('code','?'))
+          else:
+              print('ID  :', d.get('id','?'))
+              print('Nome:', d.get('name','?'))
+          "
+          echo "========================================"
+
+      - name: "2 — Verificar permissões do token"
+        run: |
+          echo "=== Permissões do Page Access Token ==="
+          curl -s "https://graph.facebook.com/v25.0/me/permissions?access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          perms = d.get('data', [])
+          print('Concedidas:')
+          for p in perms:
+              status = p.get('status','?')
+              name   = p.get('permission','?')
+              marker = '✅' if status == 'granted' else '❌'
+              print(f'  {marker} {name} ({status})')
+          "
+          echo "========================================"
+
+      - name: "3 — Verificar apps inscritos na Página (subscribed_apps)"
+        id: check_subscription
+        run: |
+          echo "=== Apps inscritos na Página ${PAGE_ID} ==="
+          RESPONSE=$(curl -s "https://graph.facebook.com/v25.0/${PAGE_ID}/subscribed_apps?access_token=${PAGE_TOKEN}")
+          echo "$RESPONSE" | python3 -c "
+          import json, sys, os
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO ao consultar subscribed_apps:', d['error'].get('message','?'))
+              sys.exit(0)
+          apps = d.get('data', [])
+          app_id = os.environ.get('APP_ID', '?')
+          our_app = next((a for a in apps if str(a.get('id','')) == str(app_id)), None)
+          if not apps:
+              print('⚠️  NENHUM app inscrito nesta Página.')
+              print('→ PROBLEMA CONFIRMADO: a Página não tem apps inscritos.')
+          elif not our_app:
+              print(f'⚠️  App {app_id} NÃO está inscrito nesta Página.')
+              print('Apps inscritos:')
+              for a in apps:
+                  print(f'  - {a.get(\"id\",\"?\")} | {a.get(\"name\",\"?\")}')
+              print('→ PROBLEMA CONFIRMADO: nosso app não está inscrito.')
+          else:
+              print(f'✅ App {app_id} ({our_app.get(\"name\",\"?\")}) está inscrito.')
+              sub_fields = our_app.get('subscribed_fields', [])
+              print(f'   Campos subscritos: {sub_fields}')
+              if 'leadgen' not in sub_fields:
+                  print('⚠️  Campo \"leadgen\" NÃO está na lista de campos subscritos.')
+                  print('→ PROBLEMA CONFIRMADO: falta subscrever o campo leadgen.')
+              else:
+                  print('✅ Campo leadgen está subscrito.')
+                  print('→ Assinatura OK — verificar outro ponto de falha.')
+          "
+          # Save subscription status for next step
+          APP_SUBSCRIBED=$(echo "$RESPONSE" | python3 -c "
+          import json, sys, os
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('error')
+              sys.exit(0)
+          apps = d.get('data', [])
+          app_id = os.environ.get('APP_ID', '')
+          our_app = next((a for a in apps if str(a.get('id','')) == str(app_id)), None)
+          if our_app:
+              fields = our_app.get('subscribed_fields', [])
+              print('ok' if 'leadgen' in fields else 'missing_leadgen')
+          else:
+              print('not_subscribed')
+          " 2>/dev/null || echo "unknown")
+          echo "subscription_status=${APP_SUBSCRIBED}" >> "$GITHUB_OUTPUT"
+          echo "========================================"
+
+      - name: "4 — CORRIGIR: subscrever app na Página para leadgen"
+        if: >
+          github.event.inputs.confirmar == 'CORRIGIR' &&
+          (steps.check_subscription.outputs.subscription_status == 'not_subscribed' ||
+           steps.check_subscription.outputs.subscription_status == 'missing_leadgen')
+        run: |
+          echo "=== Subscrevendo App ${APP_ID} na Página ${PAGE_ID} para leadgen ==="
+          RESULT=$(curl -s -X POST \
+            "https://graph.facebook.com/v25.0/${PAGE_ID}/subscribed_apps" \
+            -d "subscribed_fields=leadgen" \
+            -d "access_token=${PAGE_TOKEN}")
+          echo "$RESULT" | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('❌ ERRO ao subscrever:', d['error'].get('message','?'))
+              sys.exit(1)
+          elif d.get('success'):
+              print('✅ Assinatura realizada com sucesso!')
+              print('   O Meta agora enviará eventos leadgen desta Página para o webhook.')
+          else:
+              print('Resposta:', json.dumps(d))
+          "
+          echo "========================================"
+
+      - name: "5 — Confirmar assinatura após correção"
+        if: github.event.inputs.confirmar == 'CORRIGIR'
+        run: |
+          echo "=== Verificação final — apps inscritos ==="
+          curl -s "https://graph.facebook.com/v25.0/${PAGE_ID}/subscribed_apps?access_token=${PAGE_TOKEN}" \
+          | python3 -c "
+          import json, sys, os
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          apps = d.get('data', [])
+          app_id = os.environ.get('APP_ID', '?')
+          our_app = next((a for a in apps if str(a.get('id','')) == str(app_id)), None)
+          if our_app:
+              fields = our_app.get('subscribed_fields', [])
+              print(f'✅ App {app_id} inscrito | Campos: {fields}')
+              if 'leadgen' in fields:
+                  print()
+                  print('PRÓXIMO PASSO: envie um novo lead pelo Meta Lead Ads Testing Tool.')
+                  print('O lead deve ser registrado no D1 staging em até 30 segundos.')
+              else:
+                  print('⚠️  Campo leadgen ainda não aparece na lista.')
+          else:
+              print(f'❌ App {app_id} ainda não inscrito.')
+          "
+          echo "=========================================="
+
+      - name: "6 — Verificar URL de callback do webhook no App"
+        run: |
+          echo "=== URL de callback do webhook registrada no App ==="
+          # Usar app access token para consultar as assinaturas do app
+          APP_SECRET="${{ secrets.STAGING_META_APP_SECRET }}"
+          if [ -z "$APP_SECRET" ]; then
+            echo "⚠️  STAGING_META_APP_SECRET não disponível — pulando verificação da URL."
+          else
+            APP_TOKEN="${APP_ID}|${APP_SECRET}"
+            curl -s "https://graph.facebook.com/v25.0/${APP_ID}/subscriptions?access_token=${APP_TOKEN}" \
+            | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if 'error' in d:
+              print('ERRO:', d['error'].get('message','?'))
+              sys.exit(0)
+          subs = d.get('data', [])
+          if not subs:
+              print('⚠️  Nenhuma assinatura de webhook configurada no App!')
+          for s in subs:
+              print('Objeto  :', s.get('object','?'))
+              url = s.get('callback_url','?')
+              print('Callback:', url)
+              print('Ativo   :', s.get('active','?'))
+              fnames = [f.get('name','?') if isinstance(f,dict) else f for f in s.get('fields',[])]
+              print('Campos  :', ', '.join(fnames))
+              if 'api-staging' in url:
+                  print('✅ URL aponta para STAGING — correto.')
+              elif 'api.' in url:
+                  print('⚠️  URL aponta para PRODUÇÃO — webhook vai para o Worker errado!')
+              else:
+                  print('ℹ️  URL:', url)
+          "
+          fi
+          echo "====================================================="
