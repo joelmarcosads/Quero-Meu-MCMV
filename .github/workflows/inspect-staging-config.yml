@@ -1,0 +1,108 @@
+name: Inspecionar Configuração — Staging (uso único)
+
+# Workflow de leitura apenas — não altera nada.
+# Consulta: secrets do Worker staging + aplicações CF Access.
+# Disparo manual único; pode ser deletado após uso.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite LER para executar a inspeção'
+        required: true
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    name: Inspecionar secrets Worker + CF Access apps
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirmar == 'LER' }}
+
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: "5f8abdde2df34998f0454821d8be59da"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: feat/market-imobi-crm-staging
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install wrangler
+        working-directory: crm-worker
+        run: npm install
+
+      - name: Listar secrets do Worker market-imobi-crm-staging
+        working-directory: crm-worker
+        run: |
+          echo "=== Secrets configurados em market-imobi-crm-staging ==="
+          npx wrangler secret list --env staging
+          echo "========================================================"
+
+      - name: Listar aplicações CF Access (nomes + domínios + políticas)
+        run: |
+          echo "=== Aplicações CF Access na conta ==="
+          curl -s "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+          | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          if not data.get('success'):
+              print('Erro:', data.get('errors'))
+              sys.exit(1)
+          apps = data.get('result', [])
+          print(f'Total de aplicações: {len(apps)}')
+          for app in apps:
+              name = app.get('name','?')
+              domain = app.get('domain','?')
+              uid = app.get('id','?')
+              atype = app.get('type','?')
+              print(f'  [{atype}] {name}')
+              print(f'         domain : {domain}')
+              print(f'         id     : {uid}')
+          "
+          echo "======================================"
+
+      - name: Listar políticas de cada aplicação Access relevante
+        run: |
+          echo "=== Políticas das aplicações Access ==="
+          APP_IDS=$(
+            curl -s "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps" \
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          for app in data.get('result', []):
+              if 'queromeumcmv' in app.get('domain',''):
+                  print(app['id'])
+          "
+          )
+          for APP_ID in $APP_IDS; do
+            echo "--- Políticas da aplicação $APP_ID ---"
+            curl -s "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/access/apps/${APP_ID}/policies" \
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          if not data.get('success'):
+              print('Erro:', data.get('errors'))
+              sys.exit(0)
+          policies = data.get('result', [])
+          print(f'  Total políticas: {len(policies)}')
+          for p in policies:
+              print(f'  [{p.get(\"decision\",\"?\")}] {p.get(\"name\",\"?\")} (precedência {p.get(\"precedence\",\"?\")})')
+              incl = p.get('include', [])
+              for rule in incl:
+                  print(f'    include: {json.dumps(rule)}')
+          "
+          done
+          echo "======================================="
