@@ -251,7 +251,16 @@ async function processLeadgenEvent(
   const nome = extractField(fields, 'full_name')
     ?? ([firstName, lastName].filter(Boolean).join(' ').trim() || null);
 
-  const telefoneRaw = extractField(fields, 'phone_number');
+  // Formulários Meta podem usar nomes diferentes para o campo de telefone:
+  //   - 'phone_number'           → campo padrão Meta (formulários novos)
+  //   - 'phone'                  → variante simplificada
+  //   - 'whatsapp_number'        → formulário Quero Meu MCMV (campo customizado)
+  //   - 'informe_seu_whatsapp_com_ddd' → label longo do mesmo campo
+  const telefoneRaw =
+    extractField(fields, 'phone_number') ??
+    extractField(fields, 'phone') ??
+    extractField(fields, 'whatsapp_number') ??
+    extractField(fields, 'informe_seu_whatsapp_com_ddd');
   const emailRaw    = extractField(fields, 'email');
   const cidade      = extractField(fields, 'city') ?? extractField(fields, 'cidade') ?? null;
 
