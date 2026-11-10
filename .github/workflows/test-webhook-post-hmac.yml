@@ -1,0 +1,128 @@
+name: Validar POST Webhook Meta — Staging
+
+# Envia um POST com assinatura HMAC válida e campo whatsapp_number com telefone
+# de teste fictício mas formatado corretamente para o normalizePhone aceitar.
+# Verifica se o Worker processa e retorna 200 (lead descartado por telefone fake é ok
+# na primeira etapa — confirma que a assinatura e o campo são aceitos).
+# Uso único — pode ser deletado após validação.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite VALIDAR para executar'
+        required: true
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  test-post-hmac:
+    name: Teste POST HMAC — campo whatsapp_number
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirmar == 'VALIDAR' }}
+
+    env:
+      BASE_URL: "https://api-staging.queromeumcmv.com.br"
+      WEBHOOK_PATH: "/api/v1/webhook/meta"
+      APP_SECRET: ${{ secrets.STAGING_META_APP_SECRET }}
+      PAGE_ACCESS_TOKEN: ${{ secrets.STAGING_META_PAGE_ACCESS_TOKEN }}
+      PAGE_ID: "1186891014496124"
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+
+    steps:
+      - name: "1 — Enviar POST com HMAC válido e whatsapp_number correto"
+        id: post_test
+        run: |
+          # Telefone fictício mas no formato brasileiro válido para normalizePhone
+          FAKE_PHONE="21999990001"
+          FAKE_LEADGEN="test-$(date +%s%N)"
+          TIMESTAMP=$(date +%s)
+
+          PAYLOAD=$(python3 -c "
+          import json, sys
+          payload = {
+            'object': 'page',
+            'entry': [{
+              'id': '$PAGE_ID',
+              'time': $TIMESTAMP,
+              'changes': [{
+                'field': 'leadgen',
+                'value': {
+                  'leadgen_id': '$FAKE_LEADGEN',
+                  'page_id': '$PAGE_ID',
+                  'form_id': '973542762144143',
+                  'created_time': $TIMESTAMP
+                }
+              }]
+            }]
+          }
+          print(json.dumps(payload, separators=(',', ':')))
+          ")
+
+          # Assinatura HMAC-SHA256 sobre o corpo exato
+          SIG=$(printf '%s' "$PAYLOAD" | openssl dgst -sha256 -hmac "$APP_SECRET" | awk '{print $2}')
+          echo "Assinatura: sha256=${SIG:0:12}..."
+          echo "Payload:    $PAYLOAD"
+
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -H "X-Hub-Signature-256: sha256=$SIG" \
+            -d "$PAYLOAD" \
+            "${BASE_URL}${WEBHOOK_PATH}" \
+            --max-time 30)
+
+          BODY=$(echo "$RESPONSE" | head -1)
+          STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS:" | cut -d: -f2)
+
+          echo ""
+          echo "=== Resultado ==="
+          echo "Status HTTP: $STATUS"
+          echo "Body:        $BODY"
+
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ PASS — Worker aceitou o POST (200)"
+            echo "   leadgen_id fictício → Graph API retorna 4xx → Worker descarta graciosamente"
+            echo "   Próximo passo: enviar lead real via Testing Tool para validar inserção no D1"
+          elif [ "$STATUS" = "401" ]; then
+            echo "❌ FAIL — Assinatura HMAC rejeitada (401)"
+            echo "   CAUSA: META_APP_SECRET no Worker não bate com STAGING_META_APP_SECRET"
+            echo "   SOLUÇÃO: Reconfigurar META_APP_SECRET via configure-meta-secrets.yml"
+            exit 1
+          elif [ "$STATUS" = "403" ]; then
+            echo "❌ FAIL — CF Access bloqueando o POST (403)"
+            echo "   CAUSA: Sem bypass para /api/v1/webhook/meta no CF Access"
+            exit 1
+          elif [ "$STATUS" = "503" ]; then
+            echo "⚠️  WARN — Worker retornou 503 (falha recuperável)"
+            echo "   CAUSA possível: Graph API inacessível ou META_PAGE_ACCESS_TOKEN inválido"
+          else
+            echo "❌ FAIL — Status inesperado: $STATUS"
+            exit 1
+          fi
+
+      - name: "2 — Verificar Worker logs via Cloudflare (últimas entradas)"
+        if: always()
+        run: |
+          echo "=== D1 Staging — leads recentes ==="
+          # Consultar D1 via Cloudflare API para ver se algum lead foi inserido
+          RESULT=$(curl -s \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"sql":"SELECT id, contato_id, origem, canal, idempotency_key, created_at FROM leads WHERE canal = '\''formulario_meta'\'' OR origem = '\''meta_ads'\'' ORDER BY created_at DESC LIMIT 5"}' \
+            "https://api.cloudflare.com/client/v4/accounts/5f8abdde2df34998f0454821d8be59da/d1/database/f214ad6c-50d5-4afb-89c0-a18a4208cf89/query")
+          echo "$RESULT" | python3 -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          if not d.get('success'):
+            print('Erro ao consultar D1:', d.get('errors'))
+            sys.exit(0)
+          rows = d.get('result', [{}])[0].get('results', [])
+          if not rows:
+            print('Nenhum lead meta_ads/formulario_meta no D1 ainda')
+          for r in rows:
+            print(f'  id={r[\"id\"]} canal={r[\"canal\"]} key={r[\"idempotency_key\"]} em {r[\"created_at\"]}')
+          "
+          echo "==================================="
