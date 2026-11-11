@@ -504,10 +504,38 @@ export async function handleMetaWebhook(
     // Ler body como ArrayBuffer antes de qualquer leitura (necessário para HMAC)
     const rawBody = await request.arrayBuffer();
 
+    // DIAGNÓSTICO PRÉ-HMAC: registrar toda request POST recebida (remover após diagnóstico)
+    try {
+      await env.DB.prepare(
+        `CREATE TABLE IF NOT EXISTS webhook_diag_log (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          etapa TEXT NOT NULL,
+          received_at TEXT NOT NULL,
+          info TEXT
+        )`,
+      ).run();
+      const sig = request.headers.get('x-hub-signature-256') ?? 'ausente';
+      await env.DB.prepare(
+        `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
+      )
+        .bind('pre_hmac', new Date().toISOString(), JSON.stringify({ sig_prefix: sig.slice(0, 20), secret_len: appSecret.length }))
+        .run();
+    } catch (e) {
+      console.error(`[webhook-meta] DIAG PRÉ-HMAC falhou: ${String(e)}`);
+    }
+
     // Verificar assinatura X-Hub-Signature-256 sobre o corpo bruto
     const valid = await verifySignature(request, rawBody, appSecret);
     if (!valid) {
       console.warn('[webhook-meta] Assinatura inválida — requisição rejeitada');
+      // DIAGNÓSTICO: registrar falha de HMAC
+      try {
+        await env.DB.prepare(
+          `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
+        )
+          .bind('hmac_falhou', new Date().toISOString(), 'assinatura invalida')
+          .run();
+      } catch (_) { /* ignore */ }
       return new Response('Unauthorized', { status: 401 });
     }
 
