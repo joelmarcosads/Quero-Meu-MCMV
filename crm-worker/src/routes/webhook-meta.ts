@@ -511,6 +511,26 @@ export async function handleMetaWebhook(
       return new Response('Unauthorized', { status: 401 });
     }
 
+    // DIAGNÓSTICO: registrar toda request HMAC válida no D1 (remover após confirmar entrega)
+    try {
+      await env.DB.prepare(
+        `CREATE TABLE IF NOT EXISTS webhook_diag_log (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          received_at TEXT NOT NULL,
+          body_preview TEXT
+        )`,
+      ).run();
+      const diagBody = new TextDecoder().decode(rawBody).slice(0, 500);
+      await env.DB.prepare(
+        `INSERT INTO webhook_diag_log (received_at, body_preview) VALUES (?, ?)`,
+      )
+        .bind(new Date().toISOString(), diagBody)
+        .run();
+      console.log(`[webhook-meta] DIAGNÓSTICO: request HMAC válida registrada em webhook_diag_log`);
+    } catch (diagErr) {
+      console.error(`[webhook-meta] DIAGNÓSTICO: falha ao gravar log D1: ${String(diagErr)}`);
+    }
+
     // Parse do payload JSON
     let payload: MetaWebhookPayload;
     try {
