@@ -139,12 +139,17 @@ async function verifySignature(
 
 // ─── Buscar dados do lead via Graph API ──────────────────────────────────────
 //
-// Comportamento por tipo de erro:
-//   - Rede/timeout:  LANÇA (falha recuperável → caller retorna 503 → Meta retenta)
-//   - 429 (rate-limit): LANÇA (falha recuperável → idem)
-//   - 5xx (servidor Meta): LANÇA (falha recuperável → idem)
-//   - 4xx (exceto 429): retorna null (falha permanente → caller descarta)
-//   - JSON inválido:  retorna null (falha permanente → caller descarta)
+// DIAGNÓSTICO: fetchLeadData agora retorna null para TODOS os erros
+// (timeout, rede, 429, 5xx) para confirmar se o webhook é entregue.
+// Se D1 receber leads após este deploy, o problema é APENAS permissão da Graph API.
+// Reverter após confirmar — restaurar comportamento de 503 para erros recuperáveis.
+//
+// Comportamento atual (diagnóstico):
+//   - Rede/timeout:  retorna null (descarta — confirmar entrega)
+//   - 429 (rate-limit): retorna null (descarta — confirmar entrega)
+//   - 5xx (servidor Meta): retorna null (descarta — confirmar entrega)
+//   - 4xx (exceto 429): retorna null (falha permanente — sem mudança)
+//   - JSON inválido:  retorna null (falha permanente — sem mudança)
 //
 // Token enviado via Authorization header (nunca na URL — evita exposição em logs).
 
@@ -170,19 +175,28 @@ async function fetchLeadData(
     });
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
-      throw new Error(`[webhook-meta] Timeout (10s) ao buscar leadgen ${leadgenId}`);
+      // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
+      console.error(`[webhook-meta] Timeout (10s) ao buscar leadgen ${leadgenId} — tratando como permanente`);
+      return null;
     }
-    throw new Error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)}`);
+    // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
+    console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)} — tratando como permanente`);
+    return null;
   } finally {
     clearTimeout(timeoutId);
   }
 
   if (resp.status === 429) {
-    throw new Error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId}`);
+    // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
+    console.error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId} — tratando como permanente`);
+    return null;
   }
 
   if (resp.status >= 500) {
-    throw new Error(`[webhook-meta] Graph API erro de servidor ${resp.status} para leadgen ${leadgenId}`);
+    // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
+    const body = await resp.text().catch(() => '');
+    console.error(`[webhook-meta] Graph API 5xx ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)} — tratando como permanente`);
+    return null;
   }
 
   if (!resp.ok) {
