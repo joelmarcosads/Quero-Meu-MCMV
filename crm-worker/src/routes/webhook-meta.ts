@@ -495,16 +495,7 @@ export async function handleMetaWebhook(
 
   // ── POST — receber eventos leadgen ────────────────────────────────────────
   if (request.method === 'POST') {
-    const appSecret = env.META_APP_SECRET;
-    if (!appSecret) {
-      console.error('[webhook-meta] META_APP_SECRET não configurado');
-      return new Response('Internal Server Error', { status: 500 });
-    }
-
-    // Ler body como ArrayBuffer antes de qualquer leitura (necessário para HMAC)
-    const rawBody = await request.arrayBuffer();
-
-    // DIAGNÓSTICO PRÉ-HMAC: registrar toda request POST recebida (remover após diagnóstico)
+    // DIAGNÓSTICO ABSOLUTO: primeira linha — registrar qualquer POST antes de qualquer check
     try {
       await env.DB.prepare(
         `CREATE TABLE IF NOT EXISTS webhook_diag_log (
@@ -515,14 +506,24 @@ export async function handleMetaWebhook(
         )`,
       ).run();
       const sig = request.headers.get('x-hub-signature-256') ?? 'ausente';
+      const ua = request.headers.get('user-agent') ?? '';
       await env.DB.prepare(
         `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
       )
-        .bind('pre_hmac', new Date().toISOString(), JSON.stringify({ sig_prefix: sig.slice(0, 20), secret_len: appSecret.length }))
+        .bind('post_recebido', new Date().toISOString(), JSON.stringify({ sig_prefix: sig.slice(0, 20), ua: ua.slice(0, 80) }))
         .run();
     } catch (e) {
-      console.error(`[webhook-meta] DIAG PRÉ-HMAC falhou: ${String(e)}`);
+      console.error(`[webhook-meta] DIAG ABSOLUTO falhou: ${String(e)}`);
     }
+
+    const appSecret = env.META_APP_SECRET;
+    if (!appSecret) {
+      console.error('[webhook-meta] META_APP_SECRET não configurado');
+      return new Response('Internal Server Error', { status: 500 });
+    }
+
+    // Ler body como ArrayBuffer antes de qualquer leitura (necessário para HMAC)
+    const rawBody = await request.arrayBuffer();
 
     // Verificar assinatura X-Hub-Signature-256 sobre o corpo bruto
     const valid = await verifySignature(request, rawBody, appSecret);
