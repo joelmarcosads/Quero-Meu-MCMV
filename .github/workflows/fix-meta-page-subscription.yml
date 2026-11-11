@@ -133,10 +133,7 @@ jobs:
           echo "========================================"
 
       - name: "4 — CORRIGIR: subscrever app na Página para leadgen"
-        if: >
-          github.event.inputs.confirmar == 'CORRIGIR' &&
-          (steps.check_subscription.outputs.subscription_status == 'not_subscribed' ||
-           steps.check_subscription.outputs.subscription_status == 'missing_leadgen')
+        if: github.event.inputs.confirmar == 'CORRIGIR'
         run: |
           echo "=== Subscrevendo App ${APP_ID} na Página ${PAGE_ID} para leadgen ==="
           RESULT=$(curl -s -X POST \
