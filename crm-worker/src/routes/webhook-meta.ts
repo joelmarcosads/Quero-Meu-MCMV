@@ -157,15 +157,24 @@ async function fetchLeadData(
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
   const url = `${base}/v25.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10_000); // 10s timeout
+
   let resp: Response;
   try {
     resp = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${pageAccessToken}`,
       },
+      signal: controller.signal,
     });
   } catch (err) {
+    if (err instanceof Error && err.name === 'AbortError') {
+      throw new Error(`[webhook-meta] Timeout (10s) ao buscar leadgen ${leadgenId}`);
+    }
     throw new Error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)}`);
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (resp.status === 429) {
