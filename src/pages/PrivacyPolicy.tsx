@@ -30,6 +30,14 @@ export default function PrivacyPolicy() {
             A Quero Meu MCMV ("nós", "nosso", "nossa") se compromete a proteger a sua privacidade. Esta Política de Privacidade explica como suas informações pessoais são coletadas, usadas e divulgadas por nós.
           </p>
 
+          <p>
+            <strong>Responsável pelo tratamento dos dados (Controlador):</strong><br />
+            Joel Marcos da Silva · CPF 037.121.877-26<br />
+            Endereço: Rua H, nº 492, Retiro São Joaquim — Itaboraí-RJ, CEP 24813-066<br />
+            E-mail: contato@queromeumcmv.com.br · WhatsApp: (21) 96592-8399<br />
+            CRECI-RJ nº 39.583F
+          </p>
+
           <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">1. Informações que Coletamos</h2>
           <p>
             Coletamos as informações que você nos fornece diretamente, como quando você preenche o formulário de simulação. Isso inclui seu nome completo, e-mail, número de telefone e renda familiar mensal bruta.

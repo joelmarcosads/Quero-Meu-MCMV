@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LazyMotion, domAnimation } from 'motion/react';
 import ScrollToTop from './components/ScrollToTop';
+import WhatsAppFloat from './components/WhatsAppFloat';
 import UtmTracker from './components/UtmTracker';
 import Home from './pages/Home';
 import Obrigado from './pages/Obrigado';
@@ -76,6 +77,7 @@ export default function App() {
     <LazyMotion features={domAnimation}>
       <BrowserRouter>
         <AppRoutes />
+        <WhatsAppFloat />
       </BrowserRouter>
     </LazyMotion>
   );

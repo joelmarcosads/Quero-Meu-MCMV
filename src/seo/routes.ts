@@ -56,8 +56,10 @@ export const BASE_ORGANIZATION_DATA = {
   openingHours: 'Mo-Fr 09:00-17:00',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'Rua H, nº 492, Retiro São Joaquim',
     addressLocality: 'Itaboraí',
     addressRegion: 'RJ',
+    postalCode: '24813-066',
     addressCountry: 'BR',
   },
   geo: {
@@ -106,6 +108,7 @@ export const BASE_ORGANIZATION_DATA = {
   sameAs: [
     'https://www.instagram.com/queromeumcmv/',
     'https://www.facebook.com/queromeumcmv',
+    'https://share.google/tP6ZUOFU3vYBjo20E',
   ],
 };
 
@@ -113,7 +116,7 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/',
     title: 'Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV',
-    description: 'Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500.',
+    description: 'Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Sinal a partir de R$ 500. Atende São Gonçalo e Niterói. Simule agora!',
     h1: 'Saia do aluguel! Seu apartamento Minha Casa Minha Vida em Itaboraí',
     schemaType: 'WebSite',
     priority: '1.0',
@@ -144,7 +147,7 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/minha-casa-minha-vida-itaborai',
     title: 'Minha Casa Minha Vida em Itaboraí: Apartamentos 2026',
-    description: 'Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule.',
+    description: 'Apartamentos MCMV em Itaboraí: sinal R$ 1.000, condomínio fechado e lazer completo. Corretor CRECI especialista local. Simule e fale com Joel!',
     h1: 'Minha Casa Minha Vida em Itaboraí - RJ',
     schemaType: 'CollectionPage',
     priority: '0.9',
@@ -171,7 +174,7 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/minha-casa-minha-vida-sao-goncalo',
     title: 'Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026',
-    description: 'Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Atendimento com corretor CRECI. Simule seu financiamento.',
+    description: 'Apartamentos MCMV em São Gonçalo: entrada facilitada, perto da Universo, corretor CRECI 39.583F. Simule seu financiamento — fale com Joel agora!',
     h1: 'Minha Casa Minha Vida em São Gonçalo - RJ',
     schemaType: 'CollectionPage',
     priority: '0.9',
@@ -229,7 +232,7 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/financiamento-minha-casa-minha-vida',
     title: 'Financiamento Minha Casa Minha Vida: Como Funciona em 2026',
-    description: 'Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis.',
+    description: 'Entenda o financiamento MCMV pela Caixa Econômica: juros, prazo, entrada, FGTS e composição de renda. Simule grátis e fale com corretor Joel!',
     h1: 'Como funciona o Financiamento Minha Casa Minha Vida',
     schemaType: 'Article',
     priority: '0.9',
@@ -403,7 +406,7 @@ export const ROUTES: SeoRoute[] = [
   {
     path: '/sobre',
     title: 'Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F',
-    description: 'Joel Marcos é corretor de imóveis especialista no Minha Casa Minha Vida em Itaboraí-RJ, com atendimento em São Gonçalo, Niterói e Maricá.',
+    description: 'Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!',
     h1: 'Joel Marcos, Corretor Especialista em Minha Casa Minha Vida em Itaboraí',
     schemaType: 'AboutPage',
     priority: '0.8',

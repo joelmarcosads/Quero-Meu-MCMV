@@ -5,6 +5,7 @@ import McmvHighlights from '../components/McmvHighlights';
 import Steps from '../components/Steps';
 import Properties from '../components/Properties';
 import FAQ from '../components/FAQ';
+import MapaItaborai from '../components/MapaItaborai';
 import Footer from '../components/Footer';
 import { Helmet } from 'react-helmet-async';
 
@@ -13,7 +14,7 @@ export default function Home() {
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV</title>
-        <meta name="description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
+        <meta name="description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Sinal a partir de R$ 500. Atende São Gonçalo e Niterói. Simule agora!" />
         <link rel="canonical" href="https://queromeumcmv.com.br/" />
 <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
@@ -25,7 +26,7 @@ export default function Home() {
         <meta property="og:image:alt" content="Quero Meu MCMV - Apartamentos e Lançamentos Minha Casa Minha Vida em Itaboraí" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV" />
-        <meta name="twitter:description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Atende também São Gonçalo, Niterói e Maricá. Sinal a partir de R$ 500." />
+        <meta name="twitter:description" content="Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Sinal a partir de R$ 500. Atende São Gonçalo e Niterói. Simule agora!" />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
@@ -40,6 +41,7 @@ export default function Home() {
         <Steps />
         <Properties />
         <FAQ />
+        <MapaItaborai />
       </main>
       <Footer />
     </div>

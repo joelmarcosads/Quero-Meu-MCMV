@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
+import MapaItaborai from '../components/MapaItaborai';
 import { UserCheck, Award, Target, Home, ShieldCheck, Instagram, Facebook, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -13,18 +14,18 @@ export default function Sobre() {
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F</title>
-        <meta name="description" content="Joel Marcos é corretor de imóveis especialista no Minha Casa Minha Vida em Itaboraí-RJ, com atendimento em São Gonçalo, Niterói e Maricá." />
+        <meta name="description" content="Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!" />
         <link rel="canonical" href="https://queromeumcmv.com.br/sobre" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F" />
-        <meta property="og:description" content="Joel Marcos é corretor de imóveis especialista no Minha Casa Minha Vida em Itaboraí-RJ, com atendimento em São Gonçalo, Niterói e Maricá." />
+        <meta property="og:description" content="Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!" />
         <meta property="og:url" content="https://queromeumcmv.com.br/sobre" />
         <meta property="og:type" content="profile" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F" />
-        <meta name="twitter:description" content="Joel Marcos é corretor de imóveis especialista no Minha Casa Minha Vida em Itaboraí-RJ, com atendimento em São Gonçalo, Niterói e Maricá." />
+        <meta name="twitter:description" content="Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!" />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       <Header />
@@ -47,10 +48,13 @@ export default function Sobre() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-bold text-slate-900 mb-2">Joel Marcos</h2>
-                <div className="inline-flex items-center text-primary font-bold mb-6 bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
+                <div className="inline-flex items-center text-primary font-bold mb-3 bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10">
                   <ShieldCheck className="w-5 h-5 mr-2" />
                   Corretor de Imóveis • CRECI 39.583F
                 </div>
+                <p className="text-sm text-slate-500 mb-6">
+                  Administrador · Pós-graduado em Marketing e Negócios Imobiliários · Mais de 20 anos de mercado
+                </p>
                 {/* Primeiro parágrafo começa obrigatoriamente com a frase-entidade oficial */}
                 <p className="text-slate-700 mb-4 leading-relaxed text-justify">
                   Joel Marcos é corretor de imóveis (CRECI 39.583F) especialista no programa Minha Casa Minha Vida em Itaboraí-RJ, com atendimento também em São Gonçalo, Niterói e Maricá. Com atuação consultiva e foco total na aprovação de crédito junto à Caixa Econômica Federal, dedico minha carreira a transformar o sonho da casa própria em uma realidade sólida e acessível.
@@ -198,6 +202,9 @@ export default function Sobre() {
             </div>
           </div>
         </section>
+
+        {/* Mapa de localização */}
+        <MapaItaborai />
 
         {/* Formulário de Captação Estratégico */}
         <section className="py-16 bg-slate-50 border-t border-slate-200" id="simulacao">
