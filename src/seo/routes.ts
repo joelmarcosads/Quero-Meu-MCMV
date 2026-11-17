@@ -108,7 +108,7 @@ export const BASE_ORGANIZATION_DATA = {
   sameAs: [
     'https://www.instagram.com/queromeumcmv/',
     'https://www.facebook.com/queromeumcmv',
-    'https://share.google/tP6ZUOFU3vYBjo20E',
+    'https://g.page/r/CdJ6uC2_aKKAEBM',
   ],
 };
 

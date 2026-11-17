@@ -140,6 +140,23 @@ export default function Footer() {
                   </a>
                 </div>
               </li>
+              <li className="flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 mr-3 text-orange-300 shrink-0" aria-hidden="true">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+                <div>
+                  <div className="text-sm font-medium text-white mb-0.5">Avalie no Google</div>
+                  <a
+                    href="https://g.page/r/CdJ6uC2_aKKAEBM/review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Deixar avaliação de Joel Marcos no Google"
+                    className="text-sm hover:text-white transition-colors"
+                  >
+                    Deixe sua avaliação ⭐
+                  </a>
+                </div>
+              </li>
             </ul>
           </div>
 

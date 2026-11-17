@@ -66,7 +66,17 @@ export default function Sobre() {
                   O portal <strong>Quero Meu MCMV</strong> nasceu da necessidade de simplificar a informação. Aqui você encontra um guia claro e honesto sobre <Link to="/renda-minha-casa-minha-vida" className="text-primary hover:underline">faixas de renda</Link>, <Link to="/subsidio-minha-casa-minha-vida" className="text-primary hover:underline">subsídios</Link> e regras do programa.
                 </p>
               </div>
-              <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200">
+              <div className="bg-slate-50 rounded-3xl border border-slate-200 overflow-hidden">
+                {/* Foto profissional do Joel */}
+                <img
+                  src="/joel-marcos-corretor-de-imoveis-itaborai.png"
+                  alt="Joel Marcos, corretor de imóveis especialista em Minha Casa Minha Vida em Itaboraí-RJ — CRECI 39.583F"
+                  width={600}
+                  height={600}
+                  className="w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="p-6">
                 <h3 className="text-xl font-bold text-slate-900 mb-6 text-center border-b pb-4">Nossos Pilares E-E-A-T</h3>
                 <ul className="space-y-6">
                   <li className="flex items-start">
@@ -91,8 +101,40 @@ export default function Sobre() {
                     </div>
                   </li>
                 </ul>
+                </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Seção Avaliações Google */}
+        <section className="py-14 bg-amber-50 border-y border-amber-200">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+            <div className="flex justify-center mb-3">
+              {/* 5 estrelas */}
+              {[1,2,3,4,5].map(i => (
+                <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#f59e0b" width="28" height="28" aria-hidden="true">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                </svg>
+              ))}
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">
+              Sua opinião vale muito para a gente
+            </h2>
+            <p className="text-slate-600 mb-6 max-w-xl mx-auto">
+              Se eu já te ajudei a conquistar seu imóvel ou esclareceu suas dúvidas, deixe uma avaliação no Google — isso ajuda outras famílias a me encontrarem!
+            </p>
+            <a
+              href="https://g.page/r/CdJ6uC2_aKKAEBM/review"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-xl shadow transition-colors text-base"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+              Avaliar Joel Marcos no Google
+            </a>
           </div>
         </section>
 
