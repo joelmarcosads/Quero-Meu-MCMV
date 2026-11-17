@@ -203,7 +203,12 @@ export default function MiranteBoacVista() {
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section className="relative py-20 bg-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-primary/30 pointer-events-none" />
+        {/* Fachada como background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/mirante-boa-vista-fachada.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-slate-900/78" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
@@ -413,8 +418,19 @@ export default function MiranteBoacVista() {
             </div>
           </div>
 
+          {/* Imagem da piscina */}
+          <div className="mt-8 rounded-2xl overflow-hidden shadow-lg aspect-video max-h-80">
+            <img
+              src="/mirante-boa-vista-piscina.jpg"
+              alt="Piscina adulto com deck e espreguiçadeiras — Mirante Boa Vista, São Cristóvão RJ"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <p className="text-center text-xs text-slate-400 mt-2">Imagem meramente ilustrativa. Composição artística.</p>
+
           {/* Bicicletário destaque */}
-          <div className="mt-8 bg-white border border-slate-200 rounded-2xl p-5 flex items-center gap-5">
+          <div className="mt-6 bg-white border border-slate-200 rounded-2xl p-5 flex items-center gap-5">
             <Bike className="w-10 h-10 text-primary shrink-0" />
             <div>
               <p className="font-bold text-slate-900">Bicicletário com 450 vagas</p>
@@ -479,6 +495,18 @@ export default function MiranteBoacVista() {
 
             {/* Ficha Técnica */}
             <div>
+              {/* Planta 2 quartos com varanda */}
+              <div className="mb-6 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                <img
+                  src="/mirante-boa-vista-planta-varanda.jpg"
+                  alt="Planta 2 quartos com varanda — Mirante Boa Vista São Cristóvão"
+                  className="w-full object-contain bg-white"
+                  loading="lazy"
+                />
+                <p className="text-center text-xs text-slate-400 py-2 bg-slate-50">
+                  Planta 2 quartos com varanda · 33,97–34,22 m² · Imagem meramente ilustrativa
+                </p>
+              </div>
               <h2 className="text-2xl font-bold text-slate-900 mb-6">Ficha Técnica</h2>
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
                 <table className="w-full text-sm">
