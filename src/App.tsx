@@ -26,6 +26,7 @@ import ObrigadoImovel from './components/ObrigadoImovel';
 import CaptacaoDeImoveis from './pages/CaptacaoDeImoveis';
 import NiteroiRJ from './pages/NiteroiRJ';
 import UnicSaoGoncalo from './pages/UnicSaoGoncalo';
+import MiranteBoacVista from './pages/MiranteBoacVista';
 
 export function AppRoutes() {
   return (
@@ -67,6 +68,7 @@ export function AppRoutes() {
         <Route path="/documentos-minha-casa-minha-vida" element={<DocumentosMcmv />} />
         <Route path="/niteroirj" element={<NiteroiRJ />} />
         <Route path="/unicsaogoncalo" element={<UnicSaoGoncalo />} />
+        <Route path="/mirante-boa-vista" element={<MiranteBoacVista />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

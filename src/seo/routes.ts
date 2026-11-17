@@ -263,6 +263,74 @@ export const ROUTES: SeoRoute[] = [
     ],
   },
   {
+    path: '/mirante-boa-vista',
+    title: 'Mirante Boa Vista | Apartamentos MCMV São Cristóvão Rio de Janeiro | Tenda',
+    description:
+      'Lançamento Tenda Mirante Boa Vista em São Cristóvão-RJ: 441 apartamentos 1 e 2 quartos a partir de R$ 295 mil, piscina adulto e infantil, academia, salão gourmet. Entrada R$ 499/mês. ITBI grátis.',
+    h1: 'Mirante Boa Vista — Apartamentos 1 e 2 Quartos em São Cristóvão, Rio de Janeiro',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'MCMV Rio de Janeiro', path: '/minha-casa-minha-vida-sao-goncalo' },
+      { name: 'Mirante Boa Vista', path: '/mirante-boa-vista' },
+    ],
+    development: {
+      name: 'Mirante Boa Vista',
+      developer: 'Tenda',
+      addressLocality: 'São Cristóvão',
+      addressRegion: 'RJ',
+      neighborhood: 'Imperial de São Cristóvão — próximo à Quinta da Boa Vista',
+      numberOfBedrooms: 2,
+      image: 'https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp',
+      commercialCondition: 'Financiamento Caixa — Minha Casa Minha Vida · ITBI e Registro grátis',
+      amenities: [
+        { name: 'Piscina Adulto e Infantil', value: 'Sim + Deck' },
+        { name: 'Fitness (Academia)', value: 'Coberta' },
+        { name: 'Salão de Festas Gourmet', value: 'Sim' },
+        { name: 'Churrasqueiras Gourmet', value: '2' },
+        { name: 'Quadra Streetball', value: 'Sim' },
+        { name: 'Bicicletário', value: '450 vagas' },
+        { name: 'Play Pet', value: 'Sim' },
+        { name: 'Brinquedoteca', value: 'Sim' },
+        { name: 'Play Kids + Play Baby', value: 'Sim' },
+        { name: 'Espaço Office', value: 'Equipado' },
+        { name: 'Mini Market', value: 'Sim' },
+        { name: 'Espaço Delivery', value: 'Sim' },
+        { name: 'Espaço Oficina', value: 'Sim' },
+        { name: 'Múltipla Estação + Ducha', value: 'Externo' },
+      ],
+    },
+    faqs: [
+      {
+        question: 'Qual o preço do Mirante Boa Vista?',
+        answer:
+          'Os apartamentos do Mirante Boa Vista começam a partir de R$ 295.000, com entrada parcelada a partir de R$ 499/mês. ITBI e registro em cartório são grátis.',
+      },
+      {
+        question: 'O Mirante Boa Vista é pelo Minha Casa Minha Vida?',
+        answer:
+          'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda a partir de R$ 5.500.',
+      },
+      {
+        question: 'Qual a localização do Mirante Boa Vista?',
+        answer:
+          'Rua Sabino Vieira, 70 — Imperial de São Cristóvão, Rio de Janeiro. A 180 m da Quinta da Boa Vista, 400 m do Bio Parque do Rio, 1,4 km da Estação São Cristóvão do metrô e 2,5 km do Maracanã.',
+      },
+      {
+        question: 'Qual a previsão de entrega do Mirante Boa Vista?',
+        answer:
+          'Setembro de 2028. O Memorial de Incorporação está registrado sob R-55 da Matrícula 55.316 do 3° Registro de Imóveis do Rio de Janeiro/RJ.',
+      },
+      {
+        question: 'Quantas unidades tem o Mirante Boa Vista?',
+        answer:
+          '441 unidades em 5 torres (Térreo + 6 pavimentos): 18 garden (36,22–36,54 m²), 114 com varanda (33,97–34,22 m²) e 14 adaptadas para PCD.',
+      },
+    ],
+  },
+  {
     path: '/niteroirj',
     title: 'Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026',
     description: 'Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis.',
