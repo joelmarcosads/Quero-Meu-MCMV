@@ -199,6 +199,70 @@ export const ROUTES: SeoRoute[] = [
     ],
   },
   {
+    path: '/unicsaogoncalo',
+    title: 'Unic São Gonçalo | Apartamentos 2 Quartos MCMV | Domma',
+    description:
+      'Lançamento Domma em São Gonçalo-RJ: 360 apartamentos de 2 quartos com varanda, piscina rooftop e condomínio de R$ 450. Financiamento Caixa MCMV. Simule já.',
+    h1: 'Unic São Gonçalo — Apartamentos 2 Quartos com Lazer Rooftop',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'MCMV São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
+      { name: 'Unic São Gonçalo', path: '/unicsaogoncalo' },
+    ],
+    development: {
+      name: 'Unic São Gonçalo',
+      developer: 'Domma',
+      addressLocality: 'São Gonçalo',
+      addressRegion: 'RJ',
+      neighborhood: 'Próximo ao Shopping São Gonçalo',
+      numberOfBedrooms: 2,
+      image: 'https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp',
+      commercialCondition: 'Financiamento Caixa — Minha Casa Minha Vida',
+      amenities: [
+        { name: 'Piscinas', value: '2 (rooftop)' },
+        { name: 'Academias', value: '2 (1 por torre)' },
+        { name: 'Salões de Festas', value: '3' },
+        { name: 'Churrasqueiras', value: '4' },
+        { name: 'Cinema ao Ar Livre', value: '2' },
+        { name: 'Saunas', value: '2' },
+        { name: 'Playground', value: 'Sim' },
+        { name: 'Pet Place', value: 'Sim' },
+        { name: 'Área Kids', value: 'Sim' },
+        { name: 'Vagas', value: '155 (43%)' },
+      ],
+    },
+    faqs: [
+      {
+        question: 'O Unic São Gonçalo aceita financiamento pelo Minha Casa Minha Vida?',
+        answer:
+          'Sim. O Unic São Gonçalo é financiado pela Caixa Econômica Federal dentro do programa Minha Casa Minha Vida (Lei nº 14.620/2023). Dependendo da renda familiar, é possível obter subsídio e taxas de juros reduzidas.',
+      },
+      {
+        question: 'Qual é o valor do condomínio no Unic São Gonçalo?',
+        answer:
+          'O condomínio estimado pelo incorporador é de R$ 450,00 por mês, valor competitivo para um condomínio com lazer completo em rooftop.',
+      },
+      {
+        question: 'Como é a localização do Unic São Gonçalo?',
+        answer:
+          'O empreendimento fica na Rua Nova Jersey, a apenas 30 segundos do Shopping São Gonçalo. A Ponte Rio-Niterói é alcançada em 11 minutos, o Centro de Niterói em 15 minutos e o Centro do Rio de Janeiro em 29 minutos.',
+      },
+      {
+        question: 'Quais as tipologias disponíveis no Unic São Gonçalo?',
+        answer:
+          'São apartamentos de 2 quartos a partir de 45 m², com varanda em todas as unidades. Há ainda opções PNE (acessíveis) e Garden (com área verde privativa no térreo).',
+      },
+      {
+        question: 'Posso usar o FGTS na compra de um apartamento no Unic São Gonçalo?',
+        answer:
+          'Sim. O FGTS pode ser usado como parte da entrada ou para amortizar o financiamento, desde que você tenha pelo menos 3 anos de trabalho sob regime do FGTS, podendo somar períodos diferentes.',
+      },
+    ],
+  },
+  {
     path: '/niteroirj',
     title: 'Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026',
     description: 'Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis.',
