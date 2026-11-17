@@ -227,8 +227,12 @@ export default function UnicSaoGoncalo() {
       <main>
         {/* ── HERO + FORMULÁRIO ── */}
         <section className="relative py-20 bg-slate-900 text-white overflow-hidden">
-          {/* Gradient decorativo */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-primary/30 pointer-events-none" />
+          {/* Fachada como background */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/unic-sao-goncalo-fachada.jpg')" }}
+          />
+          <div className="absolute inset-0 bg-slate-900/75" />
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Breadcrumb */}
@@ -370,6 +374,33 @@ export default function UnicSaoGoncalo() {
                 </div>
               ))}
             </div>
+
+            {/* Galeria de imagens do lazer */}
+            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[
+                { src: '/unic-sao-goncalo-churrasco-rooftop.png', alt: 'Churrasco no Rooftop — Unic São Gonçalo', label: 'Rooftop' },
+                { src: '/unic-sao-goncalo-academia.jpg', alt: 'Academia equipada — Unic São Gonçalo', label: 'Academia' },
+                { src: '/unic-sao-goncalo-cinema.jpg', alt: 'Cinema ao ar livre — Unic São Gonçalo', label: 'Cinema Rooftop' },
+                { src: '/unic-sao-goncalo-sala-jogos.jpg', alt: 'Sala de jogos — Unic São Gonçalo', label: 'Sala de Jogos' },
+                { src: '/unic-sao-goncalo-pet-place.jpg', alt: 'Pet Place — Unic São Gonçalo', label: 'Pet Place' },
+                { src: '/unic-sao-goncalo-playground.png', alt: 'Playground — Unic São Gonçalo', label: 'Playground' },
+                { src: '/unic-sao-goncalo-espaco-gourmet.png', alt: 'Espaço gourmet — Unic São Gonçalo', label: 'Espaço Gourmet' },
+                { src: '/unic-sao-goncalo-fachada.jpg', alt: 'Fachada Unic São Gonçalo — Domma', label: 'Fachada' },
+              ].map((img) => (
+                <div key={img.src} className="relative group overflow-hidden rounded-xl aspect-video bg-slate-200">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent py-2 px-3">
+                    <span className="text-white text-xs font-semibold">{img.label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-xs text-slate-400 mt-3">Imagens meramente ilustrativas. Composição artística.</p>
           </div>
         </section>
 
