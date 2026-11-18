@@ -8,6 +8,9 @@ const imgFlores = '/fachada-flores-de-maio.webp';
 const imgResidencial = '/fachada-residencial-florescer.webp';
 const imgSolar = '/fachada-solar-trindade.webp';
 const imgConquista = '/fachada-conquista-oceanica.webp';
+const imgUnic = '/unic-sao-goncalo-fachada.jpg';
+const imgVert = '/vert-alcantara-fachada.webp';
+const imgMarDeTrindade = '/mar-de-trindade-guarita.webp';
 
 type Property = {
   id: number;
@@ -94,6 +97,39 @@ const PROPERTIES: Property[] = [
     features: { bed: "1 e 2", car: 1, leisure: true, security: true },
     priceCondition: "Sinal a partir de R$ 1.000*",
     slug: "/conquista-oceanica"
+  },
+  {
+    id: 6,
+    name: "Unic São Gonçalo",
+    location: "São Gonçalo - RJ",
+    image: imgUnic,
+    imageAlt: "Fachada do Unic São Gonçalo — apartamentos 2 quartos com varanda e lazer rooftop perto do Shopping São Gonçalo",
+    badges: ["MCMV - Caixa", "30s do Shopping SG"],
+    features: { bed: 2, bedText: "2 Quartos c/ Varanda", car: 1, leisure: true, security: true },
+    priceCondition: "Consulte Condições Especiais",
+    slug: "/unicsaogoncalo"
+  },
+  {
+    id: 8,
+    name: "Direcional Vert Alcântara",
+    location: "Alcântara, São Gonçalo - RJ",
+    image: imgVert,
+    imageAlt: "Fachada do Direcional Vert Alcântara — apartamentos 2 quartos MCMV em Alcântara, São Gonçalo RJ",
+    badges: ["MCMV - Caixa", "Lazer Completo"],
+    features: { bed: 2, bedText: "2 Quartos", car: 1, leisure: true, security: true },
+    priceCondition: "Entrada Facilitada + Subsídio MCMV",
+    slug: "/vert-alcantara"
+  },
+  {
+    id: 9,
+    name: "Residencial Mar de Trindade",
+    location: "Alcântara, São Gonçalo - RJ",
+    image: imgMarDeTrindade,
+    imageAlt: "Fachada do Residencial Mar de Trindade MRV — apartamentos 2 quartos com suíte, varanda e garden em Alcântara, São Gonçalo RJ",
+    badges: ["MCMV - Caixa", "Suíte + Varanda + Garden"],
+    features: { bed: 2, bedText: "2 Quartos | Suíte | Garden", car: 1, leisure: true, security: true },
+    priceCondition: "A partir de R$ 270.990",
+    slug: "/apartamentos-mar-de-trindade"
   }
 ];
 
