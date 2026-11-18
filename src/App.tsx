@@ -27,6 +27,7 @@ import CaptacaoDeImoveis from './pages/CaptacaoDeImoveis';
 import NiteroiRJ from './pages/NiteroiRJ';
 import UnicSaoGoncalo from './pages/UnicSaoGoncalo';
 import MiranteBoacVista from './pages/MiranteBoacVista';
+import VertAlcantara from './pages/VertAlcantara';
 
 export function AppRoutes() {
   return (
@@ -69,6 +70,7 @@ export function AppRoutes() {
         <Route path="/niteroirj" element={<NiteroiRJ />} />
         <Route path="/unicsaogoncalo" element={<UnicSaoGoncalo />} />
         <Route path="/mirante-boa-vista" element={<MiranteBoacVista />} />
+        <Route path="/vert-alcantara" element={<VertAlcantara />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
