@@ -263,6 +263,14 @@ async function processLeadgenEvent(
   // fetchLeadData lança em falhas recuperáveis (5xx, timeout, 429)
   const leadData = await fetchLeadData(leadgen_id, pageAccessToken, env.GRAPH_API_BASE_URL);
   if (!leadData) {
+    // DIAGNÓSTICO: registrar falha de fetchLeadData
+    try {
+      await env.DB.prepare(
+        `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
+      )
+        .bind('fetch_lead_null', new Date().toISOString(), JSON.stringify({ leadgen_id }))
+        .run();
+    } catch (_) { /* ignore */ }
     return 'discarded';
   }
 
@@ -540,24 +548,16 @@ export async function handleMetaWebhook(
       return new Response('Unauthorized', { status: 401 });
     }
 
-    // DIAGNÓSTICO: registrar toda request HMAC válida no D1 (remover após confirmar entrega)
+    // DIAGNÓSTICO: registrar payload após HMAC válido
     try {
-      await env.DB.prepare(
-        `CREATE TABLE IF NOT EXISTS webhook_diag_log (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          received_at TEXT NOT NULL,
-          body_preview TEXT
-        )`,
-      ).run();
       const diagBody = new TextDecoder().decode(rawBody).slice(0, 500);
       await env.DB.prepare(
-        `INSERT INTO webhook_diag_log (received_at, body_preview) VALUES (?, ?)`,
+        `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
       )
-        .bind(new Date().toISOString(), diagBody)
+        .bind('hmac_ok', new Date().toISOString(), diagBody)
         .run();
-      console.log(`[webhook-meta] DIAGNÓSTICO: request HMAC válida registrada em webhook_diag_log`);
     } catch (diagErr) {
-      console.error(`[webhook-meta] DIAGNÓSTICO: falha ao gravar log D1: ${String(diagErr)}`);
+      console.error(`[webhook-meta] DIAGNÓSTICO hmac_ok falhou: ${String(diagErr)}`);
     }
 
     // Parse do payload JSON
