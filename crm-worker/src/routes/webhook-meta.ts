@@ -162,8 +162,14 @@ async function fetchLeadData(
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
   const url = `${base}/v25.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10_000); // 10s timeout
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const AbortControllerGlobal = (globalThis as any).AbortController as typeof AbortController;
+  const controller = new AbortControllerGlobal();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setTimeoutGlobal = (globalThis as any).setTimeout as (fn: () => void, ms: number) => unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const clearTimeoutGlobal = (globalThis as any).clearTimeout as (id: unknown) => void;
+  const timeoutId = setTimeoutGlobal(() => controller.abort(), 10_000); // 10s timeout
 
   let resp: Response;
   try {
@@ -171,7 +177,8 @@ async function fetchLeadData(
       headers: {
         'Authorization': `Bearer ${pageAccessToken}`,
       },
-      signal: controller.signal,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      signal: controller.signal as any,
     });
   } catch (err) {
     if (err instanceof Error && err.name === 'AbortError') {
@@ -183,7 +190,7 @@ async function fetchLeadData(
     console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)} — tratando como permanente`);
     return null;
   } finally {
-    clearTimeout(timeoutId);
+    clearTimeoutGlobal(timeoutId);
   }
 
   if (resp.status === 429) {
