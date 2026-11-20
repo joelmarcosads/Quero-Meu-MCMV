@@ -162,35 +162,18 @@ async function fetchLeadData(
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
   const url = `${base}/v25.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const AbortControllerGlobal = (globalThis as any).AbortController as typeof AbortController;
-  const controller = new AbortControllerGlobal();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const setTimeoutGlobal = (globalThis as any).setTimeout as (fn: () => void, ms: number) => unknown;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const clearTimeoutGlobal = (globalThis as any).clearTimeout as (id: unknown) => void;
-  const timeoutId = setTimeoutGlobal(() => controller.abort(), 10_000); // 10s timeout
-
+  // Timeout gerenciado pelo runtime do Cloudflare Workers (padrão 30s)
   let resp: Response;
   try {
     resp = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${pageAccessToken}`,
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      signal: controller.signal as any,
     });
   } catch (err) {
-    if (err instanceof Error && err.name === 'AbortError') {
-      // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
-      console.error(`[webhook-meta] Timeout (10s) ao buscar leadgen ${leadgenId} — tratando como permanente`);
-      return null;
-    }
     // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
     console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)} — tratando como permanente`);
     return null;
-  } finally {
-    clearTimeoutGlobal(timeoutId);
   }
 
   if (resp.status === 429) {
