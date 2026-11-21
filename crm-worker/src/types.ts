@@ -15,6 +15,12 @@ export interface Env {
   META_PAGE_ID?: string;            // ID da Página Meta autorizada (opcional, filtra eventos)
   // Sobrescreve a base URL da Graph API (usado em testes locais com mock HTTP)
   GRAPH_API_BASE_URL?: string;
+  // ─── WhatsApp Cloud API (Missão 7) ───────────────────────────────────────────
+  // Secrets configurados via `wrangler secret put` — NUNCA em código ou logs
+  // Phone Number ID do número de teste do App Meta (ou número dedicado em produção)
+  WA_PHONE_NUMBER_ID?: string;
+  // System User Token (ou token temporário do App para testes)
+  WA_ACCESS_TOKEN?: string;
 }
 
 // ─── Usuário autenticado (extraído do JWT) ────────────────────────────────────

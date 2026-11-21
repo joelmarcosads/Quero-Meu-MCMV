@@ -20,6 +20,7 @@ import { handlePublicLeads } from './routes/public-leads';
 import { handleConflitos } from './routes/conflitos';
 import { handleMetaWebhook } from './routes/webhook-meta';
 import { handlePlanejamento } from './routes/planejamento';
+import { handleWhatsapp } from './routes/whatsapp';
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 export default {
@@ -143,6 +144,9 @@ export default {
 
         case 'planejamento':
           return await handlePlanejamento(request, env, user);
+
+        case 'whatsapp':
+          return await handleWhatsapp(request, env, user);
 
         default:
           return jsonError(`Recurso '${resource}' não encontrado`, 404);
