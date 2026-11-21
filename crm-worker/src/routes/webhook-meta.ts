@@ -153,11 +153,17 @@ async function verifySignature(
 //
 // Token enviado via Authorization header (nunca na URL — evita exposição em logs).
 
+interface FetchLeadResult {
+  data: MetaLeadData | null;
+  errorStatus?: number;
+  errorBody?: string;
+}
+
 async function fetchLeadData(
   leadgenId: string,
   pageAccessToken: string,
   graphApiBase?: string,
-): Promise<MetaLeadData | null> {
+): Promise<FetchLeadResult> {
   const base = graphApiBase ?? 'https://graph.facebook.com';
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
   const url = `${base}/v25.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
@@ -171,37 +177,34 @@ async function fetchLeadData(
       },
     });
   } catch (err) {
-    // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
-    console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)} — tratando como permanente`);
-    return null;
+    const msg = String(err);
+    console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${msg}`);
+    return { data: null, errorStatus: 0, errorBody: msg };
   }
 
   if (resp.status === 429) {
-    // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
-    console.error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId} — tratando como permanente`);
-    return null;
+    console.error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId}`);
+    return { data: null, errorStatus: 429, errorBody: 'rate_limit' };
   }
 
   if (resp.status >= 500) {
-    // DIAGNÓSTICO: tratar como permanente para confirmar entrega do webhook
     const body = await resp.text().catch(() => '');
-    console.error(`[webhook-meta] Graph API 5xx ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)} — tratando como permanente`);
-    return null;
+    console.error(`[webhook-meta] Graph API 5xx ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`);
+    return { data: null, errorStatus: resp.status, errorBody: body.slice(0, 400) };
   }
 
   if (!resp.ok) {
     const body = await resp.text().catch(() => '');
-    console.error(
-      `[webhook-meta] Graph API erro permanente ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`,
-    );
-    return null;
+    console.error(`[webhook-meta] Graph API erro ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`);
+    return { data: null, errorStatus: resp.status, errorBody: body.slice(0, 400) };
   }
 
   try {
-    return await resp.json() as MetaLeadData;
+    const data = await resp.json() as MetaLeadData;
+    return { data };
   } catch {
     console.error(`[webhook-meta] Resposta não-JSON para leadgen ${leadgenId}`);
-    return null;
+    return { data: null, errorStatus: resp.status, errorBody: 'json_parse_error' };
   }
 }
 
@@ -250,19 +253,28 @@ async function processLeadgenEvent(
     return 'discarded';
   }
 
-  // fetchLeadData lança em falhas recuperáveis (5xx, timeout, 429)
-  const leadData = await fetchLeadData(leadgen_id, pageAccessToken, env.GRAPH_API_BASE_URL);
-  if (!leadData) {
-    // DIAGNÓSTICO: registrar falha de fetchLeadData
+  // fetchLeadData retorna { data, errorStatus?, errorBody? }
+  const fetchResult = await fetchLeadData(leadgen_id, pageAccessToken, env.GRAPH_API_BASE_URL);
+  if (!fetchResult.data) {
+    // DIAGNÓSTICO: registrar status e body do erro da Graph API no D1
     try {
       await env.DB.prepare(
         `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
       )
-        .bind('fetch_lead_null', new Date().toISOString(), JSON.stringify({ leadgen_id }))
+        .bind(
+          'fetch_lead_null',
+          new Date().toISOString(),
+          JSON.stringify({
+            leadgen_id,
+            status: fetchResult.errorStatus,
+            body: fetchResult.errorBody,
+          }),
+        )
         .run();
     } catch (_) { /* ignore */ }
     return 'discarded';
   }
+  const leadData = fetchResult.data;
 
   const fields = leadData.field_data ?? [];
 
