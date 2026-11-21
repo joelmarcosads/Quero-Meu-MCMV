@@ -11,6 +11,7 @@ import { ContatoDetailPage } from './pages/ContatoDetailPage';
 import { OportunidadesPage } from './pages/OportunidadesPage';
 import { OportunidadeDetailPage } from './pages/OportunidadeDetailPage';
 import { ConflitosPage } from './pages/ConflitosPage';
+import { PlanejamentoPage } from './pages/PlanejamentoPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import type { Usuario } from './types';
 
@@ -77,6 +78,7 @@ export function App() {
             <Route path="oportunidades" element={<OportunidadesPage />} />
             <Route path="oportunidades/:id" element={<OportunidadeDetailPage />} />
             <Route path="conflitos" element={<ConflitosPage />} />
+            <Route path="planejamento" element={<PlanejamentoPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

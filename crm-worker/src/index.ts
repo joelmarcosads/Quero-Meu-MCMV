@@ -19,6 +19,7 @@ import { handleUsuarios, handleMe } from './routes/usuarios';
 import { handlePublicLeads } from './routes/public-leads';
 import { handleConflitos } from './routes/conflitos';
 import { handleMetaWebhook } from './routes/webhook-meta';
+import { handlePlanejamento } from './routes/planejamento';
 
 // ─── Handler principal ────────────────────────────────────────────────────────
 export default {
@@ -139,6 +140,9 @@ export default {
 
         case 'conflitos':
           return await handleConflitos(request, env, user, pathParts);
+
+        case 'planejamento':
+          return await handlePlanejamento(request, env, user);
 
         default:
           return jsonError(`Recurso '${resource}' não encontrado`, 404);

@@ -102,6 +102,24 @@ export const api = {
     },
   },
 
+  // Planejamento Anual
+  planejamento: {
+    list: () => request('/planejamento'),
+    get: (id: number) => request(`/planejamento/${id}`),
+    create: (body: Record<string, unknown>) =>
+      request('/planejamento', { method: 'POST', body: JSON.stringify(body) }),
+    patch: (id: number, body: Record<string, unknown>) =>
+      request(`/planejamento/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+    canais: (id: number) => request(`/planejamento/${id}/canais`),
+    updateCanal: (id: number, canalId: string, body: Record<string, unknown>) =>
+      request(`/planejamento/${id}/canais/${canalId}`, { method: 'PATCH', body: JSON.stringify(body) }),
+    progresso: (id: number) => request(`/planejamento/${id}/progresso`),
+    upsertProgresso: (id: number, body: Record<string, unknown>) =>
+      request(`/planejamento/${id}/progresso`, { method: 'POST', body: JSON.stringify(body) }),
+    configCanais: () => request('/planejamento/config/canais'),
+    configCpl: () => request('/planejamento/config/cpl'),
+  },
+
   // Conflitos de identidade
   conflitos: {
     list: (params?: Record<string, string>) => {

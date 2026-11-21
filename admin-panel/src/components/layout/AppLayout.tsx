@@ -5,10 +5,12 @@ import { Header }    from './Header';
 import { BottomNav } from './BottomNav';
 
 const PAGE_TITLES: Record<string, string> = {
-  '/':              'Dashboard',
-  '/leads':         'Leads',
-  '/contatos':      'Contatos',
-  '/oportunidades': 'Pipeline de Oportunidades',
+  '/':               'Dashboard',
+  '/leads':          'Leads',
+  '/contatos':       'Contatos',
+  '/oportunidades':  'Pipeline de Oportunidades',
+  '/conflitos':      'Conflitos de Identidade',
+  '/planejamento':   'Planejamento Anual',
 };
 
 export function AppLayout() {
