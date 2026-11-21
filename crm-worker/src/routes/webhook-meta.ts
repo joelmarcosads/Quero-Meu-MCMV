@@ -139,31 +139,20 @@ async function verifySignature(
 
 // ─── Buscar dados do lead via Graph API ──────────────────────────────────────
 //
-// DIAGNÓSTICO: fetchLeadData agora retorna null para TODOS os erros
-// (timeout, rede, 429, 5xx) para confirmar se o webhook é entregue.
-// Se D1 receber leads após este deploy, o problema é APENAS permissão da Graph API.
-// Reverter após confirmar — restaurar comportamento de 503 para erros recuperáveis.
-//
-// Comportamento atual (diagnóstico):
-//   - Rede/timeout:  retorna null (descarta — confirmar entrega)
-//   - 429 (rate-limit): retorna null (descarta — confirmar entrega)
-//   - 5xx (servidor Meta): retorna null (descarta — confirmar entrega)
-//   - 4xx (exceto 429): retorna null (falha permanente — sem mudança)
-//   - JSON inválido:  retorna null (falha permanente — sem mudança)
+// Comportamento:
+//   - Rede/timeout:         lança erro → caller retorna 503 → Meta retenta
+//   - 429 (rate-limit):     lança erro → caller retorna 503 → Meta retenta
+//   - 5xx (servidor Meta):  lança erro → caller retorna 503 → Meta retenta
+//   - 4xx (exceto 429):     retorna null → falha permanente → 200 (descartar)
+//   - JSON inválido:        retorna null → falha permanente → 200 (descartar)
 //
 // Token enviado via Authorization header (nunca na URL — evita exposição em logs).
-
-interface FetchLeadResult {
-  data: MetaLeadData | null;
-  errorStatus?: number;
-  errorBody?: string;
-}
 
 async function fetchLeadData(
   leadgenId: string,
   pageAccessToken: string,
   graphApiBase?: string,
-): Promise<FetchLeadResult> {
+): Promise<MetaLeadData | null> {
   const base = graphApiBase ?? 'https://graph.facebook.com';
   const fields = 'field_data,created_time,ad_id,form_id,campaign_id,ad_name,adset_name,campaign_name';
   const url = `${base}/v25.0/${encodeURIComponent(leadgenId)}?fields=${fields}`;
@@ -177,34 +166,35 @@ async function fetchLeadData(
       },
     });
   } catch (err) {
-    const msg = String(err);
-    console.error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${msg}`);
-    return { data: null, errorStatus: 0, errorBody: msg };
+    // Falha de rede/timeout → recuperável → lança para o caller retornar 503
+    throw new Error(`[webhook-meta] Falha de rede ao buscar leadgen ${leadgenId}: ${String(err)}`);
   }
 
   if (resp.status === 429) {
-    console.error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId}`);
-    return { data: null, errorStatus: 429, errorBody: 'rate_limit' };
+    // Rate limit → recuperável → lança para o caller retornar 503
+    throw new Error(`[webhook-meta] Rate limit (429) para leadgen ${leadgenId} — Meta deve retentar`);
   }
 
   if (resp.status >= 500) {
+    // Erro de servidor Meta → recuperável → lança para o caller retornar 503
     const body = await resp.text().catch(() => '');
-    console.error(`[webhook-meta] Graph API 5xx ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`);
-    return { data: null, errorStatus: resp.status, errorBody: body.slice(0, 400) };
+    throw new Error(`[webhook-meta] Graph API 5xx ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`);
   }
 
   if (!resp.ok) {
+    // 4xx permanente (401, 403, 404…) → descartar
     const body = await resp.text().catch(() => '');
-    console.error(`[webhook-meta] Graph API erro ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`);
-    return { data: null, errorStatus: resp.status, errorBody: body.slice(0, 400) };
+    console.error(
+      `[webhook-meta] Graph API erro permanente ${resp.status} para leadgen ${leadgenId}: ${body.slice(0, 300)}`,
+    );
+    return null;
   }
 
   try {
-    const data = await resp.json() as MetaLeadData;
-    return { data };
+    return await resp.json() as MetaLeadData;
   } catch {
     console.error(`[webhook-meta] Resposta não-JSON para leadgen ${leadgenId}`);
-    return { data: null, errorStatus: resp.status, errorBody: 'json_parse_error' };
+    return null;
   }
 }
 
@@ -253,28 +243,11 @@ async function processLeadgenEvent(
     return 'discarded';
   }
 
-  // fetchLeadData retorna { data, errorStatus?, errorBody? }
-  const fetchResult = await fetchLeadData(leadgen_id, pageAccessToken, env.GRAPH_API_BASE_URL);
-  if (!fetchResult.data) {
-    // DIAGNÓSTICO: registrar status e body do erro da Graph API no D1
-    try {
-      await env.DB.prepare(
-        `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
-      )
-        .bind(
-          'fetch_lead_null',
-          new Date().toISOString(),
-          JSON.stringify({
-            leadgen_id,
-            status: fetchResult.errorStatus,
-            body: fetchResult.errorBody,
-          }),
-        )
-        .run();
-    } catch (_) { /* ignore */ }
+  // fetchLeadData lança em falhas recuperáveis (5xx, timeout, 429)
+  const leadData = await fetchLeadData(leadgen_id, pageAccessToken, env.GRAPH_API_BASE_URL);
+  if (!leadData) {
     return 'discarded';
   }
-  const leadData = fetchResult.data;
 
   const fields = leadData.field_data ?? [];
 
@@ -505,27 +478,6 @@ export async function handleMetaWebhook(
 
   // ── POST — receber eventos leadgen ────────────────────────────────────────
   if (request.method === 'POST') {
-    // DIAGNÓSTICO ABSOLUTO: primeira linha — registrar qualquer POST antes de qualquer check
-    try {
-      await env.DB.prepare(
-        `CREATE TABLE IF NOT EXISTS webhook_diag_log (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          etapa TEXT NOT NULL,
-          received_at TEXT NOT NULL,
-          info TEXT
-        )`,
-      ).run();
-      const sig = request.headers.get('x-hub-signature-256') ?? 'ausente';
-      const ua = request.headers.get('user-agent') ?? '';
-      await env.DB.prepare(
-        `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
-      )
-        .bind('post_recebido', new Date().toISOString(), JSON.stringify({ sig_prefix: sig.slice(0, 20), ua: ua.slice(0, 80) }))
-        .run();
-    } catch (e) {
-      console.error(`[webhook-meta] DIAG ABSOLUTO falhou: ${String(e)}`);
-    }
-
     const appSecret = env.META_APP_SECRET;
     if (!appSecret) {
       console.error('[webhook-meta] META_APP_SECRET não configurado');
@@ -539,27 +491,7 @@ export async function handleMetaWebhook(
     const valid = await verifySignature(request, rawBody, appSecret);
     if (!valid) {
       console.warn('[webhook-meta] Assinatura inválida — requisição rejeitada');
-      // DIAGNÓSTICO: registrar falha de HMAC
-      try {
-        await env.DB.prepare(
-          `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
-        )
-          .bind('hmac_falhou', new Date().toISOString(), 'assinatura invalida')
-          .run();
-      } catch (_) { /* ignore */ }
       return new Response('Unauthorized', { status: 401 });
-    }
-
-    // DIAGNÓSTICO: registrar payload após HMAC válido
-    try {
-      const diagBody = new TextDecoder().decode(rawBody).slice(0, 500);
-      await env.DB.prepare(
-        `INSERT INTO webhook_diag_log (etapa, received_at, info) VALUES (?, ?, ?)`,
-      )
-        .bind('hmac_ok', new Date().toISOString(), diagBody)
-        .run();
-    } catch (diagErr) {
-      console.error(`[webhook-meta] DIAGNÓSTICO hmac_ok falhou: ${String(diagErr)}`);
     }
 
     // Parse do payload JSON
