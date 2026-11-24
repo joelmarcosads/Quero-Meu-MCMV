@@ -5,11 +5,18 @@
  * Isolado da Missão 6 (webhook-meta.ts). Não compartilha credenciais de
  * página Meta — usa Phone Number ID e Access Token próprios do módulo WA.
  *
+ * ─── Decisão arquitetural (DEC-001 / 2026-11-24) ────────────────────────────
+ *   NÚMERO COMERCIAL +55 21 96592-8399 NÃO É USADO AQUI.
+ *   Este módulo usa um número dedicado exclusivo ao CRM (ver DECISOES.md).
+ *   Fase atual: número de teste do Meta App Developer (Getting Started).
+ *   Fase futura: número dedicado registrado em WABA verificada.
+ *   Troca de número = rotacionar WA_PHONE_NUMBER_ID e WA_ACCESS_TOKEN.
+ *
  * ─── Fase 1: Envio manual controlado (staging only) ─────────────────────────
  *   - Apenas destinatários registrados no Meta App Developer como teste
  *   - Template 'hello_world' (en_US) — pré-aprovado sem WABA verificada
  *   - Idempotência via idempotency_key → tabela whatsapp_mensagens
- *   - Nenhum envio automático a leads reais nesta fase
+ *   - Nenhum envio automático a leads reais nesta fase (ver DEC-002)
  *
  * ─── Referências oficiais Meta ───────────────────────────────────────────────
  *   - Graph API v21.0 — POST /{phone_number_id}/messages
