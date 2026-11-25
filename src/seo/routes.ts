@@ -1,3 +1,5 @@
+import { FAQ_ORLA, ORLA_AVISO_PRECO, ORLA_PRECO_A_PARTIR } from '../data/orlaCentral';
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -18,6 +20,13 @@ export interface DevelopmentDetails {
   image: string;
   commercialCondition: string;
   amenities: AmenityItem[];
+  // Opcionais (usados no JSON-LD quando informados)
+  url?: string;
+  priceFrom?: number; // preço "a partir de", em BRL
+  priceNote?: string; // aviso exibido junto ao preço
+  numberOfUnits?: number;
+  floorSizeMin?: number; // m²
+  floorSizeMax?: number; // m²
 }
 
 export interface SeoRoute {
@@ -261,6 +270,59 @@ export const ROUTES: SeoRoute[] = [
           'Sim. O FGTS pode ser usado como parte da entrada ou para amortizar o financiamento, desde que você tenha pelo menos 3 anos de trabalho sob regime do FGTS, podendo somar períodos diferentes.',
       },
     ],
+  },
+  {
+    path: '/orla-central-niteroi',
+    title: 'Orla Central Niterói | Apartamentos no Centro a partir de R$ 331 mil',
+    description:
+      'Orla Central, da Cury, no Centro de Niterói: 1 a 3 quartos com varanda, rooftop com vista para a Baía e lazer completo. A partir de R$ 331 mil.',
+    h1: 'Orla Central Niterói: apartamentos de 1 a 3 quartos com varanda no Centro, perto do Caminho Niemeyer',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Orla Central', path: '/orla-central-niteroi' },
+    ],
+    development: {
+      name: 'Orla Central',
+      developer: 'Cury',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Centro — próximo ao Caminho Niemeyer e às barcas',
+      numberOfBedrooms: '1 a 3',
+      image: 'https://queromeumcmv.com.br/orla-central-niteroi-fachada.webp',
+      commercialCondition: 'Preço a partir de R$ 331.000 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/orla-central-niteroi',
+      priceFrom: ORLA_PRECO_A_PARTIR,
+      priceNote: ORLA_AVISO_PRECO,
+      numberOfUnits: 962,
+      floorSizeMin: 31.3,
+      floorSizeMax: 65.72,
+      amenities: [
+        { name: 'Piscinas adulto e infantil', value: 'Sim' },
+        { name: 'Lounge rooftop', value: 'Sim' },
+        { name: 'Espaço luau', value: 'Sim' },
+        { name: 'Beach tennis', value: 'Sim' },
+        { name: 'Academia', value: 'Sim' },
+        { name: 'Fitness externo', value: 'Sim' },
+        { name: 'Salão de festas', value: 'Sim' },
+        { name: 'Churrasqueira gourmet', value: 'Sim' },
+        { name: 'Sport bar', value: 'Sim' },
+        { name: 'Salão de jogos', value: 'Sim' },
+        { name: 'Playground', value: 'Sim' },
+        { name: 'Brinquedoteca', value: 'Sim' },
+        { name: 'Coworking', value: 'Sim' },
+        { name: 'Pet care', value: 'Sim' },
+        { name: 'Easy market', value: 'Sim' },
+        { name: 'Lavanderia', value: 'Sim' },
+        { name: 'Lojas no térreo', value: 'Sim' },
+        { name: 'Vagas de automóvel', value: '102 (limitadas)' },
+        { name: 'Bicicletário', value: '970 vagas' },
+      ],
+    },
+    faqs: FAQ_ORLA.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',
@@ -1107,8 +1169,37 @@ export function buildSchemaGraph(route: SeoRoute): object {
         '@type': 'Offer',
         priceCurrency: 'BRL',
         description: dev.commercialCondition,
+        ...(dev.priceFrom
+          ? {
+              price: dev.priceFrom,
+              availability: 'https://schema.org/InStock',
+              seller: { '@id': `${CANONICAL_DOMAIN}/#organization` },
+              priceSpecification: {
+                '@type': 'PriceSpecification',
+                minPrice: dev.priceFrom,
+                priceCurrency: 'BRL',
+                description: dev.priceNote || 'Preço a partir de; sujeito a alteração e disponibilidade.',
+              },
+            }
+          : {}),
       },
     };
+
+    if (dev.url) {
+      complexObj['@id'] = `${dev.url}#empreendimento`;
+      complexObj.url = dev.url;
+    }
+    if (dev.numberOfUnits) {
+      complexObj.numberOfAccommodationUnits = dev.numberOfUnits;
+    }
+    if (dev.floorSizeMin && dev.floorSizeMax) {
+      complexObj.floorSize = {
+        '@type': 'QuantitativeValue',
+        minValue: dev.floorSizeMin,
+        maxValue: dev.floorSizeMax,
+        unitCode: 'MTK',
+      };
+    }
 
     if (dev.developer) {
       complexObj.builder = {

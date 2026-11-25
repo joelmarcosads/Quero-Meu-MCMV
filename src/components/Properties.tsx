@@ -11,6 +11,7 @@ const imgConquista = '/fachada-conquista-oceanica.webp';
 const imgUnic = '/unic-sao-goncalo-fachada.webp';
 const imgVert = '/vert-alcantara-fachada.webp';
 const imgMarDeTrindade = '/mar-de-trindade-guarita.webp';
+const imgOrlaCentral = '/orla-central-niteroi-fachada.webp';
 
 type Property = {
   id: number;
@@ -108,6 +109,17 @@ const PROPERTIES: Property[] = [
     features: { bed: 2, bedText: "2 Quartos c/ Varanda", car: 1, leisure: true, security: true },
     priceCondition: "Consulte Condições Especiais",
     slug: "/unicsaogoncalo"
+  },
+  {
+    id: 10,
+    name: "Orla Central",
+    location: "Centro, Niterói - RJ",
+    image: imgOrlaCentral,
+    imageAlt: "Fachada do Orla Central, da Cury, no Centro de Niterói — apartamentos de 1 a 3 quartos com varanda perto do Caminho Niemeyer",
+    badges: ["Lançamento Cury", "Centro de Niterói"],
+    features: { bed: "1 a 3", bedText: "1 a 3 Quartos c/ Varanda", car: 1, carText: "Vagas limitadas", leisure: true, security: true },
+    priceCondition: "A partir de R$ 331 mil* — consulte disponibilidade",
+    slug: "/orla-central-niteroi"
   },
   {
     id: 8,

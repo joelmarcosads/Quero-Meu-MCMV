@@ -111,6 +111,34 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        {/* Lançamento em destaque */}
+        <section className="py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/orla-central-niteroi"
+              className="grid md:grid-cols-2 gap-6 items-center bg-slate-900 text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/orla-central-niteroi-fachada.webp"
+                alt="Fachada do Orla Central, da Cury, no Centro de Niterói"
+                width={1600}
+                height={774}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-orange-300">LANÇAMENTO NO CENTRO DE NITERÓI</p>
+                <h2 className="text-2xl font-bold mt-2">Orla Central — apartamentos de 1 a 3 quartos perto do Caminho Niemeyer</h2>
+                <p className="text-slate-300 mt-3">
+                  Rooftop com vista para a Baía, lazer completo e barcas por perto. A partir de R$ 331 mil*.
+                </p>
+                <p className="text-xs text-slate-400 mt-2">*Valores sujeitos a alteração sem aviso prévio. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-orange-300">Ver o Orla Central →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

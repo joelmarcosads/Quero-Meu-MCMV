@@ -118,11 +118,29 @@ function Chips({ name, legend, options, value, onChange, error }) {
   );
 }
 
-export default function LeadForm() {
+// Props opcionais (páginas de empreendimento). Sem props, o formulário funciona
+// exatamente como antes em todas as páginas.
+// - empreendimento: nome enviado à planilha/CRM (coluna "Empreendimento")
+// - cidadeFixa: pré-seleciona a cidade e esconde a pergunta de cidade
+// - quartosInicial: pré-seleciona a quantidade de quartos (ex.: '2 quartos')
+// - unidadeInteresse: tipologia escolhida na página (coluna "Unidade de interesse")
+// - objetivo: 'Morar' | 'Investir' (Investir pré-marca "É para investir")
+// - formName: nome do formulário nos eventos da dataLayer
+// - titulo / subtitulo: textos do topo do formulário
+export default function LeadForm({
+  empreendimento = '',
+  cidadeFixa = '',
+  quartosInicial = '',
+  unidadeInteresse = '',
+  objetivo = '',
+  formName = 'lead_home',
+  titulo = 'Conte o que você procura',
+  subtitulo = 'Leva menos de 1 minuto. Respondo pelo WhatsApp com opções que cabem no seu bolso.',
+} = {}) {
   const [v, setV] = useState({
-    nome: '', whatsapp: '', email: '', cidade: '', faixa: '', quartos: '',
+    nome: '', whatsapp: '', email: '', cidade: cidadeFixa, faixa: '', quartos: quartosInicial,
     renda: '', regime_trabalho: '',
-    pagamento: '', primeira_compra: '', prazo: '', lgpd: false, website: '',
+    pagamento: '', primeira_compra: objetivo === 'Investir' ? 'É para investir' : '', prazo: '', lgpd: false, website: '',
   });
   const [step, setStep] = useState(1);
   const [errs, setErrs] = useState({});
@@ -135,7 +153,7 @@ export default function LeadForm() {
   const set = (k) => (val) => {
     if (!started.current) {
       started.current = true;
-      push({ event: 'form_start', form_name: 'lead_home' });
+      push({ event: 'form_start', form_name: formName, ...(empreendimento ? { empreendimento } : {}) });
     }
     setV((s) => ({ ...s, [k]: val }));
     if (errs[k]) {
@@ -191,7 +209,7 @@ export default function LeadForm() {
   function next() {
     const e = validateStep(step);
     if (Object.keys(e).length) return;
-    push({ event: 'form_step', form_name: 'lead_home', form_step: step + 1 });
+    push({ event: 'form_step', form_name: formName, form_step: step + 1 });
     goTo(step + 1);
   }
 
@@ -257,6 +275,11 @@ export default function LeadForm() {
       pagina: window.location.href.split('?')[0],
       referrer: document.referrer || '',
     });
+    if (empreendimento) {
+      data.set('empreendimento', empreendimento);
+      data.set('unidade_interesse', unidadeInteresse || 'Ainda não sei');
+      if (objetivo) data.set('objetivo', objetivo);
+    }
 
     setSending(true);
     try {
@@ -281,6 +304,9 @@ export default function LeadForm() {
         consentimento_lgpd: true,
         website: v.website || '',  // honeypot — deve estar vazio
         dados_extras: {
+          empreendimento: empreendimento || undefined,
+          unidade_interesse: empreendimento ? unidadeInteresse || 'Ainda não sei' : undefined,
+          objetivo: objetivo || undefined,
           quartos: v.quartos || undefined,
           faixa: v.faixa || undefined,
           renda: v.renda || undefined,
@@ -304,7 +330,9 @@ export default function LeadForm() {
       await gasPromise;
 
       // Guarda dados para a página de obrigado (só no navegador, nada de dados pessoais na URL)
-      const msg = `Olá! Sou ${v.nome.trim()}. Preenchi o formulário no site: busco imóvel em ${v.cidade}, ${v.quartos}, faixa ${v.faixa}. Renda familiar: ${v.renda} (${v.regime_trabalho}).`;
+      const msg = empreendimento
+        ? `Olá! Sou ${v.nome.trim()}. Preenchi o formulário do ${empreendimento} no site: ${unidadeInteresse || v.quartos}, faixa ${v.faixa}. Renda familiar: ${v.renda} (${v.regime_trabalho}).`
+        : `Olá! Sou ${v.nome.trim()}. Preenchi o formulário no site: busco imóvel em ${v.cidade}, ${v.quartos}, faixa ${v.faixa}. Renda familiar: ${v.renda} (${v.regime_trabalho}).`;
       try {
         sessionStorage.setItem('lead_external_id', externalId);
         if (email) sessionStorage.setItem('lead_email', email.toLowerCase());
@@ -337,8 +365,8 @@ export default function LeadForm() {
     <section id="lead-box" aria-labelledby="lead-title" ref={boxRef}>
       <style>{CSS}</style>
       <form noValidate onSubmit={(e) => e.preventDefault()} onKeyDown={onKeyDown}>
-        <h2 id="lead-title">Conte o que você procura</h2>
-        <p className="sub">Leva menos de 1 minuto. Respondo pelo WhatsApp com opções que cabem no seu bolso.</p>
+        <h2 id="lead-title">{titulo}</h2>
+        <p className="sub">{subtitulo}</p>
 
         <div className="progress" aria-hidden="true">
           {Array.from({ length: TOTAL }, (_, i) => <i key={i} className={i < step ? 'on' : ''} />)}
@@ -347,8 +375,10 @@ export default function LeadForm() {
 
         {step === 1 && (
           <div className="step" key="s1">
-            <Chips name="cidade" legend="Em qual cidade quer morar?" options={CIDADES}
-              value={v.cidade} onChange={set('cidade')} error={errs.cidade} />
+            {!cidadeFixa && (
+              <Chips name="cidade" legend="Em qual cidade quer morar?" options={CIDADES}
+                value={v.cidade} onChange={set('cidade')} error={errs.cidade} />
+            )}
             <Chips name="quartos" legend="Quantos quartos?" options={QUARTOS}
               value={v.quartos} onChange={set('quartos')} error={errs.quartos} />
           </div>
@@ -392,7 +422,7 @@ export default function LeadForm() {
           <div className="step" key="s5">
             <p className="reward">
               ✅ Pronto! Já separei o perfil: <strong>{v.quartos}</strong> em <strong>{v.cidade}</strong>,{' '}
-              <strong>{v.faixa}</strong>. Agora é só dizer para onde envio as opções.
+              <strong>{v.faixa}</strong>. Agora é só dizer para onde envio {empreendimento ? 'os valores e as plantas' : 'as opções'}.
             </p>
             <div className="field">
               <label className="lb" htmlFor="nome">Seu nome</label>
@@ -432,7 +462,7 @@ export default function LeadForm() {
         )}
 
         <button type="button" className="cta" disabled={sending} onClick={handleSend}>
-          {step < TOTAL ? ctaText : sending ? 'Enviando...' : 'Quero receber opções de imóveis'}
+          {step < TOTAL ? ctaText : sending ? 'Enviando...' : empreendimento ? 'Quero receber os valores' : 'Quero receber opções de imóveis'}
         </button>
         {step > 1 && !sending && (
           <button type="button" className="back" onClick={() => goTo(step - 1)}>← Voltar</button>
