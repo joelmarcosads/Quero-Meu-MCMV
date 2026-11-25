@@ -11,19 +11,19 @@ export default function McmvItaborai() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Minha Casa Minha Vida em Itaboraí: Apartamentos 2026</title>
-        <meta name="description" content="Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule." />
+        <title>Apartamentos Minha Casa Minha Vida em Itaboraí: Lançamentos</title>
+        <meta name="description" content="Lançamentos MCMV em Itaboraí com condomínio fechado, lazer e parcela que pode ser menor que o aluguel. Compare os empreendimentos e descubra a sua condição." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Minha Casa Minha Vida em Itaboraí: Apartamentos 2026" />
-        <meta property="og:description" content="Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule." />
+        <meta property="og:title" content="Apartamentos Minha Casa Minha Vida em Itaboraí: Lançamentos" />
+        <meta property="og:description" content="Lançamentos MCMV em Itaboraí com condomínio fechado, lazer e parcela que pode ser menor que o aluguel. Compare os empreendimentos e descubra a sua condição." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Minha Casa Minha Vida em Itaboraí: Apartamentos 2026" />
-        <meta name="twitter:description" content="Apartamentos MCMV em Itaboraí com corretor especialista local. Sinal a partir de R$ 1.000, condomínio fechado e lazer. Veja e simule." />
+        <meta name="twitter:title" content="Apartamentos Minha Casa Minha Vida em Itaboraí: Lançamentos" />
+        <meta name="twitter:description" content="Lançamentos MCMV em Itaboraí com condomínio fechado, lazer e parcela que pode ser menor que o aluguel. Compare os empreendimentos e descubra a sua condição." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
@@ -40,9 +40,9 @@ export default function McmvItaborai() {
                 <li className="text-orange-300" aria-current="page">MCMV Itaboraí</li>
               </ol>
             </nav>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Minha Casa Minha Vida em Itaboraí - RJ</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Apartamentos Minha Casa Minha Vida em Itaboraí: lançamentos 2026</h1>
             <p className="text-lg text-slate-300 max-w-3xl leading-relaxed">
-              O programa habitacional que está transformando a vida de milhares de brasileiros tem oportunidades incríveis em Itaboraí. Conheça as regras, saiba como funciona o financiamento e descubra os melhores empreendimentos disponíveis na cidade.
+              Imagine trocar o recibo do aluguel pela chave de um apartamento seu, em condomínio fechado e com lazer, a poucos minutos do Centro de Itaboraí. Veja os lançamentos da cidade, entenda as regras de 2026 e descubra qual cabe na sua renda.
             </p>
           </div>
         </section>
@@ -129,7 +129,7 @@ export default function McmvItaborai() {
               </div>
               <div>
                 <h3 className="font-bold text-lg text-slate-900">Como funciona a entrada?</h3>
-                <p className="text-slate-600 mt-2">A entrada varia de acordo com a aprovação de crédito da Caixa, o valor do imóvel e o subsídio concedido. Em alguns lançamentos, é possível dar um sinal a partir de R$ 500 ou R$ 1.000 e parcelar o restante da entrada direto com a construtora.</p>
+                <p className="text-slate-600 mt-2">A entrada varia de acordo com a aprovação de crédito da Caixa, o valor do imóvel e o subsídio concedido. Em muitos lançamentos, parte da entrada pode ser parcelada direto com a construtora durante a obra — na simulação você descobre exatamente quanto precisa.</p>
                 <p className="text-xs text-slate-500 mt-2">* Valores e condições podem variar conforme análise de crédito, empreendimento e regras vigentes.</p>
               </div>
             </div>

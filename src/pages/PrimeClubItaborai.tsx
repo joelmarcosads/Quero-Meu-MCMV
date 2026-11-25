@@ -14,22 +14,22 @@ export default function PrimeClubItaborai() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Prime Clube Itaboraí - Apartamentos Minha Casa Minha Vida</title>
-        <meta name="description" content="Conheça o Prime Clube Itaboraí no Outeiro das Pedras. Apartamentos de 2 quartos com suíte reversível e lazer completo. Faça sua simulação Caixa!" />
+        <title>Prime Clube Itaboraí: Apartamentos 2 Quartos MCMV</title>
+        <meta name="description" content="Condomínio clube em Itaboraí com 2 quartos, vaga e lazer completo. Entrada parcelada em até 72x e subsídio de até R$ 55 mil. Veja se você se encaixa." />
         <link rel="canonical" href="https://queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/prime-club-itaborai" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Prime Club Itaboraí" />
-        <meta property="og:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
-        <meta property="og:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
+        <meta property="og:title" content="Prime Clube Itaboraí: Apartamentos 2 Quartos MCMV" />
+        <meta property="og:description" content="Condomínio clube em Itaboraí com 2 quartos, vaga e lazer completo. Entrada parcelada em até 72x e subsídio de até R$ 55 mil. Veja se você se encaixa." />
         
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Prime Club Itaboraí | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
-        <meta name="twitter:description" content="Lançamento Prime Club em Itaboraí - RJ. Apartamentos 2 Quartos em condomínio fechado. Sinal a partir de R$ 1.000 e Subsídio até R$ 55 mil. Compre pela Caixa." />
+        <meta name="twitter:title" content="Prime Clube Itaboraí: Apartamentos 2 Quartos MCMV" />
+        <meta name="twitter:description" content="Condomínio clube em Itaboraí com 2 quartos, vaga e lazer completo. Entrada parcelada em até 72x e subsídio de até R$ 55 mil. Veja se você se encaixa." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-do-site-prime-club-itaborai.webp" />
         
         {/* GEO Tags */}
@@ -43,7 +43,7 @@ export default function PrimeClubItaborai() {
         {/* Hero Section - Primeira Dobra Harmoniosa com Formulário Estratégico */}
         <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img fetchPriority="high" 
+            <img width={600} height={400} fetchPriority="high" 
               src={imgCapa} 
               alt="Apartamentos Prime Clube Itaboraí Minha Casa Minha Vida" 
               className="w-full h-full object-cover"
@@ -109,8 +109,8 @@ export default function PrimeClubItaborai() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada sob medida</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Simule a sua</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
                       <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
@@ -171,7 +171,7 @@ export default function PrimeClubItaborai() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgPiscina} 
                   alt="Piscina do condomínio Prime Club em Itaboraí" 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -221,7 +221,7 @@ export default function PrimeClubItaborai() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgLocalizacao} 
                   alt="Mapa de localização do condomínio Prime Club em Itaboraí, RJ" 
                   className="w-full h-full object-cover rounded-2xl aspect-video"

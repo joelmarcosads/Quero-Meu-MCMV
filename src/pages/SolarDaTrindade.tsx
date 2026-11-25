@@ -13,21 +13,21 @@ export default function SolarDaTrindade() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida</title>
-        <meta name="description" content="Conheça o Solar da Trindade em Trindade, São Gonçalo - RJ. Apartamentos de 2 quartos, sinal a partir de R$ 1.000 e subsídio Caixa." />
+        <title>Solar da Trindade, São Gonçalo: MCMV Perto da Universo</title>
+        <meta name="description" content="A 300 m da Universo, em Trindade: 2 quartos com vaga em condomínio clube e entrada parcelada em até 100x. Veja se a parcela cabe no seu bolso." />
 <link rel="canonical" href="https://queromeumcmv.com.br/solar-da-trindade" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/solar-da-trindade" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-solar-trindade.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Solar da Trindade em São Gonçalo" />
-        <meta property="og:title" content="Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
-        <meta property="og:description" content="Conheça o Solar da Trindade em Trindade, São Gonçalo - RJ. Apartamentos de 2 quartos, sinal a partir de R$ 1.000 e subsídio Caixa." />
+        <meta property="og:title" content="Solar da Trindade, São Gonçalo: MCMV Perto da Universo" />
+        <meta property="og:description" content="A 300 m da Universo, em Trindade: 2 quartos com vaga em condomínio clube e entrada parcelada em até 100x. Veja se a parcela cabe no seu bolso." />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Solar da Trindade | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
-        <meta name="twitter:description" content="Conheça o Solar da Trindade em Trindade, São Gonçalo - RJ. Apartamentos de 2 quartos, sinal a partir de R$ 1.000 e subsídio Caixa." />
+        <meta name="twitter:title" content="Solar da Trindade, São Gonçalo: MCMV Perto da Universo" />
+        <meta name="twitter:description" content="A 300 m da Universo, em Trindade: 2 quartos com vaga em condomínio clube e entrada parcelada em até 100x. Veja se a parcela cabe no seu bolso." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-solar-trindade.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Trindade, São Gonçalo" />
@@ -38,7 +38,7 @@ export default function SolarDaTrindade() {
         {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
         <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img fetchPriority="high" 
+            <img width={1280} height={720} fetchPriority="high" 
               src={imgFachada} 
               alt="Apartamentos de 2 quartos no Solar da Trindade em São Gonçalo RJ" 
               className="w-full h-full object-cover"
@@ -104,8 +104,8 @@ export default function SolarDaTrindade() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada sob medida</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Simule a sua</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
                       <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
@@ -166,7 +166,7 @@ export default function SolarDaTrindade() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                <img loading="lazy" 
+                <img width={1280} height={720} loading="lazy" 
                   src={imgFachada} 
                   alt="Apartamento do Solar da Trindade em São Gonçalo" 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -222,7 +222,7 @@ export default function SolarDaTrindade() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgMapa} 
                   alt="Mapa de localização do Solar da Trindade em São Gonçalo, RJ" 
                   className="w-full h-full object-cover rounded-2xl aspect-video"

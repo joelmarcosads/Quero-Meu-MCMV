@@ -33,5 +33,20 @@
     "file": "og/fachada-solar-trindade.jpg",
     "width": 1200,
     "height": 628
+  },
+  "vert-alcantara-fachada.webp": {
+    "file": "og/vert-alcantara-fachada.jpg",
+    "width": 768,
+    "height": 402
+  },
+  "mar-de-trindade-foto-aerea.webp": {
+    "file": "og/mar-de-trindade-foto-aerea.jpg",
+    "width": 800,
+    "height": 419
+  },
+  "unic-sao-goncalo-fachada.webp": {
+    "file": "og/unic-sao-goncalo-fachada.jpg",
+    "width": 1080,
+    "height": 565
   }
 }

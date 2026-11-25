@@ -14,19 +14,19 @@ export default function McmvSaoGoncalo() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026</title>
-        <meta name="description" content="Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Atendimento com corretor CRECI. Simule seu financiamento." />
+        <title>Minha Casa Minha Vida em São Gonçalo: Lançamentos 2026</title>
+        <meta name="description" content="Apartamentos MCMV em Alcântara, Trindade, Vila Iara e perto do Shopping São Gonçalo. Compare os lançamentos e descubra a parcela que cabe no seu bolso." />
         <link rel="canonical" href="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026" />
-        <meta property="og:description" content="Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Atendimento com corretor CRECI. Simule seu financiamento." />
+        <meta property="og:title" content="Minha Casa Minha Vida em São Gonçalo: Lançamentos 2026" />
+        <meta property="og:description" content="Apartamentos MCMV em Alcântara, Trindade, Vila Iara e perto do Shopping São Gonçalo. Compare os lançamentos e descubra a parcela que cabe no seu bolso." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026" />
-        <meta name="twitter:description" content="Apartamentos MCMV em São Gonçalo, perto da Universo e com entrada facilitada. Atendimento com corretor CRECI. Simule seu financiamento." />
+        <meta name="twitter:title" content="Minha Casa Minha Vida em São Gonçalo: Lançamentos 2026" />
+        <meta name="twitter:description" content="Apartamentos MCMV em Alcântara, Trindade, Vila Iara e perto do Shopping São Gonçalo. Compare os lançamentos e descubra a parcela que cabe no seu bolso." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="São Gonçalo" />

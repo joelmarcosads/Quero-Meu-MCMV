@@ -10,19 +10,19 @@ export default function RendaMcmv() {
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Faixas de Renda do Minha Casa Minha Vida 2026</title>
-        <meta name="description" content="Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma." />
+        <title>Faixas de Renda do Minha Casa Minha Vida 2026: Qual É a Sua?</title>
+        <meta name="description" content="De R$ 3.200 a R$ 13.000: descubra em qual faixa do MCMV a sua família entra, o valor máximo do imóvel e os juros de cada uma." />
         <link rel="canonical" href="https://queromeumcmv.com.br/renda-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Faixas de Renda do Minha Casa Minha Vida 2026" />
-        <meta property="og:description" content="Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma." />
+        <meta property="og:title" content="Faixas de Renda do Minha Casa Minha Vida 2026: Qual É a Sua?" />
+        <meta property="og:description" content="De R$ 3.200 a R$ 13.000: descubra em qual faixa do MCMV a sua família entra, o valor máximo do imóvel e os juros de cada uma." />
         <meta property="og:url" content="https://queromeumcmv.com.br/renda-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Faixas de Renda do Minha Casa Minha Vida 2026" />
-        <meta name="twitter:description" content="Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma." />
+        <meta name="twitter:title" content="Faixas de Renda do Minha Casa Minha Vida 2026: Qual É a Sua?" />
+        <meta name="twitter:description" content="De R$ 3.200 a R$ 13.000: descubra em qual faixa do MCMV a sua família entra, o valor máximo do imóvel e os juros de cada uma." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       
@@ -31,10 +31,16 @@ export default function RendaMcmv() {
       <main className="flex-grow bg-slate-50 py-12">
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            A Renda no Minha Casa Minha Vida
+            Faixas de renda do Minha Casa Minha Vida 2026: em qual a sua família entra?
           </h1>
           
-          <ArticleMeta date="17 de Setembro de 2026" />
+          <ArticleMeta date="25 de Novembro de 2026" />
+
+          <aside className="not-prose my-6 rounded-xl border-l-4 border-primary bg-blue-50 p-5 answer-box" aria-label="Resposta rápida">
+            <p className="text-sm font-bold uppercase tracking-wide text-primary mb-1">Resposta rápida</p>
+            <p className="text-slate-800 leading-relaxed">Em 2026 o Minha Casa Minha Vida atende famílias com renda bruta mensal de até R$ 13.000, em 4 faixas: Faixa 1 até R$ 3.200, Faixa 2 até R$ 5.000, Faixa 3 até R$ 9.600 e Faixa 4 até R$ 13.000. Quanto menor a faixa, menores os juros, e só as Faixas 1 e 2 recebem subsídio. Vale a renda somada de quem vai comprar junto.</p>
+          </aside>
+
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             

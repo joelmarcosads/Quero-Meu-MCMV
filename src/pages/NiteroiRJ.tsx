@@ -14,18 +14,18 @@ export default function NiteroiRJ() {
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
         <title>Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026</title>
-        <meta name="description" content="Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis." />
+        <meta name="description" content="Quer morar em Niterói ou a 15 minutos dela pagando parcela de Minha Casa Minha Vida? Veja as faixas de renda, o subsídio e as opções para o seu orçamento." />
         <link rel="canonical" href="https://queromeumcmv.com.br/niteroirj" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta property="og:title" content="Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026" />
-        <meta property="og:description" content="Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis." />
+        <meta property="og:description" content="Quer morar em Niterói ou a 15 minutos dela pagando parcela de Minha Casa Minha Vida? Veja as faixas de renda, o subsídio e as opções para o seu orçamento." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/niteroirj" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026" />
-        <meta name="twitter:description" content="Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis." />
+        <meta name="twitter:description" content="Quer morar em Niterói ou a 15 minutos dela pagando parcela de Minha Casa Minha Vida? Veja as faixas de renda, o subsídio e as opções para o seu orçamento." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Niterói" />
@@ -155,7 +155,7 @@ export default function NiteroiRJ() {
                   Qual a renda mínima para financiar em Niterói pelo MCMV?
                 </h3>
                 <p className="text-slate-600 mt-2">
-                  A renda familiar bruta deve ser de até R$ 8.000 (Faixa 2) ou até R$ 4.400 (Faixa 1, com maior subsídio). Trabalhadores formais, informais e MEIs podem participar — desde que comprovem a renda de acordo com as exigências da Caixa Econômica Federal.
+                  Não existe renda mínima: o programa atende famílias com renda bruta de até R$ 13.000, divididas em 4 faixas (até R$ 3.200, R$ 5.000, R$ 9.600 e R$ 13.000). Quem ganha até R$ 5.000 ainda pode receber subsídio. Trabalhadores formais, informais e MEIs podem participar — desde que comprovem a renda de acordo com as exigências da Caixa Econômica Federal.
                 </p>
               </div>
               <div>

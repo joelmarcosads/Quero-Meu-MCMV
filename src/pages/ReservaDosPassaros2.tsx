@@ -14,20 +14,20 @@ export default function ReservaDosPassaros2() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí</title>
-        <meta name="description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
+        <title>Reserva dos Pássaros 2, Itaboraí: Casas 2 Quartos MCMV</title>
+        <meta name="description" content="Casa própria em condomínio fechado em Itaboraí: 2 quartos, vaga e parcelas a partir de R$ 650*. Veja como o subsídio do MCMV reduz a sua entrada." />
         <link rel="canonical" href="https://queromeumcmv.com.br/reserva-dos-passaros-2" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/reserva-dos-passaros-2" />
-        <meta property="og:title" content="Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí" />
-        <meta property="og:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
+        <meta property="og:title" content="Reserva dos Pássaros 2, Itaboraí: Casas 2 Quartos MCMV" />
+        <meta property="og:description" content="Casa própria em condomínio fechado em Itaboraí: 2 quartos, vaga e parcelas a partir de R$ 650*. Veja como o subsídio do MCMV reduz a sua entrada." />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-da-casa-reserva-dos-passaros.webp" />
         <meta property="og:image:alt" content="Fachada da casa no Reserva dos Pássaros 2 em Itaboraí" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Reserva dos Pássaros 2 | Casas 2 Quartos em Condomínio, Itaboraí" />
-        <meta name="twitter:description" content="Lançamento Reserva dos Pássaros 2 em Itaboraí. Casas de 2 quartos em condomínio fechado. Sinal de R$ 1.000, subsídio MCMV e garantia Caixa." />
+        <meta name="twitter:title" content="Reserva dos Pássaros 2, Itaboraí: Casas 2 Quartos MCMV" />
+        <meta name="twitter:description" content="Casa própria em condomínio fechado em Itaboraí: 2 quartos, vaga e parcelas a partir de R$ 650*. Veja como o subsídio do MCMV reduz a sua entrada." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-da-casa-reserva-dos-passaros.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Itaboraí" />
@@ -39,7 +39,7 @@ export default function ReservaDosPassaros2() {
         {/* Hero Section - Primeira Dobra Harmoniosa com Formulário Estratégico */}
         <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img fetchPriority="high" 
+            <img width={1400} height={730} fetchPriority="high" 
               src={imgFachada} 
               alt="Casas de 2 quartos em condomínio fechado Reserva dos Pássaros 2 em Itaboraí RJ" 
               className="w-full h-full object-cover"
@@ -105,8 +105,8 @@ export default function ReservaDosPassaros2() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada sob medida</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Simule a sua</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
                       <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
@@ -167,7 +167,7 @@ export default function ReservaDosPassaros2() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                <img loading="lazy" 
+                <img width={800} height={450} loading="lazy" 
                   src={imgPiscina} 
                   alt="Piscina do condomínio Reserva dos Pássaros 2 em Itaboraí" 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -217,7 +217,7 @@ export default function ReservaDosPassaros2() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
-                <img loading="lazy" 
+                <img width={700} height={701} loading="lazy" 
                   src={imgMapa} 
                   alt="Mapa de localização do condomínio Reserva dos Pássaros 2 em Itaboraí, RJ" 
                   className="w-full h-full object-cover rounded-2xl aspect-video"

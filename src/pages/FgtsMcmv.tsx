@@ -10,19 +10,19 @@ export default function FgtsMcmv() {
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Como Usar o FGTS no Minha Casa Minha Vida</title>
-        <meta name="description" content="Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar." />
+        <title>Como Usar o FGTS no Minha Casa Minha Vida em 2026</title>
+        <meta name="description" content="O seu FGTS pode virar a entrada do apartamento. Veja as regras de 2026, quem pode usar e como somar com o subsídio para comprar em Itaboraí e região." />
         <link rel="canonical" href="https://queromeumcmv.com.br/fgts-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Como Usar o FGTS no Minha Casa Minha Vida" />
-        <meta property="og:description" content="Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar." />
+        <meta property="og:title" content="Como Usar o FGTS no Minha Casa Minha Vida em 2026" />
+        <meta property="og:description" content="O seu FGTS pode virar a entrada do apartamento. Veja as regras de 2026, quem pode usar e como somar com o subsídio para comprar em Itaboraí e região." />
         <meta property="og:url" content="https://queromeumcmv.com.br/fgts-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Como Usar o FGTS no Minha Casa Minha Vida" />
-        <meta name="twitter:description" content="Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar." />
+        <meta name="twitter:title" content="Como Usar o FGTS no Minha Casa Minha Vida em 2026" />
+        <meta name="twitter:description" content="O seu FGTS pode virar a entrada do apartamento. Veja as regras de 2026, quem pode usar e como somar com o subsídio para comprar em Itaboraí e região." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       
@@ -31,10 +31,16 @@ export default function FgtsMcmv() {
       <main className="flex-grow bg-slate-50 py-12">
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            Como usar o FGTS no Minha Casa Minha Vida
+            Como usar o FGTS no Minha Casa Minha Vida em 2026
           </h1>
           
-          <ArticleMeta date="17 de Setembro de 2026" />
+          <ArticleMeta date="25 de Novembro de 2026" />
+
+          <aside className="not-prose my-6 rounded-xl border-l-4 border-primary bg-blue-50 p-5 answer-box" aria-label="Resposta rápida">
+            <p className="text-sm font-bold uppercase tracking-wide text-primary mb-1">Resposta rápida</p>
+            <p className="text-slate-800 leading-relaxed">Sim, o FGTS pode pagar parte ou toda a entrada do imóvel no Minha Casa Minha Vida e também amortizar as parcelas. É preciso somar pelo menos 3 anos de trabalho com carteira assinada (contínuos ou não), não ter imóvel próprio na cidade onde você mora ou trabalha e comprar o imóvel para morar. O FGTS pode ser somado ao subsídio.</p>
+          </aside>
+
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             

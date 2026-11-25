@@ -8,7 +8,7 @@ const imgFlores = '/fachada-flores-de-maio.webp';
 const imgResidencial = '/fachada-residencial-florescer.webp';
 const imgSolar = '/fachada-solar-trindade.webp';
 const imgConquista = '/fachada-conquista-oceanica.webp';
-const imgUnic = '/unic-sao-goncalo-fachada.jpg';
+const imgUnic = '/unic-sao-goncalo-fachada.webp';
 const imgVert = '/vert-alcantara-fachada.webp';
 const imgMarDeTrindade = '/mar-de-trindade-guarita.webp';
 
@@ -38,7 +38,7 @@ const PROPERTIES: Property[] = [
     location: "Itaboraí - RJ",
     image: imgReserva,
     imageAlt: "Fachada do empreendimento Reserva dos Pássaros 2 localizado em Itaboraí - RJ - Minha Casa Minha Vida",
-    badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
+    badges: ["MCMV - Caixa", "Condomínio Clube"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Parcelas Mensais a Partir de R$ 650,00*",
     slug: "/reserva-dos-passaros-2"
@@ -49,7 +49,7 @@ const PROPERTIES: Property[] = [
     location: "Itaboraí - RJ",
     image: imgPrime,
     imageAlt: "Fachada do empreendimento Prime Club Itaboraí localizado em Itaboraí - RJ - Minha Casa Minha Vida",
-    badges: ["MCMV - Caixa", "Sinal de R$ 1.000"],
+    badges: ["MCMV - Caixa", "Condomínio Clube"],
     features: { bed: 2, car: 1, leisure: true, security: true },
     priceCondition: "Entrada Facilitada em até 72X",
     slug: "/prime-club-itaborai"
@@ -62,7 +62,7 @@ const PROPERTIES: Property[] = [
     imageAlt: "Fachada do empreendimento Flores de Maio localizado em Santo Expedito, Itaboraí - RJ - Minha Casa Minha Vida",
     badges: ["MCMV - Caixa", "A 5 min. do Centro de Itaboraí"],
     features: { bed: 2, car: 1, leisure: true, security: true },
-    priceCondition: "Sinal a partir de R$ 1.000 + Subsídio",
+    priceCondition: "Descubra quanto o subsídio reduz a sua entrada",
     slug: "/flores-de-maio"
   },
   {
@@ -84,7 +84,7 @@ const PROPERTIES: Property[] = [
     imageAlt: "Fachada do empreendimento Solar da Trindade localizado em Trindade, São Gonçalo - RJ - Minha Casa Minha Vida",
     badges: ["MCMV - Caixa", "A 300m da Faculdade UNIVERSO"],
     features: { bed: 2, car: 1, leisure: true, security: true },
-    priceCondition: "Sinal a partir de R$ 500 + Entrada Facilitada em até 100X",
+    priceCondition: "Entrada parcelada em até 100x — simule a sua",
     slug: "/solar-da-trindade"
   },
   {
@@ -95,7 +95,7 @@ const PROPERTIES: Property[] = [
     imageAlt: "Fachada do condomínio Conquista Oceânica em Maricá - RJ",
     badges: ["Lançamento", "Minha Casa Minha Vida"],
     features: { bed: "1 e 2", car: 1, leisure: true, security: true },
-    priceCondition: "Sinal a partir de R$ 1.000*",
+    priceCondition: "A minutos das praias — veja as condições",
     slug: "/conquista-oceanica"
   },
   {
@@ -116,8 +116,8 @@ const PROPERTIES: Property[] = [
     image: imgVert,
     imageAlt: "Fachada do Direcional Vert Alcântara — apartamentos 2 quartos MCMV em Alcântara, São Gonçalo RJ",
     badges: ["MCMV - Caixa", "Lazer Completo"],
-    features: { bed: 2, bedText: "2 Quartos", car: 1, leisure: true, security: true },
-    priceCondition: "Entrada Facilitada + Subsídio MCMV",
+    features: { bed: "1 e 2", bedText: "Studio, 1 e 2 Quartos", car: 1, leisure: true, security: true },
+    priceCondition: "+15 itens de lazer — descubra a sua parcela",
     slug: "/vert-alcantara"
   },
   {
@@ -164,7 +164,7 @@ export default function Properties({ filterCity }: PropertiesProps) {
               className="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden group hover:shadow-xl transition-shadow flex flex-col"
             >
               <div className="relative h-56 overflow-hidden">
-                <img loading="lazy" 
+                <img loading="lazy" decoding="async" width={640} height={427}
                   src={prop.image} 
                   alt={prop.imageAlt || `Fachada do empreendimento ${prop.name} localizado em ${prop.location} - Apartamentos Minha Casa Minha Vida`} 
                   title={`Empreendimento ${prop.name}`}

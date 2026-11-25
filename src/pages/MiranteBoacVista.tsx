@@ -79,7 +79,7 @@ const schemaJsonLd = {
         {
           '@type': 'Question',
           name: 'O Mirante Boa Vista é pelo Minha Casa Minha Vida?',
-          acceptedAnswer: { '@type': 'Answer', text: 'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda a partir de R$ 5.500.' },
+          acceptedAnswer: { '@type': 'Answer', text: 'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda de até R$ 5.000 (Faixas 1 e 2).' },
         },
         {
           '@type': 'Question',
@@ -121,7 +121,7 @@ const faqs = [
   },
   {
     pergunta: 'O Mirante Boa Vista é pelo Minha Casa Minha Vida?',
-    resposta: 'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda a partir de R$ 5.500.',
+    resposta: 'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda de até R$ 5.000 (Faixas 1 e 2).',
   },
   {
     pergunta: 'Qual a localização do Mirante Boa Vista?',
@@ -238,7 +238,7 @@ export default function MiranteBoacVista() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { emoji: '💰', titulo: 'Subsídio até R$ 55 mil', desc: 'Renda a partir de R$ 5.500' },
+              { emoji: '💰', titulo: 'Subsídio até R$ 55 mil', desc: 'Para renda de até R$ 5.000' },
               { emoji: '🏦', titulo: 'ITBI + Registro Grátis', desc: 'Economia de milhares de reais' },
               { emoji: '📋', titulo: 'Entrada R$ 499/mês', desc: 'Parcelada em até 100x' },
               { emoji: '🔑', titulo: 'Use o FGTS', desc: 'Como entrada ou amortização' },
@@ -258,7 +258,7 @@ export default function MiranteBoacVista() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-4">
             <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
-              <img
+              <img width={1110} height={600}
                 src="/mirante-boa-vista-garden.webp"
                 alt="Apartamento garden com área externa privativa — Mirante Boa Vista São Cristóvão RJ"
                 className="w-full h-full object-cover"
@@ -266,7 +266,7 @@ export default function MiranteBoacVista() {
               />
             </div>
             <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
-              <img
+              <img width={1400} height={788}
                 src="/mirante-boa-vista-piscina.webp"
                 alt="Piscina adulto com deck e espreguiçadeiras — Mirante Boa Vista São Cristóvão RJ"
                 className="w-full h-full object-cover"
@@ -334,7 +334,7 @@ export default function MiranteBoacVista() {
             {/* Piscina */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-piscina.webp" alt="Piscina adulto com deck — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1400} height={788} src="/mirante-boa-vista-piscina.webp" alt="Piscina adulto com deck — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🏊 Piscina Adulto + Infantil</p>
@@ -344,7 +344,7 @@ export default function MiranteBoacVista() {
             {/* Churrasqueira */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-churrasqueira.webp" alt="Churrasqueira gourmet — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-churrasqueira.webp" alt="Churrasqueira gourmet — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🔥 2 Churrasqueiras Gourmet</p>
@@ -354,7 +354,7 @@ export default function MiranteBoacVista() {
             {/* Quadra */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-quadra.webp" alt="Quadra de streetball — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-quadra.webp" alt="Quadra de streetball — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🏀 Quadra Streetball</p>
@@ -364,7 +364,7 @@ export default function MiranteBoacVista() {
             {/* Múltipla Estação */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-multipla-estacao.webp" alt="Múltipla estação outdoor com ducha — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-multipla-estacao.webp" alt="Múltipla estação outdoor com ducha — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🏋️ Múltipla Estação + Ducha</p>
@@ -374,7 +374,7 @@ export default function MiranteBoacVista() {
             {/* Pet */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-pet.webp" alt="Play pet — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-pet.webp" alt="Play pet — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🐾 Play Pet</p>
@@ -384,7 +384,7 @@ export default function MiranteBoacVista() {
             {/* Playground */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-playground.webp" alt="Playground infantil — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-playground.webp" alt="Playground infantil — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🎪 Play Kids</p>
@@ -401,7 +401,7 @@ export default function MiranteBoacVista() {
             {/* Fitness */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-fitness.webp" alt="Academia fitness — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-fitness.webp" alt="Academia fitness — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">💪 Fitness (Academia Coberta)</p>
@@ -411,7 +411,7 @@ export default function MiranteBoacVista() {
             {/* Office */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-office.webp" alt="Espaço office coworking — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-office.webp" alt="Espaço office coworking — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">💼 Espaço Office</p>
@@ -421,7 +421,7 @@ export default function MiranteBoacVista() {
             {/* Oficina */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-oficina.webp" alt="Oficina com bicicletário — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-oficina.webp" alt="Oficina com bicicletário — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🔧 Oficina + Bicicletário</p>
@@ -431,7 +431,7 @@ export default function MiranteBoacVista() {
             {/* Mini Market */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-mini-market.webp" alt="Mini market no condomínio — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-mini-market.webp" alt="Mini market no condomínio — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🛒 Mini Market</p>
@@ -441,7 +441,7 @@ export default function MiranteBoacVista() {
             {/* Brinquedoteca */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-brinquedoteca.webp" alt="Brinquedoteca infantil — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-brinquedoteca.webp" alt="Brinquedoteca infantil — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">🧸 Brinquedoteca</p>
@@ -451,7 +451,7 @@ export default function MiranteBoacVista() {
             {/* Play Baby */}
             <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200 group">
               <div className="aspect-video overflow-hidden">
-                <img src="/mirante-boa-vista-play-baby.webp" alt="Play baby para bebês — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <img width={1110} height={600} src="/mirante-boa-vista-play-baby.webp" alt="Play baby para bebês — Mirante Boa Vista" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div className="p-3 bg-white">
                 <p className="font-bold text-slate-900 text-sm">👶 Play Baby</p>
@@ -483,7 +483,7 @@ export default function MiranteBoacVista() {
 
               {/* Planta com varanda (imagem) */}
               <div className="mb-5 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                <img
+                <img width={1400} height={788}
                   src="/mirante-boa-vista-planta-varanda.webp"
                   alt="Planta 2 quartos com varanda — Mirante Boa Vista São Cristóvão"
                   className="w-full object-contain bg-white"
@@ -538,7 +538,7 @@ export default function MiranteBoacVista() {
 
               {/* Garden image */}
               <div className="mt-5 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
-                <img
+                <img width={1110} height={600}
                   src="/mirante-boa-vista-garden.webp"
                   alt="Área externa privativa do apartamento garden — Mirante Boa Vista São Cristóvão"
                   className="w-full object-cover max-h-52"

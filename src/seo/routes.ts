@@ -115,8 +115,8 @@ export const BASE_ORGANIZATION_DATA = {
 export const ROUTES: SeoRoute[] = [
   {
     path: '/',
-    title: 'Minha Casa Minha Vida em Itaboraí-RJ | Quero Meu MCMV',
-    description: 'Joel Marcos, corretor especialista em Minha Casa Minha Vida em Itaboraí-RJ. Sinal a partir de R$ 500. Atende São Gonçalo e Niterói. Simule agora!',
+    title: 'Minha Casa Minha Vida em Itaboraí e Região | Quero Meu MCMV',
+    description: 'Descubra quanto falta para sair do aluguel: apartamentos Minha Casa Minha Vida em Itaboraí, São Gonçalo e Niterói, com subsídio de até R$ 55 mil.',
     h1: 'Saia do aluguel! Seu apartamento Minha Casa Minha Vida em Itaboraí',
     schemaType: 'WebSite',
     priority: '1.0',
@@ -146,9 +146,9 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/minha-casa-minha-vida-itaborai',
-    title: 'Minha Casa Minha Vida em Itaboraí: Apartamentos 2026',
-    description: 'Apartamentos MCMV em Itaboraí: sinal R$ 1.000, condomínio fechado e lazer completo. Corretor CRECI especialista local. Simule e fale com Joel!',
-    h1: 'Minha Casa Minha Vida em Itaboraí - RJ',
+    title: 'Apartamentos Minha Casa Minha Vida em Itaboraí: Lançamentos',
+    description: 'Lançamentos MCMV em Itaboraí com condomínio fechado, lazer e parcela que pode ser menor que o aluguel. Compare os empreendimentos e descubra a sua condição.',
+    h1: 'Apartamentos Minha Casa Minha Vida em Itaboraí: lançamentos 2026',
     schemaType: 'CollectionPage',
     priority: '0.9',
     changefreq: 'weekly',
@@ -167,14 +167,14 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Como funciona a entrada?',
-        answer: 'A entrada varia de acordo com a aprovação de crédito da Caixa, o valor do imóvel e o subsídio concedido. Em alguns lançamentos, é possível dar um sinal a partir de R$ 500 ou R$ 1.000 e parcelar o restante da entrada direto com a construtora.',
+        answer: 'A entrada varia de acordo com a aprovação de crédito da Caixa, o valor do imóvel e o subsídio concedido. Em muitos lançamentos, parte da entrada pode ser parcelada direto com a construtora durante a obra — na simulação você descobre exatamente quanto precisa.',
       },
     ],
   },
   {
     path: '/minha-casa-minha-vida-sao-goncalo',
-    title: 'Minha Casa Minha Vida em São Gonçalo: Apartamentos 2026',
-    description: 'Apartamentos MCMV em São Gonçalo: entrada facilitada, perto da Universo, corretor CRECI 39.583F. Simule seu financiamento — fale com Joel agora!',
+    title: 'Minha Casa Minha Vida em São Gonçalo: Lançamentos 2026',
+    description: 'Apartamentos MCMV em Alcântara, Trindade, Vila Iara e perto do Shopping São Gonçalo. Compare os lançamentos e descubra a parcela que cabe no seu bolso.',
     h1: 'Minha Casa Minha Vida em São Gonçalo - RJ',
     schemaType: 'CollectionPage',
     priority: '0.9',
@@ -219,7 +219,7 @@ export const ROUTES: SeoRoute[] = [
       addressRegion: 'RJ',
       neighborhood: 'Próximo ao Shopping São Gonçalo',
       numberOfBedrooms: 2,
-      image: 'https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp',
+      image: 'https://queromeumcmv.com.br/unic-sao-goncalo-fachada.webp',
       commercialCondition: 'Financiamento Caixa — Minha Casa Minha Vida',
       amenities: [
         { name: 'Piscinas', value: '2 (rooftop)' },
@@ -268,6 +268,7 @@ export const ROUTES: SeoRoute[] = [
     description:
       'Lançamento Tenda Mirante Boa Vista em São Cristóvão-RJ: 441 apartamentos 1 e 2 quartos a partir de R$ 295 mil, piscina adulto e infantil, academia, salão gourmet. Entrada R$ 499/mês. ITBI grátis.',
     h1: 'Mirante Boa Vista — Apartamentos 1 e 2 Quartos em São Cristóvão, Rio de Janeiro',
+    noindex: true,
     schemaType: 'ApartmentComplex',
     priority: '0.9',
     changefreq: 'weekly',
@@ -311,7 +312,7 @@ export const ROUTES: SeoRoute[] = [
       {
         question: 'O Mirante Boa Vista é pelo Minha Casa Minha Vida?',
         answer:
-          'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda a partir de R$ 5.500.',
+          'Sim. O Mirante Boa Vista, da Construtora Tenda, é enquadrado no programa Minha Casa Minha Vida, com financiamento pela Caixa Econômica Federal e subsídio de até R$ 55 mil para famílias com renda de até R$ 5.000 (Faixas 1 e 2).',
       },
       {
         question: 'Qual a localização do Mirante Boa Vista?',
@@ -331,9 +332,120 @@ export const ROUTES: SeoRoute[] = [
     ],
   },
   {
+    path: '/vert-alcantara',
+    title: 'Vert Alcântara Direcional: Apartamentos MCMV em São Gonçalo',
+    description: 'Studio, 1 e 2 quartos de 36 a 77 m² no coração de Alcântara, com +15 itens de lazer e unidades garden. Descubra a sua parcela no Minha Casa Minha Vida.',
+    h1: 'Direcional Vert Alcântara — Apartamentos MCMV em São Gonçalo com Padrão de Condomínio Clube',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'MCMV São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
+      { name: 'Vert Alcântara', path: '/vert-alcantara' },
+    ],
+    development: {
+      name: 'Direcional Vert Alcântara',
+      developer: 'Direcional Engenharia',
+      addressLocality: 'São Gonçalo',
+      addressRegion: 'RJ',
+      neighborhood: 'Alcântara — Estrada dos Menezes, ao lado do Atacadão',
+      numberOfBedrooms: '1 e 2',
+      image: 'https://queromeumcmv.com.br/vert-alcantara-fachada.webp',
+      commercialCondition: 'Financiamento Caixa — Minha Casa Minha Vida',
+      amenities: [
+        { name: 'Metragem', value: '36 m² a 77 m²' },
+        { name: 'Piscina Adulto e Infantil', value: 'Sim' },
+        { name: 'Coworking', value: 'Sim' },
+        { name: 'Lavanderia Coletiva', value: 'Sim' },
+        { name: 'Quadra de Areia', value: 'Sim' },
+        { name: 'Fitness Externo', value: 'Sim' },
+        { name: 'Salão de Festas Gourmet', value: 'Sim' },
+        { name: 'Guarita Blindada', value: '24h' },
+      ],
+    },
+    faqs: [
+      {
+        question: 'O que é o Direcional Vert Alcântara?',
+        answer:
+          'É um lançamento da Direcional Engenharia em Alcântara, São Gonçalo-RJ, com apartamentos de 36 a 77 m² (studio, 1 e 2 quartos, com varanda e opções garden), mais de 15 itens de lazer e elegível ao Minha Casa Minha Vida.',
+      },
+      {
+        question: 'O Vert Alcântara é pelo Minha Casa Minha Vida?',
+        answer:
+          'Sim. É elegível ao MCMV, com financiamento pela Caixa, juros reduzidos, composição de renda com até 3 pessoas e uso do FGTS. Famílias com renda de até R$ 5.000 (Faixas 1 e 2) podem ainda receber subsídio.',
+      },
+      {
+        question: 'Onde fica o Vert Alcântara?',
+        answer:
+          'Na Estrada dos Menezes, s/n, em Alcântara, São Gonçalo-RJ — ao lado do Atacadão Alcântara e próximo à RJ-104, a cerca de 15 minutos de Niterói.',
+      },
+      {
+        question: 'Quais são as tipologias do Vert Alcântara?',
+        answer:
+          'Studio/1 quarto com varanda (incluindo PcD), 2 quartos tipo meio com varanda, 2 quartos tipo ponta e unidades garden com quintal privativo, de 36 a 77 m².',
+      },
+    ],
+  },
+  {
+    path: '/apartamentos-mar-de-trindade',
+    title: 'Residencial Mar de Trindade MRV: 2 Quartos MCMV em Alcântara',
+    description: '2 quartos de 42 a 75,9 m² com suíte, varanda e garden em Alcântara, São Gonçalo, a partir de R$ 270.990. Veja as plantas e simule a sua parcela.',
+    h1: 'Residencial Mar de Trindade — o primeiro de Alcântara com suíte, varanda e garden',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'MCMV São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
+      { name: 'Mar de Trindade', path: '/apartamentos-mar-de-trindade' },
+    ],
+    development: {
+      name: 'Residencial Mar de Trindade',
+      developer: 'MRV Engenharia',
+      addressLocality: 'São Gonçalo',
+      addressRegion: 'RJ',
+      neighborhood: 'Alcântara — Estrada dos Menezes, ao lado do Atacadão',
+      numberOfBedrooms: 2,
+      image: 'https://queromeumcmv.com.br/mar-de-trindade-foto-aerea.webp',
+      commercialCondition: 'A partir de R$ 270.990 — Financiamento Caixa, Minha Casa Minha Vida',
+      amenities: [
+        { name: 'Unidades', value: '504 em 3 torres' },
+        { name: 'Metragem', value: '42 m² a 75,9 m²' },
+        { name: 'Unidades Garden', value: '36' },
+        { name: 'Piscina Adulto e Infantil', value: 'Sim' },
+        { name: 'Academia', value: 'Sim' },
+        { name: 'Quadra Poliesportiva', value: 'Sim' },
+        { name: 'Salão de Festas', value: 'Sim' },
+        { name: 'Espaço Kids', value: 'Sim' },
+      ],
+    },
+    faqs: [
+      {
+        question: 'Qual o preço do Residencial Mar de Trindade?',
+        answer:
+          'Os apartamentos partem de R$ 270.990 para a planta de 42 m². Pelo Minha Casa Minha Vida, famílias com renda de até R$ 5.000 (Faixas 1 e 2) podem receber subsídio, e as demais faixas têm juros reduzidos pela Caixa e podem usar o FGTS.',
+      },
+      {
+        question: 'Onde fica o Residencial Mar de Trindade?',
+        answer:
+          'Na Estrada dos Menezes, em Alcântara, São Gonçalo-RJ — ao lado do Atacadão e a 5 minutos do Shopping Pátio Alcântara e do Terminal Rodoviário, com acesso à RJ-104.',
+      },
+      {
+        question: 'Quando o Residencial Mar de Trindade será entregue?',
+        answer: 'A previsão de entrega é dezembro de 2028. O empreendimento foi lançado em agosto de 2025 pela MRV Engenharia.',
+      },
+      {
+        question: 'O Residencial Mar de Trindade tem apartamento garden?',
+        answer:
+          'Sim. São 36 unidades garden no térreo, com áreas privativas externas de 19 m² a 31,86 m².',
+      },
+    ],
+  },
+  {
     path: '/niteroirj',
     title: 'Minha Casa Minha Vida em Niterói-RJ: Apartamentos 2026',
-    description: 'Apartamentos Minha Casa Minha Vida em Niterói-RJ com financiamento pela Caixa Econômica Federal. Atendimento consultivo com corretor CRECI 39.583F. Simule grátis.',
+    description: 'Quer morar em Niterói ou a 15 minutos dela pagando parcela de Minha Casa Minha Vida? Veja as faixas de renda, o subsídio e as opções para o seu orçamento.',
     h1: 'Minha Casa Minha Vida em Niterói - RJ',
     schemaType: 'CollectionPage',
     priority: '0.8',
@@ -349,7 +461,7 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Qual a renda mínima para financiar em Niterói pelo MCMV?',
-        answer: 'A renda familiar bruta deve ser de até R$ 8.000 (Faixa 2) ou até R$ 4.400 (Faixa 1, com maior subsídio). Trabalhadores formais, informais e MEIs podem participar, desde que comprovem renda conforme as exigências da Caixa Econômica Federal.',
+        answer: 'Não existe renda mínima: o programa atende famílias com renda bruta de até R$ 13.000, divididas em 4 faixas (até R$ 3.200, R$ 5.000, R$ 9.600 e R$ 13.000). Quem ganha até R$ 5.000 ainda pode receber subsídio. Trabalhadores formais, informais e MEIs podem participar, desde que comprovem renda conforme as exigências da Caixa Econômica Federal.',
       },
       {
         question: 'Joel Marcos atende presencialmente em Niterói?',
@@ -363,8 +475,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/financiamento-minha-casa-minha-vida',
-    title: 'Financiamento Minha Casa Minha Vida: Como Funciona em 2026',
-    description: 'Entenda o financiamento MCMV pela Caixa Econômica: juros, prazo, entrada, FGTS e composição de renda. Simule grátis e fale com corretor Joel!',
+    title: 'Financiamento MCMV em Itaboraí e São Gonçalo: Guia 2026',
+    description: 'Juros, prazo, entrada e FGTS explicados por um corretor da região. Descubra quanto você pode financiar antes de escolher o seu apartamento.',
     h1: 'Como funciona o Financiamento Minha Casa Minha Vida',
     schemaType: 'Article',
     priority: '0.9',
@@ -398,9 +510,9 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/subsidio-minha-casa-minha-vida',
-    title: 'Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe',
-    description: 'Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região.',
-    h1: 'O que é o Subsídio do Minha Casa Minha Vida?',
+    title: 'Subsídio MCMV 2026 em Itaboraí e Região: Quanto Você Recebe',
+    description: 'Até R$ 55 mil que você não devolve: veja quem tem direito ao subsídio do Minha Casa Minha Vida em 2026 e quanto ele pode reduzir a sua entrada.',
+    h1: 'Subsídio do Minha Casa Minha Vida 2026: quanto você recebe em Itaboraí e região',
     schemaType: 'Article',
     priority: '0.8',
     changefreq: 'monthly',
@@ -425,9 +537,9 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/fgts-minha-casa-minha-vida',
-    title: 'Como Usar o FGTS no Minha Casa Minha Vida',
-    description: 'Veja como usar o saldo do FGTS na entrada e nas parcelas do MCMV, quais as regras e quem pode usar.',
-    h1: 'Como usar o FGTS no Minha Casa Minha Vida',
+    title: 'Como Usar o FGTS no Minha Casa Minha Vida em 2026',
+    description: 'O seu FGTS pode virar a entrada do apartamento. Veja as regras de 2026, quem pode usar e como somar com o subsídio para comprar em Itaboraí e região.',
+    h1: 'Como usar o FGTS no Minha Casa Minha Vida em 2026',
     schemaType: 'Article',
     priority: '0.8',
     changefreq: 'monthly',
@@ -452,9 +564,9 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/renda-minha-casa-minha-vida',
-    title: 'Faixas de Renda do Minha Casa Minha Vida 2026',
-    description: 'Confira as faixas 1, 2, 3 e 4 do MCMV em 2026, o limite de renda e o valor máximo do imóvel em cada uma.',
-    h1: 'A Renda no Minha Casa Minha Vida',
+    title: 'Faixas de Renda do Minha Casa Minha Vida 2026: Qual É a Sua?',
+    description: 'De R$ 3.200 a R$ 13.000: descubra em qual faixa do MCMV a sua família entra, o valor máximo do imóvel e os juros de cada uma.',
+    h1: 'Faixas de renda do Minha Casa Minha Vida 2026: em qual a sua família entra?',
     schemaType: 'Article',
     priority: '0.8',
     changefreq: 'monthly',
@@ -479,9 +591,9 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/documentos-minha-casa-minha-vida',
-    title: 'Documentos para o Minha Casa Minha Vida (Caixa)',
-    description: 'Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda.',
-    h1: 'Documentos necessários para o Financiamento',
+    title: 'Documentos para o Minha Casa Minha Vida: Lista 2026 (Caixa)',
+    description: 'CLT, autônomo, MEI ou renda composta: a lista completa de documentos que a Caixa pede no MCMV, para você não travar na análise de crédito.',
+    h1: 'Documentos para o Minha Casa Minha Vida: a lista completa de 2026',
     schemaType: 'Article',
     priority: '0.8',
     changefreq: 'monthly',
@@ -537,9 +649,9 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/sobre',
-    title: 'Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F',
-    description: 'Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!',
-    h1: 'Joel Marcos, Corretor Especialista em Minha Casa Minha Vida em Itaboraí',
+    title: 'Joel Marcos, Corretor de Imóveis em Itaboraí | CRECI 39.583F',
+    description: 'Corretor de imóveis desde 2002, especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Niterói. Conheça quem vai cuidar da sua compra.',
+    h1: 'Joel Marcos, Corretor de Imóveis em Itaboraí Especialista em Minha Casa Minha Vida',
     schemaType: 'AboutPage',
     priority: '0.8',
     changefreq: 'monthly',
@@ -550,8 +662,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/reserva-dos-passaros-2',
-    title: 'Reserva dos Pássaros 2, Itaboraí: MCMV 2 Quartos',
-    description: 'Apartamentos de 2 quartos com vaga no Reserva dos Pássaros 2, em Itaboraí. Sinal de R$ 1.000 e parcelas a partir de R$ 650.',
+    title: 'Reserva dos Pássaros 2, Itaboraí: Casas 2 Quartos MCMV',
+    description: 'Casa própria em condomínio fechado em Itaboraí: 2 quartos, vaga e parcelas a partir de R$ 650*. Veja como o subsídio do MCMV reduz a sua entrada.',
     h1: 'Reserva dos Pássaros 2: Casas 2 Quartos em Condomínio Clube',
     schemaType: 'ApartmentComplex',
     priority: '0.8',
@@ -569,7 +681,7 @@ export const ROUTES: SeoRoute[] = [
       neighborhood: 'Retiro São Joaquim / Vila Rica',
       numberOfBedrooms: 2,
       image: `${CANONICAL_DOMAIN}/fachada-da-casa-reserva-dos-passaros.webp`,
-      commercialCondition: 'Sinal a partir de R$ 1.000, parcelas a partir de R$ 650 e subsídio de até R$ 55 mil Caixa',
+      commercialCondition: 'Parcelas a partir de R$ 650 e subsídio de até R$ 55 mil — Caixa, Minha Casa Minha Vida',
       amenities: [
         { name: 'Vaga de Garagem', value: 'True' },
         { name: 'Condomínio Fechado', value: 'True' },
@@ -602,8 +714,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/prime-club-itaborai',
-    title: 'Prime Club Itaboraí: Apartamentos MCMV 2 Quartos',
-    description: 'Prime Club Itaboraí: 2 quartos, vaga, condomínio fechado e lazer completo. Entrada facilitada em até 72x. Simule.',
+    title: 'Prime Clube Itaboraí: Apartamentos 2 Quartos MCMV',
+    description: 'Condomínio clube em Itaboraí com 2 quartos, vaga e lazer completo. Entrada parcelada em até 72x e subsídio de até R$ 55 mil. Veja se você se encaixa.',
     h1: 'Prime Club Itaboraí: Apartamentos 2 Quartos com Lazer Completo',
     schemaType: 'ApartmentComplex',
     priority: '0.8',
@@ -619,7 +731,7 @@ export const ROUTES: SeoRoute[] = [
       addressRegion: 'RJ',
       numberOfBedrooms: 2,
       image: `${CANONICAL_DOMAIN}/capa-do-site-prime-club-itaborai.webp`,
-      commercialCondition: 'Sinal a partir de R$ 1.000, entrada facilitada em até 72x e subsídio de até R$ 55 mil Caixa',
+      commercialCondition: 'Entrada parcelada em até 72x e subsídio de até R$ 55 mil — Caixa, Minha Casa Minha Vida',
       amenities: [
         { name: 'Vaga de Garagem', value: 'True' },
         { name: 'Condomínio Fechado', value: 'True' },
@@ -650,8 +762,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/flores-de-maio',
-    title: 'Flores de Maio, Santo Expedito, Itaboraí: MCMV',
-    description: 'Flores de Maio, a 5 min do centro de Itaboraí: 2 quartos, vaga e lazer. Sinal a partir de R$ 1.000 + subsídio.',
+    title: 'Flores de Maio, Itaboraí: Apartamentos 2 Quartos MCMV',
+    description: 'A 5 minutos do Centro de Itaboraí, em Santo Expedito: 2 quartos com varanda, vaga e lazer em condomínio. Descubra quanto o subsídio reduz a sua entrada.',
     h1: 'Flores de Maio: Apartamentos 2 Quartos com Varanda em Condomínio',
     schemaType: 'ApartmentComplex',
     priority: '0.8',
@@ -669,7 +781,7 @@ export const ROUTES: SeoRoute[] = [
       neighborhood: 'Santo Expedito',
       numberOfBedrooms: 2,
       image: `${CANONICAL_DOMAIN}/fachada-flores-de-maio.webp`,
-      commercialCondition: 'Sinal a partir de R$ 1.000 com subsídio de até R$ 55 mil Caixa',
+      commercialCondition: 'Subsídio de até R$ 55 mil — Caixa, Minha Casa Minha Vida',
       amenities: [
         { name: 'Vaga de Garagem', value: 'True' },
         { name: 'Condomínio Fechado', value: 'True' },
@@ -701,8 +813,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/residencial-florescer',
-    title: 'Residencial Florescer, Vila Iara, São Gonçalo',
-    description: 'Lançamento em Vila Iara, São Gonçalo: 2 e 3 quartos com suíte, 1 ou 2 vagas, condomínio fechado e lazer completo.',
+    title: 'Residencial Florescer, Vila Iara: 2 e 3 Quartos com Suíte',
+    description: 'Lançamento em Vila Iara, São Gonçalo: 2 e 3 quartos com suíte e varanda gourmet, 1 ou 2 vagas e lazer completo. Conheça as plantas e as condições.',
     h1: 'Residencial Florescer: 2 e 3 Quartos com Suíte e Varanda Gourmet',
     schemaType: 'ApartmentComplex',
     priority: '0.8',
@@ -751,8 +863,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/solar-da-trindade',
-    title: 'Solar da Trindade, São Gonçalo: MCMV perto da Universo',
-    description: 'A 300 m da Universo: 2 quartos com vaga no Solar da Trindade. Sinal a partir de R$ 500 e entrada em até 100x.',
+    title: 'Solar da Trindade, São Gonçalo: MCMV Perto da Universo',
+    description: 'A 300 m da Universo, em Trindade: 2 quartos com vaga em condomínio clube e entrada parcelada em até 100x. Veja se a parcela cabe no seu bolso.',
     h1: 'Solar da Trindade: Apartamentos 2 Quartos em Condomínio Clube',
     schemaType: 'ApartmentComplex',
     priority: '0.8',
@@ -770,7 +882,7 @@ export const ROUTES: SeoRoute[] = [
       neighborhood: 'Trindade',
       numberOfBedrooms: 2,
       image: `${CANONICAL_DOMAIN}/fachada-solar-trindade.webp`,
-      commercialCondition: 'Sinal a partir de R$ 500 e entrada parcelada em até 100x com subsídio Caixa',
+      commercialCondition: 'Entrada parcelada em até 100x e subsídio Caixa — Minha Casa Minha Vida',
       amenities: [
         { name: 'Vaga de Garagem', value: 'True' },
         { name: 'Condomínio Fechado', value: 'True' },
@@ -791,7 +903,7 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Como funciona o financiamento para o Solar da Trindade?',
-        answer: 'O financiamento é facilitado pela Caixa no Minha Casa Minha Vida, com sinal a partir de R$ 500 e entrada parcelada em até 100x.',
+        answer: 'O financiamento é facilitado pela Caixa no Minha Casa Minha Vida, com entrada parcelada em até 100x durante a obra.',
       },
       {
         question: 'Quem é a construtora responsável?',
@@ -801,8 +913,8 @@ export const ROUTES: SeoRoute[] = [
   },
   {
     path: '/conquista-oceanica',
-    title: 'Conquista Oceânica, Maricá: Lançamento MCMV',
-    description: 'Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000.',
+    title: 'Conquista Oceânica, Maricá: Lançamento MCMV 1 e 2 Quartos',
+    description: 'Lançamento em Maricá, a minutos das praias: 1 e 2 quartos com garden, vaga e lazer entregue equipado. Descubra a sua condição no Minha Casa Minha Vida.',
     h1: 'Conquista Oceânica: 1 e 2 Quartos a Minutos das Praias de Niterói',
     schemaType: 'ApartmentComplex',
     priority: '0.8',
@@ -819,7 +931,7 @@ export const ROUTES: SeoRoute[] = [
       neighborhood: 'Divisa Niterói',
       numberOfBedrooms: '1 e 2',
       image: `${CANONICAL_DOMAIN}/fachada-conquista-oceanica.webp`,
-      commercialCondition: 'Sinal a partir de R$ 1.000 e financiamento pelo Minha Casa Minha Vida',
+      commercialCondition: 'Financiamento Caixa — Minha Casa Minha Vida',
       amenities: [
         { name: 'Vaga de Garagem', value: 'True' },
         { name: 'Condomínio Fechado', value: 'True' },
@@ -845,7 +957,7 @@ export const ROUTES: SeoRoute[] = [
       },
       {
         question: 'Quais as formas de pagamento?',
-        answer: 'O imóvel pode ser financiado pelo programa Minha Casa Minha Vida, permitindo uso do FGTS e sinal facilitado.',
+        answer: 'O imóvel pode ser financiado pelo programa Minha Casa Minha Vida, permitindo uso do FGTS e entrada facilitada.',
       },
     ],
   },

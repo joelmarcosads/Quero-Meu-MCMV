@@ -10,19 +10,19 @@ export default function SubsidioMcmv() {
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe</title>
-        <meta name="description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região." />
+        <title>Subsídio MCMV 2026 em Itaboraí e Região: Quanto Você Recebe</title>
+        <meta name="description" content="Até R$ 55 mil que você não devolve: veja quem tem direito ao subsídio do Minha Casa Minha Vida em 2026 e quanto ele pode reduzir a sua entrada." />
         <link rel="canonical" href="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe" />
-        <meta property="og:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região." />
+        <meta property="og:title" content="Subsídio MCMV 2026 em Itaboraí e Região: Quanto Você Recebe" />
+        <meta property="og:description" content="Até R$ 55 mil que você não devolve: veja quem tem direito ao subsídio do Minha Casa Minha Vida em 2026 e quanto ele pode reduzir a sua entrada." />
         <meta property="og:url" content="https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Subsídio Minha Casa Minha Vida 2026: Quanto Você Recebe" />
-        <meta name="twitter:description" content="Saiba quem tem direito ao subsídio do MCMV, como é calculado e quanto pode chegar a receber em Itaboraí e região." />
+        <meta name="twitter:title" content="Subsídio MCMV 2026 em Itaboraí e Região: Quanto Você Recebe" />
+        <meta name="twitter:description" content="Até R$ 55 mil que você não devolve: veja quem tem direito ao subsídio do Minha Casa Minha Vida em 2026 e quanto ele pode reduzir a sua entrada." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       
@@ -31,10 +31,16 @@ export default function SubsidioMcmv() {
       <main className="flex-grow bg-slate-50 py-12">
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            O que é o Subsídio do Minha Casa Minha Vida?
+            Subsídio do Minha Casa Minha Vida 2026: quanto você recebe em Itaboraí e região
           </h1>
           
-          <ArticleMeta date="17 de Setembro de 2026" />
+          <ArticleMeta date="25 de Novembro de 2026" />
+
+          <aside className="not-prose my-6 rounded-xl border-l-4 border-primary bg-blue-50 p-5 answer-box" aria-label="Resposta rápida">
+            <p className="text-sm font-bold uppercase tracking-wide text-primary mb-1">Resposta rápida</p>
+            <p className="text-slate-800 leading-relaxed">O subsídio do Minha Casa Minha Vida é um desconto de até R$ 55 mil pago pelo governo, que reduz a sua entrada e não precisa ser devolvido. Em 2026 ele vale para famílias com renda bruta de até R$ 5.000 (Faixas 1 e 2) que não têm imóvel próprio. O valor exato depende da renda, do tamanho da família e da cidade do imóvel.</p>
+          </aside>
+
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             

@@ -10,19 +10,19 @@ export default function DocumentosMcmv() {
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Documentos para o Minha Casa Minha Vida (Caixa)</title>
-        <meta name="description" content="Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda." />
+        <title>Documentos para o Minha Casa Minha Vida: Lista 2026 (Caixa)</title>
+        <meta name="description" content="CLT, autônomo, MEI ou renda composta: a lista completa de documentos que a Caixa pede no MCMV, para você não travar na análise de crédito." />
         <link rel="canonical" href="https://queromeumcmv.com.br/documentos-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Documentos para o Minha Casa Minha Vida (Caixa)" />
-        <meta property="og:description" content="Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda." />
+        <meta property="og:title" content="Documentos para o Minha Casa Minha Vida: Lista 2026 (Caixa)" />
+        <meta property="og:description" content="CLT, autônomo, MEI ou renda composta: a lista completa de documentos que a Caixa pede no MCMV, para você não travar na análise de crédito." />
         <meta property="og:url" content="https://queromeumcmv.com.br/documentos-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Documentos para o Minha Casa Minha Vida (Caixa)" />
-        <meta name="twitter:description" content="Lista completa de documentos para financiar pelo MCMV na Caixa: CLT, autônomo, MEI e composição de renda." />
+        <meta name="twitter:title" content="Documentos para o Minha Casa Minha Vida: Lista 2026 (Caixa)" />
+        <meta name="twitter:description" content="CLT, autônomo, MEI ou renda composta: a lista completa de documentos que a Caixa pede no MCMV, para você não travar na análise de crédito." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       
@@ -31,10 +31,16 @@ export default function DocumentosMcmv() {
       <main className="flex-grow bg-slate-50 py-12">
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            Documentos necessários para o Financiamento
+            Documentos para o Minha Casa Minha Vida: a lista completa de 2026
           </h1>
           
-          <ArticleMeta date="17 de Setembro de 2026" />
+          <ArticleMeta date="25 de Novembro de 2026" />
+
+          <aside className="not-prose my-6 rounded-xl border-l-4 border-primary bg-blue-50 p-5 answer-box" aria-label="Resposta rápida">
+            <p className="text-sm font-bold uppercase tracking-wide text-primary mb-1">Resposta rápida</p>
+            <p className="text-slate-800 leading-relaxed">Para começar, a Caixa pede RG e CPF, comprovante de estado civil, comprovante de residência, comprovantes de renda dos últimos meses (holerite, extrato bancário ou declaração de Imposto de Renda, no caso de autônomos) e o extrato do FGTS, se você for usá-lo. A lista final é confirmada na análise de crédito.</p>
+          </aside>
+
           
           <div className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-p:text-slate-700 prose-p:leading-relaxed">
             

@@ -81,7 +81,7 @@ const schemaJsonLd = {
           name: 'Qual o preço do Residencial Mar de Trindade?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Os apartamentos do Residencial Mar de Trindade partem de R$ 270.990 para a planta de 42 m². Com o Minha Casa Minha Vida, famílias com renda até R$ 8.000 podem acessar subsídios do governo, juros reduzidos pela Caixa Econômica Federal e uso do FGTS como entrada. Consulte um corretor credenciado CRECI para simular sua parcela.',
+            text: 'Os apartamentos do Residencial Mar de Trindade partem de R$ 270.990 para a planta de 42 m². Pelo Minha Casa Minha Vida, famílias com renda de até R$ 5.000 (Faixas 1 e 2) podem receber subsídio do governo, e todas as faixas têm juros reduzidos pela Caixa e podem usar o FGTS como entrada. Consulte um corretor credenciado CRECI para simular sua parcela.',
           },
         },
         {
@@ -192,18 +192,18 @@ export default function MarDeTrindade() {
       <Header />
 
       <Helmet>
-        <title>Residencial Mar de Trindade MRV | Apartamentos MCMV São Gonçalo RJ | 2 Quartos a partir de R$ 270.990</title>
+        <title>Residencial Mar de Trindade MRV: 2 Quartos MCMV em Alcântara</title>
         <meta
           name="description"
-          content="Residencial Mar de Trindade MRV em Alcântara, São Gonçalo RJ. 2 quartos de 42 a 75,9 m² com suíte, varanda e garden. Piscina, academia, salão de festas e quadra. MCMV a partir de R$ 270.990. Consulte Joel Marcos, corretor CRECI."
+          content="2 quartos de 42 a 75,9 m² com suíte, varanda e garden em Alcântara, São Gonçalo, a partir de R$ 270.990. Veja as plantas e simule a sua parcela."
         />
         <meta name="keywords" content="Mar de Trindade, apartamentos São Gonçalo, MCMV Alcântara, MRV São Gonçalo, apartamentos Alcântara RJ, Minha Casa Minha Vida São Gonçalo, apartamentos 2 quartos São Gonçalo" />
         <link rel="canonical" href="https://queromeumcmv.com.br/apartamentos-mar-de-trindade" />
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Residencial Mar de Trindade MRV | MCMV São Gonçalo RJ" />
-        <meta property="og:description" content="2 quartos com suíte, varanda e garden em Alcântara, São Gonçalo. A partir de R$ 270.990 pelo MCMV. Lazer de clube: piscina, academia, salão de festas e quadra." />
+        <meta property="og:title" content="Residencial Mar de Trindade MRV: 2 Quartos MCMV em Alcântara" />
+        <meta property="og:description" content="2 quartos de 42 a 75,9 m² com suíte, varanda e garden em Alcântara, São Gonçalo, a partir de R$ 270.990. Veja as plantas e simule a sua parcela." />
         <meta property="og:url" content="https://queromeumcmv.com.br/apartamentos-mar-de-trindade" />
         <meta property="og:image" content="https://queromeumcmv.com.br/mar-de-trindade-guarita.webp" />
         <meta property="og:locale" content="pt_BR" />
@@ -321,7 +321,7 @@ export default function MarDeTrindade() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { icon: '💰', titulo: 'Subsídio do Governo', desc: 'Até R$ 55 mil de desconto no valor do imóvel para renda até R$ 4.400.' },
+              { icon: '💰', titulo: 'Subsídio do Governo', desc: 'Até R$ 55 mil de desconto no valor do imóvel para renda de até R$ 5.000.' },
               { icon: '📉', titulo: 'Juros da Caixa', desc: 'Taxa a partir de 4% a.a. — muito abaixo do mercado convencional (12%+).' },
               { icon: '👨‍👩‍👧', titulo: 'Composição de Renda', desc: 'Some a renda de até 3 pessoas da família para aumentar o poder de compra.' },
               { icon: '🏦', titulo: 'FGTS como Entrada', desc: 'Use o saldo do seu FGTS para dar entrada ou abater o saldo devedor.' },
@@ -398,7 +398,7 @@ export default function MarDeTrindade() {
           {/* Área Privativa Garden */}
           <div className="mt-6 rounded-2xl overflow-hidden shadow-lg">
             <div className="relative">
-              <img
+              <img width={1363} height={767}
                 src="/mar-de-trindade-area-privativa.webp"
                 alt="Área privativa garden do Residencial Mar de Trindade — exclusivo no MCMV de Alcântara"
                 className="w-full h-72 object-cover object-center"
@@ -436,7 +436,7 @@ export default function MarDeTrindade() {
 
           {/* Foto Aérea */}
           <div className="mb-10 rounded-2xl overflow-hidden shadow-xl">
-            <img
+            <img width={800} height={450}
               src="/mar-de-trindade-foto-aerea.webp"
               alt="Vista aérea do Residencial Mar de Trindade em Alcântara São Gonçalo com pontos de referência próximos"
               className="w-full h-72 md:h-96 object-cover object-center"

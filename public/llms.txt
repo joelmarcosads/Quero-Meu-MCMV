@@ -1,5 +1,5 @@
 # Quero Meu MCMV
-> Joel Marcos é corretor de imóveis (CRECI 39.583F) especialista no programa Minha Casa Minha Vida em Itaboraí-RJ, com atendimento também em São Gonçalo, Niterói e Maricá.
+> Joel Marcos é corretor de imóveis (CRECI 39.583F), no mercado desde 2002, especialista no programa Minha Casa Minha Vida em Itaboraí-RJ, com atendimento também em São Gonçalo, Niterói e Maricá.
 
 ## Especialidade
 - Programa Minha Casa Minha Vida (faixas de renda, subsídio, FGTS, financiamento Caixa) com foco em Itaboraí-RJ
@@ -17,9 +17,29 @@
 ## Páginas principais
 - [MCMV em Itaboraí](https://queromeumcmv.com.br/minha-casa-minha-vida-itaborai)
 - [MCMV em São Gonçalo](https://queromeumcmv.com.br/minha-casa-minha-vida-sao-goncalo)
+- [MCMV em Niterói](https://queromeumcmv.com.br/niteroirj)
 - [Faixas de renda](https://queromeumcmv.com.br/renda-minha-casa-minha-vida)
 - [Subsídio](https://queromeumcmv.com.br/subsidio-minha-casa-minha-vida)
 - [Uso do FGTS](https://queromeumcmv.com.br/fgts-minha-casa-minha-vida)
 - [Financiamento](https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida)
 - [Documentos](https://queromeumcmv.com.br/documentos-minha-casa-minha-vida)
 - [Sobre Joel Marcos](https://queromeumcmv.com.br/sobre)
+
+## Regras do programa em 2026 (vigentes desde 22/04/2026)
+- Faixa 1: renda bruta familiar de até R$ 3.200
+- Faixa 2: até R$ 5.000
+- Faixa 3: até R$ 9.600
+- Faixa 4: até R$ 13.000
+- Subsídio de até R$ 55 mil, apenas nas Faixas 1 e 2
+- FGTS pode ser usado na entrada e na amortização (mínimo de 3 anos de trabalho com carteira assinada, somados)
+
+## Empreendimentos
+- [Prime Clube Itaboraí](https://queromeumcmv.com.br/prime-club-itaborai) — Itaboraí
+- [Flores de Maio](https://queromeumcmv.com.br/flores-de-maio) — Santo Expedito, Itaboraí
+- [Reserva dos Pássaros 2 (casas)](https://queromeumcmv.com.br/reserva-dos-passaros-2) — Itaboraí
+- [Unic São Gonçalo](https://queromeumcmv.com.br/unicsaogoncalo) — São Gonçalo
+- [Direcional Vert Alcântara](https://queromeumcmv.com.br/vert-alcantara) — Alcântara, São Gonçalo
+- [Residencial Mar de Trindade](https://queromeumcmv.com.br/apartamentos-mar-de-trindade) — Alcântara, São Gonçalo
+- [Solar da Trindade](https://queromeumcmv.com.br/solar-da-trindade) — Trindade, São Gonçalo
+- [Residencial Florescer](https://queromeumcmv.com.br/residencial-florescer) — Vila Iara, São Gonçalo
+- [Conquista Oceânica](https://queromeumcmv.com.br/conquista-oceanica) — Maricá

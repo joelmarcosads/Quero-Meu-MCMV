@@ -153,17 +153,17 @@ export default function VertAlcantara() {
       <Header />
 
       <Helmet>
-        <title>Direcional Vert Alcântara | Apartamentos MCMV São Gonçalo RJ | Lançamento</title>
-        <meta name="description" content="Lançamento Direcional Vert Alcântara em Alcântara, São Gonçalo-RJ: apartamentos 1 e 2 quartos de 36 a 77 m², piscina, coworking, lavanderia, salão gourmet e +15 itens de lazer. Elegível ao Minha Casa Minha Vida. Fale com Joel Marcos, CRECI." />
+        <title>Vert Alcântara Direcional: Apartamentos MCMV em São Gonçalo</title>
+        <meta name="description" content="Studio, 1 e 2 quartos de 36 a 77 m² no coração de Alcântara, com +15 itens de lazer e unidades garden. Descubra a sua parcela no Minha Casa Minha Vida." />
         <link rel="canonical" href="https://queromeumcmv.com.br/vert-alcantara" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Direcional Vert Alcântara | Apartamentos MCMV São Gonçalo RJ" />
-        <meta property="og:description" content="Apartamentos 1 e 2 quartos de 36 a 77 m² em Alcântara, São Gonçalo-RJ. Piscina, coworking, lavanderia, +15 itens de lazer. Elegível ao MCMV. Fale com Joel Marcos." />
+        <meta property="og:title" content="Vert Alcântara Direcional: Apartamentos MCMV em São Gonçalo" />
+        <meta property="og:description" content="Studio, 1 e 2 quartos de 36 a 77 m² no coração de Alcântara, com +15 itens de lazer e unidades garden. Descubra a sua parcela no Minha Casa Minha Vida." />
         <meta property="og:url" content="https://queromeumcmv.com.br/vert-alcantara" />
         <meta property="og:image" content="https://queromeumcmv.com.br/vert-alcantara-fachada.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Direcional Vert Alcântara | MCMV São Gonçalo RJ" />
-        <meta name="twitter:description" content="Apartamentos MCMV em Alcântara, São Gonçalo-RJ. Piscina, coworking, lavanderia coletiva e +15 itens de lazer. Fale com Joel Marcos, corretor CRECI." />
+        <meta name="twitter:title" content="Vert Alcântara Direcional: Apartamentos MCMV em São Gonçalo" />
+        <meta name="twitter:description" content="Studio, 1 e 2 quartos de 36 a 77 m² no coração de Alcântara, com +15 itens de lazer e unidades garden. Descubra a sua parcela no Minha Casa Minha Vida." />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Alcântara, São Gonçalo, Rio de Janeiro" />
         <script type="application/ld+json">{JSON.stringify(schemaJsonLd)}</script>
@@ -281,7 +281,7 @@ export default function VertAlcantara() {
           </div>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="rounded-2xl overflow-hidden shadow-md aspect-video md:aspect-auto md:row-span-2">
-              <img
+              <img width={1536} height={864}
                 src="/vert-alcantara-decorado-living.webp"
                 alt="Sala de estar e jantar integrada ao apartamento decorado — Vert Alcântara São Gonçalo"
                 className="w-full h-full object-cover"
@@ -289,7 +289,7 @@ export default function VertAlcantara() {
               />
             </div>
             <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
-              <img
+              <img width={1536} height={864}
                 src="/vert-alcantara-sala-estar-01.webp"
                 alt="Living integrado com cozinha americana e marcenaria planejada — Vert Alcântara"
                 className="w-full h-full object-cover"
@@ -297,7 +297,7 @@ export default function VertAlcantara() {
               />
             </div>
             <div className="rounded-2xl overflow-hidden shadow-md aspect-video">
-              <img
+              <img width={1536} height={864}
                 src="/vert-alcantara-sala-estar-02.webp"
                 alt="Sala de estar com painel de TV e mesa de jantar — Vert Alcântara"
                 className="w-full h-full object-cover"

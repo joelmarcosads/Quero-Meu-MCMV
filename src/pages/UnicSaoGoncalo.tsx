@@ -230,7 +230,7 @@ export default function UnicSaoGoncalo() {
           {/* Fachada como background */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/unic-sao-goncalo-fachada.jpg')" }}
+            style={{ backgroundImage: "url('/unic-sao-goncalo-fachada.webp')" }}
           />
           <div className="absolute inset-0 bg-slate-900/75" />
 
@@ -378,14 +378,14 @@ export default function UnicSaoGoncalo() {
             {/* Galeria de imagens do lazer */}
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
-                { src: '/unic-sao-goncalo-churrasco-rooftop.png', alt: 'Churrasco no Rooftop — Unic São Gonçalo', label: 'Rooftop' },
-                { src: '/unic-sao-goncalo-academia.jpg', alt: 'Academia equipada — Unic São Gonçalo', label: 'Academia' },
-                { src: '/unic-sao-goncalo-cinema.jpg', alt: 'Cinema ao ar livre — Unic São Gonçalo', label: 'Cinema Rooftop' },
-                { src: '/unic-sao-goncalo-sala-jogos.jpg', alt: 'Sala de jogos — Unic São Gonçalo', label: 'Sala de Jogos' },
-                { src: '/unic-sao-goncalo-pet-place.jpg', alt: 'Pet Place — Unic São Gonçalo', label: 'Pet Place' },
-                { src: '/unic-sao-goncalo-playground.png', alt: 'Playground — Unic São Gonçalo', label: 'Playground' },
-                { src: '/unic-sao-goncalo-espaco-gourmet.png', alt: 'Espaço gourmet — Unic São Gonçalo', label: 'Espaço Gourmet' },
-                { src: '/unic-sao-goncalo-fachada.jpg', alt: 'Fachada Unic São Gonçalo — Domma', label: 'Fachada' },
+                { src: '/unic-sao-goncalo-churrasco-rooftop.webp', alt: 'Churrasco no Rooftop — Unic São Gonçalo', label: 'Rooftop' },
+                { src: '/unic-sao-goncalo-academia.webp', alt: 'Academia equipada — Unic São Gonçalo', label: 'Academia' },
+                { src: '/unic-sao-goncalo-cinema.webp', alt: 'Cinema ao ar livre — Unic São Gonçalo', label: 'Cinema Rooftop' },
+                { src: '/unic-sao-goncalo-sala-jogos.webp', alt: 'Sala de jogos — Unic São Gonçalo', label: 'Sala de Jogos' },
+                { src: '/unic-sao-goncalo-pet-place.webp', alt: 'Pet Place — Unic São Gonçalo', label: 'Pet Place' },
+                { src: '/unic-sao-goncalo-playground.webp', alt: 'Playground — Unic São Gonçalo', label: 'Playground' },
+                { src: '/unic-sao-goncalo-espaco-gourmet.webp', alt: 'Espaço gourmet — Unic São Gonçalo', label: 'Espaço Gourmet' },
+                { src: '/unic-sao-goncalo-fachada.webp', alt: 'Fachada Unic São Gonçalo — Domma', label: 'Fachada' },
               ].map((img) => (
                 <div key={img.src} className="relative group overflow-hidden rounded-xl aspect-video bg-slate-200">
                   <img

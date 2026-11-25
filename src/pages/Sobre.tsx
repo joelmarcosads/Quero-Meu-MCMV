@@ -13,19 +13,19 @@ export default function Sobre() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F</title>
-        <meta name="description" content="Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!" />
+        <title>Joel Marcos, Corretor de Imóveis em Itaboraí | CRECI 39.583F</title>
+        <meta name="description" content="Corretor de imóveis desde 2002, especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Niterói. Conheça quem vai cuidar da sua compra." />
         <link rel="canonical" href="https://queromeumcmv.com.br/sobre" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F" />
-        <meta property="og:description" content="Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!" />
+        <meta property="og:title" content="Joel Marcos, Corretor de Imóveis em Itaboraí | CRECI 39.583F" />
+        <meta property="og:description" content="Corretor de imóveis desde 2002, especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Niterói. Conheça quem vai cuidar da sua compra." />
         <meta property="og:url" content="https://queromeumcmv.com.br/sobre" />
         <meta property="og:type" content="profile" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Joel Marcos, Corretor MCMV em Itaboraí | CRECI 39.583F" />
-        <meta name="twitter:description" content="Joel Marcos, corretor CRECI 39.583F especialista em MCMV há mais de 20 anos. Atende Itaboraí, São Gonçalo e Niterói — fale com Joel agora!" />
+        <meta name="twitter:title" content="Joel Marcos, Corretor de Imóveis em Itaboraí | CRECI 39.583F" />
+        <meta name="twitter:description" content="Corretor de imóveis desde 2002, especialista em Minha Casa Minha Vida em Itaboraí, São Gonçalo e Niterói. Conheça quem vai cuidar da sua compra." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       <Header />
@@ -36,9 +36,9 @@ export default function Sobre() {
             <span className="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary-light font-medium text-sm mb-4 border border-primary/30">
               Conheça Nossa História
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Joel Marcos, Corretor Especialista em Minha Casa Minha Vida em Itaboraí</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Joel Marcos, Corretor de Imóveis em Itaboraí Especialista em Minha Casa Minha Vida</h1>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Transparência, ética e dedicação para ajudar você a conquistar o sonho da casa própria com segurança jurídica.
+              Desde 2002 ajudando famílias de Itaboraí, São Gonçalo e Niterói a trocar o aluguel pela chave de casa — com transparência, segurança jurídica e cada etapa explicada.
             </p>
           </div>
         </section>
@@ -53,7 +53,7 @@ export default function Sobre() {
                   Corretor de Imóveis • CRECI 39.583F
                 </div>
                 <p className="text-sm text-slate-500 mb-6">
-                  Administrador · Pós-graduado em Marketing e Negócios Imobiliários · Mais de 20 anos de mercado
+                  Administrador · Pós-graduado em Marketing e Negócios Imobiliários · No mercado imobiliário desde 2002
                 </p>
                 {/* Primeiro parágrafo começa obrigatoriamente com a frase-entidade oficial */}
                 <p className="text-slate-700 mb-4 leading-relaxed text-justify">
@@ -69,7 +69,7 @@ export default function Sobre() {
               <div className="bg-slate-50 rounded-3xl border border-slate-200 overflow-hidden">
                 {/* Foto profissional do Joel */}
                 <img
-                  src="/joel-marcos-corretor-de-imoveis-itaborai.png"
+                  src="/joel-marcos-corretor-de-imoveis-itaborai.webp"
                   alt="Joel Marcos, corretor de imóveis especialista em Minha Casa Minha Vida em Itaboraí-RJ — CRECI 39.583F"
                   width={600}
                   height={600}

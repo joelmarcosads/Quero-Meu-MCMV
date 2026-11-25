@@ -58,13 +58,13 @@ export default function Hero() {
 
             {/* Linha discreta de atendimento nas 4 cidades */}
             <p className="text-sm sm:text-base text-orange-200/90 font-medium mb-8 text-center lg:text-left">
-              📍 Atendimento em Itaboraí, São Gonçalo, Niterói e Maricá
+              📍 Lançamentos em{' '}<a href="/minha-casa-minha-vida-itaborai" className="underline decoration-orange-300/60 underline-offset-2 hover:text-white">Itaboraí</a>,{' '}<a href="/minha-casa-minha-vida-sao-goncalo" className="underline decoration-orange-300/60 underline-offset-2 hover:text-white">São Gonçalo</a>,{' '}<a href="/niteroirj" className="underline decoration-orange-300/60 underline-offset-2 hover:text-white">Niterói</a> e{' '}<a href="/conquista-oceanica" className="underline decoration-orange-300/60 underline-offset-2 hover:text-white">Maricá</a>
             </p>
 
             <ul className="space-y-4 mb-6 max-w-md mx-auto lg:mx-0 text-left">
               <li className="flex items-start">
                 <CheckCircle2 className="w-6 h-6 text-success shrink-0 mr-3" />
-                <span className="text-base sm:text-lg font-medium">Imóveis com sinal a partir de <strong className="text-white">R$ 500,00</strong> (consulte condições)</span>
+                <span className="text-base sm:text-lg font-medium">Subsídio de até <strong className="text-white">R$ 55 mil</strong> que você não precisa devolver</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle2 className="w-6 h-6 text-success shrink-0 mr-3" />

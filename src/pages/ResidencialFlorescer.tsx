@@ -14,21 +14,21 @@ export default function ResidencialFlorescer() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo</title>
-        <meta name="description" content="Eleve seu padrão de vida no Residencial Florescer em Vila Iara, São Gonçalo - RJ. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e lazer completo." />
+        <title>Residencial Florescer, Vila Iara: 2 e 3 Quartos com Suíte</title>
+        <meta name="description" content="Lançamento em Vila Iara, São Gonçalo: 2 e 3 quartos com suíte e varanda gourmet, 1 ou 2 vagas e lazer completo. Conheça as plantas e as condições." />
 <link rel="canonical" href="https://queromeumcmv.com.br/residencial-florescer" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/residencial-florescer" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-residencial-florescer.webp" />
         <meta property="og:image:alt" content="Fachada do Residencial Florescer em São Gonçalo" />
-        <meta property="og:title" content="Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo" />
-        <meta property="og:description" content="Eleve seu padrão de vida no Residencial Florescer em Vila Iara, São Gonçalo - RJ. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e lazer completo." />
+        <meta property="og:title" content="Residencial Florescer, Vila Iara: 2 e 3 Quartos com Suíte" />
+        <meta property="og:description" content="Lançamento em Vila Iara, São Gonçalo: 2 e 3 quartos com suíte e varanda gourmet, 1 ou 2 vagas e lazer completo. Conheça as plantas e as condições." />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Residencial Florescer | 2 e 3 Quartos com Suíte em São Gonçalo" />
-        <meta name="twitter:description" content="Eleve seu padrão de vida no Residencial Florescer em Vila Iara, São Gonçalo - RJ. Exclusivos apartamentos de 2 e 3 quartos com suíte, varanda gourmet e lazer completo." />
+        <meta name="twitter:title" content="Residencial Florescer, Vila Iara: 2 e 3 Quartos com Suíte" />
+        <meta name="twitter:description" content="Lançamento em Vila Iara, São Gonçalo: 2 e 3 quartos com suíte e varanda gourmet, 1 ou 2 vagas e lazer completo. Conheça as plantas e as condições." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-residencial-florescer.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Vila Iara, São Gonçalo" />
@@ -40,7 +40,7 @@ export default function ResidencialFlorescer() {
         {/* Hero Section - Primeira Dobra Harmoniosa com Formulário Estratégico */}
         <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img fetchPriority="high" 
+            <img width={600} height={400} fetchPriority="high" 
               src={imgFachada} 
               alt="Fachada do Residencial Florescer em São Gonçalo" 
               className="w-full h-full object-cover"
@@ -106,8 +106,8 @@ export default function ResidencialFlorescer() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada sob medida</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Simule a sua</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
                       <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
@@ -169,7 +169,7 @@ export default function ResidencialFlorescer() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgSala} 
                   alt="Sala de TV do Residencial Florescer" 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -225,7 +225,7 @@ export default function ResidencialFlorescer() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgShopping} 
                   alt="Shopping Partage, próximo ao Residencial Florescer em São Gonçalo, RJ" 
                   className="w-full h-full object-cover rounded-2xl aspect-video"

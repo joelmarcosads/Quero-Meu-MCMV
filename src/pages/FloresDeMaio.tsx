@@ -13,21 +13,21 @@ export default function FloresDeMaio() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Flores de Maio | Apartamentos 2 Quartos, Minha Casa Minha Vida</title>
-        <meta name="description" content="Conheça o Flores de Maio em Santo Expedito, Itaboraí - RJ. Apartamentos com varanda, sinal a partir de R$ 1.000 e subsídio Caixa." />
+        <title>Flores de Maio, Itaboraí: Apartamentos 2 Quartos MCMV</title>
+        <meta name="description" content="A 5 minutos do Centro de Itaboraí, em Santo Expedito: 2 quartos com varanda, vaga e lazer em condomínio. Descubra quanto o subsídio reduz a sua entrada." />
 <link rel="canonical" href="https://queromeumcmv.com.br/flores-de-maio" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/flores-de-maio" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-flores-de-maio.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Flores de Maio em Itaboraí" />
-        <meta property="og:title" content="Flores de Maio | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
-        <meta property="og:description" content="Conheça o Flores de Maio em Santo Expedito, Itaboraí - RJ. Apartamentos com varanda, sinal a partir de R$ 1.000 e subsídio Caixa." />
+        <meta property="og:title" content="Flores de Maio, Itaboraí: Apartamentos 2 Quartos MCMV" />
+        <meta property="og:description" content="A 5 minutos do Centro de Itaboraí, em Santo Expedito: 2 quartos com varanda, vaga e lazer em condomínio. Descubra quanto o subsídio reduz a sua entrada." />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Flores de Maio | Apartamentos 2 Quartos, Minha Casa Minha Vida" />
-        <meta name="twitter:description" content="Conheça o Flores de Maio em Santo Expedito, Itaboraí - RJ. Apartamentos com varanda, sinal a partir de R$ 1.000 e subsídio Caixa." />
+        <meta name="twitter:title" content="Flores de Maio, Itaboraí: Apartamentos 2 Quartos MCMV" />
+        <meta name="twitter:description" content="A 5 minutos do Centro de Itaboraí, em Santo Expedito: 2 quartos com varanda, vaga e lazer em condomínio. Descubra quanto o subsídio reduz a sua entrada." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-flores-de-maio.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Santo Expedito, Itaboraí" />
@@ -38,7 +38,7 @@ export default function FloresDeMaio() {
         {/* Hero Section - Primeira Dobra com Formulário Estratégico */}
         <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-28 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img fetchPriority="high" 
+            <img width={1130} height={640} fetchPriority="high" 
               src={imgFachada} 
               alt="Apartamentos de 2 quartos no Flores de Maio em Itaboraí RJ" 
               className="w-full h-full object-cover"
@@ -104,8 +104,8 @@ export default function FloresDeMaio() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada sob medida</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Simule a sua</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
                       <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
@@ -166,7 +166,7 @@ export default function FloresDeMaio() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                <img loading="lazy" 
+                <img width={1130} height={640} loading="lazy" 
                   src={imgFachada} 
                   alt="Apartamento do Flores de Maio em Itaboraí" 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -212,7 +212,7 @@ export default function FloresDeMaio() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgMapa} 
                   alt="Mapa de localização do Flores de Maio em Itaboraí, RJ" 
                   className="w-full h-full object-cover rounded-2xl aspect-video"

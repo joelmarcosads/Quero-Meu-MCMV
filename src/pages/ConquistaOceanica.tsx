@@ -16,21 +16,21 @@ export default function ConquistaOceanica() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Conquista Oceânica, Maricá: Lançamento MCMV</title>
-        <meta name="description" content="Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000." />
+        <title>Conquista Oceânica, Maricá: Lançamento MCMV 1 e 2 Quartos</title>
+        <meta name="description" content="Lançamento em Maricá, a minutos das praias: 1 e 2 quartos com garden, vaga e lazer entregue equipado. Descubra a sua condição no Minha Casa Minha Vida." />
         <link rel="canonical" href="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="fb:app_id" content="966242223397117" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://queromeumcmv.com.br/conquista-oceanica" />
         <meta property="og:image" content="https://queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta property="og:image:alt" content="Fachada do condomínio Conquista Oceânica em Maricá" />
-        <meta property="og:title" content="Conquista Oceânica, Maricá: Lançamento MCMV" />
-        <meta property="og:description" content="Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000." />
+        <meta property="og:title" content="Conquista Oceânica, Maricá: Lançamento MCMV 1 e 2 Quartos" />
+        <meta property="og:description" content="Lançamento em Maricá, a minutos das praias: 1 e 2 quartos com garden, vaga e lazer entregue equipado. Descubra a sua condição no Minha Casa Minha Vida." />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Conquista Oceânica, Maricá: Lançamento MCMV" />
-        <meta name="twitter:description" content="Lançamento MCMV em Maricá: 1 e 2 quartos, vaga, condomínio fechado e lazer. Sinal a partir de R$ 1.000." />
+        <meta name="twitter:title" content="Conquista Oceânica, Maricá: Lançamento MCMV 1 e 2 Quartos" />
+        <meta name="twitter:description" content="Lançamento em Maricá, a minutos das praias: 1 e 2 quartos com garden, vaga e lazer entregue equipado. Descubra a sua condição no Minha Casa Minha Vida." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/fachada-conquista-oceanica.webp" />
         <meta name="geo.region" content="BR-RJ" />
         <meta name="geo.placename" content="Maricá" />
@@ -42,7 +42,7 @@ export default function ConquistaOceanica() {
         {/* Hero Section */}
         <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img fetchPriority="high" 
+            <img width={600} height={400} fetchPriority="high" 
               src={imgFachada} 
               alt="Fachada do Conquista Oceânica em Maricá" 
               className="w-full h-full object-cover"
@@ -109,8 +109,8 @@ export default function ConquistaOceanica() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
-                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada Facilitada</span>
-                      <span className="block text-base sm:text-lg font-black text-amber-300">Sinal R$ 1.000</span>
+                      <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Entrada sob medida</span>
+                      <span className="block text-base sm:text-lg font-black text-amber-300">Simule a sua</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 text-center">
                       <span className="block text-[11px] font-semibold text-blue-200 mb-0.5 uppercase tracking-wide">Programa Governo</span>
@@ -152,11 +152,11 @@ export default function ConquistaOceanica() {
                   Bem-estar e Qualidade de Vida para Você e Sua Família
                 </h2>
                 <p className="text-lg text-slate-600 text-justify mb-6 leading-relaxed">
-                  São apartamentos de 1 e 2 quartos com gardens e lazer completo. Aproveite as áreas de lazer entregues mobiliadas e equipadas para a sua diversão ser completa. Conquiste a sua casa própria com sinal parcelado em até 3x sem juros no cartão de crédito*, entrada facilitada* e você ainda pode juntar renda com até 3 familiares* e usar seu FGTS*.
+                  São apartamentos de 1 e 2 quartos com gardens e lazer completo. Aproveite as áreas de lazer entregues mobiliadas e equipadas para a sua diversão ser completa. Conquiste a sua casa própria com uma entrada pensada para o seu orçamento*: você ainda pode juntar renda com até 3 familiares* e usar o seu FGTS*.
                 </p>
                 <ul className="space-y-4 mb-8">
                   {[
-                    "Sinal parcelado em até 3x sem juros no cartão*",
+                    "Entrada pensada para o seu orçamento — descubra a sua*",
                     "Junte renda com até 3 familiares e use seu FGTS",
                     "Condomínio fechado com segurança e conforto",
                     "Lazer completo, entregue equipado e mobiliado",
@@ -170,7 +170,7 @@ export default function ConquistaOceanica() {
                 </ul>
               </div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgPiscina} 
                   alt="Piscina do Conquista Oceânica" 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -227,7 +227,7 @@ export default function ConquistaOceanica() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1 relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-video">
-                <img loading="lazy" 
+                <img width={600} height={400} loading="lazy" 
                   src={imgChurrasqueira} 
                   alt="Churrasqueira do Conquista Oceânica em Maricá, RJ" 
                   className="w-full h-full object-cover rounded-2xl aspect-video"

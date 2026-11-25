@@ -2,7 +2,7 @@ export default function AuthorProfile() {
   return (
     <div className="mt-12 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start gap-6">
       <img
-        src="/joel-marcos-corretor-minha-casa-minha-vida-itaborai.png"
+        src="/joel-marcos-corretor-minha-casa-minha-vida-itaborai.webp"
         alt="Joel Marcos, corretor de imóveis especialista em Minha Casa Minha Vida em Itaboraí-RJ – CRECI 39.583F"
         width={80}
         height={80}

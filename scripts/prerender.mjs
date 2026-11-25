@@ -72,6 +72,23 @@ async function runPrerender() {
 
   console.log(`[Prerender] Found ${ROUTES.length} routes to process.`);
 
+  // 1b. Trava: toda rota declarada no App precisa existir em src/seo/routes.ts.
+  // Sem isso a página não é pré-renderizada e o Google recebe a 404 (noindex).
+  // Aliases (.html, barra final e atalhos que só redirecionam) ficam de fora.
+  const appSource = fs.readFileSync(path.resolve(rootDir, 'src/App.tsx'), 'utf-8');
+  const ROUTE_ALIASES = new Set(['/captacao', '/captacao-de-imoveis']);
+  const seoPaths = new Set(ROUTES.map((r) => r.path));
+  const missingRoutes = [...appSource.matchAll(/<Route\s+path="([^"]+)"/g)]
+    .map((m) => m[1])
+    .filter((p) => p !== '*' && !p.endsWith('/') && !p.endsWith('.html') && !ROUTE_ALIASES.has(p))
+    .filter((p) => !seoPaths.has(p));
+  if (missingRoutes.length) {
+    console.error(
+      `[Prerender][VALIDATION ERROR] Rotas do App sem entrada em src/seo/routes.ts (o Google receberia 404): ${missingRoutes.join(', ')}`
+    );
+    process.exit(1);
+  }
+
   // 2. Process non-root routes first, and route "/" STRICTLY LAST
   const nonRootRoutes = ROUTES.filter((r) => r.path !== '/');
   const rootRoute = ROUTES.find((r) => r.path === '/');

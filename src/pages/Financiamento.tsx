@@ -11,19 +11,19 @@ export default function Financiamento() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
-        <title>Financiamento Minha Casa Minha Vida: Como Funciona em 2026</title>
-        <meta name="description" content="Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis." />
+        <title>Financiamento MCMV em Itaboraí e São Gonçalo: Guia 2026</title>
+        <meta name="description" content="Juros, prazo, entrada e FGTS explicados por um corretor da região. Descubra quanto você pode financiar antes de escolher o seu apartamento." />
         <link rel="canonical" href="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
         <meta property="og:site_name" content="Quero Meu MCMV" />
         <meta property="og:locale" content="pt_BR" />
-        <meta property="og:title" content="Financiamento Minha Casa Minha Vida: Como Funciona em 2026" />
-        <meta property="og:description" content="Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis." />
+        <meta property="og:title" content="Financiamento MCMV em Itaboraí e São Gonçalo: Guia 2026" />
+        <meta property="og:description" content="Juros, prazo, entrada e FGTS explicados por um corretor da região. Descubra quanto você pode financiar antes de escolher o seu apartamento." />
         <meta property="og:url" content="https://queromeumcmv.com.br/financiamento-minha-casa-minha-vida" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Financiamento Minha Casa Minha Vida: Como Funciona em 2026" />
-        <meta name="twitter:description" content="Entenda como funciona o financiamento MCMV pela Caixa: juros, prazo, entrada, uso do FGTS e composição de renda. Simule grátis." />
+        <meta name="twitter:title" content="Financiamento MCMV em Itaboraí e São Gonçalo: Guia 2026" />
+        <meta name="twitter:description" content="Juros, prazo, entrada e FGTS explicados por um corretor da região. Descubra quanto você pode financiar antes de escolher o seu apartamento." />
         <meta name="twitter:image" content="https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp" />
       </Helmet>
       
