@@ -332,15 +332,15 @@ export default function BosqueResidenceNiteroi() {
               </ol>
             </nav>
 
-            <div className="grid lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-7 space-y-5">
+            <div className="grid lg:grid-cols-12 gap-x-8 gap-y-6 lg:items-center">
+              <div className="lg:col-span-7 lg:row-start-1 space-y-4 lg:space-y-5 order-1">
                 <p className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-3 py-1 text-xs font-bold tracking-widest">
-                  LANÇAMENTO CRESCER · FINANCIAMENTO CAIXA
+                  LANÇAMENTO · FINANCIAMENTO CAIXA
                 </p>
-                <h1 className="text-3xl md:text-[2.6rem] font-extrabold leading-tight">
+                <h1 className="text-[1.75rem] sm:text-3xl md:text-[2.6rem] font-extrabold leading-tight">
                   Bosque Residence, no Fonseca: 2 quartos com varanda e 8.000 m² de bosque privativo em Niterói
                 </h1>
-                <p className="text-lg text-emerald-50/90 leading-relaxed max-w-2xl">
+                <p className="text-base sm:text-lg text-emerald-50/90 leading-relaxed max-w-2xl">
                   Trilha, mirante e redário dentro do condomínio, piscina no rooftop e a Ponte Rio-Niterói a 8 minutos.
                   A calma da natureza sem abrir mão da cidade.
                 </p>
@@ -348,9 +348,12 @@ export default function BosqueResidenceNiteroi() {
                   <MapPin className="w-5 h-5 text-[#D9A066] shrink-0 mt-0.5" />
                   Av. Desembargador Lima Castro, 245 · Fonseca, Niterói – RJ (em frente ao Detran)
                 </p>
-                <div className="rounded-2xl bg-white/10 border border-white/15 p-5 max-w-xl">
+                <div className="rounded-2xl bg-white/10 border border-white/15 p-4 sm:p-5 max-w-xl">
                   <Oferta claro />
                 </div>
+              </div>
+
+              <div className="lg:col-span-7 lg:row-start-2 order-3">
                 <ul className="grid sm:grid-cols-2 gap-2 text-sm max-w-xl" aria-label="Destaques">
                   {['2 quartos de 47 m² a 56,30 m²', 'Opções com suíte', 'Coberturas de 116 a 144 m²', 'Piscina adulto e infantil no rooftop'].map((t) => (
                     <li key={t} className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-[#D9A066] shrink-0" />{t}</li>
@@ -358,7 +361,7 @@ export default function BosqueResidenceNiteroi() {
                 </ul>
               </div>
 
-              <aside id="formulario" className="lg:col-span-5 scroll-mt-24" aria-label="Formulário de consulta">
+              <aside id="formulario" className="lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:row-span-2 order-2 scroll-mt-24" aria-label="Formulário de consulta">
                 <div className="rounded-2xl bg-white text-[#23302A] shadow-2xl border-t-4 border-[#D9A066] p-6">
                   <h2 className="text-xl font-extrabold text-[#1E3B2C] leading-snug">Receba as plantas e consulte as unidades</h2>
                   <p className="mt-1 text-sm text-slate-600">
