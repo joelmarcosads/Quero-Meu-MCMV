@@ -526,8 +526,18 @@ export default function OwnerForm() {
     return e;
   }
 
-  async function onSubmit(ev: React.FormEvent) {
+  // Enter num campo de texto envia, sem disparar o evento nativo "submit"
+  function onKeyDown(ev: React.KeyboardEvent<HTMLFormElement>) {
+    const t = ev.target as HTMLInputElement;
+    if (ev.key !== 'Enter' || t.tagName !== 'INPUT' || t.type === 'checkbox' || t.closest('.hp')) return;
     ev.preventDefault();
+    handleSend();
+  }
+
+  // O botão é type="button": o formulário nunca dispara o evento nativo "submit".
+  // A conversão é contabilizada SOMENTE na página de obrigado (evento lead_captacao_imovel).
+  async function handleSend() {
+    if (sending) return;
     setFail(false);
     const e = validate();
     if (Object.keys(e).length) {
@@ -700,7 +710,7 @@ export default function OwnerForm() {
   return (
     <section id="owner-box" aria-labelledby="owner-form-title">
       <style>{CSS}</style>
-      <form onSubmit={onSubmit} noValidate>
+      <form noValidate onSubmit={(e) => e.preventDefault()} onKeyDown={onKeyDown}>
         <h2 id="owner-form-title">Receba a avaliação gratuita do seu imóvel</h2>
         <p className="sub">
           Preencha os dados do imóvel para elaborarmos um estudo comparativo fundamentado no mercado real.
@@ -1027,7 +1037,7 @@ export default function OwnerForm() {
         </label>
         {errs.lgpd && <div className="err">{errs.lgpd}</div>}
 
-        <button type="submit" className="cta" disabled={sending}>
+        <button type="button" className="cta" disabled={sending} onClick={handleSend}>
           {sending ? 'Enviando...' : 'Quero minha avaliação gratuita'}
         </button>
         {fail && (

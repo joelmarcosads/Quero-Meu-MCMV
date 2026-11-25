@@ -13,7 +13,7 @@ const CONFIG = {
 
 // Formulário em 5 etapas (micro-compromissos):
 // 1-4: perguntas de toque único, sem dado pessoal → baixa fricção, alto engajamento
-// 5: contato (nome + WhatsApp; e-mail opcional) → pedido quando a pessoa já investiu esforço
+// 5: contato (nome + WhatsApp + e-mail) → pedido quando a pessoa já investiu esforço
 // Campos enviados à planilha: os mesmos da versão anterior + renda e regime_trabalho.
 
 const CSS = `
@@ -169,8 +169,10 @@ export default function LeadForm() {
     if (s === 5) {
       if (!v.nome || v.nome.trim().length < 2) e.nome = 'Informe seu nome.';
       if (!v.whatsapp || v.whatsapp.replace(/\D/g, '').length < 10) e.whatsapp = 'Informe seu WhatsApp com DDD.';
-      if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim())) {
-        e.email = 'Digite um e-mail válido (ex: seu@email.com) ou deixe em branco.';
+      if (!v.email.trim()) {
+        e.email = 'Informe seu e-mail.';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())) {
+        e.email = 'Digite um e-mail válido (ex: seu@email.com).';
       }
       if (!v.lgpd) e.lgpd = 'Marque a autorização para recebermos seu contato.';
     }
@@ -193,8 +195,19 @@ export default function LeadForm() {
     goTo(step + 1);
   }
 
-  async function onSubmit(ev) {
+  // Enter num campo de texto avança/envia, sem disparar o evento nativo "submit"
+  function onKeyDown(ev) {
+    const t = ev.target;
+    if (ev.key !== 'Enter' || t.tagName !== 'INPUT' || t.type === 'checkbox' || t.closest('.hp')) return;
     ev.preventDefault();
+    handleSend();
+  }
+
+  // Os botões são type="button": o formulário nunca dispara o evento nativo "submit".
+  // Assim o Google Ads/GA4 não conta "form_submit" a cada etapa; a conversão
+  // é contabilizada SOMENTE na página /obrigado (evento lead_compra_imovel).
+  async function handleSend() {
+    if (sending) return;
     if (step < TOTAL) return next();
     setFail(false);
     const e = validateStep(TOTAL);
@@ -323,7 +336,7 @@ export default function LeadForm() {
   return (
     <section id="lead-box" aria-labelledby="lead-title" ref={boxRef}>
       <style>{CSS}</style>
-      <form onSubmit={onSubmit} noValidate>
+      <form noValidate onSubmit={(e) => e.preventDefault()} onKeyDown={onKeyDown}>
         <h2 id="lead-title">Conte o que você procura</h2>
         <p className="sub">Leva menos de 1 minuto. Respondo pelo WhatsApp com opções que cabem no seu bolso.</p>
 
@@ -395,7 +408,7 @@ export default function LeadForm() {
               {errs.whatsapp && <div className="err">{errs.whatsapp}</div>}
             </div>
             <div className="field">
-              <label className="lb" htmlFor="email">E-mail <span className="opt">(opcional)</span></label>
+              <label className="lb" htmlFor="email">E-mail</label>
               <input type="email" id="email" autoComplete="email" placeholder="seu@email.com" value={v.email}
                 onChange={(e) => set('email')(e.target.value)} className={errs.email ? 'invalid' : ''} />
               {errs.email && <div className="err">{errs.email}</div>}
@@ -418,7 +431,7 @@ export default function LeadForm() {
           </div>
         )}
 
-        <button type="submit" className="cta" disabled={sending}>
+        <button type="button" className="cta" disabled={sending} onClick={handleSend}>
           {step < TOTAL ? ctaText : sending ? 'Enviando...' : 'Quero receber opções de imóveis'}
         </button>
         {step > 1 && !sending && (
