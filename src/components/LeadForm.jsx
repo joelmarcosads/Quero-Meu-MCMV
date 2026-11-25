@@ -23,6 +23,7 @@ const CSS = `
   max-width:560px;margin:0 auto;padding:26px 22px;background:#fff;border:1px solid var(--line);
   border-radius:16px;box-sizing:border-box}
 #lead-box *{box-sizing:border-box}
+#lead-box.flat{padding:0;border:0;border-radius:0;max-width:none;background:transparent}
 #lead-box h2{margin:0 0 6px;font-size:1.5rem;line-height:1.2}
 #lead-box .sub{margin:0 0 16px;color:#44586a;line-height:1.5}
 #lead-box .progress{display:flex;gap:6px;margin:0 0 6px}
@@ -127,6 +128,10 @@ function Chips({ name, legend, options, value, onChange, error }) {
 // - objetivo: 'Morar' | 'Investir' (Investir pré-marca "É para investir")
 // - formName: nome do formulário nos eventos da dataLayer
 // - titulo / subtitulo: textos do topo do formulário
+// - compacto: só a etapa de contato (nome, WhatsApp, e-mail e LGPD), sem as perguntas de perfil
+// - idPrefix: prefixo dos ids dos campos, para usar mais de um formulário na mesma página
+// - textoBotao: texto do botão de envio
+// - semMoldura: sem borda, fundo e espaçamento externos (para usar dentro de um card)
 export default function LeadForm({
   empreendimento = '',
   cidadeFixa = '',
@@ -136,13 +141,17 @@ export default function LeadForm({
   formName = 'lead_home',
   titulo = 'Conte o que você procura',
   subtitulo = 'Leva menos de 1 minuto. Respondo pelo WhatsApp com opções que cabem no seu bolso.',
+  compacto = false,
+  idPrefix = '',
+  textoBotao = '',
+  semMoldura = false,
 } = {}) {
   const [v, setV] = useState({
     nome: '', whatsapp: '', email: '', cidade: cidadeFixa, faixa: '', quartos: quartosInicial,
     renda: '', regime_trabalho: '',
     pagamento: '', primeira_compra: objetivo === 'Investir' ? 'É para investir' : '', prazo: '', lgpd: false, website: '',
   });
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(compacto ? TOTAL : 1);
   const [errs, setErrs] = useState({});
   const [sending, setSending] = useState(false);
   const [fail, setFail] = useState(false);
@@ -330,7 +339,9 @@ export default function LeadForm({
       await gasPromise;
 
       // Guarda dados para a página de obrigado (só no navegador, nada de dados pessoais na URL)
-      const msg = empreendimento
+      const msg = compacto && empreendimento
+        ? `Olá! Sou ${v.nome.trim()}. Tenho interesse no ${empreendimento}${unidadeInteresse ? ` (${unidadeInteresse})` : ''}${objetivo ? `, para ${objetivo.toLowerCase()}` : ''}. Pode me enviar os valores e as plantas?`
+        : empreendimento
         ? `Olá! Sou ${v.nome.trim()}. Preenchi o formulário do ${empreendimento} no site: ${unidadeInteresse || v.quartos}, faixa ${v.faixa}. Renda familiar: ${v.renda} (${v.regime_trabalho}).`
         : `Olá! Sou ${v.nome.trim()}. Preenchi o formulário no site: busco imóvel em ${v.cidade}, ${v.quartos}, faixa ${v.faixa}. Renda familiar: ${v.renda} (${v.regime_trabalho}).`;
       try {
@@ -362,16 +373,21 @@ export default function LeadForm({
   const ctaText = { 1: 'Continuar →', 2: 'Continuar →', 3: 'Continuar →', 4: 'Quase lá →' }[step];
 
   return (
-    <section id="lead-box" aria-labelledby="lead-title" ref={boxRef}>
+    <section id="lead-box" className={semMoldura ? 'flat' : undefined}
+      aria-labelledby={titulo ? 'lead-title' : undefined} aria-label={titulo ? undefined : 'Formulário de contato'} ref={boxRef}>
       <style>{CSS}</style>
       <form noValidate onSubmit={(e) => e.preventDefault()} onKeyDown={onKeyDown}>
-        <h2 id="lead-title">{titulo}</h2>
-        <p className="sub">{subtitulo}</p>
+        {titulo && <h2 id="lead-title">{titulo}</h2>}
+        {subtitulo && <p className="sub">{subtitulo}</p>}
 
-        <div className="progress" aria-hidden="true">
-          {Array.from({ length: TOTAL }, (_, i) => <i key={i} className={i < step ? 'on' : ''} />)}
-        </div>
-        <p className="step-label" aria-live="polite">{STEP_TEXT[step]}</p>
+        {!compacto && (
+          <>
+            <div className="progress" aria-hidden="true">
+              {Array.from({ length: TOTAL }, (_, i) => <i key={i} className={i < step ? 'on' : ''} />)}
+            </div>
+            <p className="step-label" aria-live="polite">{STEP_TEXT[step]}</p>
+          </>
+        )}
 
         {step === 1 && (
           <div className="step" key="s1">
@@ -420,26 +436,26 @@ export default function LeadForm({
 
         {step === 5 && (
           <div className="step" key="s5">
-            <p className="reward">
+            {!compacto && <p className="reward">
               ✅ Pronto! Já separei o perfil: <strong>{v.quartos}</strong> em <strong>{v.cidade}</strong>,{' '}
               <strong>{v.faixa}</strong>. Agora é só dizer para onde envio {empreendimento ? 'os valores e as plantas' : 'as opções'}.
-            </p>
+            </p>}
             <div className="field">
-              <label className="lb" htmlFor="nome">Seu nome</label>
-              <input type="text" id="nome" autoComplete="name" value={v.nome} placeholder="Como posso te chamar?"
+              <label className="lb" htmlFor={`${idPrefix}nome`}>Seu nome</label>
+              <input type="text" id={`${idPrefix}nome`} autoComplete="name" value={v.nome} placeholder="Como posso te chamar?"
                 onChange={(e) => set('nome')(e.target.value)} className={errs.nome ? 'invalid' : ''} />
               {errs.nome && <div className="err">{errs.nome}</div>}
             </div>
             <div className="field">
-              <label className="lb" htmlFor="whatsapp">WhatsApp com DDD</label>
-              <input type="tel" id="whatsapp" inputMode="numeric" autoComplete="tel" placeholder="(21) 99999-9999"
+              <label className="lb" htmlFor={`${idPrefix}whatsapp`}>WhatsApp com DDD</label>
+              <input type="tel" id={`${idPrefix}whatsapp`} inputMode="numeric" autoComplete="tel" placeholder="(21) 99999-9999"
                 value={v.whatsapp} onChange={(e) => set('whatsapp')(maskPhone(e.target.value))}
                 className={errs.whatsapp ? 'invalid' : ''} />
               {errs.whatsapp && <div className="err">{errs.whatsapp}</div>}
             </div>
             <div className="field">
-              <label className="lb" htmlFor="email">E-mail</label>
-              <input type="email" id="email" autoComplete="email" placeholder="seu@email.com" value={v.email}
+              <label className="lb" htmlFor={`${idPrefix}email`}>E-mail</label>
+              <input type="email" id={`${idPrefix}email`} autoComplete="email" placeholder="seu@email.com" value={v.email}
                 onChange={(e) => set('email')(e.target.value)} className={errs.email ? 'invalid' : ''} />
               {errs.email && <div className="err">{errs.email}</div>}
             </div>
@@ -462,13 +478,13 @@ export default function LeadForm({
         )}
 
         <button type="button" className="cta" disabled={sending} onClick={handleSend}>
-          {step < TOTAL ? ctaText : sending ? 'Enviando...' : empreendimento ? 'Quero receber os valores' : 'Quero receber opções de imóveis'}
+          {step < TOTAL ? ctaText : sending ? 'Enviando...' : textoBotao || (empreendimento ? 'Quero receber os valores' : 'Quero receber opções de imóveis')}
         </button>
-        {step > 1 && !sending && (
+        {step > 1 && !compacto && !sending && (
           <button type="button" className="back" onClick={() => goTo(step - 1)}>← Voltar</button>
         )}
         {step === TOTAL && <p className="trust">🔒 Atendimento gratuito, sem compromisso e sem spam.</p>}
-        {fail && <div className="fail">Não conseguimos enviar agora. Tente de novo ou chame direto no WhatsApp.</div>}
+        {fail && <div className="fail">{compacto ? 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.' : 'Não conseguimos enviar agora. Tente de novo ou chame direto no WhatsApp.'}</div>}
       </form>
     </section>
   );

@@ -8,7 +8,6 @@ import LeadForm from '../components/LeadForm';
 import { FAQ_ORLA, ORLA_AVISO_PRECO } from '../data/orlaCentral';
 import {
   MapPin,
-  MessageCircle,
   Building2,
   Home,
   Waves,
@@ -46,12 +45,6 @@ const DESCRIPTION =
 
 const PRECO = 'R$ 331.000';
 const AVISO_PRECO = ORLA_AVISO_PRECO;
-
-const WHATSAPP_URL =
-  'https://wa.me/5521965928399?text=' +
-  encodeURIComponent('Olá, Joel! Vi o Orla Central no Centro de Niterói e quero receber os valores e as plantas disponíveis.');
-const COMPARTILHAR_URL =
-  'https://wa.me/?text=' + encodeURIComponent(`Olha esse apartamento no Centro de Niterói: ${URL_PAGINA}`);
 
 const img = (nome: string) => `/orla-central-niteroi-${nome}.webp`;
 
@@ -225,6 +218,7 @@ export default function OrlaCentralNiteroi() {
   const [foto, setFoto] = useState<{ lista: Foto[]; i: number } | null>(null);
   const [filtro, setFiltro] = useState<'todos' | Tipologia['filtro']>('todos');
   const [aba, setAba] = useState<'morar' | 'investir'>('morar');
+  const [objetivoHero, setObjetivoHero] = useState<'' | 'Morar' | 'Investir'>('');
   const dlgForm = useRef<HTMLDialogElement>(null);
   const dlgFoto = useRef<HTMLDialogElement>(null);
 
@@ -316,11 +310,11 @@ export default function OrlaCentralNiteroi() {
               </ol>
             </nav>
 
-            <div className="grid lg:grid-cols-12 gap-8 items-start">
-              {/* Galeria + título */}
-              <div className="lg:col-span-7 space-y-5">
-                <div className="grid grid-cols-4 grid-rows-2 gap-2 rounded-2xl overflow-hidden h-[260px] sm:h-[360px] lg:h-[400px] relative">
-                  <button type="button" onClick={() => verFoto(GALERIA, 0)} className="col-span-4 sm:col-span-2 row-span-2 relative group">
+            <div className="grid lg:grid-cols-12 gap-x-8 gap-y-6 items-start">
+              {/* Galeria (mobile: 1º · desktop: coluna esquerda, linha 1) */}
+              <div className="lg:col-span-7 lg:row-start-1 order-1">
+                <div className="grid grid-cols-4 grid-rows-2 gap-2 rounded-2xl overflow-hidden h-[240px] sm:h-[340px] lg:h-[380px] relative">
+                  <button type="button" onClick={() => verFoto(GALERIA, 0)} className="col-span-4 sm:col-span-2 row-span-2 relative group" aria-label="Abrir galeria de fotos">
                     <img
                       src={img('fachada')}
                       alt={GALERIA[0].alt}
@@ -332,11 +326,11 @@ export default function OrlaCentralNiteroi() {
                     />
                   </button>
                   {[1, 2, 3].map((i) => (
-                    <button key={i} type="button" onClick={() => verFoto(GALERIA, i)} className="hidden sm:block relative group">
+                    <button key={i} type="button" onClick={() => verFoto(GALERIA, i)} className="hidden sm:block relative group" aria-label={`Ampliar foto: ${GALERIA[i].label}`}>
                       <img src={GALERIA[i].src} alt={GALERIA[i].alt} width={800} height={387} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                     </button>
                   ))}
-                  <button type="button" onClick={() => verFoto(GALERIA, 4)} className="hidden sm:block relative group">
+                  <button type="button" onClick={() => verFoto(GALERIA, 4)} className="hidden sm:block relative group" aria-label="Ver mais fotos">
                     <img src={GALERIA[4].src} alt={GALERIA[4].alt} width={800} height={387} loading="lazy" className="w-full h-full object-cover" />
                     <span className="absolute inset-0 bg-[#0F2A4A]/60 flex items-center justify-center font-bold text-sm">+{GALERIA.length - 5} fotos</span>
                   </button>
@@ -352,14 +346,17 @@ export default function OrlaCentralNiteroi() {
                     Ver todas as {GALERIA.length} fotos
                   </button>
                 </div>
-                <p className="text-[11px] text-sky-100/70 -mt-3">Perspectivas ilustrativas.</p>
+                <p className="text-[11px] text-sky-100/70 mt-2">Perspectivas ilustrativas.</p>
+              </div>
 
+              {/* Título (mobile: 2º · desktop: coluna esquerda, linha 2) */}
+              <div className="lg:col-span-7 lg:row-start-2 order-2 space-y-4">
                 <p className="font-serif italic text-sky-200 text-lg">O lugar onde Niterói nasceu agora renasce para você.</p>
-                <h1 className="text-3xl md:text-[2.6rem] font-extrabold leading-tight">
+                <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">
                   Orla Central Niterói: apartamentos de 1 a 3 quartos com varanda no Centro, perto do Caminho Niemeyer
                 </h1>
-                <p className="flex items-center gap-2 text-sky-100">
-                  <MapPin className="w-4 h-4 text-[#E9A27F]" /> Centro, Niterói – RJ · próximo às barcas e ao Caminho Niemeyer
+                <p className="flex items-start gap-2 text-sky-100">
+                  <MapPin className="w-4 h-4 text-[#E9A27F] shrink-0 mt-1" /> Centro, Niterói – RJ · próximo às barcas e ao Caminho Niemeyer
                 </p>
                 <ul className="flex flex-wrap gap-2 text-sm" aria-label="Características">
                   {['1, 2 e 3 quartos', '31 a 65 m²', 'Varanda em todas', 'Suíte nos 2 e 3 quartos', 'Rooftop', 'Lojas no térreo'].map((c) => (
@@ -368,50 +365,49 @@ export default function OrlaCentralNiteroi() {
                 </ul>
               </div>
 
-              {/* Card de captação */}
-              <aside className="lg:col-span-5 lg:sticky lg:top-24" aria-label="Valores e atendimento">
-                <div className="bg-white text-[#22262B] rounded-2xl shadow-2xl border-t-4 border-[#B86A4B] p-6 space-y-5">
+              {/* Card de captação (mobile: 3º · desktop: coluna direita ocupando as 2 linhas) */}
+              <aside
+                className="lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:row-span-2 order-3 lg:self-stretch scroll-mt-24"
+                aria-label="Valores e contato"
+                id="valores"
+              >
+                <div className="bg-white text-[#22262B] rounded-2xl shadow-2xl border-t-4 border-[#B86A4B] p-6 lg:p-7 h-full flex flex-col gap-5">
                   <PrecoBox />
+                  <div className="h-px bg-slate-200" />
                   <div>
-                    <p className="font-bold text-[#0F2A4A] text-lg">Você procura um apartamento para:</p>
-                    <div className="grid grid-cols-2 gap-3 mt-3">
-                      <button
-                        type="button"
-                        onClick={() => abrir({ objetivo: 'Morar' })}
-                        className="min-h-[56px] rounded-xl border-2 border-[#1565A8] text-[#0F2A4A] font-bold flex items-center justify-center gap-2 hover:bg-[#1565A8] hover:text-white transition-colors"
-                      >
-                        <Home className="w-5 h-5" /> Morar
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => abrir({ objetivo: 'Investir' })}
-                        className="min-h-[56px] rounded-xl border-2 border-[#1565A8] text-[#0F2A4A] font-bold flex items-center justify-center gap-2 hover:bg-[#1565A8] hover:text-white transition-colors"
-                      >
-                        <Key className="w-5 h-5" /> Investir
-                      </button>
+                    <p className="font-extrabold text-[#0F2A4A] text-xl leading-snug">Receba os valores e as plantas disponíveis</p>
+                    <p className="text-sm text-slate-600 mt-1">Leva 30 segundos. Atendimento por corretor credenciado no CRECI.</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#0F2A4A]">Você procura para: <span className="font-normal text-slate-500">(opcional)</span></p>
+                    <div className="grid grid-cols-2 gap-2 mt-2" role="group" aria-label="Objetivo">
+                      {(['Morar', 'Investir'] as const).map((o) => (
+                        <button
+                          key={o}
+                          type="button"
+                          aria-pressed={objetivoHero === o}
+                          onClick={() => setObjetivoHero(objetivoHero === o ? '' : o)}
+                          className={`min-h-[44px] rounded-xl border-2 font-bold flex items-center justify-center gap-2 transition-colors ${
+                            objetivoHero === o ? 'bg-[#1565A8] border-[#1565A8] text-white' : 'border-slate-300 text-[#0F2A4A] hover:border-[#1565A8]'
+                          }`}
+                        >
+                          {o === 'Morar' ? <Home className="w-4 h-4" /> : <Key className="w-4 h-4" />} {o}
+                        </button>
+                      ))}
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => abrir({ objetivo: '' })}
-                    className="w-full min-h-[54px] rounded-xl bg-[#B86A4B] hover:bg-[#9E5638] text-white font-extrabold text-lg transition-colors"
-                  >
-                    Receber valores e plantas disponíveis
-                  </button>
-                  <a
-                    href={WHATSAPP_URL}
-                    target="_blank"
-                    rel="noopener"
-                    className="w-full min-h-[48px] rounded-xl border-2 border-green-600 text-green-700 font-bold flex items-center justify-center gap-2 hover:bg-green-50"
-                  >
-                    <MessageCircle className="w-5 h-5" /> Falar no WhatsApp
-                  </a>
-                  <p className="text-xs text-slate-500 text-center">
-                    Corretor Joel Marcos · CRECI 39.583F · seg a sex, 9h às 17h
-                  </p>
-                  <a href={COMPARTILHAR_URL} target="_blank" rel="noopener" className="block text-center text-sm text-[#1565A8] underline">
-                    Enviar este imóvel para quem vai decidir comigo
-                  </a>
+                  <LeadForm
+                    compacto
+                    semMoldura
+                    idPrefix="hero-"
+                    titulo=""
+                    subtitulo=""
+                    empreendimento={EMPREENDIMENTO}
+                    cidadeFixa="Niterói"
+                    objetivo={objetivoHero}
+                    formName="lead_orla_central"
+                    textoBotao="Quero receber os valores"
+                  />
                 </div>
               </aside>
             </div>
@@ -437,47 +433,57 @@ export default function OrlaCentralNiteroi() {
 
         {/* ── VISÃO GERAL / FATOS-CHAVE ── */}
         <section className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10">
-            <div className="space-y-4">
-              <p className="tracking-[0.3em] text-xs font-bold text-[#B86A4B]">VISÃO GERAL</p>
-              <h2 className="text-3xl font-bold text-[#0F2A4A]">O que é o Orla Central</h2>
-              <p className="leading-relaxed text-slate-700">
-                O Orla Central é um condomínio residencial da Cury no Centro de Niterói (RJ), próximo ao Caminho Niemeyer e à
-                estação das barcas. O empreendimento tem 962 apartamentos de 1, 2 e 3 quartos, de 31,30 m² a 65,72 m²,
-                distribuídos em duas torres, todos com varanda, com lojas no térreo e mais de 20 espaços de lazer e serviços.
-                Os preços partem de R$ 331.000, sujeitos a alteração e disponibilidade.
-              </p>
-              <p className="leading-relaxed text-slate-700">
-                É a chance de morar onde a história da cidade começou: atravessar para o Rio de barca, caminhar até o Teatro
-                Popular e terminar o dia no rooftop, olhando o pôr do sol sobre a Baía de Guanabara.
-              </p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-2 gap-10 items-center">
+              <div className="space-y-4">
+                <p className="tracking-[0.3em] text-xs font-bold text-[#B86A4B]">VISÃO GERAL</p>
+                <h2 className="text-3xl font-bold text-[#0F2A4A]">O que é o Orla Central</h2>
+                <p className="leading-relaxed text-slate-700">
+                  O Orla Central é um condomínio residencial da Cury no Centro de Niterói (RJ), próximo ao Caminho Niemeyer e à
+                  estação das barcas. O empreendimento tem 962 apartamentos de 1, 2 e 3 quartos, de 31,30 m² a 65,72 m²,
+                  distribuídos em duas torres, todos com varanda, com lojas no térreo e mais de 20 espaços de lazer e serviços.
+                  Os preços partem de R$ 331.000, sujeitos a alteração e disponibilidade.
+                </p>
+                <p className="leading-relaxed text-slate-700">
+                  É a chance de morar onde a história da cidade começou: atravessar para o Rio de barca, caminhar até o Teatro
+                  Popular e terminar o dia no rooftop, olhando o pôr do sol sobre a Baía de Guanabara.
+                </p>
+              </div>
+              <button type="button" onClick={() => verFoto(GALERIA, 6)} className="rounded-2xl overflow-hidden shadow-lg group" aria-label="Ampliar foto: lojas no térreo">
+                <img
+                  src={img('lojas-terreo')}
+                  alt="Lojas no térreo e acesso do Orla Central, no Centro de Niterói"
+                  width={1600}
+                  height={774}
+                  loading="lazy"
+                  className="w-full h-64 lg:h-80 object-cover group-hover:scale-[1.02] transition-transform"
+                />
+              </button>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full bg-white rounded-2xl overflow-hidden text-sm border border-slate-200">
-                <caption className="text-left font-bold text-[#0F2A4A] pb-3">Ficha técnica</caption>
-                <tbody>
-                  {[
-                    ['Construtora', 'Cury'],
-                    ['Bairro / cidade', 'Centro, Niterói – RJ'],
-                    ['Terreno', '7.216 m²'],
-                    ['Unidades', '962 apartamentos'],
-                    ['Torres', '2 (térreo + PUC + 16 pavimentos)'],
-                    ['Tipologias', '1 quarto, 2 quartos, 2 quartos com suíte e 3 quartos com suíte'],
-                    ['Metragens', '31,30 m² a 65,72 m²'],
-                    ['Varanda', 'Em todas as unidades'],
-                    ['Vagas de automóvel', '102 (limitadas)'],
-                    ['Bicicletário', '970 vagas'],
-                    ['Preço inicial', `${PRECO}*`],
-                  ].map(([k, val]) => (
-                    <tr key={k} className="border-b border-slate-100 last:border-0">
-                      <th scope="row" className="text-left font-medium text-slate-500 px-4 py-3 w-2/5">{k}</th>
-                      <td className="px-4 py-3 font-semibold">{val}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p className="text-xs text-slate-500 mt-2">{AVISO_PRECO}</p>
-            </div>
+
+            <h3 className="text-xl font-bold text-[#0F2A4A] mt-12 mb-4">Ficha técnica</h3>
+            <dl className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {[
+                ['Construtora', 'Cury'],
+                ['Localização', 'Centro, Niterói – RJ'],
+                ['Terreno', '7.216 m²'],
+                ['Unidades', '962 apartamentos'],
+                ['Torres', '2 · térreo + PUC + 16 pavimentos'],
+                ['Tipologias', '1, 2 e 3 quartos (suíte nos de 52 e 65 m²)'],
+                ['Metragens', '31,30 m² a 65,72 m²'],
+                ['Varanda', 'Em todas as unidades'],
+                ['Vagas de automóvel', '102 (limitadas)'],
+                ['Bicicletário', '970 vagas'],
+                ['Lazer e serviços', 'Mais de 20 itens'],
+                ['Preço inicial', `${PRECO}*`],
+              ].map(([k, val]) => (
+                <div key={k} className="bg-white rounded-xl border border-slate-200 p-4">
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{k}</dt>
+                  <dd className="mt-1 font-bold text-[#0F2A4A] leading-snug">{val}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="text-xs text-slate-500 mt-3">{AVISO_PRECO}</p>
           </div>
         </section>
 
@@ -767,17 +773,21 @@ export default function OrlaCentralNiteroi() {
             <div className="space-y-5">
               <h2 className="text-3xl md:text-4xl font-bold leading-tight">Comece o seu novo capítulo em Niterói.</h2>
               <PrecoBox claro />
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3.5 rounded-xl">
-                <MessageCircle className="w-5 h-5" /> Falar no WhatsApp
-              </a>
+              <ul className="space-y-2 text-sky-100">
+                <li className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-[#E9A27F] shrink-0" />Valores e plantas atualizados</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-[#E9A27F] shrink-0" />Unidades disponíveis por andar e posição</li>
+                <li className="flex gap-2"><CheckCircle2 className="w-5 h-5 text-[#E9A27F] shrink-0" />Simulação de financiamento para a sua renda</li>
+              </ul>
             </div>
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <LeadForm
                 empreendimento={EMPREENDIMENTO}
                 cidadeFixa="Niterói"
                 formName="lead_orla_central"
+                compacto
+                idPrefix="final-"
                 titulo="Receba os valores do Orla Central"
-                subtitulo="Leva menos de 1 minuto. Envio pelo WhatsApp os valores, as plantas e as unidades disponíveis."
+                subtitulo="Preencha seus dados e envio os valores, as plantas e as unidades disponíveis."
               />
             </div>
           </div>
@@ -809,9 +819,9 @@ export default function OrlaCentralNiteroi() {
       {/* Barra fixa no celular */}
       {/* O WhatsApp fica no botão flutuante padrão do site (à direita) */}
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 py-2.5 pl-3 pr-20 shadow-[0_-6px_18px_rgba(0,0,0,0.08)]">
-        <button type="button" onClick={() => abrir({ objetivo: '' })} className="w-full min-h-[48px] rounded-xl bg-[#B86A4B] text-white font-extrabold">
+        <a href="#valores" className="w-full min-h-[48px] rounded-xl bg-[#B86A4B] text-white font-extrabold flex items-center justify-center">
           Receber valores e plantas
-        </button>
+        </a>
       </div>
       <div className="lg:hidden h-20" aria-hidden="true" />
 
@@ -854,8 +864,10 @@ export default function OrlaCentralNiteroi() {
               unidadeInteresse={modal.tipologia?.nome || ''}
               objetivo={modal.objetivo}
               formName="lead_orla_central"
-              titulo="Falta pouco para receber os valores"
-              subtitulo="Respondo pelo WhatsApp com valores, plantas e unidades disponíveis."
+              compacto
+              idPrefix="popup-"
+              titulo="Receba os valores e as plantas"
+              subtitulo="Preencha seus dados e envio tudo em poucos minutos."
             />
           </div>
         )}
