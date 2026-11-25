@@ -78,8 +78,6 @@ interface ConfigCanal {
 const fmtBRL = (n: number) =>
   n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
-const fmtPct = (n: number) => `${n.toFixed(1)}%`;
-
 const MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
 const COR_HEALTH: Record<string, { bar: string; badge: string; text: string }> = {
