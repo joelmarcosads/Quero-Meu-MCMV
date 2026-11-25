@@ -807,13 +807,11 @@ export default function OrlaCentralNiteroi() {
       </main>
 
       {/* Barra fixa no celular */}
-      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 p-2.5 grid grid-cols-2 gap-2.5 shadow-[0_-6px_18px_rgba(0,0,0,0.08)]">
-        <button type="button" onClick={() => abrir({ objetivo: '' })} className="min-h-[48px] rounded-xl bg-[#B86A4B] text-white font-extrabold">
-          Receber valores
+      {/* O WhatsApp fica no botão flutuante padrão do site (à direita) */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 py-2.5 pl-3 pr-20 shadow-[0_-6px_18px_rgba(0,0,0,0.08)]">
+        <button type="button" onClick={() => abrir({ objetivo: '' })} className="w-full min-h-[48px] rounded-xl bg-[#B86A4B] text-white font-extrabold">
+          Receber valores e plantas
         </button>
-        <a href={WHATSAPP_URL} target="_blank" rel="noopener" className="min-h-[48px] rounded-xl bg-green-600 text-white font-bold flex items-center justify-center gap-2">
-          <MessageCircle className="w-5 h-5" /> WhatsApp
-        </a>
       </div>
       <div className="lg:hidden h-20" aria-hidden="true" />
 
