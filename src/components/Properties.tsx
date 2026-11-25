@@ -12,6 +12,7 @@ const imgUnic = '/unic-sao-goncalo-fachada.webp';
 const imgVert = '/vert-alcantara-fachada.webp';
 const imgMarDeTrindade = '/mar-de-trindade-guarita.webp';
 const imgOrlaCentral = '/orla-central-niteroi-fachada.webp';
+const imgBosque = '/meu-crescer-niteroi-bosque-vista-do-morro-800.webp';
 
 type Property = {
   id: number;
@@ -120,6 +121,17 @@ const PROPERTIES: Property[] = [
     features: { bed: "1 a 3", bedText: "1 a 3 Quartos c/ Varanda", car: 1, carText: "Vagas limitadas", leisure: true, security: true },
     priceCondition: "A partir de R$ 331 mil* — consulte disponibilidade",
     slug: "/orla-central-niteroi"
+  },
+  {
+    id: 11,
+    name: "Bosque Residence",
+    location: "Fonseca, Niterói - RJ",
+    image: imgBosque,
+    imageAlt: "Torres do Bosque Residence cercadas pela mata no Fonseca, Niterói — apartamentos de 2 quartos com 8.000 m² de bosque privativo",
+    badges: ["Financiamento Caixa", "8.000 m² de bosque"],
+    features: { bed: 2, bedText: "2 Quartos c/ Varanda", car: 1, leisure: true, security: true },
+    priceCondition: "A partir de R$ 324 mil* — consulte disponibilidade",
+    slug: "/bosque-residence-niteroi"
   },
   {
     id: 8,

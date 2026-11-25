@@ -132,6 +132,8 @@ function Chips({ name, legend, options, value, onChange, error }) {
 // - idPrefix: prefixo dos ids dos campos, para usar mais de um formulário na mesma página
 // - textoBotao: texto do botão de envio
 // - semMoldura: sem borda, fundo e espaçamento externos (para usar dentro de um card)
+// - confirmarGravacao: envia em modo CORS e só segue para /obrigado quando o Apps Script
+//   responde {"ok":true}; em erro, mantém os campos preenchidos e mostra o aviso
 export default function LeadForm({
   empreendimento = '',
   cidadeFixa = '',
@@ -145,6 +147,7 @@ export default function LeadForm({
   idPrefix = '',
   textoBotao = '',
   semMoldura = false,
+  confirmarGravacao = false,
 } = {}) {
   const [v, setV] = useState({
     nome: '', whatsapp: '', email: '', cidade: cidadeFixa, faixa: '', quartos: quartosInicial,
@@ -293,7 +296,22 @@ export default function LeadForm({
     setSending(true);
     try {
       // ── Envio primário: GAS / Google Sheets (mantido como estava) ──────────
-      const gasPromise = fetch(CONFIG.SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: data });
+      let gasPromise;
+      if (confirmarGravacao) {
+        // Resposta legível (CORS): confirma a gravação na planilha antes de seguir.
+        const ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        const timer = ctrl ? setTimeout(() => ctrl.abort(), 20000) : null;
+        try {
+          const resp = await fetch(CONFIG.SCRIPT_URL, { method: 'POST', body: data, signal: ctrl ? ctrl.signal : undefined });
+          const json = await resp.json();
+          if (!resp.ok || !json || json.ok !== true) throw new Error('gravacao_nao_confirmada');
+        } finally {
+          if (timer) clearTimeout(timer);
+        }
+        gasPromise = Promise.resolve();
+      } else {
+        gasPromise = fetch(CONFIG.SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: data });
+      }
 
       // ── Envio secundário: CRM Worker (fire-and-forget, não-bloqueante) ─────
       // Falhas silenciosas — nunca bloqueiam o redirect para /obrigado.
@@ -471,7 +489,7 @@ export default function LeadForm({
             <label className="consent">
               <input type="checkbox" checked={v.lgpd} onChange={(e) => set('lgpd')(e.target.checked)} />
               <span>Autorizo o contato por WhatsApp, e-mail ou telefone e o uso dos meus dados para atendimento imobiliário,
-                conforme a LGPD (Lei 13.709/2018). Posso pedir a exclusão a qualquer momento.</span>
+                conforme a LGPD (Lei 13.709/2018) e a <a href="/politica-de-privacidade" target="_blank" rel="noopener">Política de Privacidade</a>. Posso pedir a exclusão a qualquer momento.</span>
             </label>
             {errs.lgpd && <div className="err">{errs.lgpd}</div>}
           </div>
@@ -484,7 +502,7 @@ export default function LeadForm({
           <button type="button" className="back" onClick={() => goTo(step - 1)}>← Voltar</button>
         )}
         {step === TOTAL && <p className="trust">🔒 Atendimento gratuito, sem compromisso e sem spam.</p>}
-        {fail && <div className="fail">{compacto ? 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.' : 'Não conseguimos enviar agora. Tente de novo ou chame direto no WhatsApp.'}</div>}
+        {fail && <div className="fail" role="alert">{compacto ? 'Não conseguimos enviar agora. Confira sua conexão e tente de novo.' : 'Não conseguimos enviar agora. Tente de novo ou chame direto no WhatsApp.'}</div>}
       </form>
     </section>
   );

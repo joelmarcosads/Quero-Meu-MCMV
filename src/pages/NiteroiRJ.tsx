@@ -139,6 +139,31 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        <section className="pb-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/bosque-residence-niteroi"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#1E3B2C] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/meu-crescer-niteroi-bosque-vista-do-morro-800.webp"
+                alt="Torres do Bosque Residence cercadas pela mata no Fonseca, Niterói"
+                width={800}
+                height={566}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-amber-300">LANÇAMENTO NO FONSECA</p>
+                <h2 className="text-2xl font-bold mt-2">Bosque Residence — 2 quartos com 8.000 m² de bosque privativo</h2>
+                <p className="text-emerald-50/90 mt-3">Trilha, mirante e piscina no rooftop, com financiamento CAIXA. A partir de R$ 324 mil*.</p>
+                <p className="text-xs text-emerald-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-amber-300">Ver o Bosque Residence →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

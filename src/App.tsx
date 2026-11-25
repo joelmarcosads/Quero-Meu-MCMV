@@ -30,6 +30,7 @@ import MiranteBoacVista from './pages/MiranteBoacVista';
 import VertAlcantara from './pages/VertAlcantara';
 import MarDeTrindade from './pages/MarDeTrindade';
 import OrlaCentralNiteroi from './pages/OrlaCentralNiteroi';
+import BosqueResidenceNiteroi from './pages/BosqueResidenceNiteroi';
 
 export function AppRoutes() {
   return (
@@ -73,6 +74,8 @@ export function AppRoutes() {
         <Route path="/unicsaogoncalo" element={<UnicSaoGoncalo />} />
         <Route path="/orla-central-niteroi" element={<OrlaCentralNiteroi />} />
         <Route path="/orla-central-niteroi/" element={<OrlaCentralNiteroi />} />
+        <Route path="/bosque-residence-niteroi" element={<BosqueResidenceNiteroi />} />
+        <Route path="/bosque-residence-niteroi/" element={<BosqueResidenceNiteroi />} />
         <Route path="/mirante-boa-vista" element={<MiranteBoacVista />} />
         <Route path="/vert-alcantara" element={<VertAlcantara />} />
         <Route path="/apartamentos-mar-de-trindade" element={<MarDeTrindade />} />

@@ -1,4 +1,5 @@
 import { FAQ_ORLA, ORLA_AVISO_PRECO, ORLA_PRECO_A_PARTIR } from '../data/orlaCentral';
+import { FAQ_BOSQUE, BOSQUE_AVISO_PRECO, BOSQUE_PRECO_A_PARTIR } from '../data/bosqueResidence';
 
 export interface FaqItem {
   question: string;
@@ -323,6 +324,59 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_ORLA.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/bosque-residence-niteroi',
+    title: 'Bosque Residence Fonseca Niterói | 2 Quartos a partir de R$ 324 mil',
+    description:
+      'Bosque Residence, da Crescer, no Fonseca (Niterói): 2 quartos com varanda, 8.000 m² de bosque privativo e piscina no rooftop. A partir de R$ 324 mil.',
+    h1: 'Bosque Residence, no Fonseca: 2 quartos com varanda e 8.000 m² de bosque privativo em Niterói',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Bosque Residence', path: '/bosque-residence-niteroi' },
+    ],
+    development: {
+      name: 'Meu Crescer Niterói | Bosque Residence',
+      developer: 'Crescer Incorporadora e Construtora',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Av. Desembargador Lima Castro, 245 — Fonseca',
+      numberOfBedrooms: '2 a 3',
+      image: 'https://queromeumcmv.com.br/meu-crescer-niteroi-bosque-vista-do-morro.webp',
+      commercialCondition: 'Financiamento CAIXA · preço a partir de R$ 324.000 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/bosque-residence-niteroi',
+      priceFrom: BOSQUE_PRECO_A_PARTIR,
+      priceNote: BOSQUE_AVISO_PRECO,
+      numberOfUnits: 163,
+      floorSizeMin: 47,
+      floorSizeMax: 144,
+      amenities: [
+        { name: 'Área verde privativa', value: '8.000 m²' },
+        { name: 'Trilha para caminhada', value: 'Sim' },
+        { name: 'Mirante / espaço zen', value: 'Sim' },
+        { name: 'Redário', value: 'Sim' },
+        { name: 'Horta', value: 'Sim' },
+        { name: 'Orquidário', value: 'Sim' },
+        { name: 'Espaço churrasco', value: 'Sim' },
+        { name: 'Playground', value: 'Sim' },
+        { name: 'Mini quadras', value: 'Sim' },
+        { name: 'Pet place e pet care', value: 'Sim' },
+        { name: 'Piscina adulto e infantil (rooftop)', value: 'Sim' },
+        { name: 'Salão de festas', value: 'Sim' },
+        { name: 'Espaço gourmet', value: 'Sim' },
+        { name: 'Lounge / coworking', value: 'Sim' },
+        { name: 'Brinquedoteca', value: 'Sim' },
+        { name: 'Espaço fitness', value: 'Sim' },
+        { name: 'Bicicletário', value: 'Sim' },
+        { name: 'Carro e bicicleta compartilhados', value: 'Sim' },
+        { name: 'Lojas na fachada', value: '4' },
+      ],
+    },
+    faqs: FAQ_BOSQUE.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',
