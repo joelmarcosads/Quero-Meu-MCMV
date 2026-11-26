@@ -188,7 +188,7 @@ const PROPERTIES: Property[] = [
     location: "Fonseca, Niterói - RJ",
     image: imgOpen,
     imageAlt: "Fachada do Niterói Open Residencial, da GPCON, no Bairro Chic, Fonseca, Niterói — últimas unidades",
-    badges: ["Últimas unidades", "Piscina com prainha"],
+    badges: ["Últimas unidades", "Pronto para morar"],
     features: { bed: "1 a 3", bedText: "Lofts, 2 quartos e coberturas", car: 1, carText: "Opções com e sem vaga", leisure: true, security: true },
     priceCondition: "A partir de R$ 287 mil* — consulte disponibilidade",
     slug: "/niteroi-open-residence"

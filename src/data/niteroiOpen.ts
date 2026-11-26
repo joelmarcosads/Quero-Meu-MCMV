@@ -3,7 +3,8 @@
 // 26/11/2026 — págs. 2 e 8 (fachada e portaria), 4–6 (localização), 10 (ficha técnica), 14–21 (lazer),
 // 22–23 (diferenciais), 24 (quadro de áreas), 25–37 (plantas), 39–42 (decorado), 43–45 (memorial
 // descritivo), 46 (construtora) e 49 (registro da incorporação).
-// Preço inicial e "últimas unidades" informados pelo corretor em 26/11/2026 (o book não traz preço).
+// Preço inicial, "últimas unidades" e status "pronto para morar" informados pelo corretor em 26/11/2026
+// (o book não traz preço nem status de obra).
 
 export const OPEN_PRECO_A_PARTIR = 287000;
 export const OPEN_AVISO_PRECO =
@@ -15,6 +16,11 @@ export const FAQ_OPEN = [
     pergunta: 'Quanto custa um apartamento no Niterói Open Residencial?',
     resposta:
       'As unidades do Niterói Open Residencial partem de R$ 287.000. O valor varia conforme a planta, o andar e a vaga de garagem. Restam as últimas unidades; os valores podem sofrer alterações sem prévio aviso e a disponibilidade deve ser consultada com o corretor.',
+  },
+  {
+    pergunta: 'O Niterói Open Residencial está pronto para morar?',
+    resposta:
+      'Sim. O Niterói Open Residencial está pronto para morar: você conhece o prédio, o lazer e o apartamento antes de decidir e, com o financiamento aprovado e o contrato assinado, recebe as chaves sem esperar obra.',
   },
   {
     pergunta: 'Onde fica o Niterói Open Residencial?',
@@ -44,7 +50,7 @@ export const FAQ_OPEN = [
   {
     pergunta: 'Como funciona o financiamento?',
     resposta:
-      'Segundo o book, a obra é financiada com a garantia da Caixa Econômica Federal. O financiamento do comprador é sujeito à análise de crédito, e o FGTS pode ser usado conforme as regras do fundo. O corretor faz a simulação conforme a sua renda.',
+      'O financiamento do comprador é bancário e sujeito à análise de crédito, e o FGTS pode ser usado conforme as regras do fundo. O corretor faz a simulação conforme a sua renda.',
   },
   {
     pergunta: 'Posso visitar o apartamento decorado?',

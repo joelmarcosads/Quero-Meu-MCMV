@@ -21,6 +21,7 @@ import {
   Trees,
   Wifi,
   Clock,
+  KeyRound,
 } from 'lucide-react';
 
 // ─── Landing: Niterói Open Residencial (GPCON) — Bairro Chic, Fonseca, Niterói · últimas unidades ───
@@ -33,7 +34,7 @@ const URL_PAGINA = `https://queromeumcmv.com.br${SLUG}`;
 const EMPREENDIMENTO = 'Niterói Open Residencial — Fonseca';
 const TITLE = 'Niterói Open Residencial | Últimas Unidades, R$ 287 mil';
 const DESCRIPTION =
-  'Niterói Open Residencial, da GPCON, no Fonseca: lofts e 2 quartos com varanda, piscina com prainha e coworking. Últimas unidades a partir de R$ 287 mil.';
+  'Niterói Open Residencial, da GPCON, no Fonseca: lofts e 2 quartos prontos para morar, piscina com prainha e coworking. Últimas unidades a partir de R$ 287 mil.';
 const PRECO = 'R$ 287.000';
 const FORM = 'lead_niteroi_open';
 
@@ -216,15 +217,20 @@ export default function NiteroiOpenResidence() {
 
             <div className="grid gap-x-8 gap-y-5 lg:grid-cols-12 lg:items-center">
               <div className="order-1 space-y-3 sm:space-y-4 lg:col-span-7 lg:row-start-1 lg:space-y-5">
-                <p className="inline-flex items-center gap-2 rounded-full bg-[#E63946] px-3 py-1 text-xs font-extrabold tracking-widest text-white">
-                  <Clock className="h-4 w-4" /> ÚLTIMAS UNIDADES!
-                </p>
+                <div className="flex flex-wrap gap-2">
+                  <p className="inline-flex items-center gap-2 rounded-full bg-[#E63946] px-3 py-1 text-xs font-extrabold tracking-widest text-white">
+                    <Clock className="h-4 w-4" /> ÚLTIMAS UNIDADES!
+                  </p>
+                  <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-extrabold tracking-widest text-[#1B2A5C]">
+                    <KeyRound className="h-4 w-4" /> PRONTO PARA MORAR
+                  </p>
+                </div>
                 <h1 className="text-[1.4rem] font-extrabold leading-snug sm:text-3xl sm:leading-tight md:text-[2.6rem]">
-                  Niterói Open Residencial: lofts e 2 quartos com varanda no Fonseca, perto de tudo e longe do aluguel
+                  Niterói Open Residencial: lofts e 2 quartos prontos para morar no Fonseca, perto de tudo e longe do aluguel
                 </h1>
                 <p className="max-w-2xl text-[15px] leading-relaxed text-rose-50/90 sm:text-lg">
-                  A 1 minuto da Alameda São Boaventura e a 5 da Ponte Rio–Niterói, com piscina com prainha, coworking e espaço
-                  fitness no condomínio.
+                  Pronto para morar, sem esperar obra: a 1 minuto da Alameda São Boaventura e a 5 da Ponte Rio–Niterói, com piscina
+                  com prainha, coworking e espaço fitness no condomínio.
                 </p>
                 <p className="hidden items-start gap-2 text-rose-50/90 sm:flex">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#F26B5B]" />
@@ -237,7 +243,7 @@ export default function NiteroiOpenResidence() {
 
               <div className="order-3 lg:col-span-7 lg:row-start-2">
                 <ul className="grid max-w-xl gap-2 text-sm sm:grid-cols-2" aria-label="Destaques">
-                  {['Últimas unidades disponíveis', 'Lofts, 2 quartos e coberturas', 'Opções com e sem vaga de garagem', 'Obra financiada com garantia da CAIXA'].map((t) => (
+                  {['Pronto para morar', 'Últimas unidades disponíveis', 'Lofts, 2 quartos e coberturas', 'Opções com e sem vaga de garagem'].map((t) => (
                     <li key={t} className="flex gap-2"><CheckCircle2 className="h-5 w-5 shrink-0 text-[#F26B5B]" />{t}</li>
                   ))}
                 </ul>
@@ -275,10 +281,15 @@ export default function NiteroiOpenResidence() {
             <p className="mt-3 max-w-3xl leading-relaxed text-slate-700">
               O Niterói Open Residencial é um condomínio compacto da GPCON no Bairro Chic, no Fonseca, em Niterói: uma torre com 72
               unidades entre lofts, apartamentos de 2 quartos com ou sem suíte e 2 coberturas de 3 quartos, com 2 elevadores e lazer
-              completo. Restam as últimas unidades.
+              completo. O prédio está pronto para morar e restam as últimas unidades.
             </p>
-            <div className="mt-8 grid gap-5 md:grid-cols-3">
+            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {[
+                {
+                  icon: <KeyRound className="h-6 w-6" />,
+                  t: 'Pronto para morar',
+                  d: 'Sem esperar obra: com o financiamento aprovado e o contrato assinado, você recebe as chaves e troca o aluguel pela parcela do que é seu.',
+                },
                 {
                   icon: <Car className="h-6 w-6" />,
                   t: 'Saída rápida para Niterói e o Rio',
@@ -488,7 +499,7 @@ export default function NiteroiOpenResidence() {
                 </div>
                 <p className="text-xs text-slate-500">
                   Informações extraídas do book digital oficial da GPCON (julho de 2023), conferidas em {OPEN_DATA_CONFERENCIA}.
-                  Preço inicial e disponibilidade informados pelo corretor.
+                  Preço inicial, disponibilidade e status pronto para morar informados pelo corretor.
                 </p>
               </div>
             </div>
@@ -502,7 +513,7 @@ export default function NiteroiOpenResidence() {
           <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div className="space-y-5">
               <p className="inline-flex items-center gap-2 rounded-full bg-[#E63946] px-3 py-1 text-xs font-extrabold tracking-widest">
-                <Clock className="h-4 w-4" /> ÚLTIMAS UNIDADES!
+                <Clock className="h-4 w-4" /> ÚLTIMAS UNIDADES · PRONTO PARA MORAR
               </p>
               <h2 className="text-3xl font-bold leading-tight md:text-4xl">Consulte agora quais unidades ainda restam.</h2>
               <Oferta claro />

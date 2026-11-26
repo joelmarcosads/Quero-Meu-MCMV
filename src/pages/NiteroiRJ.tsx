@@ -254,8 +254,8 @@ export default function NiteroiRJ() {
                 className="w-full h-56 md:h-full object-cover"
               />
               <div className="p-6 md:p-8">
-                <p className="text-xs font-bold tracking-widest text-rose-300">ÚLTIMAS UNIDADES · FONSECA</p>
-                <h2 className="text-2xl font-bold mt-2">Niterói Open Residencial — lofts e 2 quartos perto da Ponte e do Centro</h2>
+                <p className="text-xs font-bold tracking-widest text-rose-300">PRONTO PARA MORAR · ÚLTIMAS UNIDADES</p>
+                <h2 className="text-2xl font-bold mt-2">Niterói Open Residencial — lofts e 2 quartos prontos para morar no Fonseca</h2>
                 <p className="text-rose-50/90 mt-3">Piscina com prainha, coworking e espaço fitness, a 1 minuto da Alameda São Boaventura. A partir de R$ 287 mil*.</p>
                 <p className="text-xs text-rose-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
                 <span className="inline-block mt-4 font-bold text-rose-300">Ver o Niterói Open →</span>
