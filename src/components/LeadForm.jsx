@@ -157,6 +157,8 @@ export default function LeadForm({
   const [step, setStep] = useState(compacto ? TOTAL : 1);
   const [errs, setErrs] = useState({});
   const [sending, setSending] = useState(false);
+  // Trava síncrona contra clique repetido (o estado do React só atualiza no próximo render)
+  const sendingRef = useRef(false);
   const [fail, setFail] = useState(false);
   const t0 = useRef(Date.now());
   const started = useRef(false);
@@ -237,7 +239,7 @@ export default function LeadForm({
   // Assim o Google Ads/GA4 não conta "form_submit" a cada etapa; a conversão
   // é contabilizada SOMENTE na página /obrigado (evento lead_compra_imovel).
   async function handleSend() {
-    if (sending) return;
+    if (sending || sendingRef.current) return;
     if (step < TOTAL) return next();
     setFail(false);
     const e = validateStep(TOTAL);
@@ -293,6 +295,7 @@ export default function LeadForm({
       if (objetivo) data.set('objetivo', objetivo);
     }
 
+    sendingRef.current = true;
     setSending(true);
     try {
       // ── Envio primário: GAS / Google Sheets (mantido como estava) ──────────
@@ -383,6 +386,7 @@ export default function LeadForm({
       const thanksQuery = thanksParams.toString();
       window.location.href = thanksQuery ? `${CONFIG.THANKS_PATH}?${thanksQuery}` : CONFIG.THANKS_PATH;
     } catch (_) {
+      sendingRef.current = false;
       setSending(false);
       setFail(true);
     }
