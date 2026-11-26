@@ -66,11 +66,12 @@ const CSS = `
 
 const CIDADES = ['Itaboraí', 'São Gonçalo', 'Niterói', 'Ainda não sei'];
 const QUARTOS = ['1 quarto', '2 quartos', '3 quartos', '4 ou mais'];
-// Faixas de renda alinhadas às faixas do MCMV 2026 (F1 até 3.200 · F2 até 5.000 · F3 até 9.600 · F4 até 13.000)
-const RENDAS = ['Até R$ 1.800', 'R$ 1.800 a 2.500', 'R$ 2.500 a 3.200', 'R$ 3.200 a 5.000', 'R$ 5.000 a 9.600', 'Acima de R$ 9.600'];
+// Faixas de renda alinhadas às faixas do MCMV 2026 (F1 até 3.200 · F2 até 5.000 · F3 até 9.600 · F4 até 13.000).
+// Começa em R$ 2.500: o imóvel de menor valor da carteira é de R$ 195 mil, e abaixo disso o financiamento fica inviável.
+const RENDAS = ['R$ 2.500 a 3.200', 'R$ 3.200 a 5.000', 'R$ 5.000 a 9.600', 'Acima de R$ 9.600'];
 const REGIMES = ['Carteira assinada', 'Funcionário público', 'Autônomo', 'Aposentado / pensionista'];
 // Rendas que se enquadram nas Faixas 1 e 2 (com possibilidade de subsídio)
-const RENDAS_COM_SUBSIDIO = RENDAS.slice(0, 4);
+const RENDAS_COM_SUBSIDIO = RENDAS.slice(0, 2);
 const PAGAMENTOS = ['Financiamento Imobiliário', 'à vista', 'Consórcio'];
 const FAIXAS = ['Até R$ 200 mil', 'R$ 200 a 300 mil', 'R$ 300 a 450 mil', 'R$ 450 a 700 mil', 'Acima de R$ 700 mil'];
 const PRIMEIRA = ['Sim', 'Não, já tive outro', 'É para investir'];
