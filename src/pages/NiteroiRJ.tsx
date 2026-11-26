@@ -239,6 +239,31 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        <section className="pb-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/niteroi-open-residence"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#1B2A5C] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/niteroi-open-residencial-fachada-800.webp"
+                alt="Fachada do Niterói Open Residencial, no Bairro Chic, Fonseca, Niterói"
+                width={800}
+                height={720}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-rose-300">ÚLTIMAS UNIDADES · FONSECA</p>
+                <h2 className="text-2xl font-bold mt-2">Niterói Open Residencial — lofts e 2 quartos perto da Ponte e do Centro</h2>
+                <p className="text-rose-50/90 mt-3">Piscina com prainha, coworking e espaço fitness, a 1 minuto da Alameda São Boaventura. A partir de R$ 287 mil*.</p>
+                <p className="text-xs text-rose-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-rose-300">Ver o Niterói Open →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -4,6 +4,7 @@ import { FAQ_GUANABARA, GUANABARA_AVISO_PRECO, GUANABARA_PRECO_A_PARTIR } from '
 import { FAQ_SUNIN, SUNIN_AVISO_PRECO, SUNIN_PRECO_A_PARTIR } from '../data/sunInStudio';
 import { FAQ_CAMINHOS, CAMINHOS_AVISO_PRECO, CAMINHOS_PRECO_A_PARTIR } from '../data/caminhosGuanabara';
 import { FAQ_IMPERIO, IMPERIO_AVISO_PRECO, IMPERIO_PRECO_A_PARTIR } from '../data/imperioDoOuro';
+import { FAQ_OPEN, OPEN_AVISO_PRECO, OPEN_PRECO_A_PARTIR } from '../data/niteroiOpen';
 
 export interface FaqItem {
   question: string;
@@ -569,6 +570,51 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_IMPERIO.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/niteroi-open-residence',
+    title: 'Niterói Open Residencial | Últimas Unidades, R$ 287 mil',
+    description:
+      'Niterói Open Residencial, da GPCON, no Fonseca: lofts e 2 quartos com varanda, piscina com prainha e coworking. Últimas unidades a partir de R$ 287 mil.',
+    h1: 'Niterói Open Residencial: lofts e 2 quartos com varanda no Fonseca, perto de tudo e longe do aluguel',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Niterói Open Residencial', path: '/niteroi-open-residence' },
+    ],
+    development: {
+      name: 'Niterói Open Residencial',
+      developer: 'GPCON Realizações',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Bairro Chic — Fonseca',
+      numberOfBedrooms: '1 a 3',
+      image: 'https://queromeumcmv.com.br/niteroi-open-residencial-fachada.webp',
+      commercialCondition: 'Últimas unidades · preço a partir de R$ 287.000 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/niteroi-open-residence',
+      priceFrom: OPEN_PRECO_A_PARTIR,
+      priceNote: OPEN_AVISO_PRECO,
+      numberOfUnits: 72,
+      floorSizeMin: 45.1,
+      floorSizeMax: 144,
+      amenities: [
+        { name: 'Piscina com prainha', value: 'Sim' },
+        { name: 'Solarium com churrasqueira', value: 'Sim' },
+        { name: 'Espaço gourmet com salão de festas', value: 'Sim' },
+        { name: 'Espaço fitness', value: 'Sim' },
+        { name: 'Coworking com sala de reunião', value: 'Sim' },
+        { name: 'Espaço kids', value: 'Sim' },
+        { name: 'Espaço pet shower', value: 'Sim' },
+        { name: 'Bicicletário com recarga para bicicleta elétrica', value: 'Sim' },
+        { name: 'Wi-Fi nas áreas comuns', value: 'Sim' },
+        { name: 'Elevadores', value: '2' },
+        { name: 'Vagas de garagem', value: '39' },
+      ],
+    },
+    faqs: FAQ_OPEN.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',

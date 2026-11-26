@@ -17,6 +17,7 @@ const imgOrlaGuanabara = '/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer-8
 const imgSunIn = '/sun-in-studio-design-niteroi-piscina-rooftop-800.webp';
 const imgCaminhos = '/caminhos-da-guanabara-niteroi-solario-rooftop-800.webp';
 const imgImperio = '/imperio-do-ouro-sg-portaria-800.webp';
+const imgOpen = '/niteroi-open-residencial-fachada-800.webp';
 
 type Property = {
   id: number;
@@ -180,6 +181,17 @@ const PROPERTIES: Property[] = [
     features: { bed: 2, bedText: "2 Quartos, opção de suíte", car: 1, carText: "Vagas limitadas", leisure: true, security: true },
     priceCondition: "A partir de R$ 259 mil* — consulte disponibilidade",
     slug: "/imperio-do-ouro-sg"
+  },
+  {
+    id: 16,
+    name: "Niterói Open Residencial",
+    location: "Fonseca, Niterói - RJ",
+    image: imgOpen,
+    imageAlt: "Fachada do Niterói Open Residencial, da GPCON, no Bairro Chic, Fonseca, Niterói — últimas unidades",
+    badges: ["Últimas unidades", "Piscina com prainha"],
+    features: { bed: "1 a 3", bedText: "Lofts, 2 quartos e coberturas", car: 1, carText: "Opções com e sem vaga", leisure: true, security: true },
+    priceCondition: "A partir de R$ 287 mil* — consulte disponibilidade",
+    slug: "/niteroi-open-residence"
   },
   {
     id: 8,
