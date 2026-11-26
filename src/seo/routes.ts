@@ -3,6 +3,7 @@ import { FAQ_BOSQUE, BOSQUE_AVISO_PRECO, BOSQUE_PRECO_A_PARTIR } from '../data/b
 import { FAQ_GUANABARA, GUANABARA_AVISO_PRECO, GUANABARA_PRECO_A_PARTIR } from '../data/orlaGuanabara';
 import { FAQ_SUNIN, SUNIN_AVISO_PRECO, SUNIN_PRECO_A_PARTIR } from '../data/sunInStudio';
 import { FAQ_CAMINHOS, CAMINHOS_AVISO_PRECO, CAMINHOS_PRECO_A_PARTIR } from '../data/caminhosGuanabara';
+import { FAQ_IMPERIO, IMPERIO_AVISO_PRECO, IMPERIO_PRECO_A_PARTIR } from '../data/imperioDoOuro';
 
 export interface FaqItem {
   question: string;
@@ -523,6 +524,51 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_CAMINHOS.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/imperio-do-ouro-sg',
+    title: 'Império do Ouro São Gonçalo | Pronto para Morar, R$ 259 mil',
+    description:
+      'Império do Ouro, da MRV, no Rio do Ouro em São Gonçalo: 2 quartos pronto para morar, com opção de suíte e varanda, piscina e lazer. A partir de R$ 259 mil.',
+    h1: 'Império do Ouro: apartamento de 2 quartos pronto para morar no Rio do Ouro, em São Gonçalo',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em São Gonçalo', path: '/minha-casa-minha-vida-sao-goncalo' },
+      { name: 'Império do Ouro', path: '/imperio-do-ouro-sg' },
+    ],
+    development: {
+      name: 'Império do Ouro',
+      developer: 'MRV',
+      addressLocality: 'São Gonçalo',
+      addressRegion: 'RJ',
+      neighborhood: 'Rio do Ouro',
+      numberOfBedrooms: '2',
+      image: 'https://queromeumcmv.com.br/imperio-do-ouro-sg-portaria.webp',
+      commercialCondition: 'Pronto para morar · preço a partir de R$ 259.490 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/imperio-do-ouro-sg',
+      priceFrom: IMPERIO_PRECO_A_PARTIR,
+      priceNote: IMPERIO_AVISO_PRECO,
+      numberOfUnits: 612,
+      floorSizeMin: 46.05,
+      floorSizeMax: 47.02,
+      amenities: [
+        { name: 'Piscina adulto e infantil', value: 'Sim' },
+        { name: 'Salão de festas', value: 'Sim' },
+        { name: 'Espaço gourmet', value: 'Sim' },
+        { name: 'Espaço kids', value: 'Sim' },
+        { name: 'Playground', value: 'Sim' },
+        { name: 'Pet place', value: 'Sim' },
+        { name: 'Bicicletário', value: 'Sim' },
+        { name: 'Elevador', value: 'Sim' },
+        { name: 'Energia solar parcial nas áreas comuns', value: 'Sim' },
+        { name: 'Vagas de carro', value: '347' },
+        { name: 'Vagas de moto', value: '53' },
+      ],
+    },
+    faqs: FAQ_IMPERIO.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',

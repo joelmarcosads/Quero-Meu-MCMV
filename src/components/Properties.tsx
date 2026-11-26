@@ -16,6 +16,7 @@ const imgBosque = '/meu-crescer-niteroi-bosque-vista-do-morro-800.webp';
 const imgOrlaGuanabara = '/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer-800.webp';
 const imgSunIn = '/sun-in-studio-design-niteroi-piscina-rooftop-800.webp';
 const imgCaminhos = '/caminhos-da-guanabara-niteroi-solario-rooftop-800.webp';
+const imgImperio = '/imperio-do-ouro-sg-portaria-800.webp';
 
 type Property = {
   id: number;
@@ -168,6 +169,17 @@ const PROPERTIES: Property[] = [
     features: { bed: "1 e 2", bedText: "1 e 2 Quartos c/ Varanda", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
     priceCondition: "A partir de R$ 340 mil* — consulte disponibilidade",
     slug: "/caminhos-guanabara-niteroi"
+  },
+  {
+    id: 15,
+    name: "Império do Ouro",
+    location: "Rio do Ouro, São Gonçalo - RJ",
+    image: imgImperio,
+    imageAlt: "Portaria do Império do Ouro, da MRV, no Rio do Ouro em São Gonçalo — apartamentos de 2 quartos prontos para morar",
+    badges: ["Pronto para morar", "MRV"],
+    features: { bed: 2, bedText: "2 Quartos, opção de suíte", car: 1, carText: "Vagas limitadas", leisure: true, security: true },
+    priceCondition: "A partir de R$ 259 mil* — consulte disponibilidade",
+    slug: "/imperio-do-ouro-sg"
   },
   {
     id: 8,

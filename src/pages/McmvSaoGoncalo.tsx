@@ -91,6 +91,31 @@ export default function McmvSaoGoncalo() {
           </div>
         </section>
 
+        <section className="py-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/imperio-do-ouro-sg"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#1F4E3D] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/imperio-do-ouro-sg-portaria-800.webp"
+                alt="Portaria do Império do Ouro, condomínio pronto para morar no Rio do Ouro, em São Gonçalo"
+                width={800}
+                height={554}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-amber-300">PRONTO PARA MORAR · MRV</p>
+                <h2 className="text-2xl font-bold mt-2">Império do Ouro — 2 quartos pronto para morar no Rio do Ouro</h2>
+                <p className="text-amber-50/90 mt-3">Opção de suíte e varanda, piscina, salão de festas e espaço gourmet, ao lado do Rede Economia. A partir de R$ 259 mil*.</p>
+                <p className="text-xs text-amber-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-amber-300">Ver o Império do Ouro →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
