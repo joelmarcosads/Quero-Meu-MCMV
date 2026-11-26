@@ -231,13 +231,14 @@ async function runPrerender() {
     );
 
     // Robots meta tag
-    if (route.noindex) {
-      const robotsContent = route.nofollow ? 'noindex, nofollow' : 'noindex';
-      pageHtml = pageHtml.replace(
-        /<\/head>/i,
-        () => `  <meta name="robots" content="${robotsContent}" />\n</head>`
-      );
-    }
+    // Páginas indexáveis: libera imagens grandes no Google Discover/Imagens e snippets completos.
+    const robotsContent = route.noindex
+      ? (route.nofollow ? 'noindex, nofollow' : 'noindex')
+      : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+    pageHtml = pageHtml.replace(
+      /<\/head>/i,
+      () => `  <meta name="robots" content="${robotsContent}" />\n</head>`
+    );
 
     // JSON-LD Schema.org block
     if (!route.noindex) {
