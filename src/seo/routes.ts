@@ -1,6 +1,7 @@
 import { FAQ_ORLA, ORLA_AVISO_PRECO, ORLA_PRECO_A_PARTIR } from '../data/orlaCentral';
 import { FAQ_BOSQUE, BOSQUE_AVISO_PRECO, BOSQUE_PRECO_A_PARTIR } from '../data/bosqueResidence';
 import { FAQ_GUANABARA, GUANABARA_AVISO_PRECO, GUANABARA_PRECO_A_PARTIR } from '../data/orlaGuanabara';
+import { FAQ_SUNIN, SUNIN_AVISO_PRECO, SUNIN_PRECO_A_PARTIR } from '../data/sunInStudio';
 
 export interface FaqItem {
   question: string;
@@ -427,6 +428,52 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_GUANABARA.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/sun-in-studio-desing-niteroi',
+    title: 'Sun In Studio Design Niterói | Studios no Centro com Rooftop',
+    description:
+      'Sun In Studio Design, da RDR Engenharia, no Centro de Niterói: studios de 24 a 30 m² perto da UFF, piscina e sky bar no rooftop e financiamento CAIXA.',
+    h1: 'Sun In Studio Design: studios no Centro de Niterói com piscina e sky bar no rooftop, a poucos passos da UFF',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Sun In Studio Design', path: '/sun-in-studio-desing-niteroi' },
+    ],
+    development: {
+      name: 'Sun In Studio Design',
+      developer: 'RDR Engenharia',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Rua São Sebastião — Centro',
+      numberOfBedrooms: 'Studio',
+      image: 'https://queromeumcmv.com.br/sun-in-studio-design-niteroi-piscina-rooftop.webp',
+      commercialCondition: 'Financiamento CAIXA · consulte valores e disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/sun-in-studio-desing-niteroi',
+      ...(SUNIN_PRECO_A_PARTIR ? { priceFrom: SUNIN_PRECO_A_PARTIR, priceNote: SUNIN_AVISO_PRECO } : {}),
+      numberOfUnits: 209,
+      floorSizeMin: 24.03,
+      floorSizeMax: 30.32,
+      amenities: [
+        { name: 'Piscina no rooftop', value: 'Sim' },
+        { name: 'Sky bar', value: 'Sim' },
+        { name: 'Academia', value: 'Sim' },
+        { name: 'Spa e sauna', value: 'Sim' },
+        { name: 'Espaço coliving', value: 'Sim' },
+        { name: 'Espaço gourmet', value: 'Sim' },
+        { name: 'Coworking e sala de reunião', value: 'Sim' },
+        { name: 'Praça e pet place', value: 'Sim' },
+        { name: 'Minimercado', value: 'Sim' },
+        { name: 'Lavanderia', value: 'Sim' },
+        { name: 'Espaço delivery', value: 'Sim' },
+        { name: 'Bicicletário', value: '209 vagas' },
+        { name: 'Vagas de garagem', value: '42' },
+      ],
+    },
+    faqs: FAQ_SUNIN.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',

@@ -189,6 +189,30 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        <section className="pb-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/sun-in-studio-desing-niteroi"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#1E2A44] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/sun-in-studio-design-niteroi-piscina-rooftop-800.webp"
+                alt="Piscina no rooftop do Sun In Studio Design, no Centro de Niterói"
+                width={800}
+                height={416}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-orange-300">STUDIOS NO CENTRO DE NITERÓI</p>
+                <h2 className="text-2xl font-bold mt-2">Sun In Studio Design — studios perto da UFF com rooftop e vista mar</h2>
+                <p className="text-orange-50/90 mt-3">Piscina, sky bar e spa na cobertura, coworking e coliving. Financiamento CAIXA.</p>
+                <span className="inline-block mt-4 font-bold text-orange-300">Ver o Sun In →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

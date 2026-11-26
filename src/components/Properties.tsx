@@ -14,6 +14,7 @@ const imgMarDeTrindade = '/mar-de-trindade-guarita.webp';
 const imgOrlaCentral = '/orla-central-niteroi-fachada.webp';
 const imgBosque = '/meu-crescer-niteroi-bosque-vista-do-morro-800.webp';
 const imgOrlaGuanabara = '/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer-800.webp';
+const imgSunIn = '/sun-in-studio-design-niteroi-piscina-rooftop-800.webp';
 
 type Property = {
   id: number;
@@ -144,6 +145,17 @@ const PROPERTIES: Property[] = [
     features: { bed: 2, bedText: "2 Quartos c/ Varanda", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
     priceCondition: "A partir de R$ 299 mil* — consulte disponibilidade",
     slug: "/orla-guanabara-niteroi"
+  },
+  {
+    id: 13,
+    name: "Sun In Studio Design",
+    location: "Centro, Niterói - RJ",
+    image: imgSunIn,
+    imageAlt: "Piscina no rooftop do Sun In Studio Design, da RDR Engenharia, no Centro de Niterói — studios perto da UFF e do Plaza Shopping",
+    badges: ["Studios", "Financiamento Caixa"],
+    features: { bed: 1, bedText: "Studios de 24 a 30 m²", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
+    priceCondition: "Consulte valores e disponibilidade",
+    slug: "/sun-in-studio-desing-niteroi"
   },
   {
     id: 8,
