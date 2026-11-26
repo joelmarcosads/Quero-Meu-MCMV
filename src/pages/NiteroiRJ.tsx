@@ -192,7 +192,7 @@ export default function NiteroiRJ() {
         <section className="pb-12 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Link
-              to="/sun-in-studio-desing-niteroi"
+              to="/sun-in-studio-design-niteroi"
               className="grid md:grid-cols-2 gap-6 items-center bg-[#1E2A44] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
             >
               <img
@@ -206,7 +206,8 @@ export default function NiteroiRJ() {
               <div className="p-6 md:p-8">
                 <p className="text-xs font-bold tracking-widest text-orange-300">STUDIOS NO CENTRO DE NITERÓI</p>
                 <h2 className="text-2xl font-bold mt-2">Sun In Studio Design — studios perto da UFF com rooftop e vista mar</h2>
-                <p className="text-orange-50/90 mt-3">Piscina, sky bar e spa na cobertura, coworking e coliving. Financiamento CAIXA.</p>
+                <p className="text-orange-50/90 mt-3">Piscina, sky bar e spa na cobertura, coworking e coliving. A partir de R$ 295 mil*.</p>
+                <p className="text-xs text-orange-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
                 <span className="inline-block mt-4 font-bold text-orange-300">Ver o Sun In →</span>
               </div>
             </Link>

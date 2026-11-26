@@ -24,15 +24,15 @@ import {
 
 // ─── Landing: Sun In Studio Design (RDR Engenharia) — Centro de Niterói ───
 // Head (title/description/canonical/OG) e JSON-LD são gerados no build a partir de
-// src/seo/routes.ts (rota /sun-in-studio-desing-niteroi). O Helmet abaixo repete os dados
+// src/seo/routes.ts (rota /sun-in-studio-design-niteroi). O Helmet abaixo repete os dados
 // para a navegação interna (SPA). Fonte dos dados: apresentação oficial (ver src/data/sunInStudio.ts).
 
-const SLUG = '/sun-in-studio-desing-niteroi';
+const SLUG = '/sun-in-studio-design-niteroi';
 const URL_PAGINA = `https://queromeumcmv.com.br${SLUG}`;
 const EMPREENDIMENTO = 'Sun In Studio Design — Niterói';
-const TITLE = 'Sun In Studio Design Niterói | Studios no Centro com Rooftop';
+const TITLE = 'Sun In Studio Design Niterói | Studios a partir de R$ 295 mil';
 const DESCRIPTION =
-  'Sun In Studio Design, da RDR Engenharia, no Centro de Niterói: studios de 24 a 30 m² perto da UFF, piscina e sky bar no rooftop e financiamento CAIXA.';
+  'Sun In Studio Design, da RDR Engenharia, no Centro de Niterói: studios de 24 a 30 m² perto da UFF, rooftop com piscina e sky bar. A partir de R$ 295 mil.';
 const FORM = 'lead_sun_in_studio';
 
 const img = (nome: string) => `/sun-in-studio-design-niteroi-${nome}.webp`;

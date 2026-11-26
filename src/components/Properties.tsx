@@ -154,8 +154,8 @@ const PROPERTIES: Property[] = [
     imageAlt: "Piscina no rooftop do Sun In Studio Design, da RDR Engenharia, no Centro de Niterói — studios perto da UFF e do Plaza Shopping",
     badges: ["Studios", "Financiamento Caixa"],
     features: { bed: 1, bedText: "Studios de 24 a 30 m²", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
-    priceCondition: "Consulte valores e disponibilidade",
-    slug: "/sun-in-studio-desing-niteroi"
+    priceCondition: "A partir de R$ 295 mil* — consulte disponibilidade",
+    slug: "/sun-in-studio-design-niteroi"
   },
   {
     id: 8,

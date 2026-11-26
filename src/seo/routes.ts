@@ -430,10 +430,10 @@ export const ROUTES: SeoRoute[] = [
     faqs: FAQ_GUANABARA.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
-    path: '/sun-in-studio-desing-niteroi',
-    title: 'Sun In Studio Design Niterói | Studios no Centro com Rooftop',
+    path: '/sun-in-studio-design-niteroi',
+    title: 'Sun In Studio Design Niterói | Studios a partir de R$ 295 mil',
     description:
-      'Sun In Studio Design, da RDR Engenharia, no Centro de Niterói: studios de 24 a 30 m² perto da UFF, piscina e sky bar no rooftop e financiamento CAIXA.',
+      'Sun In Studio Design, da RDR Engenharia, no Centro de Niterói: studios de 24 a 30 m² perto da UFF, rooftop com piscina e sky bar. A partir de R$ 295 mil.',
     h1: 'Sun In Studio Design: studios no Centro de Niterói com piscina e sky bar no rooftop, a poucos passos da UFF',
     schemaType: 'ApartmentComplex',
     priority: '0.9',
@@ -441,7 +441,7 @@ export const ROUTES: SeoRoute[] = [
     breadcrumbs: [
       { name: 'Início', path: '/' },
       { name: 'Imóveis em Niterói', path: '/niteroirj' },
-      { name: 'Sun In Studio Design', path: '/sun-in-studio-desing-niteroi' },
+      { name: 'Sun In Studio Design', path: '/sun-in-studio-design-niteroi' },
     ],
     development: {
       name: 'Sun In Studio Design',
@@ -451,8 +451,8 @@ export const ROUTES: SeoRoute[] = [
       neighborhood: 'Rua São Sebastião — Centro',
       numberOfBedrooms: 'Studio',
       image: 'https://queromeumcmv.com.br/sun-in-studio-design-niteroi-piscina-rooftop.webp',
-      commercialCondition: 'Financiamento CAIXA · consulte valores e disponibilidade com o corretor',
-      url: 'https://queromeumcmv.com.br/sun-in-studio-desing-niteroi',
+      commercialCondition: 'Financiamento CAIXA · preço a partir de R$ 295.000 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/sun-in-studio-design-niteroi',
       ...(SUNIN_PRECO_A_PARTIR ? { priceFrom: SUNIN_PRECO_A_PARTIR, priceNote: SUNIN_AVISO_PRECO } : {}),
       numberOfUnits: 209,
       floorSizeMin: 24.03,

@@ -1,15 +1,13 @@
-// Dados compartilhados entre a página /sun-in-studio-desing-niteroi e o JSON-LD (src/seo/routes.ts).
+// Dados compartilhados entre a página /sun-in-studio-design-niteroi e o JSON-LD (src/seo/routes.ts).
 // Fonte: apresentação oficial "Sun In Studio Design" da RDR Engenharia (SUN-0015-25, meeting
 // investidor), conferida em 26/11/2026 — págs. 1 (marca), 5–7 (localização e informações gerais),
 // 8–24 (lazer e studio decorado), 26–35 (plantas e implantações), 36 (Niterói) e 47–48
 // (condições comerciais e financiamento CAIXA). Projeções de rentabilidade da apresentação
 // (págs. 38–45) NÃO são usadas na página.
 //
-// PREÇO: o corretor autorizou "a partir de R$ 295.000", mas a apresentação usa R$ 220.000 como
-// valor de venda nas análises (págs. 42–45). Pelo roteiro da campanha, o preço só é exibido
-// depois da confirmação do corretor. Para exibir, troque null por 295000 abaixo e inclua o
-// preço no title/description da rota em src/seo/routes.ts.
-export const SUNIN_PRECO_A_PARTIR: number | null = null;
+// PREÇO: "a partir de R$ 295.000" confirmado pelo corretor em 26/11/2026. Os R$ 220.000 usados
+// nas análises da apresentação (págs. 42–45) eram o preço de lançamento, já desatualizado.
+export const SUNIN_PRECO_A_PARTIR: number | null = 295000;
 export const SUNIN_AVISO_PRECO =
   '*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.';
 export const SUNIN_DATA_CONFERENCIA = '26/11/2026';
