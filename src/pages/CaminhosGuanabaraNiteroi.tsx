@@ -109,7 +109,7 @@ function Oferta({ claro = false }: { claro?: boolean }) {
   return (
     <div>
       <p className={`text-sm ${claro ? 'text-sky-50/90' : 'text-slate-600'}`}>A partir de</p>
-      <p className={`text-4xl font-extrabold tracking-tight ${claro ? 'text-white' : 'text-[#123A47]'}`}>
+      <p className={`text-3xl font-extrabold tracking-tight sm:text-4xl ${claro ? 'text-white' : 'text-[#123A47]'}`}>
         {PRECO}
         <span className="text-[#D9B45A]">*</span>
       </p>
@@ -206,7 +206,7 @@ export default function CaminhosGuanabaraNiteroi() {
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#0B2A35]/95 via-[#0B2A35]/80 to-[#0B2A35]/45" />
 
           <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-5 sm:px-6 lg:px-8 lg:py-14">
-            <nav className="mb-4 text-sm text-sky-50/80 sm:mb-6" aria-label="Breadcrumb">
+            <nav className="mb-3 text-sm text-sky-50/80 sm:mb-6" aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-1">
                 <li><Link to="/" className="hover:text-white">Início</Link></li>
                 <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
@@ -216,23 +216,23 @@ export default function CaminhosGuanabaraNiteroi() {
               </ol>
             </nav>
 
-            <div className="grid gap-x-8 gap-y-6 lg:grid-cols-12 lg:items-center">
+            <div className="grid gap-x-8 gap-y-5 lg:grid-cols-12 lg:items-center">
               <div className="order-1 space-y-3 sm:space-y-4 lg:col-span-7 lg:row-start-1 lg:space-y-5">
                 <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold tracking-widest">
                   LANÇAMENTO CURY · CAMINHO NIEMEYER
                 </p>
-                <h1 className="text-[1.6rem] font-extrabold leading-tight sm:text-3xl md:text-[2.6rem]">
+                <h1 className="text-[1.4rem] font-extrabold leading-snug sm:text-3xl sm:leading-tight md:text-[2.6rem]">
                   Caminhos da Guanabara: 1 e 2 quartos no Caminho Niemeyer, com rooftop de frente para a Baía de Guanabara
                 </h1>
-                <p className="max-w-2xl text-base leading-relaxed text-sky-50/90 sm:text-lg">
+                <p className="max-w-2xl text-[15px] leading-relaxed text-sky-50/90 sm:text-lg">
                   Onde todos os seus caminhos se encontram: barcas, terminal e shopping por perto, e o pôr do sol na Baía visto do
                   rooftop.
                 </p>
-                <p className="flex items-start gap-2 text-sky-50/90">
+                <p className="hidden items-start gap-2 text-sky-50/90 sm:flex">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#D9B45A]" />
                   Centro, Niterói – RJ · região do Caminho Niemeyer
                 </p>
-                <div className="max-w-xl rounded-2xl border border-white/15 bg-white/10 p-4 sm:p-5">
+                <div className="max-w-xl rounded-2xl border border-white/15 bg-white/10 px-4 py-3 sm:p-5">
                   <Oferta claro />
                 </div>
               </div>
