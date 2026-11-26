@@ -212,8 +212,8 @@ export default function OrlaGuanabaraNiteroi() {
           </picture>
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#062B32]/95 via-[#062B32]/80 to-[#062B32]/50" />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-10 lg:py-14">
-            <nav className="mb-6 text-sm text-cyan-50/80" aria-label="Breadcrumb">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-10 lg:py-14">
+            <nav className="mb-4 text-sm text-cyan-50/80 sm:mb-6" aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-1">
                 <li><Link to="/" className="hover:text-white">Início</Link></li>
                 <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
@@ -224,11 +224,11 @@ export default function OrlaGuanabaraNiteroi() {
             </nav>
 
             <div className="grid gap-x-8 gap-y-6 lg:grid-cols-12 lg:items-center">
-              <div className="order-1 space-y-4 lg:col-span-7 lg:row-start-1 lg:space-y-5">
+              <div className="order-1 space-y-3 sm:space-y-4 lg:col-span-7 lg:row-start-1 lg:space-y-5">
                 <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold tracking-widest">
-                  LANÇAMENTO EMCCAMP · MINHA CASA MINHA VIDA
+                  EMCCAMP · MINHA CASA MINHA VIDA
                 </p>
-                <h1 className="text-[1.75rem] font-extrabold leading-tight sm:text-3xl md:text-[2.6rem]">
+                <h1 className="text-[1.6rem] font-extrabold leading-tight sm:text-3xl md:text-[2.6rem]">
                   Orla Guanabara: 2 quartos com varanda e rooftop com vista definitiva para a Baía de Guanabara, em Niterói
                 </h1>
                 <p className="max-w-2xl text-base leading-relaxed text-cyan-50/90 sm:text-lg">
