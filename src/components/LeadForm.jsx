@@ -133,8 +133,9 @@ function Chips({ name, legend, options, value, onChange, error }) {
 // - idPrefix: prefixo dos ids dos campos, para usar mais de um formulário na mesma página
 // - textoBotao: texto do botão de envio
 // - semMoldura: sem borda, fundo e espaçamento externos (para usar dentro de um card)
-// - confirmarGravacao: envia em modo CORS e só segue para /obrigado quando o Apps Script
-//   responde {"ok":true}; em erro, mantém os campos preenchidos e mostra o aviso
+// - confirmarGravacao (padrão: ativado em todo o site): envia em modo CORS e só segue para
+//   /obrigado quando o Apps Script responde {"ok":true}; em erro, mantém os campos preenchidos
+//   e mostra o aviso. Passe confirmarGravacao={false} só para voltar ao envio no-cors antigo.
 export default function LeadForm({
   empreendimento = '',
   cidadeFixa = '',
@@ -148,7 +149,7 @@ export default function LeadForm({
   idPrefix = '',
   textoBotao = '',
   semMoldura = false,
-  confirmarGravacao = false,
+  confirmarGravacao = true,
 } = {}) {
   const [v, setV] = useState({
     nome: '', whatsapp: '', email: '', cidade: cidadeFixa, faixa: '', quartos: quartosInicial,
@@ -357,7 +358,7 @@ export default function LeadForm({
         body: JSON.stringify(crmPayload),
       }).catch(() => { /* CRM failure nunca deve interromper o fluxo do usuário */ });
 
-      // Aguarda apenas o GAS (no-cors não retorna corpo — apenas verifica que foi enviado)
+      // Aguarda o GAS (com confirmação de gravação, já resolvido acima)
       await gasPromise;
 
       // Guarda dados para a página de obrigado (só no navegador, nada de dados pessoais na URL)
