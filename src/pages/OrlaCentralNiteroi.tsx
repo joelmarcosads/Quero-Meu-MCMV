@@ -397,6 +397,7 @@ export default function OrlaCentralNiteroi() {
                     </div>
                   </div>
                   <LeadForm
+                    confirmarGravacao
                     semMoldura
                     idPrefix="hero-"
                     titulo=""
@@ -779,6 +780,7 @@ export default function OrlaCentralNiteroi() {
             </div>
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <LeadForm
+                confirmarGravacao
                 empreendimento={EMPREENDIMENTO}
                 formName="lead_orla_central"
                 idPrefix="final-"
@@ -853,6 +855,7 @@ export default function OrlaCentralNiteroi() {
               {modal.objetivo && <p className="text-sm text-slate-600 mt-1">Objetivo: <strong>{modal.objetivo}</strong></p>}
             </div>
             <LeadForm
+              confirmarGravacao
               key={`${modal.objetivo}-${modal.tipologia?.id || 'geral'}`}
               empreendimento={EMPREENDIMENTO}
               cidadeFixa="Niterói"
