@@ -264,14 +264,12 @@ export default function OrlaGuanabaraNiteroi() {
                   </p>
                   <div className="mt-4">
                     <LeadForm
-                      compacto
                       semMoldura
                       confirmarGravacao
                       idPrefix="hero-"
                       titulo=""
                       subtitulo=""
                       empreendimento={EMPREENDIMENTO}
-                      cidadeFixa="Niterói"
                       formName={FORM}
                       textoBotao="Quero consultar as unidades"
                     />
@@ -536,13 +534,11 @@ export default function OrlaGuanabaraNiteroi() {
             </div>
             <div className="overflow-hidden rounded-2xl shadow-2xl">
               <LeadForm
-                compacto
                 confirmarGravacao
                 idPrefix="final-"
                 titulo="Receba as plantas e consulte as unidades"
-                subtitulo="Preencha seus dados e envio tudo pelo WhatsApp."
+                subtitulo="Responda em menos de 1 minuto e envio tudo pelo WhatsApp."
                 empreendimento={EMPREENDIMENTO}
-                cidadeFixa="Niterói"
                 formName={FORM}
                 textoBotao="Quero consultar as unidades"
               />
@@ -609,7 +605,6 @@ export default function OrlaGuanabaraNiteroi() {
             </div>
             <LeadForm
               key={modal.tipo?.id || 'geral'}
-              compacto
               confirmarGravacao
               idPrefix="popup-"
               titulo="Receba esta planta e consulte as unidades"

@@ -240,14 +240,12 @@ export default function SunInStudioDesignNiteroi() {
                   </p>
                   <div className="mt-4">
                     <LeadForm
-                      compacto
                       semMoldura
                       confirmarGravacao
                       idPrefix="hero-"
                       titulo=""
                       subtitulo=""
                       empreendimento={EMPREENDIMENTO}
-                      cidadeFixa="Niterói"
                       formName={FORM}
                       textoBotao="Quero consultar os studios"
                     />
@@ -492,13 +490,11 @@ export default function SunInStudioDesignNiteroi() {
             </div>
             <div className="overflow-hidden rounded-2xl shadow-2xl">
               <LeadForm
-                compacto
                 confirmarGravacao
                 idPrefix="final-"
                 titulo="Receba as plantas e consulte os studios"
-                subtitulo="Preencha seus dados e envio tudo pelo WhatsApp."
+                subtitulo="Responda em menos de 1 minuto e envio tudo pelo WhatsApp."
                 empreendimento={EMPREENDIMENTO}
-                cidadeFixa="Niterói"
                 formName={FORM}
                 textoBotao="Quero consultar os studios"
               />
@@ -565,7 +561,6 @@ export default function SunInStudioDesignNiteroi() {
             </div>
             <LeadForm
               key={modal.planta?.id || 'geral'}
-              compacto
               confirmarGravacao
               idPrefix="popup-"
               titulo={modal.planta ? 'Receba esta planta e consulte os studios' : 'Receba o estudo e os valores'}

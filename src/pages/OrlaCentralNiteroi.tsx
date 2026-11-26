@@ -397,13 +397,11 @@ export default function OrlaCentralNiteroi() {
                     </div>
                   </div>
                   <LeadForm
-                    compacto
                     semMoldura
                     idPrefix="hero-"
                     titulo=""
                     subtitulo=""
                     empreendimento={EMPREENDIMENTO}
-                    cidadeFixa="Niterói"
                     objetivo={objetivoHero}
                     formName="lead_orla_central"
                     textoBotao="Quero receber os valores"
@@ -782,9 +780,7 @@ export default function OrlaCentralNiteroi() {
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <LeadForm
                 empreendimento={EMPREENDIMENTO}
-                cidadeFixa="Niterói"
                 formName="lead_orla_central"
-                compacto
                 idPrefix="final-"
                 titulo="Receba os valores do Orla Central"
                 subtitulo="Preencha seus dados e envio os valores, as plantas e as unidades disponíveis."
@@ -864,7 +860,6 @@ export default function OrlaCentralNiteroi() {
               unidadeInteresse={modal.tipologia?.nome || ''}
               objetivo={modal.objetivo}
               formName="lead_orla_central"
-              compacto
               idPrefix="popup-"
               titulo="Receba os valores e as plantas"
               subtitulo="Preencha seus dados e envio tudo em poucos minutos."
