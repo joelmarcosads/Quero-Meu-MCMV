@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { m as motion, AnimatePresence } from 'motion/react';
-import { MapPin, Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { to: '/minha-casa-minha-vida-itaborai', label: 'MCMV Itaboraí' },
-    { to: '/minha-casa-minha-vida-sao-goncalo', label: 'MCMV São Gonçalo' },
+    { to: '/minha-casa-minha-vida-itaborai', label: 'Imóveis em Itaboraí' },
+    { to: '/minha-casa-minha-vida-sao-goncalo', label: 'Imóveis em São Gonçalo' },
+    { to: '/niteroirj', label: 'Imóveis em Niterói' },
     { to: '/financiamento-minha-casa-minha-vida', label: 'Financiamento' },
-    { to: '/captacaodeimoveis', label: 'Avaliar Imóvel' },
-    { to: '/sobre', label: 'Sobre' },
+    { to: '/captacaodeimoveis', label: 'Avaliar' },
   ];
 
   return (
@@ -49,12 +49,6 @@ export default function Header() {
               </Link>
             ))}
           </nav>
-
-          {/* Trust indicators (hidden on smaller screens to make room for nav) */}
-          <div className="hidden xl:flex items-center text-slate-500 text-sm font-medium whitespace-nowrap shrink-0">
-            <MapPin className="w-4 h-4 mr-1 text-primary shrink-0" />
-            <span>Itaboraí e São Gonçalo</span>
-          </div>
 
           <div className="flex items-center gap-3 shrink-0">
             {/* CTA */}
