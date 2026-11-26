@@ -15,6 +15,7 @@ const imgOrlaCentral = '/orla-central-niteroi-fachada.webp';
 const imgBosque = '/meu-crescer-niteroi-bosque-vista-do-morro-800.webp';
 const imgOrlaGuanabara = '/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer-800.webp';
 const imgSunIn = '/sun-in-studio-design-niteroi-piscina-rooftop-800.webp';
+const imgCaminhos = '/caminhos-da-guanabara-niteroi-solario-rooftop-800.webp';
 
 type Property = {
   id: number;
@@ -156,6 +157,17 @@ const PROPERTIES: Property[] = [
     features: { bed: 1, bedText: "Studios de 24 a 30 m²", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
     priceCondition: "A partir de R$ 295 mil* — consulte disponibilidade",
     slug: "/sun-in-studio-design-niteroi"
+  },
+  {
+    id: 14,
+    name: "Caminhos da Guanabara",
+    location: "Caminho Niemeyer, Niterói - RJ",
+    image: imgCaminhos,
+    imageAlt: "Solário no rooftop do Caminhos da Guanabara, da Cury, com vista para a Baía de Guanabara em Niterói — 1 e 2 quartos com varanda",
+    badges: ["Lançamento Cury", "Rooftop com vista"],
+    features: { bed: "1 e 2", bedText: "1 e 2 Quartos c/ Varanda", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
+    priceCondition: "A partir de R$ 340 mil* — consulte disponibilidade",
+    slug: "/caminhos-guanabara-niteroi"
   },
   {
     id: 8,

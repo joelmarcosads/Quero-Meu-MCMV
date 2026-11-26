@@ -2,6 +2,7 @@ import { FAQ_ORLA, ORLA_AVISO_PRECO, ORLA_PRECO_A_PARTIR } from '../data/orlaCen
 import { FAQ_BOSQUE, BOSQUE_AVISO_PRECO, BOSQUE_PRECO_A_PARTIR } from '../data/bosqueResidence';
 import { FAQ_GUANABARA, GUANABARA_AVISO_PRECO, GUANABARA_PRECO_A_PARTIR } from '../data/orlaGuanabara';
 import { FAQ_SUNIN, SUNIN_AVISO_PRECO, SUNIN_PRECO_A_PARTIR } from '../data/sunInStudio';
+import { FAQ_CAMINHOS, CAMINHOS_AVISO_PRECO, CAMINHOS_PRECO_A_PARTIR } from '../data/caminhosGuanabara';
 
 export interface FaqItem {
   question: string;
@@ -474,6 +475,54 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_SUNIN.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/caminhos-guanabara-niteroi',
+    title: 'Caminhos da Guanabara | 1 e 2 Quartos a partir de R$ 340 mil',
+    description:
+      'Caminhos da Guanabara, da Cury, no Caminho Niemeyer, Niterói: 1 e 2 quartos com varanda, lazer completo e rooftop com vista para a Baía. A partir de R$ 340 mil.',
+    h1: 'Caminhos da Guanabara: 1 e 2 quartos no Caminho Niemeyer, com rooftop de frente para a Baía de Guanabara',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Caminhos da Guanabara', path: '/caminhos-guanabara-niteroi' },
+    ],
+    development: {
+      name: 'Caminhos da Guanabara',
+      developer: 'Cury',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Caminho Niemeyer — Centro',
+      numberOfBedrooms: '1 e 2',
+      image: 'https://queromeumcmv.com.br/caminhos-da-guanabara-niteroi-solario-rooftop.webp',
+      commercialCondition: 'Preço a partir de R$ 340.000 · programa Cury Chega Mais · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/caminhos-guanabara-niteroi',
+      priceFrom: CAMINHOS_PRECO_A_PARTIR,
+      priceNote: CAMINHOS_AVISO_PRECO,
+      numberOfUnits: 1068,
+      floorSizeMin: 32.7,
+      floorSizeMax: 51.3,
+      amenities: [
+        { name: 'Rooftop com solário e espaço gourmet', value: 'Sim' },
+        { name: 'Piscinas adulto e infantil', value: 'Sim' },
+        { name: 'Campo society', value: 'Sim' },
+        { name: 'Quadra de areia', value: 'Sim' },
+        { name: 'Academia interna e externa', value: 'Sim' },
+        { name: 'Sauna', value: 'Sim' },
+        { name: 'Salão de festas', value: 'Sim' },
+        { name: 'Salão de jogos', value: 'Sim' },
+        { name: 'Brinquedoteca e playground', value: 'Sim' },
+        { name: 'Coworking', value: 'Sim' },
+        { name: 'Pet care', value: 'Sim' },
+        { name: 'Lavanderia', value: 'Sim' },
+        { name: 'Bicicletário', value: 'Sim' },
+        { name: 'Vagas de carro', value: '161' },
+      ],
+    },
+    faqs: FAQ_CAMINHOS.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',

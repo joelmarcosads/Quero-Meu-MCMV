@@ -214,6 +214,31 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        <section className="pb-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/caminhos-guanabara-niteroi"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#123A47] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/caminhos-da-guanabara-niteroi-solario-rooftop-800.webp"
+                alt="Solário no rooftop do Caminhos da Guanabara, com vista para a Baía de Guanabara, em Niterói"
+                width={800}
+                height={511}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-amber-300">LANÇAMENTO CURY · CAMINHO NIEMEYER</p>
+                <h2 className="text-2xl font-bold mt-2">Caminhos da Guanabara — 1 e 2 quartos com varanda e rooftop de frente para a Baía</h2>
+                <p className="text-sky-50/90 mt-3">Piscinas, campo society, academia e coworking, perto das barcas e do Terminal João Goulart. A partir de R$ 340 mil*.</p>
+                <p className="text-xs text-sky-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-amber-300">Ver o Caminhos da Guanabara →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
