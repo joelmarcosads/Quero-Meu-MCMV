@@ -1,5 +1,6 @@
 import { FAQ_ORLA, ORLA_AVISO_PRECO, ORLA_PRECO_A_PARTIR } from '../data/orlaCentral';
 import { FAQ_BOSQUE, BOSQUE_AVISO_PRECO, BOSQUE_PRECO_A_PARTIR } from '../data/bosqueResidence';
+import { FAQ_GUANABARA, GUANABARA_AVISO_PRECO, GUANABARA_PRECO_A_PARTIR } from '../data/orlaGuanabara';
 
 export interface FaqItem {
   question: string;
@@ -377,6 +378,55 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_BOSQUE.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/orla-guanabara-niteroi',
+    title: 'Orla Guanabara Niterói | 2 Quartos MCMV a partir de R$ 299 mil',
+    description:
+      'Orla Guanabara, da Emccamp, perto do Caminho Niemeyer: 2 quartos com varanda, rooftop com vista para a Baía e Minha Casa Minha Vida. A partir de R$ 299 mil.',
+    h1: 'Orla Guanabara: 2 quartos com varanda e rooftop com vista definitiva para a Baía de Guanabara, em Niterói',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Orla Guanabara', path: '/orla-guanabara-niteroi' },
+    ],
+    development: {
+      name: 'Orla Guanabara by Emccamp',
+      developer: 'Emccamp Residencial',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Rua Jornalista Rogério Coelho Neto, 250 — região do Caminho Niemeyer',
+      numberOfBedrooms: 2,
+      image: 'https://queromeumcmv.com.br/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer.webp',
+      commercialCondition: 'Minha Casa Minha Vida · preço a partir de R$ 299.000 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/orla-guanabara-niteroi',
+      priceFrom: GUANABARA_PRECO_A_PARTIR,
+      priceNote: GUANABARA_AVISO_PRECO,
+      numberOfUnits: 700,
+      floorSizeMin: 40.54,
+      floorSizeMax: 45.66,
+      amenities: [
+        { name: 'Rooftop com vista para a Baía de Guanabara', value: 'Um em cada torre' },
+        { name: 'Piscina adulto e infantil', value: 'Sim' },
+        { name: 'Quadra de areia', value: 'Sim' },
+        { name: 'Playground', value: 'Sim' },
+        { name: 'Brinquedoteca', value: 'Sim' },
+        { name: 'Academias (cárdio, musculação e ginástica)', value: 'Sim' },
+        { name: 'Salões de festas', value: '2' },
+        { name: 'Espaço gourmet', value: 'Sim' },
+        { name: 'Salão de jogos', value: 'Sim' },
+        { name: 'Espaço pet', value: 'Sim' },
+        { name: 'Espaço beleza', value: 'Sim' },
+        { name: 'Lavanderia', value: 'Sim' },
+        { name: 'Minimarket', value: 'Sim' },
+        { name: 'Bicicletário', value: 'Sim' },
+        { name: 'Vagas de carro', value: '22' },
+      ],
+    },
+    faqs: FAQ_GUANABARA.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',

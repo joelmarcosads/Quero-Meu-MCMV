@@ -164,6 +164,31 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        <section className="pb-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/orla-guanabara-niteroi"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#0B3B44] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer-800.webp"
+                alt="Vista aérea do Orla Guanabara perto do Caminho Niemeyer, em Niterói"
+                width={800}
+                height={437}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-amber-300">LANÇAMENTO MINHA CASA MINHA VIDA</p>
+                <h2 className="text-2xl font-bold mt-2">Orla Guanabara — 2 quartos com rooftop e vista para a Baía</h2>
+                <p className="text-cyan-50/90 mt-3">Perto do Caminho Niemeyer, com lazer completo. A partir de R$ 299 mil*.</p>
+                <p className="text-xs text-cyan-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-amber-300">Ver o Orla Guanabara →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

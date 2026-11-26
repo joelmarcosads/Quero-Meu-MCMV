@@ -13,6 +13,7 @@ const imgVert = '/vert-alcantara-fachada.webp';
 const imgMarDeTrindade = '/mar-de-trindade-guarita.webp';
 const imgOrlaCentral = '/orla-central-niteroi-fachada.webp';
 const imgBosque = '/meu-crescer-niteroi-bosque-vista-do-morro-800.webp';
+const imgOrlaGuanabara = '/orla-guanabara-niteroi-vista-aerea-caminho-niemeyer-800.webp';
 
 type Property = {
   id: number;
@@ -132,6 +133,17 @@ const PROPERTIES: Property[] = [
     features: { bed: 2, bedText: "2 Quartos c/ Varanda", car: 1, leisure: true, security: true },
     priceCondition: "A partir de R$ 324 mil* — consulte disponibilidade",
     slug: "/bosque-residence-niteroi"
+  },
+  {
+    id: 12,
+    name: "Orla Guanabara",
+    location: "Caminho Niemeyer, Niterói - RJ",
+    image: imgOrlaGuanabara,
+    imageAlt: "Vista aérea do Orla Guanabara, da Emccamp, perto do Caminho Niemeyer em Niterói — 2 quartos com rooftop e vista para a Baía de Guanabara",
+    badges: ["Minha Casa Minha Vida", "Vista para a Baía"],
+    features: { bed: 2, bedText: "2 Quartos c/ Varanda", car: 0, carText: "Vagas limitadas", leisure: true, security: true },
+    priceCondition: "A partir de R$ 299 mil* — consulte disponibilidade",
+    slug: "/orla-guanabara-niteroi"
   },
   {
     id: 8,
