@@ -19,6 +19,7 @@ const imgCaminhos = '/caminhos-da-guanabara-niteroi-solario-rooftop-800.webp';
 const imgImperio = '/imperio-do-ouro-sg-portaria-800.webp';
 const imgOpen = '/niteroi-open-residencial-fachada-800.webp';
 const imgGreen = '/green-open-residencial-niteroi-fachada-800.webp';
+const imgGreenLife = '/green-life-niteroi-fachada-800.webp';
 
 type Property = {
   id: number;
@@ -204,6 +205,17 @@ const PROPERTIES: Property[] = [
     features: { bed: "1 e 2", bedText: "Studios, 2 quartos e gardens", car: 1, carText: "Vagas limitadas", leisure: true, security: true },
     priceCondition: "A partir de R$ 272 mil* — consulte disponibilidade",
     slug: "/green-open-residencial-niteroi"
+  },
+  {
+    id: 18,
+    name: "Green Life",
+    location: "Centro, Niterói - RJ",
+    image: imgGreenLife,
+    imageAlt: "Fachada do Green Life Niterói, da Novolar/Grupo Patrimar, na Av. Washington Luiz, Centro de Niterói",
+    badges: ["Lazer de clube", "Entregas jul/27 e ago/28"],
+    features: { bed: 2, bedText: "2 Quartos — com e sem suíte; garden", car: 1, carText: "Consulte vaga disponível", leisure: true, security: true },
+    priceCondition: "A partir de R$ 350 mil* — consulte disponibilidade",
+    slug: "/green-life-niteroi"
   },
   {
     id: 8,
