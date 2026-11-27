@@ -858,28 +858,7 @@
           Um condomínio clube completo com <strong>368 apartamentos de 2 quartos</strong> — incluindo opção com garden — em <strong>23 blocos de 4 andares</strong>. Lazer de alto padrão, segurança 24h e financiamento Minha Casa Minha Vida.
         </p>
 
-        <div class="hero-chips" aria-label="Dados do empreendimento">
-          <div class="chip">
-            <span class="chip-icon" aria-hidden="true">🏢</span>
-            <span class="chip-val">368 unidades</span>
-            <span class="chip-lbl">23 blocos · 4 andares</span>
-          </div>
-          <div class="chip">
-            <span class="chip-icon" aria-hidden="true">🛏️</span>
-            <span class="chip-val">2 quartos</span>
-            <span class="chip-lbl">+ opção garden</span>
-          </div>
-          <div class="chip">
-            <span class="chip-icon" aria-hidden="true">🚗</span>
-            <span class="chip-val">275 vagas</span>
-            <span class="chip-lbl">+ 23 moto vagas</span>
-          </div>
-          <div class="chip">
-            <span class="chip-icon" aria-hidden="true">📐</span>
-            <span class="chip-val">22.572 m²</span>
-            <span class="chip-lbl">área total do terreno</span>
-          </div>
-        </div>
+
 
         <div class="trust-box">
           <p class="trust-title">✅ Por que escolher o Solar de Manilha?</p>
@@ -901,44 +880,7 @@
             <p class="form-head-title">🏠 Receba todas as informações</p>
             <p class="form-head-sub">Joel Marcos · Corretor CRECI 39.583F</p>
           </div>
-          <div class="form-body">
-            <div id="lead-form">
-              <div class="form-row">
-                <div>
-                  <label class="form-label" for="f-nome">Nome completo *</label>
-                  <input class="form-input" type="text" id="f-nome" placeholder="Ex.: Maria da Silva" required autocomplete="name">
-                </div>
-                <div>
-                  <label class="form-label" for="f-tel">WhatsApp *</label>
-                  <input class="form-input" type="tel" id="f-tel" placeholder="(21) 9 9999-9999" required autocomplete="tel">
-                </div>
-                <div>
-                  <label class="form-label" for="f-email">E-mail *</label>
-                  <input class="form-input" type="email" id="f-email" placeholder="seuemail@exemplo.com" required autocomplete="email">
-                </div>
-                <div>
-                  <label class="form-label" for="f-interesse">Meu interesse</label>
-                  <select class="form-select" id="f-interesse">
-                    <option value="">Selecione...</option>
-                    <option>Morar no imóvel</option>
-                    <option>Investimento / renda</option>
-                    <option>Presentear familiar</option>
-                    <option>Ainda estou avaliando</option>
-                  </select>
-                </div>
-              </div>
-              <button class="btn-submit" onclick="submitLead(event)" type="button">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Quero Receber Informações
-              </button>
-              <p class="form-privacy">🔒 Seus dados estão protegidos. Sem spam.</p>
-            </div>
-            <div class="form-success" id="lead-success">
-              <div class="form-success-icon">✅</div>
-              <p class="form-success-title">Mensagem enviada!</p>
-              <p class="form-success-text">Joel Marcos entrará em contato com você em breve pelo WhatsApp.</p>
-            </div>
-          </div>
+          <div class="form-body" id="lead-box-wrap"></div>
         </div>
       </div>
     </div><!-- /hero-grid -->
@@ -1292,43 +1234,376 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
+<style>
+/* ============================================================
+   MULTI-STEP LEAD FORM
+============================================================ */
+.lf-wrap { font-family: inherit; }
+
+/* Progress bar */
+.lf-progress { padding: 1rem 1.5rem .5rem; }
+.lf-progress-bar { height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; }
+.lf-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .35s ease; }
+.lf-step-label { font-size: .72rem; color: #94a3b8; margin-top: .35rem; text-align: right; }
+
+/* Steps */
+.lf-step { display: none; padding: 1rem 1.5rem 1.25rem; }
+.lf-step.active { display: block; }
+
+.lf-q { font-size: .9375rem; font-weight: 700; color: #111827; margin-bottom: .875rem; line-height: 1.4; }
+.lf-q span { color: var(--accent); }
+
+/* Option buttons grid */
+.lf-options { display: grid; gap: .5rem; }
+.lf-options.cols2 { grid-template-columns: 1fr 1fr; }
+
+.lf-btn {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .625rem .875rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: .625rem;
+  font-size: .875rem; font-weight: 500; color: #374151;
+  background: #fff; cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s, color .15s;
+  font-family: inherit;
+}
+.lf-btn:hover { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+.lf-btn.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); font-weight: 700; }
+.lf-btn-emoji { font-size: 1rem; flex-shrink: 0; }
+
+/* Reward message */
+.lf-reward {
+  display: none;
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: .625rem; padding: .625rem .875rem;
+  font-size: .8125rem; color: #15803d; font-weight: 600;
+  margin-top: .5rem;
+}
+.lf-reward.show { display: block; }
+
+/* Step 5 — fields */
+.lf-fields { display: flex; flex-direction: column; gap: .625rem; }
+.lf-label { font-size: .78rem; font-weight: 600; color: #374151; display: block; margin-bottom: .2rem; }
+.lf-input {
+  width: 100%; padding: .5625rem .875rem;
+  border: 1.5px solid #d1d5db; border-radius: .5rem;
+  font-size: .9rem; font-family: inherit; color: #111827; background: #fff;
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.lf-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,138,.12); }
+
+.lf-summary {
+  background: #eff6ff; border-radius: .625rem;
+  padding: .625rem .875rem; font-size: .8125rem; color: #1e40af;
+  margin-bottom: .5rem; line-height: 1.5;
+}
+
+/* Honeypot */
+.lf-hp { display: none !important; visibility: hidden !important; }
+
+/* LGPD */
+.lf-lgpd { display: flex; align-items: flex-start; gap: .5rem; margin-top: .25rem; cursor: pointer; }
+.lf-lgpd input { margin-top: .15rem; flex-shrink: 0; }
+.lf-lgpd span { font-size: .72rem; color: #6b7280; line-height: 1.4; }
+
+/* Submit button */
+.lf-submit {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: .5rem;
+  background: var(--accent); color: #fff; font-weight: 700;
+  padding: .8125rem 1rem; border-radius: .75rem; font-size: .9375rem;
+  font-family: inherit; cursor: pointer; border: none;
+  box-shadow: 0 10px 20px -5px rgba(234,88,12,.35);
+  transition: background .15s, transform .15s;
+  margin-top: .625rem;
+}
+.lf-submit:hover { background: #c2410c; transform: translateY(-1px); }
+.lf-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+.lf-privacy { font-size: .7rem; color: #9ca3af; text-align: center; margin-top: .5rem; }
+
+/* Success */
+.lf-success {
+  display: none; flex-direction: column; align-items: center; gap: .75rem;
+  padding: 2rem 1.5rem; text-align: center;
+}
+.lf-success-icon {
+  width: 3rem; height: 3rem; border-radius: 50%; background: #dcfce7;
+  display: flex; align-items: center; justify-content: center; font-size: 1.375rem;
+}
+.lf-success-title { font-weight: 700; color: #15803d; }
+.lf-success-text { font-size: .875rem; color: #6b7280; }
+</style>
+
 <script>
-  // Ano no footer
+/* ============================================================
+   CONFIGURAÇÃO
+============================================================ */
+const LF = {
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzdjbC0ZWboJtR_9oGIdwvX7X7ERQ_O4n0Slvlnig2GtoQCyYuHDG1xmLhPIoBhvwvACQ/exec',
+  WHATSAPP: '5521965928399',
+  THANKS_PATH: '/obrigado',
+  CRM_URL: 'https://api.queromeumcmv.com.br/api/v1/public/leads',
+};
+
+const CIDADES   = ['Itaboraí','São Gonçalo','Niterói','Ainda não sei'];
+const QUARTOS   = ['1 quarto','2 quartos','3 quartos','4 ou mais'];
+const RENDAS    = ['Até R$ 1.800','R$ 1.800 a 2.500','R$ 2.500 a 3.200','R$ 3.200 a 5.000','R$ 5.000 a 9.600','Acima de R$ 9.600'];
+const REGIMES   = ['Carteira assinada','Funcionário público','Autônomo','Aposentado / pensionista'];
+const PAGAMENTOS= ['Financiamento Imobiliário','à vista','Consórcio'];
+const FAIXAS    = ['Até R$ 200 mil','R$ 200 a 300 mil','R$ 300 a 450 mil','R$ 450 a 700 mil','Acima de R$ 700 mil'];
+const PRIMEIRA  = ['Sim','Não, já tive outro','É para investir'];
+const PRAZOS    = ['O quanto antes','Em até 3 meses','Em 3 a 6 meses','Só pesquisando'];
+
+const EMOJIS_CIDADE   = ['📍','📍','📍','🤔'];
+const EMOJIS_QUARTOS  = ['🛏️','🛏️','🛏️','🛏️'];
+const EMOJIS_RENDAS   = ['💰','💰','💰','💰','💰','💰'];
+const EMOJIS_REGIMES  = ['📋','🏛️','🧑‍💼','👴'];
+const EMOJIS_PAGTO    = ['🏦','💵','🔄'];
+const EMOJIS_FAIXAS   = ['🏷️','🏷️','🏷️','🏷️','🏷️'];
+const EMOJIS_PRIMEIRA = ['✅','❌','📈'];
+const EMOJIS_PRAZOS   = ['⚡','📅','🗓️','🔍'];
+
+/* lead data */
+let ld = { cidade:'', quartos:'', renda:'', regime_trabalho:'', pagamento:'', faixa:'', primeira_compra:'', prazo:'', nome:'', whatsapp:'', email:'', lgpd: false };
+let currentStep = 1;
+const TOTAL_STEPS = 5;
+const minTime = Date.now();
+
+/* UTM helpers */
+function getUTMs(){
+  const p = new URLSearchParams(window.location.search);
+  return { utm_source: p.get('utm_source')||'', utm_medium: p.get('utm_medium')||'', utm_campaign: p.get('utm_campaign')||'', utm_content: p.get('utm_content')||'', utm_term: p.get('utm_term')||'' };
+}
+
+/* ============================================================
+   BUILD FORM
+============================================================ */
+function buildForm(){
+  const wrap = document.getElementById('lead-box-wrap');
+  if(!wrap) return;
+  wrap.innerHTML = `
+    <!-- Progress -->
+    <div class="lf-progress">
+      <div class="lf-progress-bar"><div class="lf-progress-fill" id="lf-fill" style="width:20%"></div></div>
+      <div class="lf-step-label" id="lf-step-label">Etapa 1 de ${TOTAL_STEPS}</div>
+    </div>
+
+    <div class="lf-wrap" id="lf-wrap">
+
+    <!-- STEP 1: cidade + quartos -->
+    <div class="lf-step active" id="lf-s1">
+      <p class="lf-q">Qual cidade você prefere?</p>
+      <div class="lf-options cols2" id="opts-cidade"></div>
+
+      <p class="lf-q" style="margin-top:.875rem;">Quantos quartos precisa?</p>
+      <div class="lf-options cols2" id="opts-quartos"></div>
+    </div>
+
+    <!-- STEP 2: renda + regime -->
+    <div class="lf-step" id="lf-s2">
+      <p class="lf-q">Qual é a sua <span>renda familiar mensal</span>?</p>
+      <div class="lf-options" id="opts-renda"></div>
+      <div class="lf-reward" id="reward-subsidio">🎉 Parabéns! Você pode ter direito a subsídio do Governo Federal de até R$ 55 mil!</div>
+
+      <p class="lf-q" style="margin-top:.875rem;">Qual é o seu regime de trabalho?</p>
+      <div class="lf-options cols2" id="opts-regime"></div>
+      <div class="lf-reward" id="reward-autonomo">✅ Autônomos podem comprovar renda com extrato bancário ou declaração. Joel Marcos te orienta!</div>
+    </div>
+
+    <!-- STEP 3: pagamento + faixa -->
+    <div class="lf-step" id="lf-s3">
+      <p class="lf-q">Como pretende <span>pagar</span>?</p>
+      <div class="lf-options" id="opts-pagamento"></div>
+
+      <p class="lf-q" style="margin-top:.875rem;">Qual faixa de <span>valor do imóvel</span> procura?</p>
+      <div class="lf-options" id="opts-faixa"></div>
+    </div>
+
+    <!-- STEP 4: primeira compra + prazo -->
+    <div class="lf-step" id="lf-s4">
+      <p class="lf-q">É a sua <span>primeira compra</span>?</p>
+      <div class="lf-options" id="opts-primeira"></div>
+
+      <p class="lf-q" style="margin-top:.875rem;">Qual é o seu <span>prazo</span> para comprar?</p>
+      <div class="lf-options cols2" id="opts-prazo"></div>
+    </div>
+
+    <!-- STEP 5: dados pessoais -->
+    <div class="lf-step" id="lf-s5">
+      <div class="lf-summary" id="lf-summary"></div>
+      <div class="lf-fields">
+        <div>
+          <label class="lf-label" for="lf-nome">Seu nome completo *</label>
+          <input class="lf-input" type="text" id="lf-nome" placeholder="Ex.: Maria da Silva" autocomplete="name">
+        </div>
+        <div>
+          <label class="lf-label" for="lf-tel">WhatsApp *</label>
+          <input class="lf-input" type="tel" id="lf-tel" placeholder="(21) 9 9999-9999" autocomplete="tel">
+        </div>
+        <div>
+          <label class="lf-label" for="lf-email">E-mail *</label>
+          <input class="lf-input" type="email" id="lf-email" placeholder="seuemail@exemplo.com" autocomplete="email">
+        </div>
+        <!-- honeypot -->
+        <input class="lf-hp" type="text" id="lf-website" name="website" tabindex="-1" autocomplete="off">
+        <label class="lf-lgpd">
+          <input type="checkbox" id="lf-lgpd">
+          <span>Autorizo o uso dos meus dados para contato comercial conforme a LGPD. Nada de spam!</span>
+        </label>
+        <button class="lf-submit" id="lf-submit" onclick="submitLF(event)" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Quero Receber Informações
+        </button>
+        <p class="lf-privacy">🔒 Seus dados estão protegidos. Sem spam.</p>
+      </div>
+    </div>
+
+    </div><!-- /lf-wrap -->
+
+    <!-- SUCCESS -->
+    <div class="lf-success" id="lf-success">
+      <div class="lf-success-icon">✅</div>
+      <p class="lf-success-title">Mensagem enviada!</p>
+      <p class="lf-success-text">Joel Marcos entrará em contato com você em breve pelo WhatsApp.</p>
+    </div>
+  `;
+
+  /* populate option buttons */
+  renderOpts('opts-cidade',   CIDADES,    EMOJIS_CIDADE,   'cidade',          onCidadeClick);
+  renderOpts('opts-quartos',  QUARTOS,    EMOJIS_QUARTOS,  'quartos',         onQuartosClick);
+  renderOpts('opts-renda',    RENDAS,     EMOJIS_RENDAS,   'renda',           onRendaClick);
+  renderOpts('opts-regime',   REGIMES,    EMOJIS_REGIMES,  'regime_trabalho', onRegimeClick);
+  renderOpts('opts-pagamento',PAGAMENTOS, EMOJIS_PAGTO,    'pagamento',       onGenericClick);
+  renderOpts('opts-faixa',    FAIXAS,     EMOJIS_FAIXAS,   'faixa',           onGenericClick);
+  renderOpts('opts-primeira', PRIMEIRA,   EMOJIS_PRIMEIRA, 'primeira_compra', onGenericClick);
+  renderOpts('opts-prazo',    PRAZOS,     EMOJIS_PRAZOS,   'prazo',           onGenericClick);
+}
+
+function renderOpts(containerId, labels, emojis, field, handler){
+  const c = document.getElementById(containerId);
+  if(!c) return;
+  c.innerHTML = labels.map((lbl, i) =>
+    `<button class="lf-btn" data-field="${field}" data-val="${lbl}" onclick="(${handler.toString()})(this)" type="button">
+      <span class="lf-btn-emoji">${emojis[i]||''}</span>${lbl}
+    </button>`
+  ).join('');
+}
+
+/* ============================================================
+   STEP HANDLERS
+============================================================ */
+function selectBtn(btn){
+  const field = btn.dataset.field;
+  document.querySelectorAll(`[data-field="${field}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  ld[field] = btn.dataset.val;
+}
+
+function onCidadeClick(btn){ selectBtn(btn); tryAdvanceS1(); }
+function onQuartosClick(btn){ selectBtn(btn); tryAdvanceS1(); }
+
+function tryAdvanceS1(){
+  if(ld.cidade && ld.quartos) setTimeout(()=>goStep(2), 320);
+}
+
+function onRendaClick(btn){
+  selectBtn(btn);
+  const idx = RENDAS.indexOf(ld.renda);
+  document.getElementById('reward-subsidio').classList.toggle('show', idx >= 0 && idx <= 3);
+  tryAdvanceS2();
+}
+function onRegimeClick(btn){
+  selectBtn(btn);
+  document.getElementById('reward-autonomo').classList.toggle('show', ld.regime_trabalho === 'Autônomo');
+  tryAdvanceS2();
+}
+function tryAdvanceS2(){
+  if(ld.renda && ld.regime_trabalho) setTimeout(()=>goStep(3), 320);
+}
+
+function onGenericClick(btn){
+  selectBtn(btn);
+  if(currentStep === 3 && ld.pagamento && ld.faixa) setTimeout(()=>goStep(4), 320);
+  if(currentStep === 4 && ld.primeira_compra && ld.prazo) setTimeout(()=>goStep(5), 320);
+}
+
+function goStep(n){
+  document.getElementById(`lf-s${currentStep}`).classList.remove('active');
+  currentStep = n;
+  document.getElementById(`lf-s${n}`).classList.add('active');
+  const pct = Math.round((n / TOTAL_STEPS) * 100);
+  document.getElementById('lf-fill').style.width = pct + '%';
+  document.getElementById('lf-step-label').textContent = `Etapa ${n} de ${TOTAL_STEPS}`;
+  if(n === 5) updateSummary();
+}
+
+function updateSummary(){
+  const q  = ld.quartos  || '—';
+  const c  = ld.cidade   || '—';
+  const fx = ld.faixa    || '—';
+  document.getElementById('lf-summary').innerHTML =
+    `Já separei o perfil: <strong>${q}</strong> em <strong>${c}</strong>, <strong>${fx}</strong>. Agora só me diga seus dados para eu enviar as opções! 😊`;
+}
+
+/* ============================================================
+   SUBMIT
+============================================================ */
+function submitLF(e){
+  e.preventDefault();
+  const nome  = document.getElementById('lf-nome').value.trim();
+  const tel   = document.getElementById('lf-tel').value.trim();
+  const email = document.getElementById('lf-email').value.trim();
+  const lgpd  = document.getElementById('lf-lgpd').checked;
+  const hp    = document.getElementById('lf-website').value;
+
+  if(hp) return; // bot
+  if(!nome || !tel || !email){ alert('Por favor, preencha nome, WhatsApp e e-mail.'); return; }
+  if(!lgpd){ alert('Por favor, aceite a política de privacidade para continuar.'); return; }
+  if(Date.now() - minTime < 3000){ return; } // bot timing
+
+  const btn = document.getElementById('lf-submit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  ld.nome = nome; ld.whatsapp = tel; ld.email = email; ld.lgpd = lgpd;
+
+  const utms = getUTMs();
+  const page_url = window.location.href;
+  const payload = { ...ld, ...utms, empreendimento: 'Solar de Manilha', page_url, source: 'landing-solar-manilha' };
+
+  /* Google Sheets */
+  fetch(LF.SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(()=>{});
+
+  /* CRM fire-and-forget */
+  fetch(LF.CRM_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(()=>{});
+
+  /* sessionStorage for /obrigado */
+  try { sessionStorage.setItem('leadData', JSON.stringify(payload)); } catch(e){}
+
+  /* Redirect */
+  const utmStr = utms.utm_source ? `?utm_source=${utms.utm_source}&utm_medium=${utms.utm_medium}&utm_campaign=${utms.utm_campaign}` : '';
+  setTimeout(()=>{ window.location.href = LF.THANKS_PATH + utmStr; }, 500);
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('DOMContentLoaded', ()=>{
+  buildForm();
   document.getElementById('year').textContent = new Date().getFullYear();
+});
 
-  // Mobile menu
-  function toggleMenu() {
-    const nav = document.getElementById('mobile-nav');
-    const btn = document.getElementById('menu-btn');
-    const iconMenu = document.getElementById('icon-menu');
-    const iconClose = document.getElementById('icon-close');
-    const isOpen = nav.classList.toggle('open');
-    btn.setAttribute('aria-expanded', isOpen);
-    iconMenu.style.display = isOpen ? 'none' : 'block';
-    iconClose.style.display = isOpen ? 'block' : 'none';
-  }
-
-  // Form submit — abre WhatsApp (mock)
-  function submitLead(e) {
-    e.preventDefault();
-    const nome     = document.getElementById('f-nome').value.trim();
-    const tel      = document.getElementById('f-tel').value.trim();
-    const email    = document.getElementById('f-email').value.trim();
-    const interesse = document.getElementById('f-interesse').value;
-    if (!nome || !tel || !email) {
-      alert('Por favor, preencha nome, telefone e e-mail.');
-      return;
-    }
-    const msg = encodeURIComponent(
-      `Olá Joel! Me chamo ${nome}. Vi o Solar de Manilha e quero saber mais.\n` +
-      `WhatsApp: ${tel} | E-mail: ${email}` +
-      (interesse ? `\nInteresse: ${interesse}` : '')
-    );
-    window.open(`https://wa.me/5521965928399?text=${msg}`, '_blank');
-    document.getElementById('lead-form').style.display = 'none';
-    const success = document.getElementById('lead-success');
-    success.style.display = 'flex';
-  }
+// Mobile menu
+function toggleMenu() {
+  const nav = document.getElementById('mobile-nav');
+  const btn = document.getElementById('menu-btn');
+  const iconMenu = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+  const isOpen = nav.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen);
+  iconMenu.style.display = isOpen ? 'none' : 'block';
+  iconClose.style.display = isOpen ? 'block' : 'none';
+}
 </script>
 
 </body>
