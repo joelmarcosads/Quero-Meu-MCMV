@@ -7,6 +7,7 @@ import { FAQ_IMPERIO, IMPERIO_AVISO_PRECO, IMPERIO_PRECO_A_PARTIR } from '../dat
 import { FAQ_OPEN, OPEN_AVISO_PRECO, OPEN_PRECO_A_PARTIR } from '../data/niteroiOpen';
 import { FAQ_GREEN, GREEN_AVISO_PRECO, GREEN_PRECO_A_PARTIR } from '../data/greenOpen';
 import { FAQ_GL, GL_AVISO_PRECO, GL_PRECO_A_PARTIR } from '../data/greenLife';
+import { FAQ_SOLAR_MANILHA, SOLAR_MANILHA_AVISO_PRECO } from '../data/solarManilha';
 
 export interface FaqItem {
   question: string;
@@ -160,6 +161,46 @@ export const ROUTES: SeoRoute[] = [
         answer: 'O tempo de análise costuma ser rápido. Eu ajudo você a organizar tudo. Com a documentação completa em mãos, a análise do crédito pela Caixa Econômica costuma ter a resposta preliminar em até 48 horas úteis (prazo médio que pode variar conforme a demanda do banco).',
       },
     ],
+  },
+  {
+    path: '/solar-manilha-itaborai',
+    title: 'Solar Manilha Itaboraí | Apartamentos 2 Quartos MCMV em Manilha',
+    description:
+      'Solar Manilha em Manilha, Itaboraí-RJ: condomínio fechado com 368 aptos 2 quartos, opção garden, lazer de clube, portaria 24h e subsídio Minha Casa Minha Vida. Consulte disponibilidade.',
+    h1: 'Solar Manilha Itaboraí: apartamentos 2 quartos com garden e lazer de clube em Manilha',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'MCMV Itaboraí', path: '/minha-casa-minha-vida-itaborai' },
+      { name: 'Solar Manilha', path: '/solar-manilha-itaborai' },
+    ],
+    development: {
+      name: 'Solar Manilha',
+      developer: 'Grupo Natus',
+      addressLocality: 'Itaboraí',
+      addressRegion: 'RJ',
+      neighborhood: 'Manilha',
+      numberOfBedrooms: 2,
+      image: 'https://queromeumcmv.com.br/capa-site-quero-meu-mcmv-open-graph.webp',
+      commercialCondition: 'Lançamento 2026 · condomínio fechado · subsídio MCMV · consulte disponibilidade',
+      url: 'https://queromeumcmv.com.br/solar-manilha-itaborai',
+      priceNote: SOLAR_MANILHA_AVISO_PRECO,
+      amenities: [
+        { name: 'Piscinas com quiosques', value: 'Sim' },
+        { name: 'Quadras esportivas', value: 'Sim' },
+        { name: 'Espaço infantil', value: 'Sim' },
+        { name: 'Salão de festas', value: 'Sim' },
+        { name: 'Academia ao ar livre', value: 'Sim' },
+        { name: 'Bicicletário', value: 'Sim' },
+        { name: 'Redário', value: 'Sim' },
+        { name: 'Pet place', value: 'Sim' },
+        { name: 'Portaria 24h', value: 'Sim' },
+        { name: 'Vagas de garagem', value: 'Sim' },
+      ],
+    },
+    faqs: FAQ_SOLAR_MANILHA.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/minha-casa-minha-vida-itaborai',

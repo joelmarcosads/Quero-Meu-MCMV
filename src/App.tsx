@@ -38,6 +38,7 @@ import ImperioDoOuroSG from './pages/ImperioDoOuroSG';
 import NiteroiOpenResidence from './pages/NiteroiOpenResidence';
 import GreenOpenResidencialNiteroi from './pages/GreenOpenResidencialNiteroi';
 import GreenLifeNiteroi from './pages/GreenLifeNiteroi';
+import SolarManilha from './pages/SolarManilha';
 
 export function AppRoutes() {
   return (
@@ -70,6 +71,8 @@ export function AppRoutes() {
         <Route path="/solar-da-trindade" element={<SolarDaTrindade />} />
         <Route path="/residencial-florescer" element={<ResidencialFlorescer />} />
         <Route path="/conquista-oceanica" element={<ConquistaOceanica />} />
+        <Route path="/solar-manilha-itaborai" element={<SolarManilha />} />
+        <Route path="/solar-de-manilha-itaborai" element={<SolarManilha />} />
         <Route path="/minha-casa-minha-vida-itaborai" element={<McmvItaborai />} />
         <Route path="/minha-casa-minha-vida-sao-goncalo" element={<McmvSaoGoncalo />} />
         <Route path="/financiamento-minha-casa-minha-vida" element={<Financiamento />} />
