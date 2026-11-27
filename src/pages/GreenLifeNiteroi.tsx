@@ -45,8 +45,10 @@ type Foto = { src: string; alt: string; label: string; w: number; h: number };
 const f = (nome: string, label: string, alt: string, w = 900, h = 1200): Foto => ({ src: img(nome), label, alt, w, h });
 
 const FOTOS_LAZER: Foto[] = [
-  f('piscina', 'Piscina com prainha', 'Piscina com prainha e gazebos do Green Life Niterói, no Centro', 900, 1200),
-  f('rooftop', 'Rooftop gourmet', 'Espaço gourmet rooftop com churrasqueira e forno de pizza e vista para Niterói', 900, 1200),
+  f('piscina', 'Piscina adulto', 'Piscina adulto do Green Life Niterói com área de lazer', 900, 506),
+  f('rooftop', 'Rooftop gourmet', 'Espaço gourmet rooftop do Green Life com churrasqueira e forno de pizza', 900, 506),
+  f('academia', 'Academia completa', 'Academia equipada do Green Life Niterói', 900, 506),
+  f('apartamento', 'Ambientes internos', 'Sala integrada e cozinha do apartamento Green Life Niterói', 900, 506),
 ];
 
 type Planta = { id: string; label: string; src: string; area: string; desc: string; w: number; h: number };
@@ -190,10 +192,10 @@ export default function GreenLifeNiteroi() {
 
       {/* ── HERO ───────────────────────────────────────────────────── */}
       <section className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-8 lg:py-12 grid lg:grid-cols-2 gap-8 items-start">
+        <div className="max-w-6xl mx-auto px-4 py-6 lg:py-8 grid lg:grid-cols-2 gap-6 items-start">
 
           {/* Col esquerda */}
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-4">
             {/* Badges */}
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1 bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded-full">
@@ -243,9 +245,9 @@ export default function GreenLifeNiteroi() {
                 src={img('fachada')}
                 srcSet={`${img('fachada-800')} 800w, ${img('fachada')} 900w`}
                 sizes="(max-width: 900px) 100vw, 900px"
-                width={900} height={1200}
+                width={900} height={506}
                 alt="Fachada do Green Life Niterói, da Novolar, na Av. Washington Luiz, Centro de Niterói"
-                className="w-full h-auto"
+                className="w-full h-auto max-h-72 object-cover object-center"
                 loading="eager"
                 fetchPriority="high"
               />
@@ -261,15 +263,15 @@ export default function GreenLifeNiteroi() {
           </div>
 
           {/* Col direita: fachada desktop + formulário */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
             <div className="hidden lg:block rounded-xl overflow-hidden">
               <img
                 src={img('fachada')}
                 srcSet={`${img('fachada-800')} 800w, ${img('fachada')} 900w`}
                 sizes="900px"
-                width={900} height={1200}
+                width={900} height={506}
                 alt="Fachada do Green Life Niterói, da Novolar, na Av. Washington Luiz, Centro de Niterói"
-                className="w-full h-auto"
+                className="w-full max-h-80 object-cover object-center rounded-xl"
                 loading="eager"
                 fetchPriority="high"
               />
@@ -295,9 +297,9 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── BENEFÍCIOS ─────────────────────────────────────────────── */}
-      <section className="bg-green-700 py-10">
+      <section className="bg-green-700 py-8">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-white text-2xl font-bold text-center mb-8">
+          <h2 className="text-white text-2xl font-bold text-center mb-6">
             Um endereço que transforma sua rotina
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -320,12 +322,12 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── LAZER ──────────────────────────────────────────────────── */}
-      <section className="bg-white py-12">
+      <section className="bg-white py-8">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
             Mais de 30 itens de lazer — do térreo ao rooftop
           </h2>
-          <p className="text-gray-500 text-center text-sm mb-8 max-w-xl mx-auto">
+          <p className="text-gray-500 text-center text-sm mb-5 max-w-xl mx-auto">
             No Green Life, a diversão começa no térreo com as crianças e termina no rooftop com uma vista incrível de Niterói.
           </p>
 
@@ -363,13 +365,13 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── SUSTENTABILIDADE ───────────────────────────────────────── */}
-      <section className="bg-green-50 py-12">
+      <section className="bg-green-50 py-8">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-2">
             <Leaf size={24} className="text-green-600" />
             <h2 className="text-2xl font-bold text-gray-900">Sustentabilidade, uma palavra de ordem</h2>
           </div>
-          <p className="text-gray-600 text-sm mb-8 max-w-2xl">
+          <p className="text-gray-600 text-sm mb-5 max-w-2xl">
             O Grupo Patrimar segue os Objetivos de Desenvolvimento Sustentável (ODS) da ONU. No Green Life, a sustentabilidade não é item extra — está no projeto.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -384,7 +386,7 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── PLANTAS ────────────────────────────────────────────────── */}
-      <section className="bg-white py-12">
+      <section className="bg-white py-8">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Plantas</h2>
           <p className="text-gray-500 text-center text-sm mb-6">Todas as unidades têm varanda e sala integrada.</p>
@@ -423,10 +425,10 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── APARTAMENTO ────────────────────────────────────────────── */}
-      <section className="bg-gray-50 py-12">
+      <section className="bg-gray-50 py-8">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Espaços pensados para o conforto</h2>
-          <p className="text-gray-500 text-center text-sm mb-8">Acabamentos de qualidade e detalhes que fazem diferença no dia a dia.</p>
+          <p className="text-gray-500 text-center text-sm mb-5">Acabamentos de qualidade e detalhes que fazem diferença no dia a dia.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {DIFERENCIAIS_APT.map(d => (
               <div key={d} className="flex items-start gap-2 bg-white rounded-lg p-3 shadow-sm">
@@ -439,10 +441,10 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── COMODIDADES ────────────────────────────────────────────── */}
-      <section className="bg-white py-12">
+      <section className="bg-white py-8">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Comodidades inclusas no condomínio</h2>
-          <p className="text-gray-500 text-center text-sm mb-8">Sua rotina mais fácil de um jeito que você nunca viu.</p>
+          <p className="text-gray-500 text-center text-sm mb-5">Sua rotina mais fácil de um jeito que você nunca viu.</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {COMODIDADES.map(c => (
               <div key={c} className="flex items-start gap-2 bg-green-50 rounded-lg p-3">
@@ -458,13 +460,13 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── LOCALIZAÇÃO ────────────────────────────────────────────── */}
-      <section className="bg-green-700 py-12">
+      <section className="bg-green-700 py-8">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-2 mb-2 justify-center">
             <MapPin size={22} className="text-green-200" />
             <h2 className="text-white text-2xl font-bold">Localização privilegiada</h2>
           </div>
-          <p className="text-green-100 text-center text-sm mb-8">
+          <p className="text-green-100 text-center text-sm mb-5">
             Av. Washington Luiz, nº 1 — Centro, Niterói (RJ) · no coração do Novo Centro de Niterói
           </p>
           <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
@@ -520,9 +522,9 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── FAQ ────────────────────────────────────────────────────── */}
-      <section className="bg-gray-50 py-12">
+      <section className="bg-gray-50 py-8">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Perguntas frequentes</h2>
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-5">Perguntas frequentes</h2>
           <div className="space-y-3">
             {FAQ_GL.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
@@ -566,12 +568,12 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── CTA FINAL ──────────────────────────────────────────────── */}
-      <section className="bg-green-700 py-12">
+      <section className="bg-green-700 py-8">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-white text-2xl font-bold text-center mb-2">
             Plante seu novo lar no Centro de Niterói
           </h2>
-          <p className="text-green-100 text-center text-sm mb-8">
+          <p className="text-green-100 text-center text-sm mb-5">
             Preencha o formulário e receba as plantas, as unidades disponíveis e a simulação de financiamento direto no seu WhatsApp.
           </p>
           <div className="bg-white rounded-2xl p-6">
