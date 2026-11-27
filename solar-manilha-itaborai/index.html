@@ -211,7 +211,7 @@
   .hero-bg {
     position: absolute;
     inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1400&q=80');
+    background-image: url('/solar-manilha-itaborai/portaria.webp');
     background-size: cover;
     background-position: center;
   }
@@ -1347,7 +1347,7 @@ const LF = {
 
 const CIDADES   = ['Itaboraí','São Gonçalo','Niterói','Ainda não sei'];
 const QUARTOS   = ['1 quarto','2 quartos','3 quartos','4 ou mais'];
-const RENDAS    = ['Até R$ 1.800','R$ 1.800 a 2.500','R$ 2.500 a 3.200','R$ 3.200 a 5.000','R$ 5.000 a 9.600','Acima de R$ 9.600'];
+const RENDAS    = ['R$ 2.500 a 3.200','R$ 3.200 a 5.000','R$ 5.000 a 9.600','Acima de R$ 9.600'];
 const REGIMES   = ['Carteira assinada','Funcionário público','Autônomo','Aposentado / pensionista'];
 const PAGAMENTOS= ['Financiamento Imobiliário','à vista','Consórcio'];
 const FAIXAS    = ['Até R$ 200 mil','R$ 200 a 300 mil','R$ 300 a 450 mil','R$ 450 a 700 mil','Acima de R$ 700 mil'];
@@ -1356,7 +1356,7 @@ const PRAZOS    = ['O quanto antes','Em até 3 meses','Em 3 a 6 meses','Só pesq
 
 const EMOJIS_CIDADE   = ['📍','📍','📍','🤔'];
 const EMOJIS_QUARTOS  = ['🛏️','🛏️','🛏️','🛏️'];
-const EMOJIS_RENDAS   = ['💰','💰','💰','💰','💰','💰'];
+const EMOJIS_RENDAS   = ['💰','💰','💰','💰'];
 const EMOJIS_REGIMES  = ['📋','🏛️','🧑‍💼','👴'];
 const EMOJIS_PAGTO    = ['🏦','💵','🔄'];
 const EMOJIS_FAIXAS   = ['🏷️','🏷️','🏷️','🏷️','🏷️'];
@@ -1509,7 +1509,7 @@ function tryAdvanceS1(){
 function onRendaClick(btn){
   selectBtn(btn);
   const idx = RENDAS.indexOf(ld.renda);
-  document.getElementById('reward-subsidio').classList.toggle('show', idx >= 0 && idx <= 3);
+  document.getElementById('reward-subsidio').classList.toggle('show', idx >= 0 && idx <= 1);
   tryAdvanceS2();
 }
 function onRegimeClick(btn){
