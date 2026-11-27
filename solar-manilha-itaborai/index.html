@@ -377,14 +377,14 @@
     overflow: hidden;
   }
   .form-head {
-    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-    padding: .875rem 1.5rem;
+    background: #0f172a;
+    padding: 1rem 1.5rem;
     color: #fff;
     text-align: center;
   }
   .form-head-title { font-weight: 700; font-size: 1.0625rem; }
-  .form-head-sub { font-size: .8125rem; color: #bfdbfe; margin-top: .2rem; }
-  .form-body { padding: 1.25rem 1.5rem; }
+  .form-head-sub { font-size: .8125rem; color: #94a3b8; margin-top: .2rem; }
+  .form-body { padding: 0; }
 
   .form-row { display: flex; flex-direction: column; gap: .625rem; }
   .form-label { font-size: .8125rem; font-weight: 600; color: #374151; display: block; margin-bottom: .25rem; }
@@ -877,8 +877,8 @@
       <div id="contato">
         <div class="form-card">
           <div class="form-head">
-            <p class="form-head-title">🏠 Receba todas as informações</p>
-            <p class="form-head-sub">Joel Marcos · Corretor CRECI 39.583F</p>
+            <p class="form-head-title">Simule seu Minha Casa Minha Vida</p>
+            <p class="form-head-sub">Preencha abaixo para receber opções personalizadas</p>
           </div>
           <div class="form-body" id="lead-box-wrap"></div>
         </div>
@@ -1236,39 +1236,48 @@
 
 <style>
 /* ============================================================
-   MULTI-STEP LEAD FORM
+   MULTI-STEP LEAD FORM — visual modelo
 ============================================================ */
+/* Intro block (dentro do form-body, antes do progress) */
+.lf-intro { padding: 1.25rem 1.5rem .5rem; }
+.lf-intro-title { font-size: 1.25rem; font-weight: 800; color: #111827; line-height: 1.25; }
+.lf-intro-sub { font-size: .8125rem; color: #0f766e; margin-top: .25rem; line-height: 1.4; }
+
 .lf-wrap { font-family: inherit; }
 
 /* Progress bar */
-.lf-progress { padding: 1rem 1.5rem .5rem; }
-.lf-progress-bar { height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden; }
-.lf-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .35s ease; }
-.lf-step-label { font-size: .72rem; color: #94a3b8; margin-top: .35rem; text-align: right; }
+.lf-progress { padding: .75rem 1.5rem .25rem; }
+.lf-progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+.lf-progress-fill { height: 100%; background: #0d9488; border-radius: 3px; transition: width .35s ease; }
+.lf-step-label {
+  font-size: .72rem; font-weight: 600;
+  color: #0d9488;
+  margin-top: .3rem;
+}
 
 /* Steps */
-.lf-step { display: none; padding: 1rem 1.5rem 1.25rem; }
+.lf-step { display: none; padding: .75rem 1.5rem 1.25rem; }
 .lf-step.active { display: block; }
 
-.lf-q { font-size: .9375rem; font-weight: 700; color: #111827; margin-bottom: .875rem; line-height: 1.4; }
-.lf-q span { color: var(--accent); }
+.lf-q { font-size: .9375rem; font-weight: 700; color: #111827; margin-bottom: .75rem; line-height: 1.4; }
+.lf-q span { color: #0d9488; }
 
 /* Option buttons grid */
 .lf-options { display: grid; gap: .5rem; }
 .lf-options.cols2 { grid-template-columns: 1fr 1fr; }
 
 .lf-btn {
-  display: flex; align-items: center; gap: .5rem;
-  padding: .625rem .875rem;
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .75rem .875rem;
   border: 1.5px solid #d1d5db;
-  border-radius: .625rem;
+  border-radius: .75rem;
   font-size: .875rem; font-weight: 500; color: #374151;
-  background: #fff; cursor: pointer; text-align: left;
+  background: #fff; cursor: pointer; text-align: center;
   transition: border-color .15s, background .15s, color .15s;
   font-family: inherit;
 }
-.lf-btn:hover { border-color: var(--accent); background: #fff7ed; color: var(--accent); }
-.lf-btn.selected { border-color: var(--accent); background: #fff7ed; color: var(--accent); font-weight: 700; }
+.lf-btn:hover { border-color: #ea580c; background: #fff7ed; color: #ea580c; }
+.lf-btn.selected { border-color: #ea580c; background: #fff7ed; color: #ea580c; font-weight: 700; }
 .lf-btn-emoji { font-size: 1rem; flex-shrink: 0; }
 
 /* Reward message */
@@ -1290,11 +1299,11 @@
   font-size: .9rem; font-family: inherit; color: #111827; background: #fff;
   outline: none; transition: border-color .15s, box-shadow .15s;
 }
-.lf-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,138,.12); }
+.lf-input:focus { border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,.12); }
 
 .lf-summary {
-  background: #fff7ed; border-radius: .625rem;
-  padding: .625rem .875rem; font-size: .8125rem; color: #c2410c;
+  background: #f0fdfa; border-radius: .625rem;
+  padding: .625rem .875rem; font-size: .8125rem; color: #0f766e;
   margin-bottom: .5rem; line-height: 1.5;
 }
 
@@ -1306,17 +1315,29 @@
 .lf-lgpd input { margin-top: .15rem; flex-shrink: 0; }
 .lf-lgpd span { font-size: .72rem; color: #6b7280; line-height: 1.4; }
 
-/* Submit button */
-.lf-submit {
-  width: 100%; display: flex; align-items: center; justify-content: center; gap: .5rem;
-  background: var(--accent); color: #fff; font-weight: 700;
-  padding: .8125rem 1rem; border-radius: .75rem; font-size: .9375rem;
-  font-family: inherit; cursor: pointer; border: none;
-  box-shadow: 0 10px 20px -5px rgba(234,88,12,.35);
-  transition: background .15s, transform .15s;
-  margin-top: .625rem;
+/* Nav buttons */
+.lf-nav { display: flex; gap: .5rem; margin-top: .875rem; }
+.lf-back {
+  display: none; align-items: center; justify-content: center;
+  padding: .75rem 1rem; border-radius: .75rem; font-size: .9375rem;
+  font-family: inherit; cursor: pointer; border: 1.5px solid #d1d5db;
+  background: #fff; color: #64748b; font-weight: 600;
+  transition: border-color .15s, color .15s;
+  flex-shrink: 0; min-width: 3rem;
 }
-.lf-submit:hover { background: #c2410c; transform: translateY(-1px); }
+.lf-back:hover { border-color: #94a3b8; color: #374151; }
+.lf-back.show { display: flex; }
+
+/* Continuar / Submit button */
+.lf-next, .lf-submit {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: .5rem;
+  background: #0d9488; color: #fff; font-weight: 700;
+  padding: .875rem 1rem; border-radius: .75rem; font-size: .9375rem;
+  font-family: inherit; cursor: pointer; border: none;
+  box-shadow: 0 8px 20px -4px rgba(13,148,136,.35);
+  transition: background .15s, transform .15s;
+}
+.lf-next:hover, .lf-submit:hover { background: #0f766e; transform: translateY(-1px); }
 .lf-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
 .lf-privacy { font-size: .7rem; color: #9ca3af; text-align: center; margin-top: .5rem; }
@@ -1382,21 +1403,31 @@ function buildForm(){
   const wrap = document.getElementById('lead-box-wrap');
   if(!wrap) return;
   wrap.innerHTML = `
+    <!-- Intro -->
+    <div class="lf-intro">
+      <p class="lf-intro-title">Conte o que você procura</p>
+      <p class="lf-intro-sub">Leva menos de 1 minuto. Respondo pelo WhatsApp com opções que cabem no seu bolso.</p>
+    </div>
+
     <!-- Progress -->
     <div class="lf-progress">
       <div class="lf-progress-bar"><div class="lf-progress-fill" id="lf-fill" style="width:20%"></div></div>
-      <div class="lf-step-label" id="lf-step-label">Etapa 1 de ${TOTAL_STEPS}</div>
+      <div class="lf-step-label" id="lf-step-label">Etapa 1 de ${TOTAL_STEPS} · Seu próximo lar</div>
     </div>
 
     <div class="lf-wrap" id="lf-wrap">
 
     <!-- STEP 1: cidade + quartos -->
     <div class="lf-step active" id="lf-s1">
-      <p class="lf-q">Qual cidade você prefere?</p>
+      <p class="lf-q">Em qual cidade quer morar?</p>
       <div class="lf-options cols2" id="opts-cidade"></div>
 
-      <p class="lf-q" style="margin-top:.875rem;">Quantos quartos precisa?</p>
+      <p class="lf-q" style="margin-top:.875rem;">Quantos quartos?</p>
       <div class="lf-options cols2" id="opts-quartos"></div>
+
+      <div class="lf-nav">
+        <button class="lf-next" id="lf-next1" onclick="advanceS1()" type="button">Continuar →</button>
+      </div>
     </div>
 
     <!-- STEP 2: renda + regime -->
@@ -1408,6 +1439,11 @@ function buildForm(){
       <p class="lf-q" style="margin-top:.875rem;">Qual é o seu regime de trabalho?</p>
       <div class="lf-options cols2" id="opts-regime"></div>
       <div class="lf-reward" id="reward-autonomo">✅ Autônomos podem comprovar renda com extrato bancário ou declaração. Joel Marcos te orienta!</div>
+
+      <div class="lf-nav">
+        <button class="lf-back show" onclick="goStep(1)" type="button">←</button>
+        <button class="lf-next" onclick="advanceS2()" type="button">Continuar →</button>
+      </div>
     </div>
 
     <!-- STEP 3: pagamento + faixa -->
@@ -1417,6 +1453,11 @@ function buildForm(){
 
       <p class="lf-q" style="margin-top:.875rem;">Qual faixa de <span>valor do imóvel</span> procura?</p>
       <div class="lf-options" id="opts-faixa"></div>
+
+      <div class="lf-nav">
+        <button class="lf-back show" onclick="goStep(2)" type="button">←</button>
+        <button class="lf-next" onclick="advanceS3()" type="button">Continuar →</button>
+      </div>
     </div>
 
     <!-- STEP 4: primeira compra + prazo -->
@@ -1426,6 +1467,11 @@ function buildForm(){
 
       <p class="lf-q" style="margin-top:.875rem;">Qual é o seu <span>prazo</span> para comprar?</p>
       <div class="lf-options cols2" id="opts-prazo"></div>
+
+      <div class="lf-nav">
+        <button class="lf-back show" onclick="goStep(3)" type="button">←</button>
+        <button class="lf-next" onclick="advanceS4()" type="button">Continuar →</button>
+      </div>
     </div>
 
     <!-- STEP 5: dados pessoais -->
@@ -1483,9 +1529,7 @@ function renderOpts(containerId, labels, emojis, field, handler){
   const c = document.getElementById(containerId);
   if(!c) return;
   c.innerHTML = labels.map((lbl, i) =>
-    `<button class="lf-btn" data-field="${field}" data-val="${lbl}" onclick="(${handler.toString()})(this)" type="button">
-      <span class="lf-btn-emoji">${emojis[i]||''}</span>${lbl}
-    </button>`
+    `<button class="lf-btn" data-field="${field}" data-val="${lbl}" onclick="(${handler.toString()})(this)" type="button">${lbl}</button>`
   ).join('');
 }
 
@@ -1499,42 +1543,54 @@ function selectBtn(btn){
   ld[field] = btn.dataset.val;
 }
 
-function onCidadeClick(btn){ selectBtn(btn); tryAdvanceS1(); }
-function onQuartosClick(btn){ selectBtn(btn); tryAdvanceS1(); }
+function onCidadeClick(btn){ selectBtn(btn); }
+function onQuartosClick(btn){ selectBtn(btn); }
 
-function tryAdvanceS1(){
-  if(ld.cidade && ld.quartos) setTimeout(()=>goStep(2), 320);
+function advanceS1(){
+  if(!ld.cidade){ alert('Por favor, selecione a cidade.'); return; }
+  if(!ld.quartos){ alert('Por favor, selecione a quantidade de quartos.'); return; }
+  goStep(2);
 }
 
 function onRendaClick(btn){
   selectBtn(btn);
   const idx = RENDAS.indexOf(ld.renda);
   document.getElementById('reward-subsidio').classList.toggle('show', idx >= 0 && idx <= 1);
-  tryAdvanceS2();
 }
 function onRegimeClick(btn){
   selectBtn(btn);
   document.getElementById('reward-autonomo').classList.toggle('show', ld.regime_trabalho === 'Autônomo');
-  tryAdvanceS2();
 }
-function tryAdvanceS2(){
-  if(ld.renda && ld.regime_trabalho) setTimeout(()=>goStep(3), 320);
-}
-
-function onGenericClick(btn){
-  selectBtn(btn);
-  if(currentStep === 3 && ld.pagamento && ld.faixa) setTimeout(()=>goStep(4), 320);
-  if(currentStep === 4 && ld.primeira_compra && ld.prazo) setTimeout(()=>goStep(5), 320);
+function advanceS2(){
+  if(!ld.renda){ alert('Por favor, selecione a renda familiar.'); return; }
+  if(!ld.regime_trabalho){ alert('Por favor, selecione o regime de trabalho.'); return; }
+  goStep(3);
 }
 
+function onGenericClick(btn){ selectBtn(btn); }
+
+function advanceS3(){
+  if(!ld.pagamento){ alert('Por favor, selecione a forma de pagamento.'); return; }
+  if(!ld.faixa){ alert('Por favor, selecione a faixa de valor.'); return; }
+  goStep(4);
+}
+
+function advanceS4(){
+  if(!ld.primeira_compra){ alert('Por favor, responda sobre a primeira compra.'); return; }
+  if(!ld.prazo){ alert('Por favor, selecione o prazo.'); return; }
+  goStep(5);
+}
+
+const STEP_LABELS = ['Seu próximo lar','Sua situação financeira','Orçamento','Perfil de compra','Seus dados'];
 function goStep(n){
   document.getElementById(`lf-s${currentStep}`).classList.remove('active');
   currentStep = n;
   document.getElementById(`lf-s${n}`).classList.add('active');
   const pct = Math.round((n / TOTAL_STEPS) * 100);
   document.getElementById('lf-fill').style.width = pct + '%';
-  document.getElementById('lf-step-label').textContent = `Etapa ${n} de ${TOTAL_STEPS}`;
+  document.getElementById('lf-step-label').textContent = `Etapa ${n} de ${TOTAL_STEPS} · ${STEP_LABELS[n-1]}`;
   if(n === 5) updateSummary();
+  document.getElementById('lead-box-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function updateSummary(){
