@@ -18,6 +18,7 @@ const imgSunIn = '/sun-in-studio-design-niteroi-piscina-rooftop-800.webp';
 const imgCaminhos = '/caminhos-da-guanabara-niteroi-solario-rooftop-800.webp';
 const imgImperio = '/imperio-do-ouro-sg-portaria-800.webp';
 const imgOpen = '/niteroi-open-residencial-fachada-800.webp';
+const imgGreen = '/green-open-residencial-niteroi-fachada-800.webp';
 
 type Property = {
   id: number;
@@ -192,6 +193,17 @@ const PROPERTIES: Property[] = [
     features: { bed: "1 a 3", bedText: "Lofts, 2 quartos e coberturas", car: 1, carText: "Opções com e sem vaga", leisure: true, security: true },
     priceCondition: "A partir de R$ 287 mil* — consulte disponibilidade",
     slug: "/niteroi-open-residence"
+  },
+  {
+    id: 17,
+    name: "Green Open Residencial",
+    location: "Fonseca, Niterói - RJ",
+    image: imgGreen,
+    imageAlt: "Fachada do Green Open Residencial, da GPCON, ao lado do Horto do Fonseca, em Niterói — inovação e sustentabilidade",
+    badges: ["Inovação e sustentabilidade", "Rooftop com piscina"],
+    features: { bed: "1 e 2", bedText: "Studios, 2 quartos e gardens", car: 1, carText: "Vagas limitadas", leisure: true, security: true },
+    priceCondition: "A partir de R$ 272 mil* — consulte disponibilidade",
+    slug: "/green-open-residencial-niteroi"
   },
   {
     id: 8,

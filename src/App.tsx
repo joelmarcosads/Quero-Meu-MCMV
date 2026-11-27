@@ -36,6 +36,7 @@ import SunInStudioDesignNiteroi from './pages/SunInStudioDesignNiteroi';
 import CaminhosGuanabaraNiteroi from './pages/CaminhosGuanabaraNiteroi';
 import ImperioDoOuroSG from './pages/ImperioDoOuroSG';
 import NiteroiOpenResidence from './pages/NiteroiOpenResidence';
+import GreenOpenResidencialNiteroi from './pages/GreenOpenResidencialNiteroi';
 
 export function AppRoutes() {
   return (
@@ -91,6 +92,8 @@ export function AppRoutes() {
         <Route path="/imperio-do-ouro-sg/" element={<ImperioDoOuroSG />} />
         <Route path="/niteroi-open-residence" element={<NiteroiOpenResidence />} />
         <Route path="/niteroi-open-residence/" element={<NiteroiOpenResidence />} />
+        <Route path="/green-open-residencial-niteroi" element={<GreenOpenResidencialNiteroi />} />
+        <Route path="/green-open-residencial-niteroi/" element={<GreenOpenResidencialNiteroi />} />
         <Route path="/mirante-boa-vista" element={<MiranteBoacVista />} />
         <Route path="/vert-alcantara" element={<VertAlcantara />} />
         <Route path="/apartamentos-mar-de-trindade" element={<MarDeTrindade />} />
