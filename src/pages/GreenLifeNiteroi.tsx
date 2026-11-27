@@ -194,11 +194,11 @@ export default function GreenLifeNiteroi() {
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
         {/* Imagem de fundo */}
         <img
-          src={img('fachada-noturna')}
-          srcSet={`${img('fachada-noturna-800')} 800w, ${img('fachada-noturna')} 900w`}
+          src={img('hero')}
+          srcSet={`${img('hero-1200')} 1200w, ${img('hero')} 1920w`}
           sizes="100vw"
-          width={900} height={506}
-          alt="Fachada noturna do Green Life Niterói na Av. Washington Luiz, Centro"
+          width={1920} height={1080}
+          alt="Fachada do Green Life Niterói ao entardecer — Av. Washington Luiz, Centro de Niterói"
           className="absolute inset-0 w-full h-full object-cover object-center"
           loading="eager"
           fetchPriority="high"
