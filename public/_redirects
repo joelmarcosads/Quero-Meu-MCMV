@@ -1,0 +1,5 @@
+# Cloudflare Pages _redirects
+# Regras de rewrite para páginas estáticas (bypass do SPA fallback)
+
+/solar-manilha-itaborai   /solar-manilha-itaborai/index.html   200
+/solar-manilha-itaborai/  /solar-manilha-itaborai/index.html   200
