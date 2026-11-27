@@ -2,6 +2,7 @@ import { m as motion } from 'motion/react';
 import { MapPin, BedDouble, Car, Shield, Waves } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const imgSolarManilha = '/capa-site-quero-meu-mcmv-open-graph.webp';
 const imgReserva = '/fachada-da-casa-reserva-dos-passaros.webp';
 const imgPrime = '/capa-do-site-prime-club-itaborai.webp';
 const imgFlores = '/fachada-flores-de-maio.webp';
@@ -41,6 +42,17 @@ type Property = {
 };
 
 const PROPERTIES: Property[] = [
+  {
+    id: 20,
+    name: "Solar Manilha",
+    location: "Manilha, Itaboraí - RJ",
+    image: imgSolarManilha,
+    imageAlt: "Solar Manilha em Itaboraí — apartamentos Minha Casa Minha Vida em Manilha",
+    badges: ["⭐ Destaque do Mês", "MCMV - Caixa"],
+    features: { bed: 2, car: 1, leisure: true, security: true },
+    priceCondition: "Subsídio de até R$ 55 mil · Caixa MCMV",
+    slug: "/solar-manilha-itaborai"
+  },
   {
     id: 1,
     name: "Reserva dos Pássaros 2",
