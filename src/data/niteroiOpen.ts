@@ -30,7 +30,7 @@ export const FAQ_OPEN = [
   {
     pergunta: 'Quem é a construtora do Niterói Open Residencial?',
     resposta:
-      'A incorporação e a construção são da GPCON Incorporações e Construções Ltda. (GPCON Realizações), empresa fundada em 1985, com certificações ISO 9001 e PBQP-H, segundo o book do empreendimento.',
+      'A incorporação e a construção são da GPCON Incorporações e Construções Ltda. (GPCON Realizações), empresa de Niterói com certificações ISO 9001 e PBQP-H, segundo o book do empreendimento.',
   },
   {
     pergunta: 'Quais são as plantas do Niterói Open Residencial?',
