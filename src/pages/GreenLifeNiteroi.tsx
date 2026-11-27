@@ -190,119 +190,101 @@ export default function GreenLifeNiteroi() {
 
       <Header />
 
-      {/* ── HERO ───────────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-6 lg:py-8 grid lg:grid-cols-2 gap-6 items-start">
+      {/* ── HERO CINEMATOGRÁFICO ────────────────────────────────────── */}
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
+        {/* Imagem de fundo */}
+        <img
+          src={img('fachada-noturna')}
+          srcSet={`${img('fachada-noturna-800')} 800w, ${img('fachada-noturna')} 900w`}
+          sizes="100vw"
+          width={900} height={506}
+          alt="Fachada noturna do Green Life Niterói na Av. Washington Luiz, Centro"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          loading="eager"
+          fetchPriority="high"
+        />
+        {/* Overlay gradiente para legibilidade */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
 
-          {/* Col esquerda */}
-          <div className="flex flex-col gap-4">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 py-16 grid lg:grid-cols-[1fr_380px] gap-10 items-center">
+
+          {/* Col esquerda — headline + bullets */}
+          <div className="flex flex-col gap-5">
             {/* Badges */}
             <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1 bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                <Trees size={13} /> Natureza no Centro de Niterói
+              <span className="inline-flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+                <Trees size={12} /> Natureza no Centro de Niterói
               </span>
-              <span className="inline-flex items-center gap-1 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                <Timer size={13} /> Entregas Jul/2027 e Ago/2028
+              <span className="inline-flex items-center gap-1.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm">
+                <Timer size={12} /> Entregas Jul/2027 e Ago/2028
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
-              Viva no coração de Niterói com<br className="hidden sm:block" /> natureza, lazer e conforto
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
+              Viva no coração<br />
+              de Niterói com<br />
+              <span className="text-emerald-400">natureza e lazer</span>
             </h1>
-            <p className="text-gray-600 text-base leading-relaxed">
-              O <strong>Green Life</strong>, da Novolar/Grupo Patrimar, traz apartamentos de 2 quartos com suíte e varanda, mais de 30 itens de lazer e rooftop gourmet com vista para a cidade — tudo na <strong>Av. Washington Luiz, 1, no Centro de Niterói</strong>.
+
+            <p className="text-white/75 text-base leading-relaxed max-w-lg">
+              O <strong className="text-white">Green Life</strong>, da Novolar/Grupo Patrimar — apartamentos de 2 quartos com suíte, varanda e mais de 30 itens de lazer na <strong className="text-white">Av. Washington Luiz, 1</strong>.
             </p>
 
-            {/* Preço */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-              <p className="text-sm text-gray-500 mb-0.5">A partir de</p>
-              <p className="text-3xl font-bold text-green-700">{PRECO}<span className="text-base font-normal text-gray-500">*</span></p>
-              <p className="text-xs text-gray-500 mt-1">{GL_AVISO_PRECO}</p>
+            {/* Preço destaque */}
+            <div className="inline-flex flex-col bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl px-5 py-4 w-fit">
+              <span className="text-white/60 text-xs uppercase tracking-widest font-medium">A partir de</span>
+              <span className="text-3xl font-bold text-white">{PRECO}<span className="text-base font-normal text-white/50">*</span></span>
+              <span className="text-white/50 text-xs mt-0.5">{GL_AVISO_PRECO}</span>
             </div>
 
             {/* Pontos-chave */}
-            <ul className="space-y-2">
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
               {[
                 '2 quartos com suíte e varanda',
-                'Mais de 30 itens de lazer — do térreo ao rooftop',
-                'Rooftop gourmet com churrasqueira e forno de pizza',
                 'Piscina com raia de 25 m + prainha',
-                'Sustentabilidade: placas fotovoltaicas e recarga EV',
-                'Bicicletas compartilhadas e aplicativo de condomínio',
-                'A 4 min do Terminal Rodoviário de Niterói',
+                'Mais de 30 itens de lazer',
+                'Rooftop gourmet com vista panorâmica',
+                'Placas fotovoltaicas e recarga EV',
+                'A 4 min do Terminal Rodoviário',
               ].map(item => (
-                <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-                  <CheckCircle2 size={16} className="text-green-600 mt-0.5 shrink-0" />
+                <li key={item} className="flex items-center gap-2 text-sm text-white/85">
+                  <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />
                   {item}
                 </li>
               ))}
             </ul>
 
-            {/* Fachada mobile */}
-            <div className="lg:hidden rounded-xl overflow-hidden">
-              <img
-                src={img('fachada')}
-                srcSet={`${img('fachada-800')} 800w, ${img('fachada')} 900w`}
-                sizes="(max-width: 900px) 100vw, 900px"
-                width={900} height={506}
-                alt="Fachada do Green Life Niterói, da Novolar, na Av. Washington Luiz, Centro de Niterói"
-                className="w-full h-auto max-h-72 object-cover object-center"
-                loading="eager"
-                fetchPriority="high"
-              />
-              <p className="text-xs text-center text-gray-400 mt-1 italic">Perspectiva ilustrativa.</p>
-            </div>
-
-            <button
-              onClick={scrollForm}
-              className="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-xl transition text-base"
-            >
-              Quero consultar as unidades
-            </button>
+            <p className="text-white/40 text-xs italic">Perspectiva ilustrativa.</p>
           </div>
 
-          {/* Col direita: fachada desktop + formulário */}
-          <div className="flex flex-col gap-4">
-            <div className="hidden lg:block rounded-xl overflow-hidden">
-              <img
-                src={img('fachada')}
-                srcSet={`${img('fachada-800')} 800w, ${img('fachada')} 900w`}
-                sizes="900px"
-                width={900} height={506}
-                alt="Fachada do Green Life Niterói, da Novolar, na Av. Washington Luiz, Centro de Niterói"
-                className="w-full max-h-80 object-cover object-center rounded-xl"
-                loading="eager"
-                fetchPriority="high"
-              />
-              <p className="text-xs text-center text-gray-400 mt-1 italic">Perspectiva ilustrativa.</p>
+          {/* Col direita — formulário flutuante */}
+          <div ref={formRef} id="formulario" className="bg-white rounded-2xl shadow-2xl p-6 w-full">
+            <div className="mb-4">
+              <h2 className="text-lg font-bold text-gray-900 leading-snug">Receba plantas e unidades disponíveis</h2>
+              <p className="text-sm text-gray-500 mt-1">O corretor responde pelo WhatsApp.</p>
             </div>
-
-            {/* Formulário hero */}
-            <div ref={formRef} id="formulario" className="bg-gray-50 border border-gray-200 rounded-2xl p-5">
-              <h2 className="text-lg font-bold text-gray-900 mb-1">Receba as plantas e consulte as unidades</h2>
-              <p className="text-sm text-gray-500 mb-4">
-                Preencha e o corretor entra em contato pelo WhatsApp.
-              </p>
-              <LeadForm
-                confirmarGravacao
-                pagina={SLUG}
-                empreendimento={EMPREENDIMENTO}
-                formId={FORM}
-                ctaTexto="Quero consultar as unidades"
-              />
-            </div>
+            <LeadForm
+              confirmarGravacao
+              pagina={SLUG}
+              empreendimento={EMPREENDIMENTO}
+              formId={FORM}
+              ctaTexto="Quero consultar as unidades →"
+            />
           </div>
         </div>
       </section>
 
       {/* ── BENEFÍCIOS ─────────────────────────────────────────────── */}
-      <section className="bg-green-700 py-8">
+      <section className="bg-slate-900 py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-white text-2xl font-bold text-center mb-6">
-            Um endereço que transforma sua rotina
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="text-center mb-10">
+            <span className="text-emerald-400 text-xs font-bold uppercase tracking-widest">Por que o Green Life?</span>
+            <h2 className="text-white text-3xl font-bold mt-2">
+              Um endereço que transforma sua rotina
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { icon: <MapPin size={22} />, titulo: 'Centro de Niterói', texto: 'Av. Washington Luiz, 1 — a 4 min do Terminal Rodoviário e perto do Praia Shopping.' },
               { icon: <Trees size={22} />, titulo: 'Natureza no condomínio', texto: 'Praça das Jabuticabeiras, paisagismo exuberante e rooftop verde com vista panorâmica.' },
@@ -311,10 +293,10 @@ export default function GreenLifeNiteroi() {
               { icon: <Leaf size={22} />, titulo: 'Sustentabilidade real', texto: 'Placas fotovoltaicas, recarga para carro elétrico e reuso de água incluídos no projeto.' },
               { icon: <Building2 size={22} />, titulo: 'Grupo Patrimar', texto: '+60 anos de história, +2,8 milhões de m² construídos e +37 mil unidades entregues no Brasil.' },
             ].map(item => (
-              <div key={item.titulo} className="bg-white/10 rounded-xl p-5 text-white">
-                <div className="mb-2 opacity-80">{item.icon}</div>
-                <h3 className="font-bold text-base mb-1">{item.titulo}</h3>
-                <p className="text-sm opacity-90 leading-relaxed">{item.texto}</p>
+              <div key={item.titulo} className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition">
+                <div className="mb-3 text-emerald-400">{item.icon}</div>
+                <h3 className="font-bold text-base text-white mb-1">{item.titulo}</h3>
+                <p className="text-sm text-white/65 leading-relaxed">{item.texto}</p>
               </div>
             ))}
           </div>
@@ -322,14 +304,17 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── LAZER ──────────────────────────────────────────────────── */}
-      <section className="bg-white py-8">
+      <section className="bg-white py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
-            Mais de 30 itens de lazer — do térreo ao rooftop
-          </h2>
-          <p className="text-gray-500 text-center text-sm mb-5 max-w-xl mx-auto">
-            No Green Life, a diversão começa no térreo com as crianças e termina no rooftop com uma vista incrível de Niterói.
-          </p>
+          <div className="text-center mb-8">
+            <span className="text-emerald-600 text-xs font-bold uppercase tracking-widest">Área de lazer</span>
+            <h2 className="text-3xl font-bold text-gray-900 mt-2">
+              Mais de 30 itens — do térreo ao rooftop
+            </h2>
+            <p className="text-gray-500 text-sm mt-3 max-w-xl mx-auto">
+              No Green Life, a diversão começa no térreo com as crianças e termina no rooftop com uma vista incrível de Niterói.
+            </p>
+          </div>
 
           {/* Fotos do lazer */}
           <div className="grid sm:grid-cols-2 gap-4 mb-8">
@@ -355,8 +340,8 @@ export default function GreenLifeNiteroi() {
           {/* Lista de itens */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {LAZER_ITEMS.map(item => (
-              <div key={item} className="flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2">
-                <CheckCircle2 size={14} className="text-green-600 shrink-0" />
+              <div key={item} className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
+                <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
                 <span className="text-xs text-gray-700">{item}</span>
               </div>
             ))}
@@ -365,20 +350,20 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── SUSTENTABILIDADE ───────────────────────────────────────── */}
-      <section className="bg-green-50 py-8">
+      <section className="bg-emerald-950 py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="flex items-center gap-3 mb-2">
-            <Leaf size={24} className="text-green-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Sustentabilidade, uma palavra de ordem</h2>
+          <div className="text-center mb-8">
+            <Leaf size={28} className="text-emerald-400 mx-auto mb-3" />
+            <h2 className="text-3xl font-bold text-white">Sustentabilidade, uma palavra de ordem</h2>
           </div>
-          <p className="text-gray-600 text-sm mb-5 max-w-2xl">
+          <p className="text-emerald-200/70 text-sm mb-6 max-w-2xl text-center mx-auto">
             O Grupo Patrimar segue os Objetivos de Desenvolvimento Sustentável (ODS) da ONU. No Green Life, a sustentabilidade não é item extra — está no projeto.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {SUSTENTABILIDADE.map(item => (
-              <div key={item.texto} className="flex items-start gap-3 bg-white rounded-xl p-4 shadow-sm">
-                <span className="text-green-600 mt-0.5 shrink-0">{item.icon}</span>
-                <span className="text-sm text-gray-700">{item.texto}</span>
+              <div key={item.texto} className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-xl p-4">
+                <span className="text-emerald-400 mt-0.5 shrink-0">{item.icon}</span>
+                <span className="text-sm text-emerald-100/80">{item.texto}</span>
               </div>
             ))}
           </div>
@@ -386,10 +371,13 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── PLANTAS ────────────────────────────────────────────────── */}
-      <section className="bg-white py-8">
+      <section className="bg-slate-50 py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Plantas</h2>
-          <p className="text-gray-500 text-center text-sm mb-6">Todas as unidades têm varanda e sala integrada.</p>
+          <div className="text-center mb-8">
+            <span className="text-emerald-600 text-xs font-bold uppercase tracking-widest">Plantas</span>
+            <h2 className="text-3xl font-bold text-gray-900 mt-2">Escolha o seu tipo</h2>
+            <p className="text-gray-500 text-sm mt-2">Todas as unidades têm varanda e sala integrada.</p>
+          </div>
 
           {/* Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -399,8 +387,8 @@ export default function GreenLifeNiteroi() {
                 onClick={() => setPlantaAtiva(p.id)}
                 className={`px-4 py-2 rounded-full text-sm font-semibold border transition ${
                   plantaAtiva === p.id
-                    ? 'bg-green-700 text-white border-green-700'
-                    : 'border-gray-300 text-gray-700 hover:border-green-500'
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'border-gray-300 text-gray-700 hover:border-slate-700'
                 }`}
               >
                 {p.label} — {p.area}
@@ -425,10 +413,13 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── APARTAMENTO ────────────────────────────────────────────── */}
-      <section className="bg-gray-50 py-8">
+      <section className="bg-white py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Espaços pensados para o conforto</h2>
-          <p className="text-gray-500 text-center text-sm mb-5">Acabamentos de qualidade e detalhes que fazem diferença no dia a dia.</p>
+          <div className="text-center mb-8">
+            <span className="text-emerald-600 text-xs font-bold uppercase tracking-widest">Acabamento</span>
+            <h2 className="text-3xl font-bold text-gray-900 mt-2">Espaços pensados para o conforto</h2>
+            <p className="text-gray-500 text-sm mt-2">Detalhes que fazem diferença no seu dia a dia.</p>
+          </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {DIFERENCIAIS_APT.map(d => (
               <div key={d} className="flex items-start gap-2 bg-white rounded-lg p-3 shadow-sm">
@@ -441,14 +432,17 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── COMODIDADES ────────────────────────────────────────────── */}
-      <section className="bg-white py-8">
+      <section className="bg-slate-50 py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Comodidades inclusas no condomínio</h2>
-          <p className="text-gray-500 text-center text-sm mb-5">Sua rotina mais fácil de um jeito que você nunca viu.</p>
+          <div className="text-center mb-8">
+            <span className="text-emerald-600 text-xs font-bold uppercase tracking-widest">Condomínio</span>
+            <h2 className="text-3xl font-bold text-gray-900 mt-2">Comodidades inclusas</h2>
+            <p className="text-gray-500 text-sm mt-2">Sua rotina mais fácil de um jeito que você nunca viu.</p>
+          </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-3xl mx-auto">
             {COMODIDADES.map(c => (
-              <div key={c} className="flex items-start gap-2 bg-green-50 rounded-lg p-3">
-                <Star size={15} className="text-green-600 mt-0.5 shrink-0" />
+              <div key={c} className="flex items-start gap-2 bg-white border border-slate-100 rounded-lg p-3 shadow-sm">
+                <Star size={15} className="text-amber-500 mt-0.5 shrink-0" />
                 <span className="text-sm text-gray-700">{c}</span>
               </div>
             ))}
@@ -460,28 +454,28 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── LOCALIZAÇÃO ────────────────────────────────────────────── */}
-      <section className="bg-green-700 py-8">
+      <section className="bg-slate-900 py-14">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="flex items-center gap-2 mb-2 justify-center">
-            <MapPin size={22} className="text-green-200" />
-            <h2 className="text-white text-2xl font-bold">Localização privilegiada</h2>
+          <div className="text-center mb-8">
+            <MapPin size={28} className="text-emerald-400 mx-auto mb-3" />
+            <h2 className="text-white text-3xl font-bold">Localização privilegiada</h2>
+            <p className="text-white/55 text-sm mt-2">
+              Av. Washington Luiz, nº 1 — Centro, Niterói (RJ)
+            </p>
           </div>
-          <p className="text-green-100 text-center text-sm mb-5">
-            Av. Washington Luiz, nº 1 — Centro, Niterói (RJ) · no coração do Novo Centro de Niterói
-          </p>
           <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             {[
               { destaque: '4 min', local: 'Terminal Rodoviário de Niterói' },
               { destaque: '13 min', local: 'Praia do Icaraí' },
               { destaque: 'Perto', local: 'Praia Shopping e barcas para o Rio' },
             ].map(item => (
-              <div key={item.local} className="bg-white/15 rounded-xl p-5 text-center text-white">
-                <p className="text-2xl font-bold">{item.destaque}</p>
-                <p className="text-sm opacity-90 mt-1">{item.local}</p>
+              <div key={item.local} className="bg-white/5 border border-white/10 rounded-xl p-5 text-center hover:bg-white/10 transition">
+                <p className="text-3xl font-bold text-emerald-400">{item.destaque}</p>
+                <p className="text-sm text-white/70 mt-1">{item.local}</p>
               </div>
             ))}
           </div>
-          <p className="text-xs text-green-200 text-center mt-4">
+          <p className="text-xs text-white/35 text-center mt-5">
             Distâncias e tempos conforme informação da incorporadora. Sujeito a variações no trânsito.
           </p>
 
@@ -499,20 +493,20 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── PRAZO DE ENTREGA ───────────────────────────────────────── */}
-      <section className="bg-white py-10">
+      <section className="bg-white py-14">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="flex items-center gap-2 mb-6 justify-center">
-            <Timer size={22} className="text-green-700" />
-            <h2 className="text-2xl font-bold text-gray-900">Prazo de entrega</h2>
+          <div className="text-center mb-8">
+            <Timer size={28} className="text-emerald-600 mx-auto mb-3" />
+            <h2 className="text-3xl font-bold text-gray-900">Prazo de entrega</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
-            <div className="border border-green-200 rounded-xl p-5 text-center">
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Torre Palmeira</p>
-              <p className="text-2xl font-bold text-green-700">Jul/2027</p>
+            <div className="border-2 border-emerald-200 bg-emerald-50 rounded-xl p-6 text-center">
+              <p className="text-xs text-emerald-700 uppercase tracking-widest font-bold mb-2">Torre Palmeira</p>
+              <p className="text-3xl font-bold text-slate-900">Jul/2027</p>
             </div>
-            <div className="border border-green-200 rounded-xl p-5 text-center">
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Torres Ipê-rosa e Jabuticabeira</p>
-              <p className="text-2xl font-bold text-green-700">Ago/2028</p>
+            <div className="border-2 border-slate-200 bg-slate-50 rounded-xl p-6 text-center">
+              <p className="text-xs text-slate-600 uppercase tracking-widest font-bold mb-2">Torres Ipê-rosa e Jabuticabeira</p>
+              <p className="text-3xl font-bold text-slate-900">Ago/2028</p>
             </div>
           </div>
           <p className="text-xs text-gray-400 text-center mt-3">
@@ -568,15 +562,25 @@ export default function GreenLifeNiteroi() {
       </section>
 
       {/* ── CTA FINAL ──────────────────────────────────────────────── */}
-      <section className="bg-green-700 py-8">
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-white text-2xl font-bold text-center mb-2">
+      <section className="relative py-16 overflow-hidden">
+        <img
+          src={img('fachada')}
+          srcSet={`${img('fachada-800')} 800w, ${img('fachada')} 900w`}
+          sizes="100vw"
+          width={900} height={506}
+          alt="Fachada Green Life Niterói"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-slate-900/80" />
+        <div className="relative z-10 max-w-3xl mx-auto px-4">
+          <h2 className="text-white text-3xl font-bold text-center mb-2">
             Plante seu novo lar no Centro de Niterói
           </h2>
-          <p className="text-green-100 text-center text-sm mb-5">
+          <p className="text-white/65 text-center text-sm mb-6">
             Preencha o formulário e receba as plantas, as unidades disponíveis e a simulação de financiamento direto no seu WhatsApp.
           </p>
-          <div className="bg-white rounded-2xl p-6">
+          <div className="bg-white rounded-2xl p-6 shadow-2xl">
             <LeadForm
               confirmarGravacao
               pagina={SLUG}
