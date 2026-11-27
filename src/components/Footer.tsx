@@ -1,10 +1,14 @@
 import { MapPin, Phone, Mail, ChevronRight, Instagram, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const WHATSAPP_URL =
   'https://wa.me/5521965928399?text=Ol%C3%A1%2C%20Joel!%20Vim%20pelo%20site%20e%20quero%20simular%20meu%20Minha%20Casa%20Minha%20Vida.';
 
 export default function Footer() {
+  const [year, setYear] = useState('2026');
+  useEffect(() => { setYear(String(new Date().getFullYear())); }, []);
+
   return (
     <footer className="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -176,7 +180,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-          <p>&copy; {new Date().getFullYear()} Quero Meu MCMV. Todos os direitos reservados.</p>
+          <p>&copy; {year} Quero Meu MCMV. Todos os direitos reservados.</p>
           <div className="flex space-x-6">
             <Link to="/politica-de-privacidade" className="hover:text-white transition-colors">Política de Privacidade (LGPD)</Link>
             <Link to="/termos-de-uso" className="hover:text-white transition-colors">Termos de Uso</Link>

@@ -1,9 +1,13 @@
 import { Helmet } from 'react-helmet-async';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
 
 export default function PrivacyPolicy() {
+  const [lastUpdate, setLastUpdate] = useState('27/11/2026');
+  useEffect(() => { setLastUpdate(new Date().toLocaleDateString('pt-BR')); }, []);
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-accent selection:text-white">
       <Helmet>
@@ -80,7 +84,7 @@ export default function PrivacyPolicy() {
           </p>
 
           <p className="mt-12 text-sm text-slate-500">
-            Última atualização: {new Date().toLocaleDateString('pt-BR')}
+            Última atualização: {lastUpdate}
           </p>
         </div>
 
