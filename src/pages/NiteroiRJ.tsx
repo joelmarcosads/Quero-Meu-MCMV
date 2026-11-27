@@ -289,6 +289,31 @@ export default function NiteroiRJ() {
           </div>
         </section>
 
+        <section className="pb-12 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              to="/green-life-niteroi"
+              className="grid md:grid-cols-2 gap-6 items-center bg-[#1B4332] text-white rounded-2xl overflow-hidden hover:shadow-xl transition-shadow"
+            >
+              <img
+                src="/green-life-niteroi-fachada-800.webp"
+                alt="Fachada do Green Life Niterói, da Novolar, na Av. Washington Luiz, Centro de Niterói"
+                width={800}
+                height={1067}
+                loading="lazy"
+                className="w-full h-56 md:h-full object-cover"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-bold tracking-widest text-green-300">LAZER DE CLUBE · CENTRO DE NITERÓI</p>
+                <h2 className="text-2xl font-bold mt-2">Green Life — 2 quartos com suíte, varanda e rooftop gourmet no Centro de Niterói</h2>
+                <p className="text-green-50/90 mt-3">Mais de 30 itens de lazer, piscina com raia de 25 m, sustentabilidade e Av. Washington Luiz, 1. Entregas jul/2027 e ago/2028. A partir de R$ 350 mil*.</p>
+                <p className="text-xs text-green-50/70 mt-2">*Os valores podem sofrer alterações sem prévio aviso. Consulte a disponibilidade com o corretor.</p>
+                <span className="inline-block mt-4 font-bold text-green-300">Ver o Green Life →</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
         {/* Links internos */}
         <section className="py-12 bg-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

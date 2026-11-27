@@ -6,6 +6,7 @@ import { FAQ_CAMINHOS, CAMINHOS_AVISO_PRECO, CAMINHOS_PRECO_A_PARTIR } from '../
 import { FAQ_IMPERIO, IMPERIO_AVISO_PRECO, IMPERIO_PRECO_A_PARTIR } from '../data/imperioDoOuro';
 import { FAQ_OPEN, OPEN_AVISO_PRECO, OPEN_PRECO_A_PARTIR } from '../data/niteroiOpen';
 import { FAQ_GREEN, GREEN_AVISO_PRECO, GREEN_PRECO_A_PARTIR } from '../data/greenOpen';
+import { FAQ_GL, GL_AVISO_PRECO, GL_PRECO_A_PARTIR } from '../data/greenLife';
 
 export interface FaqItem {
   question: string;
@@ -662,6 +663,56 @@ export const ROUTES: SeoRoute[] = [
       ],
     },
     faqs: FAQ_GREEN.map((f) => ({ question: f.pergunta, answer: f.resposta })),
+  },
+  {
+    path: '/green-life-niteroi',
+    title: 'Green Life Niterói | A partir de R$ 350 mil | Centro',
+    description:
+      'Green Life da Novolar no Centro de Niterói: 2 quartos, suíte e varanda, lazer com mais de 30 itens e rooftop gourmet. A partir de R$ 350 mil. Entregas jul/2027 e ago/2028.',
+    h1: 'Green Life Niterói: 2 quartos com suíte, varanda e lazer de clube no Centro de Niterói',
+    schemaType: 'ApartmentComplex',
+    priority: '0.9',
+    changefreq: 'weekly',
+    breadcrumbs: [
+      { name: 'Início', path: '/' },
+      { name: 'Imóveis em Niterói', path: '/niteroirj' },
+      { name: 'Green Life', path: '/green-life-niteroi' },
+    ],
+    development: {
+      name: 'Green Life',
+      developer: 'Novolar (Grupo Patrimar)',
+      addressLocality: 'Niterói',
+      addressRegion: 'RJ',
+      neighborhood: 'Centro',
+      numberOfBedrooms: 2,
+      image: 'https://queromeumcmv.com.br/green-life-niteroi-fachada.webp',
+      commercialCondition: 'Entregas jul/2027 e ago/2028 · preço a partir de R$ 350.000 · consulte a disponibilidade com o corretor',
+      url: 'https://queromeumcmv.com.br/green-life-niteroi',
+      priceFrom: GL_PRECO_A_PARTIR,
+      priceNote: GL_AVISO_PRECO,
+      floorSizeMin: 48,
+      floorSizeMax: 75,
+      amenities: [
+        { name: 'Piscina adulto', value: 'Sim' },
+        { name: 'Piscina com raia de 25 m', value: 'Sim' },
+        { name: 'Prainha e gazebos', value: 'Sim' },
+        { name: 'Sauna e descanso', value: 'Sim' },
+        { name: 'Espaço gourmet rooftop com churrasqueira e forno de pizza', value: 'Sim' },
+        { name: 'Academia', value: 'Sim' },
+        { name: 'Crossfit zone', value: 'Sim' },
+        { name: 'Quadra recreativa e quadra de areia', value: 'Sim' },
+        { name: 'Espaço kids e playground', value: 'Sim' },
+        { name: 'Espaço games', value: 'Sim' },
+        { name: 'Pet place', value: 'Sim' },
+        { name: 'Bicicletário + bicicletas compartilhadas', value: 'Sim' },
+        { name: 'Coworking', value: 'Sim' },
+        { name: 'Espaço delivery', value: 'Sim' },
+        { name: 'Aplicativo Novolar Conecta', value: 'Sim' },
+        { name: 'Estação de recarga para carro elétrico', value: 'Sim' },
+        { name: 'Placas fotovoltaicas nas áreas comuns', value: 'Sim' },
+      ],
+    },
+    faqs: FAQ_GL.map((f) => ({ question: f.pergunta, answer: f.resposta })),
   },
   {
     path: '/mirante-boa-vista',
