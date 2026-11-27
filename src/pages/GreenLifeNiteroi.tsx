@@ -580,14 +580,13 @@ export default function GreenLifeNiteroi() {
           <p className="text-white/65 text-center text-sm mb-6">
             Preencha o formulário e receba as plantas, as unidades disponíveis e a simulação de financiamento direto no seu WhatsApp.
           </p>
-          <div className="bg-white rounded-2xl p-6 shadow-2xl">
-            <LeadForm
-              confirmarGravacao
-              pagina={SLUG}
-              empreendimento={EMPREENDIMENTO}
-              formId={`${FORM}_final`}
-              ctaTexto="Quero consultar as unidades"
-            />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={scrollForm}
+              className="bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-4 px-10 rounded-xl text-lg transition shadow-lg shadow-emerald-900/40"
+            >
+              Quero consultar as unidades →
+            </button>
           </div>
         </div>
       </section>
